@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/node": "^18.11.18",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.6.0",
@@ -22,6 +23,7 @@
     "vite": "^4.0.0"
   },
   "dependencies": {
-    "axios": "^1.2.6"
+    "axios": "^1.2.6",
+    "dotenv": "^16.0.3"
   }
 }
