@@ -41,7 +41,7 @@ public class Post {
 	private final Location location;
 
 	public Post(Long userId, boolean rideWith, DriveCareer driveCareer, String requirement,
-		Set<Option> optionSet, Location location) {
+		Set<Option> optionSet, Location location, Set<Appointment> appointmentSet) {
 		this.userId = userId;
 		this.rideWith = rideWith;
 		this.driveCareer = driveCareer;
@@ -50,6 +50,10 @@ public class Post {
 
 		for (Option option : optionSet) {
 			this.addOption(option);
+		}
+
+		for (Appointment appointment : appointmentSet) {
+			this.addAppointment(appointment);
 		}
 	}
 }

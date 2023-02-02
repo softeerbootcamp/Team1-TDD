@@ -1,7 +1,10 @@
 package com.tdd.backend.user;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
+
+import com.tdd.backend.post.Appointment;
 
 @Table("users")
 public class User {
@@ -14,6 +17,9 @@ public class User {
 	private final String phoneNumber;
 
 	private final String userPassword;
+
+	@Column("tester_id")
+	private Appointment appointment;
 
 	public User(String userName, String phoneNumber, String userPassword) {
 		this.userName = userName;

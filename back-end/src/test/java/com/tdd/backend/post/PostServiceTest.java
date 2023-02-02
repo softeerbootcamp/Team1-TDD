@@ -1,5 +1,6 @@
 package com.tdd.backend.post;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,7 +29,7 @@ class PostServiceTest {
 	}
 
 	@Test
-	void save_with_option_location() throws Exception {
+	void save_with_option_location_appointment() throws Exception {
 
 		Set<Option> options = new HashSet<>();
 		Option option1 = new Option("option1", Category.ENGINE);
@@ -38,7 +39,14 @@ class PostServiceTest {
 
 		Location location = new Location("50", "40");
 
-		Post post = new Post(user.getId(), false, DriveCareer.OVER_FIVE, "없음", options, location);
+		Set<Appointment> appointmentSet = new HashSet<>();
+		Appointment appointment1 = new Appointment(LocalDateTime.now(), "PENDING");
+		Appointment appointment2 = new Appointment(LocalDateTime.now().minusDays(1L), "PENDING");
+		appointmentSet.add(appointment1);
+		appointmentSet.add(appointment2);
+
+		Post post = new Post(user.getId(), false, DriveCareer.OVER_FIVE,
+			"없음", options, location, appointmentSet);
 
 
 		//when

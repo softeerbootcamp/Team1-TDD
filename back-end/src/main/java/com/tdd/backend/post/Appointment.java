@@ -11,7 +11,12 @@ public class Appointment {
 	@Id
 	private Long id;
 
-	private LocalDateTime date;
+	private final LocalDateTime date;
 
-	private String status;
+	private final String status;
+
+	public Appointment(LocalDateTime date, String status) {
+		this.date = date;
+		this.status = status;
+	}
 }
