@@ -29,6 +29,14 @@ public class Post {
 		optionSet.add(option);
 	}
 
+	@MappedCollection(idColumn = "post_id")
+	private final Set<Appointment> appointmentSet = new HashSet<>();
+
+	@MappedCollection(idColumn = "post_id")
+	public void addAppointment(Appointment appointment) {
+		appointmentSet.add(appointment);
+	}
+
 	@Column("post_id")
 	private final Location location;
 
