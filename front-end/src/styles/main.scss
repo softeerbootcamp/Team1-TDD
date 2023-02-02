@@ -10,4 +10,13 @@ body {
 main {
   flex-grow: 1;
   color: red;
+  padding-top: 6rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+header {
+  position: fixed;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(2px);
 }
