@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -28,11 +29,16 @@ public class Post {
 		optionSet.add(option);
 	}
 
-	public Post(Long userId, boolean rideWith, DriveCareer driveCareer, String requirement, Set<Option> optionSet) {
+	@Column("post_id")
+	private final Location location;
+
+	public Post(Long userId, boolean rideWith, DriveCareer driveCareer, String requirement,
+		Set<Option> optionSet, Location location) {
 		this.userId = userId;
 		this.rideWith = rideWith;
 		this.driveCareer = driveCareer;
 		this.requirement = requirement;
+		this.location = location;
 
 		for (Option option : optionSet) {
 			this.addOption(option);

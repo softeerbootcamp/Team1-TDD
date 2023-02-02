@@ -28,7 +28,7 @@ class PostServiceTest {
 	}
 
 	@Test
-	void save_with_option() throws Exception {
+	void save_with_option_location() throws Exception {
 
 		Set<Option> options = new HashSet<>();
 		Option option1 = new Option("option1", Category.ENGINE);
@@ -36,7 +36,9 @@ class PostServiceTest {
 		options.add(option1);
 		options.add(option2);
 
-		Post post = new Post(user.getId(), false, DriveCareer.OVER_FIVE, "없음", options);
+		Location location = new Location("50", "40");
+
+		Post post = new Post(user.getId(), false, DriveCareer.OVER_FIVE, "없음", options, location);
 
 
 		//when
