@@ -1,0 +1,33 @@
+.slider-container {
+  display: flex;
+  overflow: hidden;
+  button {
+    font-size: 5rem;
+    color: black;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background-color: inherit;
+    svg {
+      width: 301;
+    }
+  }
+  .disabled {
+    path {
+      fill: lightgray;
+    }
+  }
+  .slider {
+    position: relative;
+    overflow: hidden;
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transition: ease 1s;
+    }
+  }
+}
