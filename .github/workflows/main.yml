@@ -44,7 +44,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_ID }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      ## 도커 이미지 빌드 후 도커허브에 push하기
+      ## 도커 이미지 빌드 후 도커허브에 push하기가
+      ## 테스트용 도커 이미지 삭제하기
       - name: web docker build and push
         run: |
           cd ./back-end
