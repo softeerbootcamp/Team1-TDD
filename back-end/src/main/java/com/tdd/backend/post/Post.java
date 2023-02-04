@@ -47,9 +47,9 @@ public class Post {
 		this.userId = userId;
 		this.rideOption = rideOption;
 		this.driveCareer = driveCareer;
+		this.carName = carName;
 		this.requirement = requirement;
 		this.location = location;
-		this.carName = carName;
 
 		for (Option option : optionSet) {
 			this.addOption(option);
