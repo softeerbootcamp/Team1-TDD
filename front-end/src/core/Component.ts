@@ -1,8 +1,12 @@
 import { qsa } from '../utils/querySelector';
+interface DynamicObject {
+  [property: string]: any;
+}
+
 export default class Component {
   target: HTMLElement;
-  props: object;
-  state: object = {};
+  props: DynamicObject;
+  state: DynamicObject = {};
 
   constructor(target: HTMLElement, props: object = {}) {
     this.target = target;
