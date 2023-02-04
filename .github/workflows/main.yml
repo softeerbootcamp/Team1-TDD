@@ -47,6 +47,7 @@ jobs:
       ## 도커 이미지 빌드 후 도커허브에 push하기
       - name: web docker build and push
         run: |
+          cd ./back-end
           docker build -t ${{ secrets.DOCKER_REPO }} .
           docker push ${{ secrets.DOCKER_REPO }}
 
