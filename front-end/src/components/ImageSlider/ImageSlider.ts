@@ -50,10 +50,10 @@ export class ImageSlider extends Component {
     if (this.isStartIdx()) return;
 
     if (this.isEndIdx()) this.toggleRightBtn();
-    this.state.$images[this.state.imgIdx].style.left = '100%';
 
+    this.getCurrnetImg().style.left = '100%';
     this.state.imgIdx -= 1;
-    this.state.$images[this.state.imgIdx].style.left = '0';
+    this.getCurrnetImg().style.left = '0';
     this.updateTitle();
 
     if (this.isStartIdx()) this.toggleLeftBtn();
@@ -63,9 +63,9 @@ export class ImageSlider extends Component {
     if (this.isEndIdx()) return;
 
     if (this.isStartIdx()) this.toggleLeftBtn();
-    this.state.$images[this.state.imgIdx].style.left = '-100%';
+    this.getCurrnetImg().style.left = '-100%';
     this.state.imgIdx += 1;
-    this.state.$images[this.state.imgIdx].style.left = '0';
+    this.getCurrnetImg().style.left = '0';
     this.updateTitle();
 
     if (this.isEndIdx()) this.toggleRightBtn();
@@ -119,7 +119,7 @@ export class ImageSlider extends Component {
     $rightBtn.classList.toggle(styles.disabled);
   }
 
-  updateTitle() {
+  updateTitle(): void {
     const $title = qs(`.${styles.title}`) as HTMLDivElement;
     $title.classList.remove(styles.fade);
     setTimeout(() => {
@@ -129,7 +129,12 @@ export class ImageSlider extends Component {
       });
     }, 300);
   }
-  getIdx() {
+
+  getCurrnetImg(): HTMLImageElement {
+    return this.state.$images[this.state.imgIdx];
+  }
+
+  getIdx(): number {
     return this.state.imgIdx;
   }
 }
