@@ -45,9 +45,8 @@ class PostServiceTest {
 		appointmentSet.add(appointment1);
 		appointmentSet.add(appointment2);
 
-		Post post = new Post(user.getId(), RideOption.RIDE_ALONE, DriveCareer.OVER_FIVE,
+		Post post = new Post(user.getId(), RideOption.RIDE_ALONE, DriveCareer.OVER_FIVE, "Genesis",
 			"없음", options, location, appointmentSet);
-
 
 		//when
 		postService.save(post);

@@ -20,6 +20,8 @@ public class Post {
 
 	private final DriveCareer driveCareer;
 
+	private final String carName;
+
 	private final String requirement;
 
 	@MappedCollection(idColumn = "post_id")
@@ -40,13 +42,14 @@ public class Post {
 	@Column("post_id")
 	private final Location location;
 
-	public Post(Long userId, RideOption rideOption, DriveCareer driveCareer, String requirement,
+	public Post(Long userId, RideOption rideOption, DriveCareer driveCareer, String carName, String requirement,
 		Set<Option> optionSet, Location location, Set<Appointment> appointmentSet) {
 		this.userId = userId;
 		this.rideOption = rideOption;
 		this.driveCareer = driveCareer;
 		this.requirement = requirement;
 		this.location = location;
+		this.carName = carName;
 
 		for (Option option : optionSet) {
 			this.addOption(option);
