@@ -24,7 +24,6 @@ jobs:
         run: |
           # create application.yml
           cd ./back-end/src/main
-          mkdir resources
           cd ./resources
           
           # application.yml 파일 생성하기
