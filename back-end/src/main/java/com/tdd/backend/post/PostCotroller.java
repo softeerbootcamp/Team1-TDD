@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class PostCotroller {
 	private final PostService postService;
 
-	@PostMapping("/shares")
+	@PostMapping("/sharing")
 	@Operation(summary = "차량 공유하기 요청", description = "차량 공유하기 시 Post 정보가 insert 되어야 합니다.")
 	@ApiResponse(responseCode = "302", description = "메인 페이지로 REDIRECT")
 	public void shares() {
@@ -23,20 +23,20 @@ public class PostCotroller {
 		// 302 REDIRECT index.html
 	}
 
-	@GetMapping("/drives/locations")
+	@GetMapping("/test-driving/locations")
 	@Operation(summary = "시승가능한 차량 요청", description = "차종과 선택한 옵션 리스트를 요청 받으면 해당하는 Post의 location 리스트로 응답해야 함.")
 	public void getLocations() {
 		// 요청: 차 이름, 옵션 리스트
 		// 응답 : location 리스트 (postId, locationX, locationY)
 	}
 
-	@GetMapping("/drives/{postId}")
+	@GetMapping("/test-driving/{postId}")
 	@Operation(summary = "location 리스트에서 하나의 포스트 선택 시에 대한 요청", description = "포스트의 해당 차종과 옵션 목록으로 응답해야 함.")
 	public void getPost(@PathVariable Long postId) {
 		// 응답: 차량 이름, 옵션목록
 	}
 
-	@GetMapping("/drives/appointments/{postId}")
+	@GetMapping("/test-driving/appointments/{postId}")
 	@Operation(summary = "해당 Post의 예약현황(날짜) 요청", description = "postId에 해당하는 포스트가 가진 Appointment 리스트로 응답해야 함.")
 	public void getAppointments(@PathVariable Long postId) {
 		// 응답 :  appointment 리스트
