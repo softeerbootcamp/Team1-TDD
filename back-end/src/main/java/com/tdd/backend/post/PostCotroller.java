@@ -1,6 +1,7 @@
 package com.tdd.backend.post;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,7 +42,7 @@ public class PostCotroller {
 		// 응답 :  appointment 리스트
 	}
 
-	@PostMapping("/appointments/{appointmentId}")
+	@PatchMapping("/appointments/{appointmentId}")
 	@Operation(summary = "최종적인 예약 요청", description = "시승하기에 대한 사용자의 최종적인 요청으로 Appointment의 상태를 승낙으로 Update해야 함.")
 	public void requestAppointment(@PathVariable Long appointmentId) {
 		// 요청 : appointment id
