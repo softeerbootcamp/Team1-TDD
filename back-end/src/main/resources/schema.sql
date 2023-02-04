@@ -17,10 +17,11 @@ create table posts
 (
     id           bigint auto_increment
         primary key,
-    ride_with    tinyint not null,
-    drive_career tinyint not null,
-    user_id      bigint  not null,
-    requirement  text    null,
+    ride_option  varchar(100) not null,
+    drive_career varchar(100) not null,
+    car_name     varchar(100) not null,
+    user_id      bigint       not null,
+    requirement  text null,
     constraint posts_users_id_fk
         foreign key (user_id) references users (id)
             on update cascade on delete cascade
@@ -32,7 +33,7 @@ create table appointments
         primary key,
     date      datetime     not null,
     post_id   bigint       not null,
-    tester_id bigint       null,
+    tester_id bigint null,
     status    varchar(100) not null,
     constraint appointments_posts_id_fk
         foreign key (post_id) references posts (id),

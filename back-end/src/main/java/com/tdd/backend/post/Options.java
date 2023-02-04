@@ -7,7 +7,7 @@ import java.util.List;
 
 public enum Options {
 	LAMP(SAFETY), //Safety option
-	SUNLOOOP(SAFETY), //Safety option
+	SUNROOF(SAFETY), //Safety option
 	MONITOR(DISPLAY),  //Display option
 	RED(COLOR), //Color
 	BLUE(COLOR), //color
@@ -18,7 +18,7 @@ public enum Options {
 	}
 
 	public List<Options> getCommonOptions() {
-		return List.of(LAMP, SUNLOOOP, MONITOR);
+		return List.of(LAMP, SUNROOF, MONITOR);
 	}
 
 	public List getAvanteOptions() {
