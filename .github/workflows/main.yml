@@ -23,8 +23,7 @@ jobs:
       - name: make application.yml
         run: |
           # create application.yml
-          cd ./backend/src/main
-          mkdir resources
+          cd ./back-end/src/main
           cd ./resources
           
           # application.yml 파일 생성하기
@@ -37,7 +36,7 @@ jobs:
 
       - name: Build with Gradle
         run: |
-          cd ./backend
+          cd ./back-end
           ./gradlew bootJar
       ## 도커 로그인
       - name: Docker Hub 로그인 # (3)
@@ -45,9 +44,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_ID }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      ## 도커 이미지 빌드 후 도커허브에 push하기
+      ## 도커 이미지 빌드 후 도커허브에 push하기가
+      ## 테스트용 도커 이미지 삭제하기
       - name: web docker build and push
         run: |
+          cd ./back-end
           docker build -t ${{ secrets.DOCKER_REPO }} .
           docker push ${{ secrets.DOCKER_REPO }}
 
