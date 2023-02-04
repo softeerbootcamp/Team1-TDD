@@ -23,7 +23,7 @@ jobs:
       - name: make application.yml
         run: |
           # create application.yml
-          cd ./backend/src/main
+          cd ./back-end/src/main
           mkdir resources
           cd ./resources
           
@@ -37,7 +37,7 @@ jobs:
 
       - name: Build with Gradle
         run: |
-          cd ./backend
+          cd ./back-end
           ./gradlew bootJar
       ## 도커 로그인
       - name: Docker Hub 로그인 # (3)
