@@ -17,8 +17,8 @@ create table posts
 (
     id           bigint auto_increment
         primary key,
-    ride_with    tinyint not null,
-    drive_career tinyint not null,
+    ride_option    varchar(100) not null,
+    drive_career varchar(100) not null,
     user_id      bigint  not null,
     requirement  text    null,
     constraint posts_users_id_fk
