@@ -32,3 +32,15 @@
     display: none;
   }
 }
+
+.progress-container {
+  width: 100%;
+  height: 8px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #002c5f;
+  transition: width 0.5s ease-out;
+}
