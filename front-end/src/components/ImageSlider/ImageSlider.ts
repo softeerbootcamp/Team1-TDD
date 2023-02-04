@@ -5,21 +5,28 @@ import { ICar } from '@/constants/carList';
 import { leftBtn, rightBtn } from './icon';
 
 export class ImageSlider extends Component {
-  imgIdx: number = 0;
+  setup(): void {
+    this.state.imgIdx = 0;
+  }
 
   template(): string {
     return `
-    <div class="${styles['slider-container']}">
-      <button id="left-btn">${leftBtn}</button>
-      <div class="${styles.slider}">
-      ${this.props.list
-        .map(
-          (car: ICar) =>
-            `<img style="left: 100%;" src="./src/assets/${car.fileName}.png" />`
-        )
-        .join('')}
+    <div class="${styles.wrapper}">
+      <div class="${styles['slider-container']}">
+        <button id="left-btn">${leftBtn}</button>
+        <div class="${styles.slider}">
+          ${this.props.list
+            .map(
+              (car: ICar) =>
+                `<img style="left: 100%" src="./src/assets/${car.fileName}" />`
+            )
+            .join('')}
+        </div>
+        <button id="right-btn">${rightBtn}</button>
       </div>
-      <button id="right-btn">${rightBtn}</button>
+      <div class="${styles.title} ${styles.fade}">
+        ${this.props.list[0].title}
+      </div>
     </div>
     `;
   }
@@ -28,6 +35,7 @@ export class ImageSlider extends Component {
     this.state.$images = Array.from(
       qsa('img', this.target)
     ) as HTMLImageElement[];
+
     this.sliderSizeInit();
     this.imageInit();
     this.toggleLeftBtn();
@@ -42,9 +50,11 @@ export class ImageSlider extends Component {
     if (this.isStartIdx()) return;
 
     if (this.isEndIdx()) this.toggleRightBtn();
-    this.state.$images[this.imgIdx].style.left = '100%';
-    this.imgIdx -= 1;
-    this.state.$images[this.imgIdx].style.left = '0';
+    this.state.$images[this.state.imgIdx].style.left = '100%';
+
+    this.state.imgIdx -= 1;
+    this.state.$images[this.state.imgIdx].style.left = '0';
+    this.updateTitle();
 
     if (this.isStartIdx()) this.toggleLeftBtn();
   }
@@ -53,9 +63,10 @@ export class ImageSlider extends Component {
     if (this.isEndIdx()) return;
 
     if (this.isStartIdx()) this.toggleLeftBtn();
-    this.state.$images[this.imgIdx].style.left = '-100%';
-    this.imgIdx += 1;
-    this.state.$images[this.imgIdx].style.left = '0';
+    this.state.$images[this.state.imgIdx].style.left = '-100%';
+    this.state.imgIdx += 1;
+    this.state.$images[this.state.imgIdx].style.left = '0';
+    this.updateTitle();
 
     if (this.isEndIdx()) this.toggleRightBtn();
   }
@@ -91,11 +102,11 @@ export class ImageSlider extends Component {
   }
 
   isStartIdx() {
-    return this.imgIdx === 0;
+    return this.state.imgIdx === 0;
   }
 
   isEndIdx() {
-    return this.imgIdx === this.props.list.length - 1;
+    return this.state.imgIdx === this.props.list.length - 1;
   }
 
   toggleLeftBtn() {
@@ -106,5 +117,19 @@ export class ImageSlider extends Component {
   toggleRightBtn() {
     const $rightBtn = qs('#right-btn', this.target) as HTMLButtonElement;
     $rightBtn.classList.toggle(styles.disabled);
+  }
+
+  updateTitle() {
+    const $title = qs(`.${styles.title}`) as HTMLDivElement;
+    $title.classList.remove(styles.fade);
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        $title.innerHTML = this.props.list[this.state.imgIdx].title;
+        $title.classList.add(styles.fade);
+      });
+    }, 300);
+  }
+  getIdx() {
+    return this.state.imgIdx;
   }
 }
