@@ -26,7 +26,7 @@ public class SwaggerConfig {
 
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
-			.title("티디디 Spring Boot REST API")
+			.title("티디디 Spring Boot Web API")
 			.version("1.0.0")
 			.description("사용자의 자동차 경험을 공유하는 시승 플랫폼 '티디디'의 swagger api 입니다.")
 			.build();
