@@ -45,7 +45,7 @@ class PostServiceTest {
 		appointmentSet.add(appointment1);
 		appointmentSet.add(appointment2);
 
-		Post post = new Post(user.getId(), RIDE_OPTION.RIDE_ALONE, DriveCareer.OVER_FIVE,
+		Post post = new Post(user.getId(), RideOption.RIDE_ALONE, DriveCareer.OVER_FIVE,
 			"없음", options, location, appointmentSet);
 
 

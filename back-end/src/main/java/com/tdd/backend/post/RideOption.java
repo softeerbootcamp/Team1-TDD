@@ -1,6 +1,6 @@
 package com.tdd.backend.post;
 
-public enum RIDE_OPTION {
+public enum RideOption {
 	RIDE_ALONE,
 	RIDE_WITH
 }

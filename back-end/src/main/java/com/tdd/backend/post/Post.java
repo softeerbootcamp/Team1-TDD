@@ -16,7 +16,7 @@ public class Post {
 
 	private final Long userId;
 
-	private final RIDE_OPTION rideOption;
+	private final RideOption rideOption;
 
 	private final DriveCareer driveCareer;
 
@@ -40,7 +40,7 @@ public class Post {
 	@Column("post_id")
 	private final Location location;
 
-	public Post(Long userId, RIDE_OPTION rideOption, DriveCareer driveCareer, String requirement,
+	public Post(Long userId, RideOption rideOption, DriveCareer driveCareer, String requirement,
 		Set<Option> optionSet, Location location, Set<Appointment> appointmentSet) {
 		this.userId = userId;
 		this.rideOption = rideOption;
