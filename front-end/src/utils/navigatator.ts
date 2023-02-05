@@ -1,4 +1,3 @@
-import { BASE_URL } from '@/constants/routeInfo';
 export const navigate = (to: string, isReplace: boolean = false) => {
   const historyChangeEvent = new CustomEvent('historychange', {
     detail: {
@@ -17,6 +16,6 @@ export function attachRouterToAnchor(e: Event) {
   if (!$anchorTarget.matches('[data-link]')) return;
   e.preventDefault();
 
-  const targetURL = $anchorTarget.href.replace(BASE_URL, '');
-  navigate(targetURL);
+  const targetURL = $anchorTarget.getAttribute('href');
+  if (targetURL) navigate(targetURL);
 }

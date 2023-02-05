@@ -7,7 +7,6 @@ interface IRoute {
   path: RegExp;
   element: Function;
 }
-export const BASE_URL = 'http://localhost:5173';
 
 export const routes: IRoute[] = [
   { path: /^\/$/, element: Home },
