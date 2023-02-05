@@ -2,7 +2,7 @@ name: Java CI with Gradle # workflow 이름
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "be/feature/#34-auto-distribution" ]
 
 permissions:
   contents: read
@@ -61,8 +61,8 @@ jobs:
           key: ${{ secrets.KEY }}
           port: 22
           script: |
-            sudo docker stop prod-server
-            sudo docker rm prod-server
+            sudo docker stop back-server
+            sudo docker rm back-server
             sudo docker image rm ${{ secrets.DOCKER_REPO }}
             sudo docker pull ${{ secrets.DOCKER_REPO }}
-            sudo docker run -d -p 8080:8080 ${{ secrets.DOCKER_REPO }}
+            sudo docker run -d --name back-server -p 8080:8080 ${{ secrets.DOCKER_REPO }}
