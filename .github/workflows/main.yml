@@ -2,7 +2,7 @@ name: Java CI with Gradle # workflow 이름
 
 on:
   push:
-    branches: [ "be/feature/#34-auto-distribution" ]
+    branches: [ "dev" ]
 
 permissions:
   contents: read
@@ -29,7 +29,7 @@ jobs:
           # application.yml 파일 생성하기
           touch ./application.yml
           
-          # Secrets에 저장한 값을 application.yml 파일에 쓰기
+          # application.yml 파일에 쓰기
           echo "${{ secrets.DATABASE }}" >> ./application.yml
 
         shell: bash
@@ -39,7 +39,7 @@ jobs:
           cd ./back-end
           ./gradlew bootJar
       ## 도커 로그인
-      - name: Docker Hub 로그인 # (3)
+      - name: Docker Hub login
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_ID }}
