@@ -63,7 +63,7 @@ jobs:
           script: |
             sudo docker stop back-server
             #sudo docker rm back-server
-            sudo docker rm -f $(docker ps -qa)
+            sudo docker rm -f $(sudo docker ps -qa)
             sudo docker image rm -f ${{ secrets.DOCKER_REPO }}-server
             sudo docker pull ${{ secrets.DOCKER_REPO }}-server
             sudo docker run -d --name back-server -p 8080:8080 ${{ secrets.DOCKER_REPO }}-server
