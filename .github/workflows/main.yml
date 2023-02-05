@@ -49,8 +49,8 @@ jobs:
       - name: web docker build and push
         run: |
           cd ./back-end
-          docker build -t ${{ secrets.DOCKER_REPO }}/server .
-          docker push ${{ secrets.DOCKER_REPO }}/server
+          docker build -t ${{ secrets.DOCKER_REPO }}-server .
+          docker push ${{ secrets.DOCKER_REPO }}-server
 
       ## 서버에 접속하여 도커 이미지를 pull 받고 실행하기
       - name: executing remote ssh commands using password
@@ -64,6 +64,6 @@ jobs:
             sudo docker stop back-server
             #sudo docker rm back-server
             sudo docker rm -f $(docker ps -qa)
-            sudo docker image rm -f ${{ secrets.DOCKER_REPO }}/server
-            sudo docker pull ${{ secrets.DOCKER_REPO }}/server
-            sudo docker run -d --name back-server -p 8080:8080 ${{ secrets.DOCKER_REPO }}/server
+            sudo docker image rm -f ${{ secrets.DOCKER_REPO }}-server
+            sudo docker pull ${{ secrets.DOCKER_REPO }}-server
+            sudo docker run -d --name back-server -p 8080:8080 ${{ secrets.DOCKER_REPO }}-server
