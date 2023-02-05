@@ -1,16 +1,16 @@
-interface IRoute {
-  path: RegExp;
-  element: Function;
-}
+import { routes } from '@/constants/routeInfo';
+import { NotFound } from '@/pages/notfound';
 
 export class Router {
-  constructor(private routes: IRoute[]) {
+  constructor(private $container: HTMLElement) {
     this.init();
     this.route();
   }
+
   private init() {
-    window.addEventListener('historychange', ({ detail }) => {
-      const { to, isReplace } = detail;
+    window.addEventListener('historychange', (e) => {
+      e.preventDefault();
+      const { to, isReplace } = e.detail;
 
       if (isReplace || to === location.pathname)
         history.replaceState(null, '', to);
@@ -24,21 +24,12 @@ export class Router {
     });
   }
 
-  private findMatchedRoute(this: Router) {
-    return this.routes.find((route) => route.path.test(location.pathname));
+  private findMatchedRoute() {
+    return routes.find((route) => route.path.test(location.pathname));
   }
 
-  private route(this: Router) {
-    this.findMatchedRoute()?.element();
-  }
-
-  navigate(to: string, isReplace: boolean = false): void {
-    const historyChangeEvent = new CustomEvent('historychange', {
-      detail: {
-        to,
-        isReplace,
-      },
-    });
-    dispatchEvent(historyChangeEvent);
+  private route() {
+    const TargetPage = this.findMatchedRoute()?.element || NotFound;
+    new TargetPage(this.$container);
   }
 }
