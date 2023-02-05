@@ -9,11 +9,11 @@ export class Navbar extends Component {
       <div class="${styles['progress-bar']}"></div>
     </div>
     <nav class="${styles.navbar}">
-      <a href="/" class="${styles.logo}">T D D</a>
+      <a data-link href="/" class="${styles.logo}">T D D</a>
       <ul>
-        <li><a href="/aboutus">ABOUT US</a></li>
-        <li><a href="/sharing">공유하기</a></li>
-        <li><a href="/experiencing">경험하기</a></li>
+        <li><a data-link href="/aboutus">ABOUT US</a></li>
+        <li><a data-link href="/sharing">공유하기</a></li>
+        <li><a data-link href="/experiencing">경험하기</a></li>
         <button class="${styles['login-button']}">login</button>
         <button class="${styles['logout-button']} ${styles.hidden}">logout</button>
       </ul>
