@@ -109,7 +109,9 @@ export class OptionForm extends Component {
     </div>
     `;
   }
-
+  mounted(): void {
+    OptionStore.dispatch('OPTION_INIT');
+  }
   categoryTemplate({ category, option }: ICategory) {
     return `
     <div>
@@ -126,8 +128,8 @@ export class OptionForm extends Component {
   }
 
   setEvent(): void {
-    this.addEvent('click', `.${styles['filter-button']}`, (e) => {
-      const $button = e.target as HTMLButtonElement;
+    this.addEvent('click', `.${styles['filter-button']}`, ({ target }) => {
+      const $button = target as HTMLButtonElement;
       const $category = $button.parentElement
         ?.previousElementSibling as HTMLDivElement;
       const buttonState = $button.getAttribute('data-state');

@@ -18,9 +18,12 @@ const reducer = (
   actionKey: string,
   payload: DynamicObject = {}
 ) => {
-  const newState = { ...state };
+  const newState: IOptionState = JSON.parse(JSON.stringify(state));
 
   switch (actionKey) {
+    case 'OPTION_INIT':
+      return initState;
+
     case 'ADD_CAR_OPTION':
       newState.options.push(payload.option);
       return newState;
