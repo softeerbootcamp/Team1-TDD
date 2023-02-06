@@ -1,8 +1,12 @@
 package com.tdd.backend.user;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.tdd.backend.user.request.UserCreate;
 
 @Service
+@Transactional(readOnly = true)
 public class UserService {
 
 	private final UserRepository userRepository;
@@ -11,7 +15,7 @@ public class UserService {
 		this.userRepository = userRepository;
 	}
 
-	public void save(User user) {
-		userRepository.save(user);
+	public void save(UserCreate userCreate) {
+		userRepository.save(User.createUser(userCreate));
 	}
 }

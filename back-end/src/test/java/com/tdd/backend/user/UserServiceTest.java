@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tdd.backend.user.request.UserCreate;
+
 @SpringBootTest
 @Transactional
 class UserServiceTest {
@@ -26,9 +28,18 @@ class UserServiceTest {
 	@Test
 	@DisplayName("유저 저장")
 	void save() {
+		//given
+		UserCreate userCreate = UserCreate.builder()
+			.email("tdd@naver.com")
+			.userPassword("glory")
+			.userName("tdd")
+			.phoneNumber("01012341234")
+			.build();
 
-		userService.save(new User("hado@naver.com", "young",
-			"01012341234", "glory"));
+		//when
+		userService.save(userCreate);
+
+		//then
 		Assertions.assertThat(userRepository.count()).isEqualTo(1);
 	}
 }

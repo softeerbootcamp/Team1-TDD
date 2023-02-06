@@ -5,6 +5,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import com.tdd.backend.post.Appointment;
+import com.tdd.backend.user.request.UserCreate;
 
 @Table("users")
 public class User {
@@ -26,6 +27,11 @@ public class User {
 		this.userName = userName;
 		this.phoneNumber = phoneNumber;
 		this.userPassword = userPassword;
+	}
+
+	public static User createUser(UserCreate userCreate) {
+		return new User(userCreate.getEmail(), userCreate.getUserName(), userCreate.getPhoneNumber(),
+			userCreate.getUserPassword());
 	}
 
 	public Long getId() {
