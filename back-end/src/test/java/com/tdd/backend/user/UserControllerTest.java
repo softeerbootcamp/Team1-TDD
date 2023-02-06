@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +32,6 @@ class UserControllerTest {
 	@Autowired
 	UserRepository userRepository;
 
-	@BeforeEach
-	void setup() {
-		userRepository.deleteAll();
-	}
-
 	@Test
 	@DisplayName("유저 회원가입")
 	void signup() throws Exception {
@@ -55,7 +49,7 @@ class UserControllerTest {
 		mockMvc.perform(post("/users")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(jsonRequest))
-			.andExpect(status().isOk())
+			.andExpect(status().isFound())
 			.andDo(print());
 
 		//then
