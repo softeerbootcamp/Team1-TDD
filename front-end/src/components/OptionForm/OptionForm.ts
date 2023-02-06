@@ -104,19 +104,21 @@ export class OptionForm extends Component {
   template(): string {
     const data = DUMMY_DATA;
     return `
-    <div class="${styles.container}">
+    <div class="${styles['form-container']}">
       ${data.options.map((ele) => this.categoryTemplate(ele)).join('')}
     </div>
     `;
   }
+
   mounted(): void {
     OptionStore.dispatch('OPTION_INIT');
   }
+
   categoryTemplate({ category, option }: ICategory) {
     return `
-    <div>
-        <div class="${styles.container__title}">${category}</div>    
-        <div id="post-categories" class="${styles['filter-container']}">
+    <div class="${styles.container}">
+        <div class="${styles.container__title}">${category}</div>      
+        <div class="${styles['filter-container']}">
             ${option.map((option) => this.optionBtnTemplate(option)).join('')}
         </div>
     </div>
@@ -147,6 +149,11 @@ export class OptionForm extends Component {
           option: { name: $button.innerText, category: $category.innerText },
         });
       }
+    });
+
+    this.addEvent('click', `.${styles.container__title}`, ({ target }) => {
+      const $target = target as HTMLDivElement;
+      $target.nextElementSibling?.classList.toggle(styles.show);
     });
   }
 }
