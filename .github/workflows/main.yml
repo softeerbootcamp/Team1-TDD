@@ -29,7 +29,7 @@ jobs:
           # application.yml 파일 생성하기
           touch ./application.yml
           
-          # Secrets에 저장한 값을 application.yml 파일에 쓰기
+          # application.yml 파일에 쓰기
           echo "${{ secrets.DATABASE }}" >> ./application.yml
 
         shell: bash
@@ -39,7 +39,7 @@ jobs:
           cd ./back-end
           ./gradlew bootJar
       ## 도커 로그인
-      - name: Docker Hub 로그인 # (3)
+      - name: Docker Hub login
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_ID }}
@@ -49,8 +49,9 @@ jobs:
       - name: web docker build and push
         run: |
           cd ./back-end
-          docker build -t ${{ secrets.DOCKER_REPO }} .
-          docker push ${{ secrets.DOCKER_REPO }}
+          docker build -t ${{ secrets.DOCKER_REPO }}-server .
+          docker push ${{ secrets.DOCKER_REPO }}-server
+
 
       ## 서버에 접속하여 도커 이미지를 pull 받고 실행하기
       - name: executing remote ssh commands using password
@@ -61,8 +62,9 @@ jobs:
           key: ${{ secrets.KEY }}
           port: 22
           script: |
-            sudo docker stop prod-server
-            sudo docker rm prod-server
-            sudo docker image rm ${{ secrets.DOCKER_REPO }}
-            sudo docker pull ${{ secrets.DOCKER_REPO }}
-            sudo docker run -d -p 8080:8080 ${{ secrets.DOCKER_REPO }}
+            sudo docker stop back-server
+            #sudo docker rm back-server
+            sudo docker rm -f $(sudo docker ps -qa)
+            sudo docker image rm -f ${{ secrets.DOCKER_REPO }}-server
+            sudo docker pull ${{ secrets.DOCKER_REPO }}-server
+            sudo docker run -d --name back-server -p 8080:8080 ${{ secrets.DOCKER_REPO }}-server
