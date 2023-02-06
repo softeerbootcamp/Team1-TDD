@@ -11,7 +11,14 @@ public enum RenderingOptions {
 	DIESEL(ENGINE), //engine
 	LPG(ENGINE); //engine
 
+	private final Category category;
+
 	RenderingOptions(Category category) {
+		this.category = category;
+	}
+
+	public String getCategory() {
+		return category.toString();
 	}
 
 }
