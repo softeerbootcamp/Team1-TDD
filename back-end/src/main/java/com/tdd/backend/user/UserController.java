@@ -1,5 +1,7 @@
 package com.tdd.backend.user;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,9 +26,14 @@ public class UserController {
 		@ApiResponse(responseCode = "404", description = "NOT FOUND"),
 		@ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
 	})
-	@PostMapping("/signup")
+	@PostMapping("/users")
 	public void signup(@RequestBody UserCreate userCreate) {
 		userService.save(userCreate);
+	}
+
+	@GetMapping("/users/validation/{email}}")
+	public void userEmailValidCheck(@PathVariable String email) {
+
 	}
 
 	@PostMapping("/login")

@@ -51,7 +51,7 @@ class UserControllerTest {
 		String jsonRequest = objectMapper.writeValueAsString(userCreate);
 
 		//when
-		mockMvc.perform(post("/signup")
+		mockMvc.perform(post("/users")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(jsonRequest))
 			.andExpect(status().isOk())
