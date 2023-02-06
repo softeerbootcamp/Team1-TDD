@@ -18,7 +18,7 @@ public class ExceptionController {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ErrorResponse methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
 		ErrorResponse errorResponse = ErrorResponse.builder()
-			.code("400")
+			.code(HttpStatus.BAD_REQUEST.toString())
 			.errorMessage("잘못된 요청입니다.")
 			.build();
 

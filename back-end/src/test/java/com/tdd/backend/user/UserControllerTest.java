@@ -59,7 +59,6 @@ class UserControllerTest {
 			.andDo(print());
 
 		//then
-
 		SoftAssertions softAssertions = new SoftAssertions();
 		softAssertions.assertThat(userRepository.count()).isEqualTo(1);
 
@@ -88,7 +87,7 @@ class UserControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(jsonRequest))
 			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.code").value("400"))
+			.andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.toString()))
 			.andExpect(jsonPath("$.errorMessage").value("잘못된 요청입니다."))
 			.andExpect(jsonPath("$.validation.email").value("email 값은 필수입니다."))
 			.andDo(print());
