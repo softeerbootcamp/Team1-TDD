@@ -29,9 +29,9 @@ const reducer = (
       return newState;
 
     case 'DELETE_CAR_OPTION':
-      newState.options = newState.options.filter((ele) => {
-        JSON.stringify(ele) !== JSON.stringify(payload.option);
-      });
+      newState.options = newState.options.filter(
+        (ele) => JSON.stringify(ele) !== JSON.stringify(payload.option)
+      );
       return newState;
 
     default:
