@@ -1,5 +1,6 @@
 import Component from '@/core/Component';
 import styles from './OptionForm.module.scss';
+import { OptionStore } from '@/store/OptionStore/OptionStore';
 const DUMMY_DATA = {
   options: [
     {
@@ -111,12 +112,12 @@ export class OptionForm extends Component {
 
   categoryTemplate({ category, option }: ICategory) {
     return `
-    <div class="${styles.container__title}">
-        ${category}
+    <div>
+        <div class="${styles.container__title}">${category}</div>    
         <div id="post-categories" class="${styles['filter-container']}">
-        ${option.map((option) => this.optionBtnTemplate(option)).join('')}
+            ${option.map((option) => this.optionBtnTemplate(option)).join('')}
         </div>
-    </div>    
+    </div>
     `;
   }
 
@@ -126,14 +127,23 @@ export class OptionForm extends Component {
 
   setEvent(): void {
     this.addEvent('click', `.${styles['filter-button']}`, (e) => {
-      const button = e.target as HTMLButtonElement;
-      const buttonState = button.getAttribute('data-state');
+      const $button = e.target as HTMLButtonElement;
+      const $category = $button.parentElement
+        ?.previousElementSibling as HTMLDivElement;
+      const buttonState = $button.getAttribute('data-state');
+
       if (buttonState == 'inactive') {
-        button.classList.add(styles['is-active']);
-        button.setAttribute('data-state', 'active');
+        $button.classList.add(styles['is-active']);
+        $button.setAttribute('data-state', 'active');
+        OptionStore.dispatch('ADD_CAR_OPTION', {
+          option: { name: $button.innerText, category: $category.innerText },
+        });
       } else {
-        button.classList.remove(styles['is-active']);
-        button.setAttribute('data-state', 'inactive');
+        $button.classList.remove(styles['is-active']);
+        $button.setAttribute('data-state', 'inactive');
+        OptionStore.dispatch('DELETE_CAR_OPTION', {
+          option: { name: $button.innerText, category: $category.innerText },
+        });
       }
     });
   }
