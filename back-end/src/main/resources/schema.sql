@@ -37,7 +37,8 @@ create table appointments
     tester_id bigint null,
     status    varchar(100) not null,
     constraint appointments_posts_id_fk
-        foreign key (post_id) references posts (id),
+        foreign key (post_id) references posts (id)
+            on update cascade on delete cascade,
     constraint appointments_users_id_fk
         foreign key (tester_id) references users (id)
             on update cascade on delete cascade
