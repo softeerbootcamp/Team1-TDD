@@ -1,6 +1,8 @@
-package com.tdd.backend.post;
+package com.tdd.backend.render;
 
 import static com.tdd.backend.post.Category.*;
+
+import com.tdd.backend.post.Category;
 
 public enum RenderingOptions {
 	LAMP(SAFETY), //Safety option

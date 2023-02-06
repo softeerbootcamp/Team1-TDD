@@ -1,4 +1,4 @@
-package com.tdd.backend.post;
+package com.tdd.backend.render;
 
 import java.util.List;
 
