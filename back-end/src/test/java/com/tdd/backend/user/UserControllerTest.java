@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -93,4 +94,18 @@ class UserControllerTest {
 			.andDo(print());
 	}
 
+	@Test
+	@DisplayName("유저 회원가입_중복 이메일 들어옴.")
+	void signup_duplicate_email() throws Exception {
+		//given
+		userRepository.save(new User("test@tdd.com", "tester", "0101010", "pass"));
+
+		//when
+		mockMvc.perform(get("/users/validation/{email}}", "test@tdd.com")
+				.contentType(MediaType.TEXT_HTML))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.toString()))
+			.andExpect(jsonPath("$.errorMessage").value("중복된 이메일입니다."))
+			.andDo(print());
+	}
 }

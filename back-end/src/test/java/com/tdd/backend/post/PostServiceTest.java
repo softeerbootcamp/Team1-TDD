@@ -33,7 +33,6 @@ class PostServiceTest {
 			"01012341234", "glory");
 		userRepository.save(user);
 
-
 		Set<Option> options = new HashSet<>();
 		Option option1 = new Option("option1", Category.ENGINE);
 		Option option2 = new Option("option2", Category.COLOR);

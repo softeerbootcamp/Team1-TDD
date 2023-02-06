@@ -19,4 +19,9 @@ public class UserService {
 	public void save(UserCreate userCreate) {
 		userRepository.save(User.createUser(userCreate));
 	}
+
+	public boolean isDuplicateEmail(String email) {
+		return userRepository.countByEmail(email) > 0;
+	}
+
 }

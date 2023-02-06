@@ -11,4 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends CrudRepository<User, Long> {
 	@Query("SELECT * FROM users u WHERE u.email = :email")
 	Optional<User> findByEmail(@Param("email") String email);
+
+	Long countByEmail(String email);
 }

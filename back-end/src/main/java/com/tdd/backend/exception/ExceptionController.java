@@ -16,13 +16,13 @@ public class ExceptionController {
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ErrorResponse methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+	public ErrorResponse methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
 		ErrorResponse errorResponse = ErrorResponse.builder()
 			.code("400")
 			.errorMessage("잘못된 요청입니다.")
 			.build();
 
-		List<FieldError> fieldErrors = e.getFieldErrors();
+		List<FieldError> fieldErrors = ex.getFieldErrors();
 
 		for (FieldError fieldError : fieldErrors) {
 			errorResponse.addValidation(fieldError.getField(), fieldError.getDefaultMessage());
@@ -33,15 +33,11 @@ public class ExceptionController {
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(DuplicateEmailException.class)
-	public ErrorResponse userNotFoundExceptionHandler(DuplicateEmailException e) {
-		ErrorResponse errorResponse = ErrorResponse.builder()
+	public ErrorResponse userNotFoundExceptionHandler(DuplicateEmailException ex) {
+		return ErrorResponse.builder()
 			.code(HttpStatus.BAD_REQUEST.toString())
-			.errorMessage(e.getMessage())
+			.errorMessage(ex.getMessage())
 			.build();
-
-		errorResponse.addValidation("email", "이메일에 해당하는 유저가 이미 존재합니다.");
-
-		return errorResponse;
 
 	}
 }

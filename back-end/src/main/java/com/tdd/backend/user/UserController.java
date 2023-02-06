@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tdd.backend.user.data.UserCreate;
+import com.tdd.backend.user.exception.DuplicateEmailException;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -35,7 +36,9 @@ public class UserController {
 
 	@GetMapping("/users/validation/{email}}")
 	public void userEmailValidCheck(@PathVariable String email) {
-
+		if (userService.isDuplicateEmail(email)) {
+			throw new DuplicateEmailException();
+		}
 	}
 
 	@PostMapping("/login")
