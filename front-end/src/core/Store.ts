@@ -1,12 +1,13 @@
-export class Store {
-  #state: object;
-  #listeners: any[] = [];
-  #reducer;
+interface DynamicObject {
+  [property: string]: any;
+}
 
-  constructor(
-    state: object,
-    reducer: (state: object, actionKey: string, payload: object) => object
-  ) {
+export class Store {
+  #state: DynamicObject;
+  #listeners: Function[] = [];
+  #reducer: Function;
+
+  constructor(state: object, reducer: Function) {
     this.#state = state;
     this.#reducer = reducer;
   }
@@ -23,7 +24,7 @@ export class Store {
     this.#listeners.forEach((listener) => listener());
   }
 
-  async dispatch(actionKey: string, { ...payload }: object = {}) {
+  async dispatch(actionKey: string, { ...payload }: DynamicObject = {}) {
     this.#state = await this.#reducer(this.#state, actionKey, { ...payload });
     this.publish();
   }
