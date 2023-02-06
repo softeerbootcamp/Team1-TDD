@@ -3,7 +3,7 @@ package com.tdd.backend.user;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tdd.backend.user.request.UserCreate;
+import com.tdd.backend.user.data.UserCreate;
 
 @Service
 @Transactional(readOnly = true)

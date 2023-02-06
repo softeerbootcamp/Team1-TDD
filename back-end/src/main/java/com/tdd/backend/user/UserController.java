@@ -1,7 +1,10 @@
 package com.tdd.backend.user;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.tdd.backend.user.data.UserCreate;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -16,12 +19,14 @@ public class UserController {
 	@Operation(summary = "유저 회원가입 요청", description = "User SignUp request")
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "OK"),
+		@ApiResponse(responseCode = "302", description = "REDIRECT"),
 		@ApiResponse(responseCode = "400", description = "BAD REQUEST"),
 		@ApiResponse(responseCode = "404", description = "NOT FOUND"),
 		@ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
 	})
 	@PostMapping("/signup")
-	public void signup() {
+	public void signup(@RequestBody UserCreate userCreate) {
+		userService.save(userCreate);
 	}
 
 	@PostMapping("/login")

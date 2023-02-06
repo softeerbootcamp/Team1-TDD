@@ -5,9 +5,12 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import com.tdd.backend.post.Appointment;
-import com.tdd.backend.user.request.UserCreate;
+import com.tdd.backend.user.data.UserCreate;
+
+import lombok.Getter;
 
 @Table("users")
+@Getter
 public class User {
 
 	@Id

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tdd.backend.user.request.UserCreate;
+import com.tdd.backend.user.data.UserCreate;
 
 @SpringBootTest
 @Transactional

@@ -1,4 +1,4 @@
-package com.tdd.backend.user.request;
+package com.tdd.backend.user.data;
 
 import lombok.Builder;
 import lombok.Getter;
