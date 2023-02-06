@@ -5,7 +5,7 @@ import static com.tdd.backend.post.Category.*;
 import java.util.Collections;
 import java.util.List;
 
-public enum Options {
+public enum RenderingOptions {
 	LAMP(SAFETY), //Safety option
 	SUNROOF(SAFETY), //Safety option
 	MONITOR(DISPLAY),  //Display option
@@ -14,10 +14,10 @@ public enum Options {
 	DIESEL(ENGINE), //engine
 	LPG(ENGINE); //engine
 
-	Options(Category category) {
+	RenderingOptions(Category category) {
 	}
 
-	public List<Options> getCommonOptions() {
+	public List<RenderingOptions> getCommonOptions() {
 		return List.of(LAMP, SUNROOF, MONITOR);
 	}
 
