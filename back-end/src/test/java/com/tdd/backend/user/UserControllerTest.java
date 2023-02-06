@@ -69,4 +69,25 @@ class UserControllerTest {
 		softAssertions.assertAll();
 	}
 
+	@Test
+	@DisplayName("유저 회원가입_null 값 들어옴.")
+	void signup_null() throws Exception {
+		//given
+		UserCreate userCreate = UserCreate.builder()
+			.email(null)
+			.userPassword("pass")
+			.userName("tester")
+			.phoneNumber("0101010")
+			.build();
+
+		String jsonRequest = objectMapper.writeValueAsString(userCreate);
+
+		//expected
+		mockMvc.perform(post("/users")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(jsonRequest))
+			.andExpect(status().isBadRequest())
+			.andDo(print());
+	}
+
 }

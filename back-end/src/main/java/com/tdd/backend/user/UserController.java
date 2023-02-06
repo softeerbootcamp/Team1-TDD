@@ -1,5 +1,7 @@
 package com.tdd.backend.user;
 
+import javax.validation.Valid;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +29,7 @@ public class UserController {
 		@ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
 	})
 	@PostMapping("/users")
-	public void signup(@RequestBody UserCreate userCreate) {
+	public void signup(@RequestBody @Valid UserCreate userCreate) {
 		userService.save(userCreate);
 	}
 
