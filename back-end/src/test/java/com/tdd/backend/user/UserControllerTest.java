@@ -63,7 +63,7 @@ class UserControllerTest {
 		softAssertions.assertThat(userRepository.count()).isEqualTo(1);
 
 		User user = userRepository.findByEmail(userCreate.getEmail())
-			.orElseThrow(() -> new RuntimeException("해당 이메일의 유저 존재하지 않습니다."));
+			.orElseThrow(RuntimeException::new);
 		softAssertions.assertThat(user.getUserName()).isEqualTo(userCreate.getUserName());
 
 		softAssertions.assertAll();
@@ -87,6 +87,9 @@ class UserControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(jsonRequest))
 			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.code").value("400"))
+			.andExpect(jsonPath("$.errorMessage").value("잘못된 요청입니다."))
+			.andExpect(jsonPath("$.validation.email").value("email 값은 필수입니다."))
 			.andDo(print());
 	}
 

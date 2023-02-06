@@ -10,12 +10,15 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @RequiredArgsConstructor
 public class UserCreate {
-	@NotBlank
+	@NotBlank(message = "email 값은 필수입니다.")
 	private final String email;
-	@NotBlank
+
+	@NotBlank(message = "userPassword 값은 필수입니다.")
 	private final String userPassword;
-	@NotBlank
+
+	@NotBlank(message = "userName 값은 필수입니다.")
 	private final String userName;
-	@NotBlank
+
+	@NotBlank(message = "phoneNumber 값은 필수입니다.")
 	private final String phoneNumber;
 }
