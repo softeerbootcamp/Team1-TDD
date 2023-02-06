@@ -1,0 +1,206 @@
+@font-face {
+  font-family: "ROK";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.1/ROKABold.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+$darkblue: #001d6e;
+$tossblue: #0064ff;
+$font100: 100px;
+
+.flex-box {
+  display: flex;
+}
+
+.idxes {
+  opacity: 0;
+  transition: all 1.5s;
+}
+
+.main-wrapper {
+  font-family: "ROK";
+  user-select: none;
+}
+
+.index-1 {
+  color: $tossblue;
+  font-size: $font100;
+  height: 1030px;
+  width: 100%;
+  color: $tossblue;
+  .helper-first {
+    width: 30%;
+    height: 300px;
+  }
+  .first-top-wrapper {
+    width: 30%;
+    height: 300px;
+    display: flex;
+    .first-title {
+      margin: 0;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      display: block;
+    }
+  }
+  .mid-wrapper {
+    height: 330px;
+    .helper-second {
+      width: 70%;
+      height: 330px;
+    }
+    .second-title {
+      margin: 0;
+      width: 15%;
+      writing-mode: vertical-lr;
+      text-orientation: upright;
+    }
+  }
+  .last-wrapper {
+    height: 400px;
+    .text-container {
+      padding-left: 30px;
+      .third-title {
+        margin: 0;
+        font-size: 100px;
+      }
+    }
+  }
+}
+
+.index-2 {
+  font-size: 100px;
+  height: 900px;
+  .empty-wrapper {
+    height: 150px;
+  }
+  .second-top-wrapper {
+    height: 500px;
+    display: flex;
+    .helper-first {
+      width: 10%;
+    }
+  }
+  .second-bottom-wrapper {
+    height: 300px;
+    .helper-second {
+      width: 25%;
+    }
+    .second-second-text {
+      line-height: 300px;
+    }
+  }
+}
+
+.index-3 {
+  font-size: 50px;
+  color: #000;
+  height: 900px;
+  .empty-wrapper {
+    height: 200px;
+  }
+  .third-top-wrapper {
+    font-size: 50px;
+    height: 300px;
+    padding-left: 50px;
+    .third-top-text > b {
+      font-size: 77px;
+    }
+  }
+  .third-bottom-wrapper {
+    height: 300px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .car-image {
+      width: 250px;
+      height: 250px;
+    }
+    .third-bottom-text > b {
+      font-size: 77px;
+    }
+  }
+}
+
+.index-4 {
+  color: #000;
+  height: 900px;
+  .fourth-top-wrapper {
+    .fourth-top-text {
+      text-align: right;
+      font-size: 100px;
+      padding-right: 50px;
+    }
+  }
+  .fourth-bottom-wrapper {
+    padding-left: 50px;
+    font-size: 33px;
+    .fourth-mid-text {
+      line-height: 100px;
+      .big {
+        font-size: 70px;
+        display: block;
+      }
+    }
+    .fourth-bottom-text {
+      margin-top: 50px;
+      word-break: keep-all;
+      font-size: 27px;
+      width: 80%;
+    }
+  }
+}
+
+.index-5 {
+  color: #000;
+  height: 800px;
+  .fifth-top-wrapper {
+    font-weight: 700;
+    padding-left: 70px;
+    font-size: $font100;
+  }
+  .fifth-bottom-wrapper {
+    font-size: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 50px;
+    .fifth-left-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      font-size: 30px;
+      .fifth-first-img {
+        width: 200px;
+        height: 200px;
+        cursor: pointer;
+      }
+    }
+    .fifth-right-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      font-size: 30px;
+      .fifth-second-img {
+        width: 200px;
+        height: 200px;
+        cursor: pointer;
+      }
+    }
+    .fifth-texts {
+      margin-top: 20px;
+    }
+  }
+}
+
+.tossblue {
+  color: $tossblue;
+}
+
+.darkblue {
+  color: $darkblue;
+}
