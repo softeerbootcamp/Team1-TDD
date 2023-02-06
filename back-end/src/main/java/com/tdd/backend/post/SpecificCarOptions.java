@@ -13,4 +13,13 @@ public enum SpecificCarOptions {
 		this.optionList = options;
 	}
 
+	//TODO: 올바르지 않은 차 이름이 인자로 넘어올 경우 예외처리
+	public static SpecificCarOptions getCar(String name) {
+		return valueOf(name);
+	}
+
+	public List<RenderingOptions> getOptions() {
+		return optionList;
+	}
+
 }
