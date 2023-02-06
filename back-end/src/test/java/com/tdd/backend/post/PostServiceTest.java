@@ -30,8 +30,13 @@ class PostServiceTest {
 	@Test
 	void save_with_option_location_appointment() throws Exception {
 
-		User user = new User("hado@naver.com", "young",
-			"01012341234", "glory");
+		User user = User.builder()
+			.email("test@test.com")
+			.userName("tester")
+			.userPassword("pwd")
+			.phoneNumber("101010")
+			.build();
+
 		userRepository.save(user);
 
 		Set<Option> options = new HashSet<>();

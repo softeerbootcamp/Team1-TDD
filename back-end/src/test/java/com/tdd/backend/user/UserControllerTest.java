@@ -91,10 +91,16 @@ class UserControllerTest {
 	@DisplayName("유저 회원가입_중복 이메일 들어옴.")
 	void signup_duplicate_email() throws Exception {
 		//given
-		userRepository.save(new User("test@tdd.com", "tester", "0101010", "pass"));
+		User user = User.builder()
+			.email("test@test.com")
+			.userName("tester")
+			.userPassword("pwd")
+			.phoneNumber("101010")
+			.build();
+		userRepository.save(user);
 
 		//when
-		mockMvc.perform(get("/users/validation/{email}}", "test@tdd.com")
+		mockMvc.perform(get("/users/validation/{email}}", user.getEmail())
 				.contentType(MediaType.TEXT_HTML))
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.toString()))
