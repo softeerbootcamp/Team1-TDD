@@ -17,19 +17,22 @@ class PostServiceTest {
 
 	@Autowired
 	private PostService postService;
-	private User user;
 
 	@Autowired
 	UserRepository userRepository;
 
 	@BeforeEach
 	void setUp() {
-		user = new User("hado", "01010", "glory");
-		userRepository.save(user);
+		userRepository.deleteAll();
 	}
 
 	@Test
 	void save_with_option_location_appointment() throws Exception {
+
+		User user = new User("hado@naver.com", "young",
+			"01012341234", "glory");
+		userRepository.save(user);
+
 
 		Set<Option> options = new HashSet<>();
 		Option option1 = new Option("option1", Category.ENGINE);

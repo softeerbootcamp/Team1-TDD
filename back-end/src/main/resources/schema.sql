@@ -8,6 +8,7 @@ create table users
 (
     id            bigint auto_increment
         primary key,
+    email         varchar(255) not null UNIQUE,
     user_name     varchar(255) not null,
     phone_number  varchar(100) not null,
     user_password varchar(255) null

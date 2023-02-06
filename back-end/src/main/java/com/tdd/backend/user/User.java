@@ -12,16 +12,17 @@ public class User {
 	@Id
 	private Long id;
 
-	private final String userName;
-
-	private final String phoneNumber;
-
+	private final String email;
 	private final String userPassword;
+
+	private final String userName;
+	private final String phoneNumber;
 
 	@Column("tester_id")
 	private Appointment appointment;
 
-	public User(String userName, String phoneNumber, String userPassword) {
+	public User(String email, String userName, String phoneNumber, String userPassword) {
+		this.email = email;
 		this.userName = userName;
 		this.phoneNumber = phoneNumber;
 		this.userPassword = userPassword;
