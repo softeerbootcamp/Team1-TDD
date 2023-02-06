@@ -8,6 +8,7 @@ create table users
 (
     id            bigint auto_increment
         primary key,
+    email         varchar(255) not null UNIQUE,
     user_name     varchar(255) not null,
     phone_number  varchar(100) not null,
     user_password varchar(255) null
@@ -36,7 +37,8 @@ create table appointments
     tester_id bigint null,
     status    varchar(100) not null,
     constraint appointments_posts_id_fk
-        foreign key (post_id) references posts (id),
+        foreign key (post_id) references posts (id)
+            on update cascade on delete cascade,
     constraint appointments_users_id_fk
         foreign key (tester_id) references users (id)
             on update cascade on delete cascade
