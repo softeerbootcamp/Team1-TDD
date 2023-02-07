@@ -12,7 +12,7 @@ import com.tdd.backend.render.data.OptionResponse;
 @Service
 public class RenderService {
 	public List<OptionResponse> getOptions(String carName) {
-		List<RenderingOption> list = SpecificCarOptions.getCar(carName).getOptions();
+		List<RenderingOption> list = SpecificCarOption.getCar(carName).getOptions();
 		List<OptionResponse> response = new ArrayList<>();
 
 		for (Category category : Category.values()) {
