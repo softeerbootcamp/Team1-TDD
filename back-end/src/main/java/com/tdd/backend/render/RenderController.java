@@ -2,6 +2,7 @@ package com.tdd.backend.render;
 
 import java.util.List;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,15 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tdd.backend.render.data.OptionResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 public class RenderController {
 
 	private final RenderService renderService;
-
-	public RenderController(RenderService renderService) {
-		this.renderService = renderService;
-	}
 
 	/**
 	 * 특정 차종에 대한 모든 옵션 리스트 렌더링
@@ -29,6 +28,7 @@ public class RenderController {
 		// 응답: {name}에 존재하는 모든 옵션 리스트 JSON
 		return ResponseEntity
 			.ok()
+			.contentType(MediaType.APPLICATION_JSON)
 			.body(renderService.getOptions(carName));
 	}
 }
