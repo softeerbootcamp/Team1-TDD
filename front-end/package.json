@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "npm run build && aws s3 sync ./dist s3://team1-tdd --profile=jieonkim23"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
