@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.tdd.backend.user.exception.DuplicateEmailException;
+import com.tdd.backend.user.exception.UserNotFoundException;
 
 @RestControllerAdvice
 public class ExceptionController {
@@ -33,9 +34,19 @@ public class ExceptionController {
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(DuplicateEmailException.class)
-	public ErrorResponse userNotFoundExceptionHandler(DuplicateEmailException ex) {
+	public ErrorResponse duplicateEmailExceptionHandler(DuplicateEmailException ex) {
 		return ErrorResponse.builder()
 			.code(HttpStatus.BAD_REQUEST.toString())
+			.errorMessage(ex.getMessage())
+			.build();
+
+	}
+
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	@ExceptionHandler(UserNotFoundException.class)
+	public ErrorResponse userNotFoundExceptionHandler(UserNotFoundException ex) {
+		return ErrorResponse.builder()
+			.code(HttpStatus.UNAUTHORIZED.toString())
 			.errorMessage(ex.getMessage())
 			.build();
 

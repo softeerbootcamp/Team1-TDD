@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tdd.backend.user.data.UserCreate;
+import com.tdd.backend.user.data.UserLogin;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -106,5 +107,53 @@ class UserControllerTest {
 			.andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.toString()))
 			.andExpect(jsonPath("$.errorMessage").value("중복된 이메일입니다."))
 			.andDo(print());
+	}
+
+	@Test
+	@DisplayName("유저 로그인_성공")
+	void login() throws Exception {
+	    //given
+		userRepository.save(User.builder()
+			.email("test@test.com")
+			.userPassword("pwd")
+			.userName("tester")
+			.phoneNumber("010101")
+			.build()
+		);
+
+		//when
+		UserLogin userLogin = UserLogin.builder()
+			.email("test@test.com")
+			.userPassword("pwd")
+			.build();
+
+		String loginRequestBody = objectMapper.writeValueAsString(userLogin);
+		mockMvc.perform(post("/login")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(loginRequestBody))
+			.andExpect(status().isOk())
+			.andDo(print());
+
+	    //then
+
+	}
+
+	@Test
+	@DisplayName("유저 로그인_실패")
+	void login_failed() throws Exception {
+		//when
+		UserLogin userLogin = UserLogin.builder()
+			.email("test@test.com")
+			.userPassword("pwd")
+			.build();
+
+		String loginRequestBody = objectMapper.writeValueAsString(userLogin);
+		mockMvc.perform(post("/login")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(loginRequestBody))
+			.andExpect(status().isUnauthorized())
+			.andExpect(jsonPath("$.errorMessage").value("해당하는 유저가 없습니다."))
+			.andDo(print());
+
 	}
 }

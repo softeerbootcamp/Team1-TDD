@@ -1,7 +1,11 @@
 package com.tdd.backend.user;
 
+import java.net.URI;
+
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,9 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.tdd.backend.user.data.UserCreate;
+import com.tdd.backend.user.data.UserLogin;
 import com.tdd.backend.user.exception.DuplicateEmailException;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,9 +40,9 @@ public class UserController {
 	public ResponseEntity<Void> signup(@RequestBody @Valid UserCreate userCreate) {
 		userService.save(userCreate);
 
-		return ResponseEntity.status(HttpStatus.FOUND)
-			.location(ServletUriComponentsBuilder.fromCurrentRequest().path("/").build().toUri())
-			.build();
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(URI.create("/"));
+		return new ResponseEntity<>(headers, HttpStatus.FOUND);
 
 	}
 
@@ -50,6 +54,8 @@ public class UserController {
 	}
 
 	@PostMapping("/login")
-	public void login() {
+	public void login(@RequestBody @Valid UserLogin userLogin, HttpSession httpSession) {
+		String username = userService.signIn(userLogin);
+		httpSession.setAttribute("username", username);
 	}
 }
