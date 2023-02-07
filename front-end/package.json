@@ -24,7 +24,9 @@
     "vite": "^4.0.0"
   },
   "dependencies": {
+    "@googlemaps/markerclusterer": "^2.0.15",
     "axios": "^1.2.6",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "google-maps": "^4.3.3"
   }
 }
