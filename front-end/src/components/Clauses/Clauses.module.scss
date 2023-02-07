@@ -1,5 +1,12 @@
 $tossblue: #0064ff;
 $lightblue: #87cefa;
+@font-face {
+  font-family: "ROK";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.1/ROKABold.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 
 @font-face {
   font-family: "Line";
