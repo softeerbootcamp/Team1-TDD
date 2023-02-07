@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.tdd.backend.user.data.Session;
+import com.tdd.backend.user.exception.UnauthorizedException;
 
 /**
  * 세션 디비 역할을 위한 임시적인 세션스토리지 (인메모리)
@@ -28,7 +29,7 @@ public class SessionStorage {
 		if (isSession(key)) {
 			return sessionMap.get(key);
 		}
-		return null;
+		throw new UnauthorizedException();
 	}
 
 	public static void clean() {
