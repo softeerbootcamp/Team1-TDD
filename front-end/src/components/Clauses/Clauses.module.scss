@@ -1,0 +1,114 @@
+$tossblue: #0064ff;
+$lightblue: #87cefa;
+
+@font-face {
+  font-family: "Line";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+.main-wrapper {
+  font-family: "Line";
+  width: 100%;
+  user-select: none;
+  .welcome-wrapper {
+    display: flex;
+    .welcome-helper {
+      width: 5%;
+      height: 80px;
+    }
+    .welcome {
+      font-size: 80px;
+      line-height: 80px;
+      font-weight: 700;
+    }
+  }
+
+  .texts-wrapper {
+    font-size: 40px;
+    font-weight: 500;
+    display: flex;
+    height: 100px;
+    margin-top: 10px;
+    .text-helper {
+      height: 100px;
+      width: 5%;
+    }
+    .text-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+    }
+  }
+
+  .button-wrapper {
+    font-size: 30px;
+    height: 50px;
+    display: flex;
+    line-height: 50px;
+    align-items: center;
+    .button-helper {
+      height: 50px;
+      width: 5%;
+    }
+    input[type="checkbox"] {
+      width: 25px;
+      height: 25px;
+    }
+  }
+  .clause-wrapper {
+    .clause {
+      width: 80%;
+      margin: 15px auto;
+      height: 200px;
+      font-size: 20px;
+      overflow-y: scroll;
+      border: 3px solid gray;
+      padding: 15px 5px 0 15px;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+
+  .next-wrapper {
+    .form-wrapper {
+      display: block;
+      .next-button {
+        width: 150px;
+        height: 70px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 20px;
+        font-weight: 700;
+        border: 0;
+      }
+    }
+  }
+}
+
+.tossblue {
+  color: $tossblue;
+}
+
+.lightblue {
+  color: $lightblue;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.margin-10 {
+  margin-top: 10px;
+}
+
+.wraning {
+  color: #000;
+  font-size: 25px;
+  font-weight: 700;
+  display: block;
+}
