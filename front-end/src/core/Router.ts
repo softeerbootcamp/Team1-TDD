@@ -8,10 +8,9 @@ export class Router {
   }
 
   private init() {
-    window.addEventListener('historychange', (e) => {
+    window.addEventListener('historychange', (e: Event) => {
       e.preventDefault();
-      const { to, isReplace } = e.detail;
-
+      const { to, isReplace } = (<CustomEvent>e).detail;
       if (isReplace || to === location.pathname)
         history.replaceState(null, '', to);
       else history.pushState(null, '', to);
@@ -30,6 +29,6 @@ export class Router {
 
   private route() {
     const TargetPage = this.findMatchedRoute()?.element || NotFound;
-    new TargetPage(this.$container);
+    new (TargetPage as any)(this.$container);
   }
 }
