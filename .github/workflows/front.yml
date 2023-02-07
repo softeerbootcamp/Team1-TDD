@@ -23,11 +23,13 @@ jobs:
 
       - name: Install Dependencies # node module install
         run: |
-          cd ./front-end 
+          cd front-end 
           npm install
 
       - name: Build # project build
-        run: npm run build
+        run: |
+          cd front-end 
+          npm run build
 
       - name: Deploy 
         env:
