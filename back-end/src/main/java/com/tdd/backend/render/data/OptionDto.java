@@ -4,12 +4,12 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class Option {
+public class OptionDto {
 	private final String name;
 	private final String category;
 
 	@Builder
-	public Option(String name, String category) {
+	public OptionDto(String name, String category) {
 		this.name = name;
 		this.category = category;
 	}

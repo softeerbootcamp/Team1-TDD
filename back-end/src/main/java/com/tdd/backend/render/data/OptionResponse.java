@@ -8,10 +8,10 @@ import lombok.Getter;
 @Getter
 public class OptionResponse {
 	private final String category;
-	List<Option> options;
+	List<OptionDto> options;
 
 	@Builder
-	public OptionResponse(String category, List<Option> options) {
+	public OptionResponse(String category, List<OptionDto> options) {
 		this.category = category;
 		this.options = options;
 	}
