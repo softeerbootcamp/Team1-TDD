@@ -18,7 +18,7 @@ export class ImageSlider extends Component {
           ${this.props.list
             .map(
               (car: ICar) =>
-                `<img style="left: 100%" src="./src/assets/${car.fileName}" />`
+                `<img style="left: 100%" src="${process.env.VITE_IMAGE_URL}/${car.fileName}" />`
             )
             .join('')}
         </div>
@@ -78,7 +78,6 @@ export class ImageSlider extends Component {
       $slider.style.height = this.props.height;
       return;
     }
-
     const img = new Image();
     img.src = this.state.$images[0].src;
     img.onload = function () {
