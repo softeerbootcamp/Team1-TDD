@@ -7,7 +7,7 @@ import com.tdd.backend.post.Category;
 import lombok.Getter;
 
 @Getter
-public enum RenderingOptions {
+public enum RenderingOption {
 	LAMP(SAFETY, "LED 헤드램프"), //Safety option
 	SUNROOF(SAFETY, "썬루프"), //Safety option
 	MONITOR(DISPLAY, "모니터"),  //Display option
@@ -19,7 +19,7 @@ public enum RenderingOptions {
 	private final Category category;
 	private final String name;
 
-	RenderingOptions(Category category, String name) {
+	RenderingOption(Category category, String name) {
 		this.category = category;
 		this.name = name;
 	}

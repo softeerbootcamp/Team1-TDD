@@ -12,13 +12,13 @@ import com.tdd.backend.render.data.OptionResponse;
 @Service
 public class RenderService {
 	public List<OptionResponse> getOptions(String carName) {
-		List<RenderingOptions> list = SpecificCarOptions.getCar(carName).getOptions();
+		List<RenderingOption> list = SpecificCarOptions.getCar(carName).getOptions();
 		List<OptionResponse> response = new ArrayList<>();
 
 		for (Category category : Category.values()) {
 			List<Option> optionList = new ArrayList<>();
 
-			for (RenderingOptions renderOption : list) {
+			for (RenderingOption renderOption : list) {
 				if (isCategoryEquals(category, renderOption.getCategory())) {
 					Option option = new Option(renderOption.getName(), renderOption.getCategory().getName());
 					optionList.add(option);

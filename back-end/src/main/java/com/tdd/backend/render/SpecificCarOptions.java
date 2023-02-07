@@ -3,13 +3,13 @@ package com.tdd.backend.render;
 import java.util.List;
 
 public enum SpecificCarOptions {
-	IONIC6(List.of(RenderingOptions.LPG, RenderingOptions.LAMP)),
-	IONIC5(List.of(RenderingOptions.BLUE, RenderingOptions.RED, RenderingOptions.LAMP, RenderingOptions.SUNROOF)),
-	NEXO(List.of(RenderingOptions.BLUE, RenderingOptions.RED, RenderingOptions.MONITOR, RenderingOptions.SUNROOF, RenderingOptions.LAMP));
+	IONIC6(List.of(RenderingOption.LPG, RenderingOption.LAMP)),
+	IONIC5(List.of(RenderingOption.BLUE, RenderingOption.RED, RenderingOption.LAMP, RenderingOption.SUNROOF)),
+	NEXO(List.of(RenderingOption.BLUE, RenderingOption.RED, RenderingOption.MONITOR, RenderingOption.SUNROOF, RenderingOption.LAMP));
 
-	private final List<RenderingOptions> optionList;
+	private final List<RenderingOption> optionList;
 
-	SpecificCarOptions (List<RenderingOptions> options) {
+	SpecificCarOptions (List<RenderingOption> options) {
 		this.optionList = options;
 	}
 
@@ -18,7 +18,7 @@ public enum SpecificCarOptions {
 		return valueOf(name);
 	}
 
-	public List<RenderingOptions> getOptions() {
+	public List<RenderingOption> getOptions() {
 		return optionList;
 	}
 
