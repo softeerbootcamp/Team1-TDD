@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -128,14 +129,15 @@ class UserControllerTest {
 			.build();
 
 		String loginRequestBody = objectMapper.writeValueAsString(userLogin);
+
+		//then
 		mockMvc.perform(post("/login")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(loginRequestBody))
-			.andExpect(status().isOk())
+			.andExpect(status().isFound())
 			.andDo(print());
 
-	    //then
-
+		Assertions.assertThat(SessionStorage.getCount()).isEqualTo(1);
 	}
 
 	@Test
@@ -154,6 +156,5 @@ class UserControllerTest {
 			.andExpect(status().isUnauthorized())
 			.andExpect(jsonPath("$.errorMessage").value("해당하는 유저가 없습니다."))
 			.andDo(print());
-
 	}
 }

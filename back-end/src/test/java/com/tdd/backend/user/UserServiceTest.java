@@ -1,8 +1,8 @@
 package com.tdd.backend.user;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,6 +27,7 @@ class UserServiceTest {
 	@BeforeEach
 	void setup() {
 		userRepository.deleteAll();
+		SessionStorage.clean();
 	}
 
 	@Test
@@ -44,7 +45,7 @@ class UserServiceTest {
 		userService.save(userCreate);
 
 		//then
-		Assertions.assertThat(userRepository.count()).isEqualTo(1);
+		assertThat(userRepository.count()).isEqualTo(1);
 	}
 
 	@Test
@@ -59,16 +60,17 @@ class UserServiceTest {
 			.build();
 		userRepository.save(user);
 
-	    //when
+		//when
 		UserLogin userLogin = UserLogin.builder()
 			.email("test@test.com")
 			.userPassword("pwd")
 			.build();
 
-		String userName = userService.signIn(userLogin);
+		String accessToken = userService.signIn(userLogin);
 
 		//then
-		Assertions.assertThat(userName).isEqualTo(user.getUserName());
+		assertThat(SessionStorage.getCount()).isEqualTo(1);
+		assertThat(SessionStorage.isSession(accessToken)).isTrue();
 	}
 
 	@Test
@@ -82,5 +84,6 @@ class UserServiceTest {
 
 		//expected
 		assertThrows(UserNotFoundException.class, () -> userService.signIn(userLogin));
+		assertThat(SessionStorage.getCount()).isEqualTo(0);
 	}
 }

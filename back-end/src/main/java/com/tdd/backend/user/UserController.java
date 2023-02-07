@@ -2,7 +2,8 @@ package com.tdd.backend.user;
 
 import java.net.URI;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpHeaders;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tdd.backend.user.data.UserCreate;
@@ -43,7 +45,6 @@ public class UserController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(URI.create("/"));
 		return new ResponseEntity<>(headers, HttpStatus.FOUND);
-
 	}
 
 	@GetMapping("/users/validation/{email}}")
@@ -54,8 +55,22 @@ public class UserController {
 	}
 
 	@PostMapping("/login")
-	public void login(@RequestBody @Valid UserLogin userLogin, HttpSession httpSession) {
-		String username = userService.signIn(userLogin);
-		httpSession.setAttribute("username", username);
+	public ResponseEntity<Void> login(@RequestBody @Valid UserLogin userLogin, HttpServletResponse response) {
+		String accessToken = userService.signIn(userLogin);
+
+		Cookie cookie = new Cookie("Access-Token", accessToken);
+		cookie.setMaxAge(60 * 60);
+		cookie.setPath("/");
+		// add cookie to response
+		response.addCookie(cookie);
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(URI.create("/"));
+		return new ResponseEntity<>(headers, HttpStatus.FOUND);
+	}
+
+	@RequestMapping("/test")
+	public void test() {
+
 	}
 }
