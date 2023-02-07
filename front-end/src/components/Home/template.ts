@@ -52,9 +52,9 @@ export const homeTemplate = (): string => {
           </div>
         </div>
         <div class="${styles['third-bottom-wrapper']}">
-          <img class="${
-            styles['car-image']
-          }" src="./src/assets/share.png"></img>
+          <img class="${styles['car-image']}" src="${
+    process.env.VITE_IMAGE_URL
+  }/share.png"></img>
           <div class="${styles['third-bottom-text']}">
             <b class="${styles.darkblue}">당신의 경험</b>이
             <b class="${styles.tossblue}">타인의 경험</b>으로
@@ -94,18 +94,20 @@ export const homeTemplate = (): string => {
           </div>
         </div>
         <div class="${styles['fifth-bottom-wrapper']}">
-          <div class="${styles['fifth-left-wrapper']}">
+          <a data-link href="/sharing" class="${styles['fifth-left-wrapper']}">
             <img class="${styles['fifth-first-img']}" src="${
     process.env.VITE_IMAGE_URL
-  }/sharing.png"></img>
+  }/sharing.png" />
             <div class="${styles['fifth-texts']}">공유하기</div>
-          </div>
-          <div class="${styles['fifth-right-wrapper']}">
+          </a>
+          <a data-link href="/experiencing" class="${
+            styles['fifth-right-wrapper']
+          }">
             <img class="${styles['fifth-second-img']}" src="${
     process.env.VITE_IMAGE_URL
-  }/use.png"></img>
+  }/use.png" />
             <div class="${styles['fifth-texts']}">시승하기</div>
-          </div>
+          </a>
         </div>
       </div>
     </div>
