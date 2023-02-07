@@ -8,14 +8,13 @@ import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
 import com.tdd.backend.user.exception.UserNotFoundException;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
 	private final UserRepository userRepository;
-
-	public UserService(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
 
 	public void save(UserCreate userCreate) {
 		userRepository.save(User.createUser(userCreate));
