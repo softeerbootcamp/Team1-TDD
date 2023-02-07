@@ -22,10 +22,10 @@ jobs:
             ${{ runner.OS }}-
 
       - name: Install Dependencies # node module install
-        run: yarn
+        run: npm install
 
       - name: Build # project build
-        run: yarn build
+        run: npm run build
 
       - name: Deploy 
         env:
