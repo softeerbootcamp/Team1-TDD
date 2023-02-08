@@ -40,9 +40,10 @@ public class PostController {
 
 	@GetMapping("/test-driving/locations")
 	@Operation(summary = "시승가능한 차량 요청", description = "차종과 선택한 옵션 리스트를 요청 받으면 해당하는 Post의 location 리스트로 응답해야 함.")
-	public void getLocations() {
+	public void sendLocations() {
 		// 요청: 차 이름, 옵션 리스트
 		// 응답 : location 리스트 (postId, locationX, locationY)
+
 	}
 
 	@GetMapping("/test-driving/{postId}")
