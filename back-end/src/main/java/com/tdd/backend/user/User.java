@@ -7,6 +7,7 @@ import org.springframework.data.relational.core.mapping.Table;
 import com.tdd.backend.post.Appointment;
 import com.tdd.backend.user.data.UserCreate;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Table("users")
@@ -24,8 +25,8 @@ public class User {
 
 	@Column("tester_id")
 	private Appointment appointment;
-
-	public User(String email, String userName, String phoneNumber, String userPassword) {
+	@Builder
+	private User(String email, String userName, String phoneNumber, String userPassword) {
 		this.email = email;
 		this.userName = userName;
 		this.phoneNumber = phoneNumber;

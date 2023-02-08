@@ -8,3 +8,17 @@ Content-Type: application/json
   "userName" : "tester",
   "phoneNumber" : "010-1234-1234"
 }
+
+### 로그인
+POST http://localhost:8080/login
+Content-Type: application/json
+
+{
+  "email" : "test@test.com",
+  "userPassword" : "비밀번호"
+}
+
+### auth
+GET http://localhost:8080/auth
+Content-Type: application/json
+Cookie: SESSION=4583336a-fd6c-4ed1-b47e-d110c990fbb1
