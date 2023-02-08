@@ -1,0 +1,8 @@
+### NEXO 옵션 렌더링
+GET http://localhost:8080/options/NEXO
+
+### AVANTE 옵션 렌더링
+GET http://localhost:8080/options/AVANTE
+
+
+

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.tdd.backend.option.Category;
 import com.tdd.backend.user.User;
 import com.tdd.backend.user.UserRepository;
 
@@ -34,8 +35,8 @@ class PostServiceTest {
 		userRepository.save(user);
 
 		Set<Option> options = new HashSet<>();
-		Option option1 = new Option("option1", Category.ENGINE);
-		Option option2 = new Option("option2", Category.COLOR);
+		Option option1 = new Option("option1", Category.SEAT);
+		Option option2 = new Option("option2", Category.CONVENIENCE);
 		options.add(option1);
 		options.add(option2);
 
