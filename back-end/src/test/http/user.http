@@ -19,6 +19,6 @@ Content-Type: application/json
 }
 
 ### auth
-GET http://localhost:8080/auth
+GET http://localhost:8080/test/auth
 Content-Type: application/json
-Cookie: SESSION=4583336a-fd6c-4ed1-b47e-d110c990fbb1
+Cookie: SESSION=1e4bb107-66e2-4ee1-9245-4ce87eabbaa5

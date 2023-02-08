@@ -4,6 +4,7 @@ import java.net.URI;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -26,6 +27,10 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 public class UserController {
+
+	@Value("${domain.address}")
+	private String domainAddress; //개발환경에 따른 도메인 주소를 yml에 파일변수로 세팅
+
 	private final UserService userService;
 
 	@Operation(summary = "유저 회원가입 요청", description = "User SignUp request")
@@ -49,9 +54,10 @@ public class UserController {
 	@PostMapping("/login")
 	public ResponseEntity<Void> login(@RequestBody @Valid UserLogin userLogin) {
 		String accessToken = userService.signIn(userLogin);
-		//cookie를 통한 권한 인증
+
+		//todo: cookie를 통한 권한 인증, 다른 방식의 인증에 대해 리팩토링 여지 있음.
 		ResponseCookie cookie = ResponseCookie.from("Session", accessToken)
-			.domain("localhost") //추후 yml 파일에 개발환경마다 서비스 도메인 분리
+			.domain(domainAddress) //yml 파일에 개발환경마다 서비스 도메인 분리
 			.path("/")
 			.httpOnly(true)
 			.secure(false)
