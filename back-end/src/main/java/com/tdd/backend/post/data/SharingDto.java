@@ -1,5 +1,6 @@
 package com.tdd.backend.post.data;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,7 +39,7 @@ public class SharingDto {
 		options.forEach(optionDto -> optionSet.add(optionDto.toEntity()));
 		Set<Appointment> appointments = new HashSet<>();
 		for (String date : dates) {
-			appointments.add(new Appointment(date, AppointmentStatus.PENDING));
+			appointments.add(new Appointment(LocalDate.parse(date), AppointmentStatus.PENDING));
 		}
 		return new Post(userId, RideOption.valueOf(rideOption.toUpperCase()), carName, requirement, optionSet, location.toEntity(), appointments);
 	}
