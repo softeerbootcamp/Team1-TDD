@@ -4,8 +4,10 @@ Content-Type: application/json
 
 {
   "carName": "Santafe",
-  "latitude": "32.23412355",
-  "longitude": "127.234243",
+  "location": {
+    "latitude": "32.23412355",
+    "longitude": "127.234243"
+    },
   "options": [
     {
       "name": "abc",
@@ -17,7 +19,7 @@ Content-Type: application/json
     }
   ],
   "rideOption": "ride_with",
-  "userId": 2,
+  "userId": 1,
   "dates": [
     "2022-10-23",
     "2024-01-23",
