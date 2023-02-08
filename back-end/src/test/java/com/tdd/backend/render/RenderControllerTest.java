@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tdd.backend.option.render.RenderController;
 
 @SpringBootTest
 @AutoConfigureMockMvc

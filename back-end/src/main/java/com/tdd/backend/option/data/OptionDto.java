@@ -1,4 +1,4 @@
-package com.tdd.backend.render.data;
+package com.tdd.backend.option.data;
 
 import lombok.Builder;
 import lombok.Getter;

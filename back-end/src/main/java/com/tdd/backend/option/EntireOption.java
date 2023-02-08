@@ -1,8 +1,6 @@
-package com.tdd.backend.render;
+package com.tdd.backend.option;
 
-import static com.tdd.backend.post.Category.*;
-
-import com.tdd.backend.post.Category;
+import static com.tdd.backend.option.Category.*;
 
 import lombok.Getter;
 

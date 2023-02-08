@@ -1,4 +1,4 @@
-package com.tdd.backend.post;
+package com.tdd.backend.option;
 
 import lombok.Getter;
 

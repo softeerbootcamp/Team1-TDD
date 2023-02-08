@@ -1,13 +1,14 @@
-package com.tdd.backend.render;
+package com.tdd.backend.option.render;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.tdd.backend.post.Category;
-import com.tdd.backend.render.data.OptionDto;
-import com.tdd.backend.render.data.OptionResponse;
+import com.tdd.backend.option.Category;
+import com.tdd.backend.option.EntireOption;
+import com.tdd.backend.option.data.OptionDto;
+import com.tdd.backend.option.data.OptionResponse;
 
 @Service
 public class RenderService {

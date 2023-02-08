@@ -3,6 +3,8 @@ package com.tdd.backend.post;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
+import com.tdd.backend.option.Category;
+
 @Table("options")
 public class Option {
 

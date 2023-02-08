@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.tdd.backend.option.Category;
 import com.tdd.backend.user.User;
 import com.tdd.backend.user.UserRepository;
 
