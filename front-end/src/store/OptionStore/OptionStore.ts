@@ -11,7 +11,7 @@ interface IOption {
 interface DynamicObject {
   [property: string]: any;
 }
-const initState = { carModel: null, rideTogether: false, options: [] };
+const initState = { carModel: '아반떼', rideTogether: false, options: [] };
 
 const reducer = (
   state: IOptionState,
@@ -33,6 +33,9 @@ const reducer = (
         (ele) => JSON.stringify(ele) !== JSON.stringify(payload.option)
       );
       return newState;
+
+    case 'SELECT_CAR_MODEL':
+      return { ...newState, carModel: payload.name };
 
     default:
       return { ...state };
