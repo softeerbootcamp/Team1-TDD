@@ -21,7 +21,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class SharingDto {
-	@NotBlank(message = "car name는 필수입니다!")
+	@NotBlank(message = "car name은 필수입니다!")
 	private final String carName;
 	@NotNull(message = "location은 필수입니다!")
 	private final LocationDto location;
@@ -29,7 +29,7 @@ public class SharingDto {
 	private final List<OptionDto> options;
 	@NotBlank(message = "ride option은 필수입니다!")
 	private final String rideOption;
-	@NotNull(message = "user id은 필수입니다!")
+	@NotNull(message = "user id는 필수입니다!")
 	private final Long userId;
 	@NotNull(message = "date은 필수입니다!")
 	private final List<String> dates;
