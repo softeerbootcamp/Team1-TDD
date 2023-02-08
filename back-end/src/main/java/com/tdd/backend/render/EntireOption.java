@@ -7,7 +7,7 @@ import com.tdd.backend.post.Category;
 import lombok.Getter;
 
 @Getter
-public enum RenderingOption {
+public enum EntireOption {
 
 	FRONT_PDW(SAFETY_OR_PERFORMANCE, "주차거리경고-전방"),
 	BACK_PDW(SAFETY_OR_PERFORMANCE, "주차거리경고-후방"),
@@ -36,7 +36,7 @@ public enum RenderingOption {
 	private final Category category;
 	private final String name;
 
-	RenderingOption(Category category, String name) {
+	EntireOption(Category category, String name) {
 		this.category = category;
 		this.name = name;
 	}

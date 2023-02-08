@@ -4,95 +4,95 @@ import java.util.List;
 
 public enum SpecificCarOption {
 	IONIC6(List.of(
-		RenderingOption.FRONT_PDW, RenderingOption.BACK_PDW,
-		RenderingOption.BCA, RenderingOption.SEA, RenderingOption.LKA,
-		RenderingOption.LED_HEADLAMP, RenderingOption.SUN_ROOF,
-		RenderingOption.VENTILATION_SEAT, RenderingOption.IMS, RenderingOption.HEATED_SEAT,
-		RenderingOption.REAR_MONITOR, RenderingOption.BLIND_SPOT_VIEW_MONITOR, RenderingOption.SURROUND_VIEW_MONITOR,
-		RenderingOption.NAVIGATION, RenderingOption.PREMIUM_SOUND_SYSTEM
+		EntireOption.FRONT_PDW, EntireOption.BACK_PDW,
+		EntireOption.BCA, EntireOption.SEA, EntireOption.LKA,
+		EntireOption.LED_HEADLAMP, EntireOption.SUN_ROOF,
+		EntireOption.VENTILATION_SEAT, EntireOption.IMS, EntireOption.HEATED_SEAT,
+		EntireOption.REAR_MONITOR, EntireOption.BLIND_SPOT_VIEW_MONITOR, EntireOption.SURROUND_VIEW_MONITOR,
+		EntireOption.NAVIGATION, EntireOption.PREMIUM_SOUND_SYSTEM
 	)),
 
 	IONIC5(List.of(
-		RenderingOption.FRONT_PDW, RenderingOption.BACK_PDW,
-		RenderingOption.BCA, RenderingOption.SEA, RenderingOption.LKA,
-		RenderingOption.LED_HEADLAMP, RenderingOption.SUN_ROOF,
-		RenderingOption.VENTILATION_SEAT, RenderingOption.IMS, RenderingOption.HEATED_SEAT,
-		RenderingOption.REAR_MONITOR, RenderingOption.BLIND_SPOT_VIEW_MONITOR, RenderingOption.SURROUND_VIEW_MONITOR,
-		RenderingOption.NAVIGATION, RenderingOption.PREMIUM_SOUND_SYSTEM
+		EntireOption.FRONT_PDW, EntireOption.BACK_PDW,
+		EntireOption.BCA, EntireOption.SEA, EntireOption.LKA,
+		EntireOption.LED_HEADLAMP, EntireOption.SUN_ROOF,
+		EntireOption.VENTILATION_SEAT, EntireOption.IMS, EntireOption.HEATED_SEAT,
+		EntireOption.REAR_MONITOR, EntireOption.BLIND_SPOT_VIEW_MONITOR, EntireOption.SURROUND_VIEW_MONITOR,
+		EntireOption.NAVIGATION, EntireOption.PREMIUM_SOUND_SYSTEM
 	)),
 
 	NEXO(List.of(
-		RenderingOption.FRONT_PDW, RenderingOption.BACK_PDW,
-		RenderingOption.BCA, RenderingOption.LKA,
-		RenderingOption.LED_HEADLAMP, RenderingOption.ROOF_RACK, RenderingOption.SUN_ROOF,
-		RenderingOption.VENTILATION_SEAT, RenderingOption.HEATED_SEAT,
-		RenderingOption.REAR_MONITOR, RenderingOption.BLIND_SPOT_VIEW_MONITOR, RenderingOption.SURROUND_VIEW_MONITOR,
-		RenderingOption.NAVIGATION, RenderingOption.PREMIUM_SOUND_SYSTEM
+		EntireOption.FRONT_PDW, EntireOption.BACK_PDW,
+		EntireOption.BCA, EntireOption.LKA,
+		EntireOption.LED_HEADLAMP, EntireOption.ROOF_RACK, EntireOption.SUN_ROOF,
+		EntireOption.VENTILATION_SEAT, EntireOption.HEATED_SEAT,
+		EntireOption.REAR_MONITOR, EntireOption.BLIND_SPOT_VIEW_MONITOR, EntireOption.SURROUND_VIEW_MONITOR,
+		EntireOption.NAVIGATION, EntireOption.PREMIUM_SOUND_SYSTEM
 	)),
 
 	AVANTE(List.of(
-		RenderingOption.VIBRATION_WARNING_STEERING_WHEEL,
-		RenderingOption.BCA, RenderingOption.LKA,
-		RenderingOption.LED_HEADLAMP, RenderingOption.SUN_ROOF,
-		RenderingOption.VENTILATION_SEAT, RenderingOption.IMS, RenderingOption.HEATED_SEAT,
-		RenderingOption.REAR_MONITOR,
-		RenderingOption.DISPLAY_AUDIO, RenderingOption.NAVIGATION, RenderingOption.PREMIUM_SOUND_SYSTEM
+		EntireOption.VIBRATION_WARNING_STEERING_WHEEL,
+		EntireOption.BCA, EntireOption.LKA,
+		EntireOption.LED_HEADLAMP, EntireOption.SUN_ROOF,
+		EntireOption.VENTILATION_SEAT, EntireOption.IMS, EntireOption.HEATED_SEAT,
+		EntireOption.REAR_MONITOR,
+		EntireOption.DISPLAY_AUDIO, EntireOption.NAVIGATION, EntireOption.PREMIUM_SOUND_SYSTEM
 	)),
 
 	SONATA(List.of(
-		RenderingOption.FRONT_PDW, RenderingOption.BACK_PDW, RenderingOption.VIBRATION_WARNING_STEERING_WHEEL,
-		RenderingOption.BCA, RenderingOption.SEA, RenderingOption.LKA,
-		RenderingOption.VENTILATION_SEAT, RenderingOption.IMS, RenderingOption.HEATED_SEAT,
-		RenderingOption.REAR_MONITOR, RenderingOption.BLIND_SPOT_VIEW_MONITOR, RenderingOption.SURROUND_VIEW_MONITOR,
-		RenderingOption.DISPLAY_AUDIO, RenderingOption.NAVIGATION, RenderingOption.PREMIUM_SOUND_SYSTEM
+		EntireOption.FRONT_PDW, EntireOption.BACK_PDW, EntireOption.VIBRATION_WARNING_STEERING_WHEEL,
+		EntireOption.BCA, EntireOption.SEA, EntireOption.LKA,
+		EntireOption.VENTILATION_SEAT, EntireOption.IMS, EntireOption.HEATED_SEAT,
+		EntireOption.REAR_MONITOR, EntireOption.BLIND_SPOT_VIEW_MONITOR, EntireOption.SURROUND_VIEW_MONITOR,
+		EntireOption.DISPLAY_AUDIO, EntireOption.NAVIGATION, EntireOption.PREMIUM_SOUND_SYSTEM
 	)),
 
 	THE_ALL_NEW_GRANDEUR(List.of(
-		RenderingOption.FRONT_PDW, RenderingOption.BACK_PDW,
-		RenderingOption.BCA, RenderingOption.SEA, RenderingOption.LKA,
-		RenderingOption.VENTILATION_SEAT, RenderingOption.IMS, RenderingOption.HEATED_SEAT,
-		RenderingOption.REAR_MONITOR, RenderingOption.BLIND_SPOT_VIEW_MONITOR, RenderingOption.SURROUND_VIEW_MONITOR,
-		RenderingOption.NAVIGATION
+		EntireOption.FRONT_PDW, EntireOption.BACK_PDW,
+		EntireOption.BCA, EntireOption.SEA, EntireOption.LKA,
+		EntireOption.VENTILATION_SEAT, EntireOption.IMS, EntireOption.HEATED_SEAT,
+		EntireOption.REAR_MONITOR, EntireOption.BLIND_SPOT_VIEW_MONITOR, EntireOption.SURROUND_VIEW_MONITOR,
+		EntireOption.NAVIGATION
 	)),
 
 	SANTAFE(List.of(
-		RenderingOption.FRONT_PDW, RenderingOption.BACK_PDW,
-		RenderingOption.BCA, RenderingOption.SEA, RenderingOption.LKA,
-		RenderingOption.LED_HEADLAMP, RenderingOption.ROOF_RACK,
-		RenderingOption.VENTILATION_SEAT, RenderingOption.IMS, RenderingOption.HEATED_SEAT,
-		RenderingOption.REAR_MONITOR, RenderingOption.BLIND_SPOT_VIEW_MONITOR, RenderingOption.SURROUND_VIEW_MONITOR,
-		RenderingOption.NAVIGATION, RenderingOption.PREMIUM_SOUND_SYSTEM
+		EntireOption.FRONT_PDW, EntireOption.BACK_PDW,
+		EntireOption.BCA, EntireOption.SEA, EntireOption.LKA,
+		EntireOption.LED_HEADLAMP, EntireOption.ROOF_RACK,
+		EntireOption.VENTILATION_SEAT, EntireOption.IMS, EntireOption.HEATED_SEAT,
+		EntireOption.REAR_MONITOR, EntireOption.BLIND_SPOT_VIEW_MONITOR, EntireOption.SURROUND_VIEW_MONITOR,
+		EntireOption.NAVIGATION, EntireOption.PREMIUM_SOUND_SYSTEM
 	)),
 
 	PALASADE(List.of(
-		RenderingOption.FRONT_PDW, RenderingOption.BACK_PDW, RenderingOption.VIBRATION_WARNING_STEERING_WHEEL,
-		RenderingOption.BCA, RenderingOption.SEA, RenderingOption.LKA,
-		RenderingOption.ROOF_RACK, RenderingOption.SUN_ROOF,
-		RenderingOption.VENTILATION_SEAT, RenderingOption.IMS,
-		RenderingOption.REAR_MONITOR, RenderingOption.BLIND_SPOT_VIEW_MONITOR, RenderingOption.SURROUND_VIEW_MONITOR,
-		RenderingOption.NAVIGATION, RenderingOption.PREMIUM_SOUND_SYSTEM
+		EntireOption.FRONT_PDW, EntireOption.BACK_PDW, EntireOption.VIBRATION_WARNING_STEERING_WHEEL,
+		EntireOption.BCA, EntireOption.SEA, EntireOption.LKA,
+		EntireOption.ROOF_RACK, EntireOption.SUN_ROOF,
+		EntireOption.VENTILATION_SEAT, EntireOption.IMS,
+		EntireOption.REAR_MONITOR, EntireOption.BLIND_SPOT_VIEW_MONITOR, EntireOption.SURROUND_VIEW_MONITOR,
+		EntireOption.NAVIGATION, EntireOption.PREMIUM_SOUND_SYSTEM
 	)),
 
 	TUSCON(List.of(
-		RenderingOption.VIBRATION_WARNING_STEERING_WHEEL,
-		RenderingOption.BCA, RenderingOption.SEA,
-		RenderingOption.ROOF_RACK,
-		RenderingOption.VENTILATION_SEAT, RenderingOption.IMS, RenderingOption.HEATED_SEAT,
-		RenderingOption.REAR_MONITOR, RenderingOption.BLIND_SPOT_VIEW_MONITOR, RenderingOption.SURROUND_VIEW_MONITOR,
-		RenderingOption.NAVIGATION, RenderingOption.PREMIUM_SOUND_SYSTEM, RenderingOption.PREMIUM_SOUND_SYSTEM
+		EntireOption.VIBRATION_WARNING_STEERING_WHEEL,
+		EntireOption.BCA, EntireOption.SEA,
+		EntireOption.ROOF_RACK,
+		EntireOption.VENTILATION_SEAT, EntireOption.IMS, EntireOption.HEATED_SEAT,
+		EntireOption.REAR_MONITOR, EntireOption.BLIND_SPOT_VIEW_MONITOR, EntireOption.SURROUND_VIEW_MONITOR,
+		EntireOption.NAVIGATION, EntireOption.PREMIUM_SOUND_SYSTEM, EntireOption.PREMIUM_SOUND_SYSTEM
 	)),
 
 	THE_ALL_NEW_KONA(List.of(
-		RenderingOption.FRONT_PDW, RenderingOption.BACK_PDW,
-		RenderingOption.BCA, RenderingOption.LKA,
-		RenderingOption.LED_HEADLAMP, RenderingOption.ROOF_RACK, RenderingOption.SUN_ROOF,
-		RenderingOption.VENTILATION_SEAT, RenderingOption.IMS, RenderingOption.HEATED_SEAT,
-		RenderingOption.REAR_MONITOR, RenderingOption.BLIND_SPOT_VIEW_MONITOR, RenderingOption.SURROUND_VIEW_MONITOR
+		EntireOption.FRONT_PDW, EntireOption.BACK_PDW,
+		EntireOption.BCA, EntireOption.LKA,
+		EntireOption.LED_HEADLAMP, EntireOption.ROOF_RACK, EntireOption.SUN_ROOF,
+		EntireOption.VENTILATION_SEAT, EntireOption.IMS, EntireOption.HEATED_SEAT,
+		EntireOption.REAR_MONITOR, EntireOption.BLIND_SPOT_VIEW_MONITOR, EntireOption.SURROUND_VIEW_MONITOR
 	));
 
-	private final List<RenderingOption> optionList;
+	private final List<EntireOption> optionList;
 
-	SpecificCarOption(List<RenderingOption> options) {
+	SpecificCarOption(List<EntireOption> options) {
 		this.optionList = options;
 	}
 
@@ -100,7 +100,7 @@ public enum SpecificCarOption {
 		return valueOf(name.toUpperCase());
 	}
 
-	public List<RenderingOption> getOptions() {
+	public List<EntireOption> getOptions() {
 		return optionList;
 	}
 
