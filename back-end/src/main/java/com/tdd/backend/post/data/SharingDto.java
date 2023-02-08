@@ -21,17 +21,17 @@ import lombok.Getter;
 @Getter
 @Builder
 public class SharingDto {
-	@NotBlank(message = "car name is essential!!")
+	@NotBlank(message = "car name는 필수입니다!")
 	private final String carName;
-	@NotNull(message = "location is essential!")
+	@NotNull(message = "location은 필수입니다!")
 	private final LocationDto location;
-	@NotNull(message = "Option is essential!")
+	@NotNull(message = "option은 필수입니다!")
 	private final List<OptionDto> options;
-	@NotBlank(message = "ride Option is essential!!")
+	@NotBlank(message = "ride option은 필수입니다!")
 	private final String rideOption;
-	@NotNull(message = "user id is essential!")
+	@NotNull(message = "user id은 필수입니다!")
 	private final Long userId;
-	@NotNull(message = "date is essential!!")
+	@NotNull(message = "date은 필수입니다!")
 	private final List<String> dates;
 	private final String requirement;
 	public Post toEntity() {
