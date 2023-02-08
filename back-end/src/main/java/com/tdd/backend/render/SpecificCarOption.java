@@ -96,9 +96,8 @@ public enum SpecificCarOption {
 		this.optionList = options;
 	}
 
-	//TODO: 올바르지 않은 차 이름이 인자로 넘어올 경우 예외처리
 	public static SpecificCarOption getCar(String name) {
-		return valueOf(name);
+		return valueOf(name.toUpperCase());
 	}
 
 	public List<RenderingOption> getOptions() {
