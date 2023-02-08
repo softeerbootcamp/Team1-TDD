@@ -9,11 +9,11 @@ public class Location {
 	@Id
 	private Long id;
 
-	private final String locationX;
-	private final String locationY;
+	private final String latitude;
+	private final String longitude;
 
-	public Location(String locationX, String locationY) {
-		this.locationX = locationX;
-		this.locationY = locationY;
+	public Location(String latitude, String longitude) {
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 }
