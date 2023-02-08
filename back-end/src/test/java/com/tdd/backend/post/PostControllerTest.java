@@ -17,6 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tdd.backend.option.data.OptionDto;
+import com.tdd.backend.post.data.LocationDto;
 import com.tdd.backend.post.data.SharingDto;
 import com.tdd.backend.user.User;
 import com.tdd.backend.user.UserRepository;
@@ -40,12 +42,13 @@ public class PostControllerTest {
 					"01012341234", "glory");
 		userRepository.save(user);
 
-		SharingDto sharingDto = SharingDto.builder().carName("Santafe")
-			.latitude("32.23423434").longitude("127.4323434")
-			.options(List.of(Map.of("name", "sjseat","category", "내장/외장"),
-				Map.of("name", "safe","category", "안전/성능")))
+		SharingDto sharingDto = SharingDto.builder()
+			.carName("Santafe")
+			.location(new LocationDto("32.23423424", "127.123123"))
+			.options(List.of(new OptionDto("최고안전", "안전/성능"),
+							new OptionDto("최고시트", "내장/외장")))
 			.rideOption(RideOption.RIDE_ALONE.toString())
-			.userId(1L)
+			.userId(user.getId())
 			.dates(List.of("2022-10-23", "2023-10-11", "2023-02-11"))
 			.requirement("hello world")
 			.build();
