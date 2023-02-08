@@ -7,10 +7,9 @@ import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
 
-import com.tdd.backend.option.Category;
+import com.tdd.backend.option.data.OptionDto;
 import com.tdd.backend.post.Appointment;
 import com.tdd.backend.post.AppointmentStatus;
-import com.tdd.backend.post.Location;
 import com.tdd.backend.post.Option;
 import com.tdd.backend.post.Post;
 import com.tdd.backend.post.RideOption;
@@ -24,11 +23,9 @@ public class SharingDto {
 	@NotBlank(message = "car name is essential!!")
 	private final String carName;
 	@NotBlank(message = "location is essential!!")
-	private String latitude;		//위도
-	@NotBlank(message = "location is essential!!")
-	private String longitude;		//경도
+	private final LocationDto location;
 	@NotBlank(message = "options is essential")
-	private final List<Map<String, String>> options;
+	private final List<OptionDto> options;
 	@NotBlank(message = "ride Option is essential!!")
 	private final String rideOption;
 	@NotBlank(message = "user id is essential!!")
@@ -36,19 +33,14 @@ public class SharingDto {
 	@NotBlank(message = "date is essential!!")
 	private final List<String> dates;
 	private final String requirement;
-
 	public Post toEntity() {
-		//options.stream().
 		Set<Option> optionSet = new HashSet<>();
-		for(Map<String,String> option : options) {
-			optionSet.add(new Option(option.get("name"), Category.getCategory(option.get("category"))));
-		}
-
+		options.forEach(optionDto -> optionSet.add(optionDto.toEntity()));
 		Set<Appointment> appointments = new HashSet<>();
 		for (String date : dates) {
 			appointments.add(new Appointment(date, AppointmentStatus.PENDING));
 		}
-		Post post = new Post(userId, RideOption.valueOf(rideOption.toUpperCase()), carName, requirement, optionSet, new Location(longitude, latitude), appointments);
+		Post post = new Post(userId, RideOption.valueOf(rideOption.toUpperCase()), carName, requirement, optionSet, location.toEntity(), appointments);
 		return post;
 	}
 }
