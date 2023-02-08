@@ -69,8 +69,8 @@ class UserServiceTest {
 		String accessToken = userService.signIn(userLogin);
 
 		//then
-		assertThat(SessionStorage.getCount()).isEqualTo(1);
 		assertThat(SessionStorage.isSession(accessToken)).isTrue();
+		assertThat(SessionStorage.getSession(accessToken).getUser().getId()).isEqualTo(user.getId());
 	}
 
 	@Test
