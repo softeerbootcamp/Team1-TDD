@@ -69,11 +69,13 @@ public class UserController {
 			.build();
 	}
 
+	@Operation(summary = "CORS 테스트를 위한 더미 API", description = "인증 필요없이 접근 가능")
 	@RequestMapping("/test")
 	public String test() {
 		return "hello world";
 	}
 
+	@Operation(summary = "CORS 테스트를 위한 더미 API (인증필요)", description = "인증이 요구되는 접근 (쿠키 필요)")
 	@RequestMapping("/test/auth")
 	public void testAuth(@LoginUser UserSession session) {
 
