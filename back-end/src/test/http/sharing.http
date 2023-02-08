@@ -1,0 +1,29 @@
+### 공유하기
+POST http://localhost:8080/sharing
+Content-Type: application/json
+
+{
+  "carName": "Santafe",
+  "location": {
+    "latitude": "32.23412355",
+    "longitude": "127.234243"
+  },
+  "options": [
+    {
+      "name": "abc",
+      "category": "안전/성능"
+    },
+    {
+      "name": "red",
+      "category": "내장/외장"
+    }
+  ],
+  "rideOption": "ride_with",
+  "userId": 1,
+  "dates": [
+    "2022-10-23",
+    "2024-01-23",
+    "2023-01-01"
+  ],
+  "requirement": "requiredkfjlsdk"
+}

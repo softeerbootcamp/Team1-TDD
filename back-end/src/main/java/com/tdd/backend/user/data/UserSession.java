@@ -12,6 +12,7 @@ public class UserSession {
 	private final String accessToken;
 
 	private final User user;
+
 	@Builder
 	private UserSession(User user) {
 		this.accessToken = UUID.randomUUID().toString();

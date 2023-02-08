@@ -1,5 +1,7 @@
 package com.tdd.backend.option;
 
+import java.util.Arrays;
+
 import lombok.Getter;
 
 @Getter
@@ -17,4 +19,10 @@ public enum Category {
 		this.name = name;
 	}
 
+	public static Category getCategory(String category) {
+		return Arrays.stream(Category.values())
+			.filter(c -> c.getName().equals(category))
+			.findAny()
+			.get();
+	}
 }

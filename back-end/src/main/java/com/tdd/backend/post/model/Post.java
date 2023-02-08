@@ -1,4 +1,4 @@
-package com.tdd.backend.post;
+package com.tdd.backend.post.model;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,7 +8,10 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
+import lombok.Getter;
+
 @Table("posts")
+@Getter
 public class Post {
 
 	@Id
@@ -17,8 +20,6 @@ public class Post {
 	private final Long userId;
 
 	private final RideOption rideOption;
-
-	private final DriveCareer driveCareer;
 
 	private final String carName;
 
@@ -34,7 +35,6 @@ public class Post {
 	@MappedCollection(idColumn = "post_id")
 	private final Set<Appointment> appointmentSet = new HashSet<>();
 
-	@MappedCollection(idColumn = "post_id")
 	public void addAppointment(Appointment appointment) {
 		appointmentSet.add(appointment);
 	}
@@ -42,11 +42,10 @@ public class Post {
 	@Column("post_id")
 	private final Location location;
 
-	public Post(Long userId, RideOption rideOption, DriveCareer driveCareer, String carName, String requirement,
+	public Post(Long userId, RideOption rideOption, String carName, String requirement,
 		Set<Option> optionSet, Location location, Set<Appointment> appointmentSet) {
 		this.userId = userId;
 		this.rideOption = rideOption;
-		this.driveCareer = driveCareer;
 		this.carName = carName;
 		this.requirement = requirement;
 		this.location = location;

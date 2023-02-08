@@ -51,7 +51,7 @@ class UserServiceTest {
 	@Test
 	@DisplayName("유저 로그인_성공")
 	void login() throws Exception {
-	    //given
+		//given
 		User user = User.builder()
 			.email("test@test.com")
 			.userPassword("pwd")

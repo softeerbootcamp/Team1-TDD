@@ -1,4 +1,4 @@
-package com.tdd.backend.post;
+package com.tdd.backend.post.model;
 
 public enum RideOption {
 	RIDE_ALONE,

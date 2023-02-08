@@ -1,4 +1,4 @@
-package com.tdd.backend.post;
+package com.tdd.backend.post.model;
 
 public enum DriveCareer {
 	UNDER_ONE,

@@ -1,6 +1,5 @@
-package com.tdd.backend.post;
-
-import java.time.LocalDateTime;
+package com.tdd.backend.post.model;
+import java.time.LocalDate;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
@@ -11,11 +10,11 @@ public class Appointment {
 	@Id
 	private Long id;
 
-	private final LocalDateTime date;
+	private final LocalDate date;
 
-	private final String status;
+	private final AppointmentStatus status;
 
-	public Appointment(LocalDateTime date, String status) {
+	public Appointment(LocalDate date, AppointmentStatus status) {
 		this.date = date;
 		this.status = status;
 	}

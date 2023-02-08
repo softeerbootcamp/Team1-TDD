@@ -19,7 +19,6 @@ create table posts
     id           bigint auto_increment
         primary key,
     ride_option  varchar(100) not null,
-    drive_career varchar(100) not null,
     car_name     varchar(100) not null,
     user_id      bigint       not null,
     requirement  text null,
@@ -32,7 +31,7 @@ create table appointments
 (
     id        bigint auto_increment
         primary key,
-    date      datetime     not null,
+    date      date     not null,
     post_id   bigint       not null,
     tester_id bigint null,
     status    varchar(100) not null,
@@ -46,8 +45,8 @@ create table appointments
 
 create table locations
 (
-    location_x varchar(255) not null,
-    location_y varchar(255) not null,
+    longitude varchar(255) not null,
+    latitude varchar(255) not null,
     post_id    bigint       not null,
     id         bigint auto_increment
         primary key,
