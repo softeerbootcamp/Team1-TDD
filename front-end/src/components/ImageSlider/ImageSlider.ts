@@ -8,7 +8,7 @@ import { OptionStore } from '@/store/OptionStore/OptionStore';
 export class ImageSlider extends Component {
   setup(): void {
     this.state.timer = null;
-    OptionStore.subscribe(this.render.bind(this));
+    OptionStore.subscribe(this.render.bind(this), this.constructor.name);
   }
   template(): string {
     const { props } = this;
