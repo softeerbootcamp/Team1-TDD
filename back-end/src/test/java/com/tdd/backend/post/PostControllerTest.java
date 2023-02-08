@@ -1,0 +1,66 @@
+package com.tdd.backend.post;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.List;
+import java.util.Map;
+
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tdd.backend.post.data.SharingDto;
+import com.tdd.backend.user.User;
+import com.tdd.backend.user.UserRepository;
+
+@SpringBootTest
+@Transactional
+@AutoConfigureMockMvc
+public class PostControllerTest {
+	@Autowired
+	ObjectMapper objectMapper;
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	PostRepository postRepository;
+	@Autowired
+	MockMvc mockMvc;
+	@Test
+	void sharingTest() throws Exception {
+
+		User user = new User("hado@naver.com", "young",
+					"01012341234", "glory");
+		userRepository.save(user);
+
+		SharingDto sharingDto = SharingDto.builder().carName("Santafe")
+			.latitude("32.23423434").longitude("127.4323434")
+			.options(List.of(Map.of("name", "sjseat","category", "내장/외장"),
+				Map.of("name", "safe","category", "안전/성능")))
+			.rideOption(RideOption.RIDE_ALONE.toString())
+			.userId(1L)
+			.dates(List.of("2022-10-23", "2023-10-11", "2023-02-11"))
+			.requirement("hello world")
+			.build();
+		String requestBody = objectMapper.writeValueAsString(sharingDto);
+
+		mockMvc.perform(post("/sharing")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestBody))
+			.andExpect(status().isFound())
+			.andDo(print());
+		SoftAssertions soft = new SoftAssertions();
+		Post post = postRepository.findById(1L).get();
+		soft.assertThat(post.getId()).isEqualTo(user.getId());
+		soft.assertThat(post.getCarName()).isEqualTo("Santafe");
+		soft.assertAll();
+	}
+
+}
