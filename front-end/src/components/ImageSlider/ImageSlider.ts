@@ -23,8 +23,8 @@ export class ImageSlider extends Component {
       if (idx > imgIdx) return 'left: 100%';
       return '';
     });
-    const leftBtnClass = this.isStartIdx() ? 'disabled' : '';
-    const rightBtnClass = this.isEndIdx() ? 'disabled' : '';
+    const leftBtnClass = this.isStartIdx() ? styles.disabled : '';
+    const rightBtnClass = this.isEndIdx() ? styles.disabled : '';
     return `
     <div class="${styles.wrapper}">
       <div class="${styles['slider-container']}">
@@ -50,9 +50,6 @@ export class ImageSlider extends Component {
     this.state.$images = Array.from(
       qsa('img', this.target)
     ) as HTMLImageElement[];
-
-    this.sliderSizeInit();
-    this.imageInit();
   }
 
   setEvent(): void {
@@ -98,34 +95,6 @@ export class ImageSlider extends Component {
         name: this.props.list[this.state.imgIdx].title,
       });
     }, 1000);
-  }
-
-  sliderSizeInit() {
-    const $slider = qs(`.${styles.slider}`, this.target) as HTMLDivElement;
-    if (this.props.width) {
-      $slider.style.width = this.props.width;
-      $slider.style.height = this.props.height;
-      return;
-    }
-    const img = new Image();
-    img.src = this.state.$images[0].src;
-    img.onload = function () {
-      $slider.style.width = img.width + 'px';
-      $slider.style.height = img.height + 'px';
-    };
-  }
-
-  imageInit() {
-    this.imageSizeInit();
-  }
-
-  imageSizeInit() {
-    const $images = qsa('img', this.target);
-    const imageArray = Array.from($images) as HTMLElement[];
-    imageArray.forEach((img) => {
-      img.style.width = this.props.sizeX + 'px';
-      img.style.height = this.props.sizeY + 'px';
-    });
   }
 
   isStartIdx() {
