@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.tdd.backend.option.data.OptionDto;
 import com.tdd.backend.post.Appointment;
@@ -21,15 +22,15 @@ import lombok.Getter;
 public class SharingDto {
 	@NotBlank(message = "car name is essential!!")
 	private final String carName;
-	@NotBlank(message = "location is essential!!")
+	@NotNull(message = "location is essential!")
 	private final LocationDto location;
-	@NotBlank(message = "options is essential")
+	@NotNull(message = "Option is essential!")
 	private final List<OptionDto> options;
 	@NotBlank(message = "ride Option is essential!!")
 	private final String rideOption;
-	@NotBlank(message = "user id is essential!!")
+	@NotNull(message = "user id is essential!")
 	private final Long userId;
-	@NotBlank(message = "date is essential!!")
+	@NotNull(message = "date is essential!!")
 	private final List<String> dates;
 	private final String requirement;
 	public Post toEntity() {
