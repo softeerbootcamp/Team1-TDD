@@ -3,7 +3,7 @@ package com.tdd.backend.user;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.tdd.backend.user.data.Session;
+import com.tdd.backend.user.data.UserSession;
 import com.tdd.backend.user.exception.UnauthorizedException;
 
 /**
@@ -11,10 +11,10 @@ import com.tdd.backend.user.exception.UnauthorizedException;
  * 수정 반드시 필요
  */
 public class SessionStorage {
-	private static final Map<String, Session> sessionMap = new ConcurrentHashMap<>();
+	private static final Map<String, UserSession> sessionMap = new ConcurrentHashMap<>();
 
-	public static void addSession(Session session) {
-		sessionMap.put(session.getAccessToken(), session);
+	public static void addSession(UserSession userSession) {
+		sessionMap.put(userSession.getAccessToken(), userSession);
 	}
 
 	public static int getCount() {
@@ -25,7 +25,7 @@ public class SessionStorage {
 		return sessionMap.containsKey(key);
 	}
 
-	public static Session getSession(String key) {
+	public static UserSession getSession(String key) {
 		if (isSession(key)) {
 			return sessionMap.get(key);
 		}

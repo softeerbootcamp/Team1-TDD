@@ -4,9 +4,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.tdd.backend.user.data.Session;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
+import com.tdd.backend.user.data.UserSession;
 import com.tdd.backend.user.exception.UserNotFoundException;
 
 import lombok.RequiredArgsConstructor;
@@ -32,11 +32,11 @@ public class UserService {
 			throw new UserNotFoundException();
 		}
 		//todo : 암호화 적용, 세션 암호화
-		Session session = Session.builder()
+		UserSession userSession = UserSession.builder()
 			.user(optionalUser.get())
 			.build();
 
-		SessionStorage.addSession(session);
-		return session.getAccessToken();
+		SessionStorage.addSession(userSession);
+		return userSession.getAccessToken();
 	}
 }

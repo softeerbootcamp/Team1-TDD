@@ -156,22 +156,4 @@ class UserControllerTest {
 			.andExpect(jsonPath("$.errorMessage").value("해당하는 유저가 없습니다."))
 			.andDo(print());
 	}
-	
-	@Test
-	@DisplayName("유저 로그인 권한 존재")
-	void auth_user() throws Exception {
-	    //given
-		userRepository.save(User.builder()
-			.email("test@test.com")
-			.userPassword("pwd")
-			.userName("tester")
-			.phoneNumber("010101")
-			.build()
-		);
-
-
-	    
-	    //then
-	    
-	}
 }

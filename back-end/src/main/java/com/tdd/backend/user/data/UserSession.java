@@ -8,12 +8,12 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class Session {
+public class UserSession {
 	private final String accessToken;
 
 	private final User user;
 	@Builder
-	private Session(User user) {
+	private UserSession(User user) {
 		this.accessToken = UUID.randomUUID().toString();
 		this.user = user;
 	}
