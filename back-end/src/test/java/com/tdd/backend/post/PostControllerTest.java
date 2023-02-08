@@ -38,8 +38,12 @@ public class PostControllerTest {
 	@Test
 	void sharingTest() throws Exception {
 
-		User user = new User("hado@naver.com", "young",
-			"01012341234", "glory");
+		User user = User.builder()
+			.email("hado@naver.com")
+			.userName("young")
+			.phoneNumber("01012341234")
+			.userPassword("glory")
+			.build();
 		userRepository.save(user);
 
 		SharingDto sharingDto = SharingDto.builder()
