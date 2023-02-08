@@ -7,7 +7,7 @@ Content-Type: application/json
   "location": {
     "latitude": "32.23412355",
     "longitude": "127.234243"
-    },
+  },
   "options": [
     {
       "name": "abc",

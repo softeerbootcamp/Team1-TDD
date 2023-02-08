@@ -2,7 +2,6 @@ package com.tdd.backend.post.data;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
@@ -40,7 +39,6 @@ public class SharingDto {
 		for (String date : dates) {
 			appointments.add(new Appointment(date, AppointmentStatus.PENDING));
 		}
-		Post post = new Post(userId, RideOption.valueOf(rideOption.toUpperCase()), carName, requirement, optionSet, location.toEntity(), appointments);
-		return post;
+		return new Post(userId, RideOption.valueOf(rideOption.toUpperCase()), carName, requirement, optionSet, location.toEntity(), appointments);
 	}
 }

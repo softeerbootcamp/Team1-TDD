@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.List;
-import java.util.Map;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
@@ -35,18 +34,19 @@ public class PostControllerTest {
 	PostRepository postRepository;
 	@Autowired
 	MockMvc mockMvc;
+
 	@Test
 	void sharingTest() throws Exception {
 
 		User user = new User("hado@naver.com", "young",
-					"01012341234", "glory");
+			"01012341234", "glory");
 		userRepository.save(user);
 
 		SharingDto sharingDto = SharingDto.builder()
 			.carName("Santafe")
 			.location(new LocationDto("32.23423424", "127.123123"))
 			.options(List.of(new OptionDto("최고안전", "안전/성능"),
-							new OptionDto("최고시트", "내장/외장")))
+				new OptionDto("최고시트", "내장/외장")))
 			.rideOption(RideOption.RIDE_ALONE.toString())
 			.userId(user.getId())
 			.dates(List.of("2022-10-23", "2023-10-11", "2023-02-11"))
@@ -65,5 +65,4 @@ public class PostControllerTest {
 		soft.assertThat(post.getCarName()).isEqualTo("Santafe");
 		soft.assertAll();
 	}
-
 }
