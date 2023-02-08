@@ -8,7 +8,10 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
+import lombok.Getter;
+
 @Table("posts")
+@Getter
 public class Post {
 
 	@Id
@@ -32,7 +35,6 @@ public class Post {
 	@MappedCollection(idColumn = "post_id")
 	private final Set<Appointment> appointmentSet = new HashSet<>();
 
-	@MappedCollection(idColumn = "post_id")
 	public void addAppointment(Appointment appointment) {
 		appointmentSet.add(appointment);
 	}
