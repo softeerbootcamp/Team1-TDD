@@ -8,11 +8,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.tdd.backend.option.data.OptionDto;
-import com.tdd.backend.post.Appointment;
-import com.tdd.backend.post.AppointmentStatus;
-import com.tdd.backend.post.Option;
-import com.tdd.backend.post.Post;
-import com.tdd.backend.post.RideOption;
+import com.tdd.backend.post.model.Appointment;
+import com.tdd.backend.post.model.AppointmentStatus;
+import com.tdd.backend.post.model.Option;
+import com.tdd.backend.post.model.Post;
+import com.tdd.backend.post.model.RideOption;
 
 import lombok.Builder;
 import lombok.Getter;

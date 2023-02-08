@@ -1,7 +1,7 @@
 package com.tdd.backend.option.data;
 
 import com.tdd.backend.option.Category;
-import com.tdd.backend.post.Option;
+import com.tdd.backend.post.model.Option;
 
 import lombok.Builder;
 import lombok.Getter;

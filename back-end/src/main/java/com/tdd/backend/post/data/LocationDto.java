@@ -1,6 +1,6 @@
 package com.tdd.backend.post.data;
 
-import com.tdd.backend.post.Location;
+import com.tdd.backend.post.model.Location;
 
 import lombok.Getter;
 

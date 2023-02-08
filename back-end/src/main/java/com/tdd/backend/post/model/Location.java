@@ -1,4 +1,4 @@
-package com.tdd.backend.post;
+package com.tdd.backend.post.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;

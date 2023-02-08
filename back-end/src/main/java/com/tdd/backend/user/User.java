@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-import com.tdd.backend.post.Appointment;
+import com.tdd.backend.post.model.Appointment;
 import com.tdd.backend.user.data.UserCreate;
 
 import lombok.Builder;

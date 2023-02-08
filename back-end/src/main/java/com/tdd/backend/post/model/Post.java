@@ -1,4 +1,4 @@
-package com.tdd.backend.post;
+package com.tdd.backend.post.model;
 
 import java.util.HashSet;
 import java.util.Set;
