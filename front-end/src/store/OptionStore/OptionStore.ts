@@ -1,3 +1,4 @@
+import { carList } from '@/constants/carList';
 import { Store } from '@/core/Store.js';
 interface IOptionState {
   carModal: string | null;
@@ -11,7 +12,11 @@ interface IOption {
 interface DynamicObject {
   [property: string]: any;
 }
-const initState = { carModel: '아반떼', rideTogether: false, options: [] };
+const initState = {
+  carModel: carList[0].title,
+  rideTogether: false,
+  options: [],
+};
 
 const reducer = (
   state: IOptionState,
