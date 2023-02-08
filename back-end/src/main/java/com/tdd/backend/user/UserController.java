@@ -2,7 +2,6 @@ package com.tdd.backend.user;
 
 import java.net.URI;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpHeaders;
@@ -23,8 +22,6 @@ import com.tdd.backend.user.data.UserSession;
 import com.tdd.backend.user.exception.DuplicateEmailException;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,13 +32,6 @@ public class UserController {
 	private final UserService userService;
 
 	@Operation(summary = "유저 회원가입 요청", description = "User SignUp request")
-	@ApiResponses({
-		@ApiResponse(responseCode = "200", description = "OK"),
-		@ApiResponse(responseCode = "302", description = "REDIRECT"),
-		@ApiResponse(responseCode = "400", description = "BAD REQUEST"),
-		@ApiResponse(responseCode = "404", description = "NOT FOUND"),
-		@ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
-	})
 	@PostMapping("/users")
 	public ResponseEntity<Void> signup(@RequestBody @Valid UserCreate userCreate) {
 		userService.save(userCreate);
@@ -58,8 +48,9 @@ public class UserController {
 		}
 	}
 
+	@Operation(summary = "유저 로그인 요청", description = "User Login request")
 	@PostMapping("/login")
-	public ResponseEntity<Void> login(@RequestBody @Valid UserLogin userLogin, HttpSession httpSession) {
+	public ResponseEntity<Void> login(@RequestBody @Valid UserLogin userLogin) {
 		String accessToken = userService.signIn(userLogin);
 		//cookie를 통한 권한 인증
 		ResponseCookie cookie = ResponseCookie.from("Session", accessToken)
@@ -78,16 +69,16 @@ public class UserController {
 			.build();
 	}
 
-	@RequestMapping("/auth")
-	public void test(@LoginUser UserSession session) {
+	@RequestMapping("/test")
+	public String test() {
+		return "hello world";
+	}
+
+	@RequestMapping("/test/auth")
+	public void testAuth(@LoginUser UserSession session) {
 
 		User user = session.getUser();
 		log.info(">> user : {}", user.getUserName());
 		log.info(">> token : {}", session.getAccessToken());
-	}
-
-	@RequestMapping("/")
-	public void index() {
-
 	}
 }
