@@ -1,0 +1,10 @@
+### test 접근
+GET http://{{domain-address}}/test
+
+### CORS 테스트를 위한 더미 API (쿠키 발급)
+GET http://{{domain-address}}/test/cookie
+
+### test auth
+GET http://{{domain-address}}/test/auth
+Content-Type: application/json
+Cookie: SESSION=9d6c8382-75eb-46be-afe9-792b6687a862

@@ -1,5 +1,5 @@
 ### 회원가입
-POST http://localhost:8080/users
+POST http://{{domain-address}}/users
 Content-Type: application/json
 
 {
@@ -10,15 +10,10 @@ Content-Type: application/json
 }
 
 ### 로그인
-POST http://localhost:8080/login
+POST http://{{domain-address}}/login
 Content-Type: application/json
 
 {
   "email" : "test@test.com",
   "userPassword" : "비밀번호"
 }
-
-### auth
-GET http://localhost:8080/test/auth
-Content-Type: application/json
-Cookie: SESSION=1e4bb107-66e2-4ee1-9245-4ce87eabbaa5

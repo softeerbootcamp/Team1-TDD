@@ -1,8 +1,8 @@
 ### NEXO 옵션 렌더링
-GET http://localhost:8080/options/NEXO
+GET http://{{domain-address}}/options/NEXO
 
 ### AVANTE 옵션 렌더링
-GET http://localhost:8080/options/AVANTE
+GET http://{{domain-address}}/options/AVANTE
 
 
 
