@@ -25,3 +25,42 @@ header {
   z-index: 10;
   border-bottom: 1px solid lightgray;
 }
+
+#overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  transition: all 0.5s ease-in-out;
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+}
+.overlay-hidden {
+  display: none;
+}
+
+.block-scroll {
+  overflow: hidden;
+}
+
+footer {
+  background-color: #222;
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+}
+
+footer p {
+  margin: 10px 0;
+}
+
+footer i {
+  color: red;
+}
+
+footer a {
+  color: #3c97bf;
+  text-decoration: none;
+}
