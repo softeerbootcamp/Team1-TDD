@@ -1,6 +1,7 @@
 import Component from '@/core/Component';
 import styles from './OptionForm.module.scss';
 import { OptionStore } from '@/store/OptionStore/OptionStore';
+import { qsa } from '@/utils/querySelector';
 const DUMMY_DATA = [
   {
     category: '차종',
@@ -166,22 +167,40 @@ export class OptionForm extends Component {
   }
 
   activeBtn($button: HTMLButtonElement) {
-    const $category = $button.parentElement
-      ?.previousElementSibling as HTMLDivElement;
     $button.classList.add(styles['is-active']);
     $button.setAttribute('data-state', 'active');
-    OptionStore.dispatch('ADD_CAR_OPTION', {
-      option: { name: $button.innerText, category: $category.innerText },
-    });
+    setTimeout(() => {
+      OptionStore.dispatch('UPDATE_CAR_OPTION', {
+        options: this.getActiveBtnProperty(),
+      });
+    }, 300);
   }
 
   inactiveBtn($button: HTMLButtonElement) {
-    const $category = $button.parentElement
-      ?.previousElementSibling as HTMLDivElement;
     $button.classList.remove(styles['is-active']);
     $button.setAttribute('data-state', 'inactive');
-    OptionStore.dispatch('DELETE_CAR_OPTION', {
-      option: { name: $button.innerText, category: $category.innerText },
+    setTimeout(() => {
+      OptionStore.dispatch('UPDATE_CAR_OPTION', {
+        options: this.getActiveBtnProperty(),
+      });
+    }, 300);
+  }
+
+  getActiveBtnProperty() {
+    const $activeButtons = this.getAllActiveBtn();
+    return $activeButtons.map(($button) => {
+      const $category = $button.parentElement
+        ?.previousElementSibling as HTMLDivElement;
+      return { name: $button.innerText, category: $category.innerText };
     });
+  }
+
+  getAllActiveBtn(): HTMLButtonElement[] {
+    const $buttons = qsa(`.${styles['filter-button']}`, this.target);
+    const $activeButtons = Array.from($buttons).filter(($button) => {
+      const buttonState = $button.getAttribute('data-state');
+      return buttonState === 'active';
+    });
+    return $activeButtons as HTMLButtonElement[];
   }
 }
