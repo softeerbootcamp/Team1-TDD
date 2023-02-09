@@ -121,7 +121,6 @@ export class OptionForm extends Component {
     OptionStore.subscribe(this.render.bind(this), this.constructor.name);
   }
   template(): string {
-    const options = JSON.stringify(OptionStore.getState().options);
     const data = DUMMY_DATA;
     const openState = OptionStore.getState().openState;
     return `
@@ -130,7 +129,6 @@ export class OptionForm extends Component {
         .map((ele, idx) => this.categoryTemplate(ele, openState[idx]))
         .join('')}
     </div>
-    <div>option:${options}</div>
     `;
   }
 
