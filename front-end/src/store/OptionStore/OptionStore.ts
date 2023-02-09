@@ -23,24 +23,22 @@ const reducer = (
   actionKey: string,
   payload: DynamicObject = {}
 ) => {
-  const newState: IOptionState = JSON.parse(JSON.stringify(state));
-
   switch (actionKey) {
     case 'OPTION_INIT':
       return initState;
 
     case 'ADD_CAR_OPTION':
-      newState.options.push(payload.option);
-      return newState;
+      const newOptions = [...state.options, payload.option];
+      return { state, options: newOptions };
 
     case 'DELETE_CAR_OPTION':
-      newState.options = newState.options.filter(
+      const filteredOptions = state.options.filter(
         (ele) => JSON.stringify(ele) !== JSON.stringify(payload.option)
       );
-      return newState;
+      return { ...state, options: filteredOptions };
 
     case 'SELECT_CAR_MODEL':
-      return { ...newState, carModel: payload.name };
+      return { ...state, carModel: payload.name };
 
     default:
       return { ...state };
