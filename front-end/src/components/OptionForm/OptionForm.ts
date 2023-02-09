@@ -124,7 +124,6 @@ export class OptionForm extends Component {
     <div class="${styles['form-container']}">
       ${data.map((ele) => this.categoryTemplate(ele)).join('')}
     </div>
-    <div>option:${options}</div>
     `;
   }
 
@@ -142,7 +141,10 @@ export class OptionForm extends Component {
   optionBtnTemplate({ category, name }: IOptions) {
     const isActive =
       OptionStore.getState().options.findIndex((ele: IOptions) => {
-        return ele.category === category && ele.name === name;
+        return (
+          ele.category.trim() === category.trim() &&
+          ele.name.trim() === name.trim()
+        );
       }) !== -1;
     const buttonClass = isActive ? styles['is-active'] : '';
     const buttonState = isActive ? 'active' : 'inactive';

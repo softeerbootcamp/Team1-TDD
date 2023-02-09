@@ -8,6 +8,7 @@ interface IOptionState {
 interface IOption {
   name: string;
   category: string;
+  open: boolean;
 }
 interface DynamicObject {
   [property: string]: any;
@@ -32,9 +33,13 @@ const reducer = (
       return { state, options: newOptions };
 
     case 'DELETE_CAR_OPTION':
-      const filteredOptions = state.options.filter(
-        (ele) => JSON.stringify(ele) !== JSON.stringify(payload.option)
-      );
+      const { option } = payload;
+      const filteredOptions = state.options.filter((ele) => {
+        return !(
+          ele.category.trim() === option.category.trim() &&
+          ele.name.trim() === option.name.trim()
+        );
+      });
       return { ...state, options: filteredOptions };
 
     case 'SELECT_CAR_MODEL':
