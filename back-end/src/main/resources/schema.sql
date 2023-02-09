@@ -3,9 +3,9 @@ drop table if exists locations;
 drop table if exists appointments;
 drop table if exists posts;
 drop table if exists users;
-drop table if exists caroptions;
+drop table if exists car_options;
 drop table if exists cars;
-drop table if exists entireoptions;
+drop table if exists entire_options;
 
 create table users
 (
@@ -76,20 +76,20 @@ create table cars
     car_name varchar(100) not null
 );
 
-create table entireoptions
+create table entire_options
 (
     id            bigint auto_increment primary key,
     option_name   varchar(100) not null,
     category_name varchar(100) not null
 );
 
-create table caroptions
+create table car_options
 (
-    id        bigint auto_increment primary key,
     car_id    bigint not null,
-    entireoption_id bigint not null,
-    constraint caroptions_cars_id_fk
+    entire_option_id bigint not null,
+    primary key (car_id, entire_option_id),
+    constraint car_options_cars_id_fk
         foreign key (car_id) references cars (id) on update cascade on delete cascade,
-    constraint caroptions_entireoptions_id_fk
-        foreign key (entireoption_id) references entireoptions (id) on update cascade on delete cascade
+    constraint car_options_entire_options_id_fk
+        foreign key (entire_option_id) references entire_options (id) on update cascade on delete cascade
 );
