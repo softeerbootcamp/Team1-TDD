@@ -2,7 +2,7 @@ name: Java CI with Gradle # workflow 이름
 
 on:
   push:
-    branches: [ "be/feature/#49-auto-distribution" ]
+    branches: [ "dev" ]
 
 permissions:
   contents: read
