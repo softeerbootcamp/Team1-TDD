@@ -1,6 +1,7 @@
 package com.tdd.backend.user;
 
 import java.net.URI;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -47,8 +48,9 @@ public class DummyController {
 	@Operation(summary = "CORS 테스트를 위한 더미 API (쿠키 발급)", description = "쿠키를 테스트하기 위한 쿠키 발급 테스트")
 	@GetMapping("/test/cookie")
 	public ResponseEntity<ResponseCookie> testCookie() {
+		String randomString = UUID.randomUUID().toString();
 		UserCreate dummyUser = UserCreate.builder()
-			.email("test@test.com")
+			.email(randomString)
 			.userPassword("password")
 			.userName("육식주의자")
 			.phoneNumber("01001010101")
@@ -56,7 +58,7 @@ public class DummyController {
 		userService.save(dummyUser);
 
 		UserLogin userLogin = UserLogin.builder()
-			.email("test@test.com")
+			.email(randomString)
 			.userPassword("password")
 			.build();
 		String token = userService.signIn(userLogin);
