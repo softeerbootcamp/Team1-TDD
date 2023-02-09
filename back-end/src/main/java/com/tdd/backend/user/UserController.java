@@ -1,13 +1,13 @@
 package com.tdd.backend.user;
 
 import java.net.URI;
+import java.security.Key;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,10 +15,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tdd.backend.user.data.SessionResponse;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
 import com.tdd.backend.user.exception.DuplicateEmailException;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,22 +56,12 @@ public class UserController {
 
 	@Operation(summary = "유저 로그인 요청", description = "User Login request")
 	@PostMapping("/login")
-	public ResponseEntity<Void> login(@RequestBody @Valid UserLogin userLogin) {
+	public SessionResponse login(@RequestBody @Valid UserLogin userLogin) {
 		String accessToken = userService.login(userLogin);
 
-		//todo: cookie를 통한 권한 인증, 다른 방식의 인증에 대해 리팩토링 여지 있음.
-		ResponseCookie cookie = ResponseCookie.from("SESSION", accessToken)
-			.domain(domainAddress) //yml 파일에 개발환경마다 서비스 도메인 분리
-			.path("/")
-			.httpOnly(true)
-			.secure(false)
-			.maxAge(60 * 60)
-			.sameSite("Lax")
-			.build();
+		Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+		String jws = Jwts.builder().setSubject("Joe").signWith(key).compact();
 
-		log.info(">> response cookie : {}", cookie);
-		return ResponseEntity.status(HttpStatus.OK)
-			.header(HttpHeaders.SET_COOKIE, cookie.toString())
-			.build();
+		return new SessionResponse(jws);
 	}
 }
