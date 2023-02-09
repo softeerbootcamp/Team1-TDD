@@ -55,7 +55,7 @@ class UserControllerTest {
 		mockMvc.perform(post("/users")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(jsonRequest))
-			.andExpect(status().isFound())
+			.andExpect(status().isOk())
 			.andDo(print());
 
 		//then
@@ -137,7 +137,7 @@ class UserControllerTest {
 		mockMvc.perform(post("/login")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(loginRequestBody))
-			.andExpect(status().isFound())
+			.andExpect(status().isOk())
 			.andDo(print());
 
 		Assertions.assertThat(SessionStorage.getCount()).isEqualTo(1);

@@ -70,7 +70,7 @@ class UserServiceTest {
 			.userPassword("pwd")
 			.build();
 
-		String accessToken = userService.signIn(userLogin);
+		String accessToken = userService.login(userLogin);
 
 		//then
 		assertThat(SessionStorage.isSession(accessToken)).isTrue();
@@ -87,7 +87,7 @@ class UserServiceTest {
 			.build();
 
 		//expected
-		assertThrows(UserNotFoundException.class, () -> userService.signIn(userLogin));
+		assertThrows(UserNotFoundException.class, () -> userService.login(userLogin));
 		assertThat(SessionStorage.getCount()).isEqualTo(0);
 	}
 }

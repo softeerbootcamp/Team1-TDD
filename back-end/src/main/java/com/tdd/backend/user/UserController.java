@@ -53,7 +53,7 @@ public class UserController {
 	@Operation(summary = "유저 로그인 요청", description = "User Login request")
 	@PostMapping("/login")
 	public ResponseEntity<Void> login(@RequestBody @Valid UserLogin userLogin) {
-		String accessToken = userService.signIn(userLogin);
+		String accessToken = userService.login(userLogin);
 
 		//todo: cookie를 통한 권한 인증, 다른 방식의 인증에 대해 리팩토링 여지 있음.
 		ResponseCookie cookie = ResponseCookie.from("SESSION", accessToken)

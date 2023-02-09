@@ -60,7 +60,7 @@ public class DummyController {
 			.email(randomString)
 			.userPassword("password")
 			.build();
-		String token = userService.signIn(userLogin);
+		String token = userService.login(userLogin);
 
 		//cookie를 통한 권한 인증
 		ResponseCookie cookie = ResponseCookie.from("Session", token)

@@ -26,7 +26,7 @@ public class UserService {
 		return userRepository.countByEmail(email) > 0;
 	}
 
-	public String signIn(UserLogin userLogin) {
+	public String login(UserLogin userLogin) {
 		User user = userRepository.findByEmail(userLogin.getEmail())
 			.orElseThrow(UserNotFoundException::new);
 
