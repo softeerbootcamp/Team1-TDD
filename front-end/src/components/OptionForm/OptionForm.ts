@@ -116,23 +116,30 @@ interface IOptions {
 
 export class OptionForm extends Component {
   setup(): void {
+    this.state.optionTimer = null;
+    this.state.openStateTimer = null;
     OptionStore.subscribe(this.render.bind(this), this.constructor.name);
   }
   template(): string {
     const options = JSON.stringify(OptionStore.getState().options);
     const data = DUMMY_DATA;
+    const openState = OptionStore.getState().openState;
     return `
     <div class="${styles['form-container']}">
-      ${data.map((ele) => this.categoryTemplate(ele)).join('')}
+      ${data
+        .map((ele, idx) => this.categoryTemplate(ele, openState[idx]))
+        .join('')}
     </div>
+    <div>option:${options}</div>
     `;
   }
 
-  categoryTemplate({ category, options }: ICategory) {
+  categoryTemplate({ category, options }: ICategory, isOpen: boolean) {
+    const openClass = isOpen ? styles.close : '';
     return `
     <div class="${styles.container}">
         <div class="${styles.container__title}">${category}</div>      
-        <div class="${styles['filter-container']}">
+        <div class="${styles['filter-container']} ${openClass}">
             ${options.map((ele) => this.optionBtnTemplate(ele)).join('')}
         </div>
     </div>    
@@ -162,30 +169,29 @@ export class OptionForm extends Component {
 
     this.addEvent('click', `.${styles.container__title}`, ({ target }) => {
       const $target = target as HTMLDivElement;
-      $target.nextElementSibling?.classList.toggle(styles.show);
+      $target.nextElementSibling?.classList.toggle(styles.close);
+      this.dispatchOpenState();
     });
   }
 
   activeBtn($button: HTMLButtonElement) {
     $button.classList.add(styles['is-active']);
     $button.setAttribute('data-state', 'active');
-    setTimeout(() => {
-      OptionStore.dispatch('UPDATE_CAR_OPTION', {
-        options: this.getActiveBtnProperty(),
-      });
-    }, 300);
+    this.dispatchOption();
   }
 
   inactiveBtn($button: HTMLButtonElement) {
     $button.classList.remove(styles['is-active']);
     $button.setAttribute('data-state', 'inactive');
-    setTimeout(() => {
-      OptionStore.dispatch('UPDATE_CAR_OPTION', {
-        options: this.getActiveBtnProperty(),
-      });
-    }, 300);
+    this.dispatchOption();
   }
-
+  getAllCategoryState() {
+    const $categories = qsa(`.${styles.container__title}`, this.target);
+    const a = Array.from($categories).map(($category) =>
+      $category.nextElementSibling?.classList.contains(styles.close)
+    );
+    return a;
+  }
   getActiveBtnProperty() {
     const $activeButtons = this.getAllActiveBtn();
     return $activeButtons.map(($button) => {
@@ -202,5 +208,27 @@ export class OptionForm extends Component {
       return buttonState === 'active';
     });
     return $activeButtons as HTMLButtonElement[];
+  }
+
+  dispatchOpenState() {
+    if (this.state.openStateTimer) {
+      clearTimeout(this.state.openStateTimer);
+    }
+    this.state.openStateTimer = setTimeout(() => {
+      OptionStore.dispatch('UPDATE_OPEN_STATE', {
+        openState: this.getAllCategoryState(),
+      });
+    }, 500);
+  }
+
+  dispatchOption() {
+    if (this.state.optionTimer) {
+      clearTimeout(this.state.optionTimer);
+    }
+    this.state.optionTimer = setTimeout(() => {
+      OptionStore.dispatch('UPDATE_ACTIVE_CAR_OPTION', {
+        options: this.getActiveBtnProperty(),
+      });
+    }, 400);
   }
 }

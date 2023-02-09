@@ -17,6 +17,7 @@ const initState = {
   carModel: carList[0].title,
   rideTogether: false,
   options: [],
+  openState: [],
 };
 
 const reducer = (
@@ -28,11 +29,14 @@ const reducer = (
     case 'OPTION_INIT':
       return initState;
 
-    case 'UPDATE_CAR_OPTION':
+    case 'UPDATE_ACTIVE_CAR_OPTION':
       return { ...state, options: payload.options };
 
     case 'SELECT_CAR_MODEL':
       return { ...state, carModel: payload.name };
+
+    case 'UPDATE_OPEN_STATE':
+      return { ...state, openState: payload.openState };
 
     default:
       return { ...state };
