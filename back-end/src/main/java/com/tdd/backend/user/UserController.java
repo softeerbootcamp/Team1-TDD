@@ -40,7 +40,7 @@ public class UserController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(URI.create("/"));
-		return new ResponseEntity<>(headers, HttpStatus.FOUND);
+		return new ResponseEntity<>(headers, HttpStatus.OK);
 	}
 
 	@GetMapping("/users/validation/{email}}")
@@ -66,8 +66,7 @@ public class UserController {
 			.build();
 
 		log.info(">> response cookie : {}", cookie);
-		return ResponseEntity.status(HttpStatus.FOUND)
-			.location(URI.create("/"))
+		return ResponseEntity.status(HttpStatus.OK)
 			.header(HttpHeaders.SET_COOKIE, cookie.toString())
 			.build();
 	}
