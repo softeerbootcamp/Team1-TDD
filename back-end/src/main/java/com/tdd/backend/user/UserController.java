@@ -62,7 +62,7 @@ public class UserController {
 			.httpOnly(true)
 			.secure(false)
 			.maxAge(60 * 60)
-			.sameSite("Strict")
+			.sameSite("Lax")
 			.build();
 
 		log.info(">> response cookie : {}", cookie);
