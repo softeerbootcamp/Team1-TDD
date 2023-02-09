@@ -18,7 +18,7 @@ public class RenderRepository {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
-	public List<RenderOption> findCarIdByCarName(Long carId) {
+	public List<RenderOption> getCarOptionList(Long carId) {
 		return jdbcTemplate.query(
 			"SELECT E.option_name, E.category_name  "
 				+ "FROM entire_options AS E "

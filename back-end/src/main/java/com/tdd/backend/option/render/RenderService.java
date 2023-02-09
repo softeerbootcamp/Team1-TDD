@@ -25,7 +25,7 @@ public class RenderService {
 		Long carId = carRepository.findIdByCarName(carName).orElseThrow(IllegalArgumentException::new);
 		log.info("CarId : " + carId);
 
-		List<RenderOption> renderOptionList = renderRepository.findCarIdByCarName(carId);
+		List<RenderOption> renderOptionList = renderRepository.getCarOptionList(carId);
 		List<OptionResponse> response = new ArrayList<>();
 
 		for (Category category : Category.values()) {
