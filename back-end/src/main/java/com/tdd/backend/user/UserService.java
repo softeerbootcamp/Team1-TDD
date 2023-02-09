@@ -1,13 +1,12 @@
 package com.tdd.backend.user;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
 import com.tdd.backend.user.data.UserSession;
 import com.tdd.backend.user.exception.UserNotFoundException;
+import com.tdd.backend.user.util.EncryptHelper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,9 +15,11 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
 	private final UserRepository userRepository;
+	private final EncryptHelper encryptHelper;
 
 	public void save(UserCreate userCreate) {
-		userRepository.save(User.createUser(userCreate));
+		String encryptPwd = encryptHelper.encrypt(userCreate.getUserPassword());
+		userRepository.save(User.createUser(userCreate, encryptPwd));
 	}
 
 	public boolean isDuplicateEmail(String email) {
@@ -26,14 +27,16 @@ public class UserService {
 	}
 
 	public String signIn(UserLogin userLogin) {
-		Optional<User> optionalUser = userRepository.findByEmail(userLogin.getEmail());
+		User user = userRepository.findByEmail(userLogin.getEmail())
+			.orElseThrow(UserNotFoundException::new);
 
-		if (optionalUser.isEmpty() || !userLogin.getUserPassword().equals(optionalUser.get().getUserPassword())) {
+		if (!encryptHelper.isMatch(userLogin.getUserPassword(), user.getUserPassword())) {
+			//todo : Password Not Valid Exception
 			throw new UserNotFoundException();
 		}
-		//todo : 암호화 적용, 세션 암호화
+
 		UserSession userSession = UserSession.builder()
-			.user(optionalUser.get())
+			.user(user)
 			.build();
 
 		SessionStorage.addSession(userSession);

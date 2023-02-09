@@ -1,6 +1,5 @@
 package com.tdd.backend.user;
 
-import java.net.URI;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +30,7 @@ public class DummyController {
 	private final UserService userService;
 
 	@Operation(summary = "CORS 테스트를 위한 더미 API", description = "인증 필요없이 접근 가능")
-	@GetMapping("/test")
+	@GetMapping("/")
 	public String test() {
 		return "hello world";
 	}
@@ -74,8 +73,7 @@ public class DummyController {
 			.build();
 
 		log.info(">> {}", token);
-		return ResponseEntity.status(HttpStatus.FOUND)
-			.location(URI.create("/"))
+		return ResponseEntity.status(HttpStatus.OK)
 			.header(HttpHeaders.SET_COOKIE, cookie.toString())
 			.build();
 	}

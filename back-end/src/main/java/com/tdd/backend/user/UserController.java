@@ -40,7 +40,7 @@ public class UserController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(URI.create("/"));
-		return new ResponseEntity<>(headers, HttpStatus.FOUND);
+		return new ResponseEntity<>(headers, HttpStatus.OK);
 	}
 
 	@GetMapping("/users/validation/{email}}")
@@ -56,7 +56,7 @@ public class UserController {
 		String accessToken = userService.signIn(userLogin);
 
 		//todo: cookie를 통한 권한 인증, 다른 방식의 인증에 대해 리팩토링 여지 있음.
-		ResponseCookie cookie = ResponseCookie.from("Session", accessToken)
+		ResponseCookie cookie = ResponseCookie.from("SESSION", accessToken)
 			.domain(domainAddress) //yml 파일에 개발환경마다 서비스 도메인 분리
 			.path("/")
 			.httpOnly(true)
@@ -66,8 +66,7 @@ public class UserController {
 			.build();
 
 		log.info(">> response cookie : {}", cookie);
-		return ResponseEntity.status(HttpStatus.FOUND)
-			.location(URI.create("/"))
+		return ResponseEntity.status(HttpStatus.OK)
 			.header(HttpHeaders.SET_COOKIE, cookie.toString())
 			.build();
 	}

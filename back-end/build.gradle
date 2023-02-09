@@ -26,6 +26,8 @@ dependencies {
 
 	// swagger dependency
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	//bcrypt dependency
+	implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
