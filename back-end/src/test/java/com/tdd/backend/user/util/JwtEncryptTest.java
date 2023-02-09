@@ -1,6 +1,7 @@
 package com.tdd.backend.user.util;
 
 import java.security.Key;
+import java.util.Base64;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,5 +18,10 @@ public class JwtEncryptTest {
 		Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 		String jws = Jwts.builder().setSubject("Joe").signWith(key).compact();
 		System.out.println("encrypt msg : " + jws);
+
+
+		byte[] encoded = key.getEncoded();
+		String s = Base64.getEncoder().encodeToString(encoded);
+		System.out.println(s);
 	}
 }

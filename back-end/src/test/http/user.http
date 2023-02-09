@@ -17,3 +17,7 @@ Content-Type: application/json
   "email": "test@test.com",
   "userPassword": "비밀번호"
 }
+
+### test auth
+GET http://{{domain-address}}/test/auth
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0.R185SBLcwiUne4wqve5BEZbrFey96uxKwDC_xQu4qm0

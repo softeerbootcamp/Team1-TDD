@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
-import com.tdd.backend.user.data.UserSession;
 import com.tdd.backend.user.exception.UserNotFoundException;
 import com.tdd.backend.user.util.EncryptHelper;
 
@@ -26,7 +25,7 @@ public class UserService {
 		return userRepository.countByEmail(email) > 0;
 	}
 
-	public String login(UserLogin userLogin) {
+	public Long login(UserLogin userLogin) {
 		User user = userRepository.findByEmail(userLogin.getEmail())
 			.orElseThrow(UserNotFoundException::new);
 
@@ -34,12 +33,11 @@ public class UserService {
 			//todo : Password Not Valid Exception
 			throw new UserNotFoundException();
 		}
+		return user.getId();
+	}
 
-		UserSession userSession = UserSession.builder()
-			.user(user)
-			.build();
-
-		SessionStorage.addSession(userSession);
-		return userSession.getAccessToken();
+	public User findByUserId(Long userId) {
+		return userRepository.findById(userId)
+			.orElseThrow(UserNotFoundException::new);
 	}
 }
