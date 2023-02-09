@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
+import com.tdd.backend.user.util.EncryptHelper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -33,6 +34,9 @@ class UserControllerTest {
 	UserController userController;
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	EncryptHelper encryptHelper;
 
 	@Test
 	@DisplayName("유저 회원가입")
@@ -116,7 +120,7 @@ class UserControllerTest {
 		//given
 		userRepository.save(User.builder()
 			.email("test@test.com")
-			.userPassword("pwd")
+			.userPassword(encryptHelper.encrypt("pwd"))
 			.userName("tester")
 			.phoneNumber("010101")
 			.build()

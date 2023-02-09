@@ -34,9 +34,9 @@ public class User {
 		this.userPassword = userPassword;
 	}
 
-	public static User createUser(UserCreate userCreate) {
+	public static User createUser(UserCreate userCreate, String encryptPwd) {
 		return new User(userCreate.getEmail(), userCreate.getUserName(), userCreate.getPhoneNumber(),
-			userCreate.getUserPassword());
+			encryptPwd);
 	}
 
 	public Long getId() {

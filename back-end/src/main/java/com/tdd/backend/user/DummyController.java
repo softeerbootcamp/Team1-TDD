@@ -1,7 +1,8 @@
 package com.tdd.backend.user;
 
-import java.net.URI;
+import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -23,10 +24,13 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class DummyController {
 
+	@Value("${domain.address}")
+	private String domainAddress; //개발환경에 따른 도메인 주소를 yml에 파일변수로 세팅
+
 	private final UserService userService;
 
 	@Operation(summary = "CORS 테스트를 위한 더미 API", description = "인증 필요없이 접근 가능")
-	@GetMapping("/test")
+	@GetMapping("/")
 	public String test() {
 		return "hello world";
 	}
@@ -43,8 +47,9 @@ public class DummyController {
 	@Operation(summary = "CORS 테스트를 위한 더미 API (쿠키 발급)", description = "쿠키를 테스트하기 위한 쿠키 발급 테스트")
 	@GetMapping("/test/cookie")
 	public ResponseEntity<ResponseCookie> testCookie() {
+		String randomString = UUID.randomUUID().toString();
 		UserCreate dummyUser = UserCreate.builder()
-			.email("test@test.com")
+			.email(randomString)
 			.userPassword("password")
 			.userName("육식주의자")
 			.phoneNumber("01001010101")
@@ -52,14 +57,14 @@ public class DummyController {
 		userService.save(dummyUser);
 
 		UserLogin userLogin = UserLogin.builder()
-			.email("test@test.com")
+			.email(randomString)
 			.userPassword("password")
 			.build();
 		String token = userService.signIn(userLogin);
 
 		//cookie를 통한 권한 인증
 		ResponseCookie cookie = ResponseCookie.from("Session", token)
-			.domain("localhost") //추후 yml 파일에 개발환경마다 서비스 도메인 분리
+			.domain(domainAddress) //추후 yml 파일에 개발환경마다 서비스 도메인 분리
 			.path("/")
 			.httpOnly(true)
 			.secure(false)
@@ -68,8 +73,7 @@ public class DummyController {
 			.build();
 
 		log.info(">> {}", token);
-		return ResponseEntity.status(HttpStatus.FOUND)
-			.location(URI.create("/"))
+		return ResponseEntity.status(HttpStatus.OK)
 			.header(HttpHeaders.SET_COOKIE, cookie.toString())
 			.build();
 	}

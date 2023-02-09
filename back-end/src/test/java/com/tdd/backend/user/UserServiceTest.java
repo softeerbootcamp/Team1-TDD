@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
 import com.tdd.backend.user.exception.UserNotFoundException;
+import com.tdd.backend.user.util.EncryptHelper;
 
 @SpringBootTest
 @Transactional
@@ -23,6 +24,9 @@ class UserServiceTest {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private EncryptHelper encryptHelper;
 
 	@BeforeEach
 	void setup() {
@@ -54,7 +58,7 @@ class UserServiceTest {
 		//given
 		User user = User.builder()
 			.email("test@test.com")
-			.userPassword("pwd")
+			.userPassword(encryptHelper.encrypt("pwd"))
 			.userName("tester")
 			.phoneNumber("01010")
 			.build();

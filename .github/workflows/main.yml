@@ -26,12 +26,8 @@ jobs:
           cd ./back-end/src/main
           cd ./resources
           
-          # application.yml 파일 생성하기
-          touch ./application.yml
-          
           # application.yml 파일에 쓰기
           echo "${{ secrets.DATABASE }}" >> ./application.yml
-
         shell: bash
 
       - name: Build with Gradle
@@ -49,10 +45,14 @@ jobs:
       - name: web docker build and push
         run: |
           cd ./back-end
-          docker build -t ${{ secrets.DOCKER_REPO }}-server .
-          docker push ${{ secrets.DOCKER_REPO }}-server
-
-
+          docker build -t ${{ secrets.DOCKER_REPO }}-server:latest .
+          docker push ${{ secrets.DOCKER_REPO }}-server:latest
+      - name: web docker build and push
+        run: |
+          cd ./front-end
+          echo "${{ secrets.ENV }}" >> ./.env.local
+          docker build -t ${{ secrets.DOCKER_REPO }}-front:latest .
+          docker push ${{ secrets.DOCKER_REPO }}-front:latest
       ## 서버에 접속하여 도커 이미지를 pull 받고 실행하기
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v0.1.6
@@ -62,9 +62,13 @@ jobs:
           key: ${{ secrets.KEY }}
           port: 22
           script: |
-            sudo docker stop back-server
-            #sudo docker rm back-server
+            echo "${{ secrets.DOCKER_COMPOSE }}" >> ./docker-compose.yml
+            sudo docker stop server
+            sudo docker stop front
             sudo docker rm -f $(sudo docker ps -qa)
-            sudo docker image rm -f ${{ secrets.DOCKER_REPO }}-server
-            sudo docker pull ${{ secrets.DOCKER_REPO }}-server
-            sudo docker run -d --name back-server -p 8080:8080 ${{ secrets.DOCKER_REPO }}-server
+            sudo docker rmi $(sudo docker images -q)
+            
+            sudo docker pull ${{ secrets.DOCKER_REPO }}-server:latest
+            sudo docker pull ${{ secrets.DOCKER_REPO }}-front:latest
+            sudo docker-compose down
+            sudo docker-compose up -d
