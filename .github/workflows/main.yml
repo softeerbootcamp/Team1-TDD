@@ -2,7 +2,7 @@ name: Java CI with Gradle # workflow 이름
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "be/feature/#49-auto-distribution" ]
 
 permissions:
   contents: read
@@ -26,12 +26,8 @@ jobs:
           cd ./back-end/src/main
           cd ./resources
           
-          # application.yml 파일 생성하기
-          touch ./application.yml
-          
           # application.yml 파일에 쓰기
           echo "${{ secrets.DATABASE }}" >> ./application.yml
-
         shell: bash
 
       - name: Build with Gradle
@@ -51,8 +47,12 @@ jobs:
           cd ./back-end
           docker build -t ${{ secrets.DOCKER_REPO }}-server .
           docker push ${{ secrets.DOCKER_REPO }}-server
-
-
+      - name: web docker build and push
+        run: |
+          cd ./front-end
+          echo "${{ secrets.ENV }}" >> ./.env.local
+          docker build -t ${{ secrets.DOCKER_REPO }}-front .
+          docker push ${{ secrets.DOCKER_REPO }}-front
       ## 서버에 접속하여 도커 이미지를 pull 받고 실행하기
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v0.1.6
@@ -62,9 +62,15 @@ jobs:
           key: ${{ secrets.KEY }}
           port: 22
           script: |
-            sudo docker stop back-server
+            sudo docker stop server
+            sudo docker stop front
+            
             #sudo docker rm back-server
             sudo docker rm -f $(sudo docker ps -qa)
             sudo docker image rm -f ${{ secrets.DOCKER_REPO }}-server
+            sudo docker image rm -f ${{ secrets.DOCKER_REPO }}-front
+            
             sudo docker pull ${{ secrets.DOCKER_REPO }}-server
-            sudo docker run -d --name back-server -p 8080:8080 ${{ secrets.DOCKER_REPO }}-server
+            sudo docker pull ${{ secrets.DOCKER_REPO }}-front
+            sudo docker run -d --name server -p 8080:8080 ${{ secrets.DOCKER_REPO }}-server
+            sudo docker run -d --name front -p 80:5173 ${{ secrets.DOCKER_REPO }}-front
