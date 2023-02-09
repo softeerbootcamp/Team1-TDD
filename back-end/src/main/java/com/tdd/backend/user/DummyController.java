@@ -2,6 +2,7 @@ package com.tdd.backend.user;
 
 import java.net.URI;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -22,6 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 public class DummyController {
+
+	@Value("${domain.address}")
+	private String domainAddress; //개발환경에 따른 도메인 주소를 yml에 파일변수로 세팅
 
 	private final UserService userService;
 
@@ -59,7 +63,7 @@ public class DummyController {
 
 		//cookie를 통한 권한 인증
 		ResponseCookie cookie = ResponseCookie.from("Session", token)
-			.domain("localhost") //추후 yml 파일에 개발환경마다 서비스 도메인 분리
+			.domain(domainAddress) //추후 yml 파일에 개발환경마다 서비스 도메인 분리
 			.path("/")
 			.httpOnly(true)
 			.secure(false)
