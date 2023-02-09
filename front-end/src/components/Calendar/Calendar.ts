@@ -19,6 +19,28 @@ export class Calendar extends Component {
     this.addEvent("click", "#prev", this.movePrevMonth.bind(this));
     this.addEvent("click", "#next", this.moveNextMonth.bind(this));
     this.addEvent("change", "#year-select", this.selectYear.bind(this));
+    this.addEvent("click", "td", (e) => {
+      const target = e.target as HTMLTableCellElement;
+      if (!target.classList.contains(`${styles["active"]}`)) {
+        target.classList.add(`${styles["active"]}`);
+        this.props.dates.push(
+          `${date.getFullYear()}/${("0" + date.getMonth()).slice(-2)}/${(
+            "0" + target.innerText
+          ).slice(-2)}`
+        );
+        console.log(this.props);
+      } else {
+        target.classList.remove(`${styles["active"]}`);
+        this.props.dates = this.props.dates.filter(
+          (ele: string) =>
+            ele !==
+            `${date.getFullYear()}/${("0" + date.getMonth()).slice(-2)}/${(
+              "0" + target.innerText
+            ).slice(-2)}`
+        );
+        console.log(this.props.dates);
+      }
+    });
   }
 
   markDates() {
@@ -63,38 +85,6 @@ export class Calendar extends Component {
     this.markDates();
   }
 
-  clickDays() {
-    const tds = qsa("td") as NodeListOf<HTMLElement>;
-    tds.forEach((td) => {
-      if (td.innerHTML) {
-        td.addEventListener("click", (e) => {
-          const target = e.target as HTMLTableCellElement;
-          if (!target.classList.contains(`${styles["active"]}`)) {
-            target.classList.add(`${styles["active"]}`);
-            this.props.dates.push(
-              `${date.getFullYear()}/${("0" + date.getMonth()).slice(-2)}/${(
-                "0" + target.innerText
-              ).slice(-2)}`
-            );
-            console.log(this.props);
-          } else {
-            target.classList.remove(`${styles["active"]}`);
-            this.props.dates = this.props.dates.filter(
-              (ele: string) =>
-                ele !==
-                `${date.getFullYear()}/${("0" + date.getMonth()).slice(-2)}/${(
-                  "0" + target.innerText
-                ).slice(-2)}`
-            );
-            console.log(this.props.dates);
-          }
-        });
-      } else {
-        td.classList.add(`${styles["none"]}`);
-      }
-    });
-  }
-
   getDaysInMonth(year: number, month: number) {
     return new Date(year, month + 1, 0).getDate();
   }
@@ -135,7 +125,6 @@ export class Calendar extends Component {
         </div>
       `;
     qs(`#${styles["calendar"]}`)!.innerHTML = header;
-    this.clickDays();
     this.markDates();
   }
 
