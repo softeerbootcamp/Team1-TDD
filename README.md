@@ -52,7 +52,7 @@
 |김강산|김지언|박승민|
 |:-:|:-:|:-:|
 |<img src="https://avatars.githubusercontent.com/u/80745404?v=4" width=130>|<img src="https://avatars.githubusercontent.com/u/59179386?v=4" width=130>|<img src="https://avatars.githubusercontent.com/u/60373714?v=4" width=130>|
-|[@River_Mt](https://github.com/River_Mt)|[@jieonkim23](https://github.com/jieonkim23)| [@psm9718](https://github.com/psm9718) |
+|[@River-Mt](https://github.com/River_Mt)|[@jieonkim23](https://github.com/jieonkim23)| [@psm9718](https://github.com/psm9718) |
 
 
 - 사용자가 프로젝트를 설치하는 데 도움을 줄 수 있는 튜토리얼이나 자료 링크
