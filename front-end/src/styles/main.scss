@@ -37,6 +37,10 @@ header {
   z-index: 1000;
   backdrop-filter: blur(8px);
 }
+#modal {
+  width: fit-content;
+  margin: auto;
+}
 .overlay-hidden {
   display: none;
 }
