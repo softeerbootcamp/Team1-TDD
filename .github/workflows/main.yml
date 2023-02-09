@@ -62,15 +62,12 @@ jobs:
           key: ${{ secrets.KEY }}
           port: 22
           script: |
+            echo "${{ secrets.DOCKER-COMPOSE }}" >> ./docker-compose.yml
             sudo docker stop server
             sudo docker stop front
-            
-            #sudo docker rm back-server
             sudo docker rm -f $(sudo docker ps -qa)
-            sudo docker image rm -f ${{ secrets.DOCKER_REPO }}-server
-            sudo docker image rm -f ${{ secrets.DOCKER_REPO }}-front
             
             sudo docker pull ${{ secrets.DOCKER_REPO }}-server
             sudo docker pull ${{ secrets.DOCKER_REPO }}-front
-            sudo docker run -d --name server -p 8080:8080 ${{ secrets.DOCKER_REPO }}-server
-            sudo docker run -d --name front -p 80:5173 ${{ secrets.DOCKER_REPO }}-front
+            sudo docker-compose down
+            sudo docker-compose up -d
