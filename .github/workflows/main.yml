@@ -62,7 +62,7 @@ jobs:
           key: ${{ secrets.KEY }}
           port: 22
           script: |
-            echo "${{ secrets.DOCKER-COMPOSE }}" >> ./docker-compose.yml
+            echo "${{ secrets.DOCKER_COMPOSE }}" >> ./docker-compose.yml
             sudo docker stop server
             sudo docker stop front
             sudo docker rm -f $(sudo docker ps -qa)
