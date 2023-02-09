@@ -45,14 +45,14 @@ jobs:
       - name: web docker build and push
         run: |
           cd ./back-end
-          docker build -t ${{ secrets.DOCKER_REPO }}-server .
-          docker push ${{ secrets.DOCKER_REPO }}-server
+          docker build -t ${{ secrets.DOCKER_REPO }}-server:latest .
+          docker push ${{ secrets.DOCKER_REPO }}-server:latest
       - name: web docker build and push
         run: |
           cd ./front-end
           echo "${{ secrets.ENV }}" >> ./.env.local
-          docker build -t ${{ secrets.DOCKER_REPO }}-front .
-          docker push ${{ secrets.DOCKER_REPO }}-front
+          docker build -t ${{ secrets.DOCKER_REPO }}-front:latest .
+          docker push ${{ secrets.DOCKER_REPO }}-front:latest
       ## 서버에 접속하여 도커 이미지를 pull 받고 실행하기
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v0.1.6
@@ -67,7 +67,7 @@ jobs:
             sudo docker stop front
             sudo docker rm -f $(sudo docker ps -qa)
             
-            sudo docker pull ${{ secrets.DOCKER_REPO }}-server
-            sudo docker pull ${{ secrets.DOCKER_REPO }}-front
+            sudo docker pull ${{ secrets.DOCKER_REPO }}-server:latest
+            sudo docker pull ${{ secrets.DOCKER_REPO }}-front:latest
             sudo docker-compose down
             sudo docker-compose up -d
