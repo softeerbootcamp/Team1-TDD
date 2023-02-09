@@ -4,7 +4,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BCryptImpl implements EncryptHelper {
+public class SaltingEncrypt implements EncryptHelper {
 	@Override
 	public String encrypt(String password) {
 		return BCrypt.hashpw(password, BCrypt.gensalt());
