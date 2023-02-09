@@ -7,21 +7,18 @@ export class LoginForm extends Component {
     return `
         <div class="${styles.container}" id="container">
             <div class="${styles['form-container']} ${styles['sign-up-container']}">
-                <form action="#">
-                    <h1>Create Account</h1>
-                    <div class="${styles['social-container']}">
-                        <a href="#" class="${styles.social}"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="${styles.social}"><i class="fab fa-google-plus-g"></i></a>
-                        <a href="#" class="${styles.social}"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
+                <form id="signup-form" >
+                    <h1>Create Account</h1>                 
                     <span>or use your email for registration</span>
-                    <input type="email" placeholder="Email" />
-                    <input type="password" placeholder="Password" />
-                    <button>Sign Up</button>
+                    <input id="signup-email" type="email" placeholder="Email" />
+                    <input id="signup-tel" type="tel" placeholder="010-1234-5678" />
+                    <input id="signup-name" type="text" placeholder="홍길동" />
+                    <input id="signup-pwd" type="password" placeholder="Password" />
+                    <button type="submit" form="signup-form">Sign Up</button>
                 </form>
             </div>
             <div class="${styles['form-container']} ${styles['sign-in-container']}">
-                <form id="loginForm">
+                <form id="signin-form">
                     <h1>Sign in</h1>
                     <div class="${styles['social-container']}">
                         <a href="#" class="${styles.social}"><i class="fab fa-facebook-f"></i></a>
@@ -29,10 +26,10 @@ export class LoginForm extends Component {
                         <a href="#" class="${styles.social}"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                     <span>or use your account</span>
-                    <input type="email" id="email" placeholder="Email" />
-                    <input type="password" id="password" placeholder="Password" />
+                    <input id="signin-email" type="email" placeholder="Email" />
+                    <input id="signin-pwd" type="password" placeholder="Password" />
                     <a href="#">Forgot your password?</a>
-                    <button type="submit" form="loginForm">Sign In</button>
+                    <button type="submit" form="signin-form">Sign In</button>
                 </form>
             </div>
             <div class="${styles['overlay-container']}">
@@ -71,18 +68,40 @@ export class LoginForm extends Component {
       $container?.classList.remove(styles['right-panel-active']);
     });
 
-    this.addEvent('submit', 'form', (e) => {
+    this.addEvent('submit', '#signin-form', (e) => {
       e.preventDefault();
-      const $email = qs('#email', this.target) as HTMLInputElement;
-      const $password = qs('#password', this.target) as HTMLInputElement;
+      const $email = qs('#signin-email', this.target) as HTMLInputElement;
+      const $password = qs('#signin-pwd', this.target) as HTMLInputElement;
       const enteredEmail = $email.value;
       const enteredPassword = $password.value;
       axios
-        .post('/login', {
+        .post(`${process.env.VITE_PUBLIC_API_BASEURL}/login`, {
           email: enteredEmail,
           userPassword: enteredPassword,
         })
-        .then((data) => console.log);
+        .then((data) => console.log(data))
+        .catch((error) => console.log(error));
+    });
+
+    this.addEvent('submit', '#signup-form', (e) => {
+      e.preventDefault();
+      const $email = qs('#signup-email', this.target) as HTMLInputElement;
+      const $tel = qs('#signup-tel', this.target) as HTMLInputElement;
+      const $name = qs('#signup-name', this.target) as HTMLInputElement;
+      const $password = qs('#signup-pwd', this.target) as HTMLInputElement;
+      const enteredEmail = $email.value;
+      const enteredTel = $tel.value;
+      const enteredName = $name.value;
+      const enteredPassword = $password.value;
+      axios
+        .post(`${process.env.VITE_PUBLIC_API_BASEURL}/users`, {
+          email: enteredEmail,
+          phoneNumber: enteredTel,
+          userName: enteredName,
+          userPassword: enteredPassword,
+        })
+        .then((data) => console.log(data))
+        .catch((error) => console.log(error));
     });
   }
 }
