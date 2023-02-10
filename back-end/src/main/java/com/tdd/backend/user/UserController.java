@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "https://letstdd.site", allowCredentials = "true")
 public class UserController {
 
 	@Value("${domain.address}")
@@ -59,7 +61,6 @@ public class UserController {
 			.httpOnly(true)
 			.secure(false)
 			.maxAge(60 * 60)
-			.sameSite("Strict")
 			.build();
 
 		log.info(">> response cookie : {}", cookie);
