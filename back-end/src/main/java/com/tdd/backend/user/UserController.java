@@ -1,7 +1,5 @@
 package com.tdd.backend.user;
 
-import java.net.URI;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -36,11 +34,10 @@ public class UserController {
 	@Operation(summary = "유저 회원가입 요청", description = "User SignUp request")
 	@PostMapping("/users")
 	public ResponseEntity<Void> signup(@RequestBody @Valid UserCreate userCreate) {
+		log.info("> user {} save", userCreate.getUserName());
 		userService.save(userCreate);
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(URI.create("/"));
-		return new ResponseEntity<>(headers, HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@GetMapping("/users/validation/{email}}")
