@@ -14,7 +14,7 @@ export class LoginForm extends Component {
                     <input id="signup-tel" type="tel" placeholder="010-1234-5678" />
                     <input id="signup-name" type="text" placeholder="홍길동" />
                     <input id="signup-pwd" type="password" placeholder="Password" />
-                    <button type="submit" form="signup-form">Sign Up</button>
+                    <button type="submit" form="signup-form" id="sign-up-button">Sign Up</button>
                 </form>
             </div>
             <div class="${styles['form-container']} ${styles['sign-in-container']}">
@@ -29,7 +29,7 @@ export class LoginForm extends Component {
                     <input id="signin-email" type="email" placeholder="Email" />
                     <input id="signin-pwd" type="password" placeholder="Password" />
                     <a  id="api-test">Forgot your password?</a>
-                    <button type="submit" form="signin-form">Sign In</button>
+                    <button type="submit" form="signin-form" id="sign-in-button">Sign In</button>
                 </form>
             </div>
             <div class="${styles['overlay-container']}">
@@ -64,8 +64,8 @@ export class LoginForm extends Component {
         .then((data) => console.log(data))
         .catch((error) => console.log(error));
     });
-    this.addEvent('submit', '#signin-form', (e) => {
-      e.preventDefault();
+    this.addEvent('click', '#sign-in-button', () => {
+
       const $email = qs('#signin-email', this.target) as HTMLInputElement;
       const $password = qs('#signin-pwd', this.target) as HTMLInputElement;
       const enteredEmail = $email.value;
@@ -79,8 +79,9 @@ export class LoginForm extends Component {
         .catch((error) => console.log(error));
     });
 
-    this.addEvent('submit', '#signup-form', (e) => {
-      e.preventDefault();
+    this.addEvent('click', '#sign-up-button', () => {
+
+
       const $email = qs('#signup-email', this.target) as HTMLInputElement;
       const $tel = qs('#signup-tel', this.target) as HTMLInputElement;
       const $name = qs('#signup-name', this.target) as HTMLInputElement;
