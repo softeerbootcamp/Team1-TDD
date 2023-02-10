@@ -43,9 +43,8 @@ public class UserController {
 	public ResponseEntity<Void> signup(@RequestBody @Valid UserCreate userCreate) {
 		userService.save(userCreate);
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(URI.create("/"));
-		return new ResponseEntity<>(headers, HttpStatus.OK);
+		log.info("> user {} saved", userCreate.getEmail());
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@GetMapping("/users/validation/{email}}")
@@ -66,6 +65,7 @@ public class UserController {
 			.signWith(key)
 			.compact();
 
+		log.info("> access token : {}", jws);
 		return new SessionResponse(jws);
 	}
 
