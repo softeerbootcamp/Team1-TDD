@@ -54,12 +54,12 @@ public class UserController {
 
 		//todo: cookie를 통한 권한 인증, 다른 방식의 인증에 대해 리팩토링 여지 있음.
 		ResponseCookie cookie = ResponseCookie.from("SESSION", accessToken)
-			.domain(domainAddress) //yml 파일에 개발환경마다 서비스 도메인 분리
+			.domain("letstdd.site") //yml 파일에 개발환경마다 서비스 도메인 분리
 			.path("/")
 			.httpOnly(true)
 			.secure(false)
 			.maxAge(60 * 60)
-			.sameSite("Lax")
+			.sameSite("Strict")
 			.build();
 
 		log.info(">> response cookie : {}", cookie);

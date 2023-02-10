@@ -2,7 +2,7 @@ name: Java CI with Gradle # workflow 이름
 
 on:
   push:
-    branches: [ "be/fix/#96-cookie" ]
+    branches: [ "test/api-test" ]
 
 permissions:
   contents: read
