@@ -2,6 +2,7 @@ import Component from '@/core/Component';
 import { qs } from '@/utils/querySelector';
 import axios from 'axios';
 import styles from './LoginForm.module.scss';
+import * as process from "process";
 export class LoginForm extends Component {
   template(): string {
     return `
@@ -14,7 +15,7 @@ export class LoginForm extends Component {
                     <input id="signup-tel" type="tel" placeholder="010-1234-5678" />
                     <input id="signup-name" type="text" placeholder="홍길동" />
                     <input id="signup-pwd" type="password" placeholder="Password" />
-                    <button type="submit" form="signup-form" id="sign-up-button">Sign Up</button>
+                    <button id="sign-up-button">Sign Up</button>
                 </form>
             </div>
             <div class="${styles['form-container']} ${styles['sign-in-container']}">
@@ -29,7 +30,7 @@ export class LoginForm extends Component {
                     <input id="signin-email" type="email" placeholder="Email" />
                     <input id="signin-pwd" type="password" placeholder="Password" />
                     <a  id="api-test">Forgot your password?</a>
-                    <button type="submit" form="signin-form" id="sign-in-button">Sign In</button>
+                    <button id="sign-in-button">Sign In</button>
                 </form>
             </div>
             <div class="${styles['overlay-container']}">
@@ -60,18 +61,18 @@ export class LoginForm extends Component {
     });
     this.addEvent('click', '#api-test', () => {
       axios
-        .get(`http://localhost:8080/options/sonata`)
+        .get(`http://letstdd.site:8080/options/sonata`)
         .then((data) => console.log(data))
         .catch((error) => console.log(error));
     });
-    this.addEvent('click', '#sign-in-button', () => {
-
+    this.addEvent('click', '#sign-in-button', (e) => {
+      e.preventDefault();
       const $email = qs('#signin-email', this.target) as HTMLInputElement;
       const $password = qs('#signin-pwd', this.target) as HTMLInputElement;
       const enteredEmail = $email.value;
       const enteredPassword = $password.value;
       axios
-        .post(`http://localhost:8080/login`, {
+        .post(`http://letstdd.site:8080/login`, {
           email: enteredEmail,
           userPassword: enteredPassword,
         })
@@ -79,8 +80,8 @@ export class LoginForm extends Component {
         .catch((error) => console.log(error));
     });
 
-    this.addEvent('click', '#sign-up-button', () => {
-
+    this.addEvent('click', '#sign-up-button', (e) => {
+      e.preventDefault();
 
       const $email = qs('#signup-email', this.target) as HTMLInputElement;
       const $tel = qs('#signup-tel', this.target) as HTMLInputElement;
@@ -91,7 +92,7 @@ export class LoginForm extends Component {
       const enteredName = $name.value;
       const enteredPassword = $password.value;
       axios
-        .post('http://localhost:8080/users', {
+        .post(`http://letstdd.site:8080/users`, {
           email: enteredEmail,
           phoneNumber: enteredTel,
           userName: enteredName,
