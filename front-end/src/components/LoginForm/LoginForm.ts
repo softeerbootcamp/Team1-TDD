@@ -28,7 +28,7 @@ export class LoginForm extends Component {
                     <span>or use your account</span>
                     <input id="signin-email" type="email" placeholder="Email" />
                     <input id="signin-pwd" type="password" placeholder="Password" />
-                    <a href="#">Forgot your password?</a>
+                    <a  id="api-test">Forgot your password?</a>
                     <button type="submit" form="signin-form">Sign In</button>
                 </form>
             </div>
@@ -58,7 +58,12 @@ export class LoginForm extends Component {
       const $container = qs('#container', this.target);
       $container?.classList.remove(styles['right-panel-active']);
     });
-
+    this.addEvent('click', '#api-test', () => {
+      axios
+        .get(`/api/options/sonata`)
+        .then((data) => console.log(data))
+        .catch((error) => console.log(error));
+    });
     this.addEvent('submit', '#signin-form', (e) => {
       e.preventDefault();
       const $email = qs('#signin-email', this.target) as HTMLInputElement;
@@ -66,7 +71,7 @@ export class LoginForm extends Component {
       const enteredEmail = $email.value;
       const enteredPassword = $password.value;
       axios
-        .post(`${process.env.VITE_PUBLIC_API_BASEURL}/login`, {
+        .post(`/api/login`, {
           email: enteredEmail,
           userPassword: enteredPassword,
         })
@@ -85,7 +90,7 @@ export class LoginForm extends Component {
       const enteredName = $name.value;
       const enteredPassword = $password.value;
       axios
-        .post(`${process.env.VITE_PUBLIC_API_BASEURL}/users`, {
+        .post('/api/users', {
           email: enteredEmail,
           phoneNumber: enteredTel,
           userName: enteredName,
