@@ -44,12 +44,12 @@
 # 팀원 및 참고 자료
 
 ## FE
-|이민재|이제영|
+|```이민재```|```이제영```|
 |:-:|:-:|
 |<img src="https://avatars.githubusercontent.com/u/52685740?v=4" width=130>|<img src="https://avatars.githubusercontent.com/u/82891332?v=4" width=130>|
 |[@MyuB](https://github.com/MyuB)|[@2je0](https://github.com/2je0)|
 ## BE
-|김강산|김지언|박승민|
+|```김강산```|```김지언```|```박승민```|
 |:-:|:-:|:-:|
 |<img src="https://avatars.githubusercontent.com/u/80745404?v=4" width=130>|<img src="https://avatars.githubusercontent.com/u/59179386?v=4" width=130>|<img src="https://avatars.githubusercontent.com/u/60373714?v=4" width=130>|
 |[@River-Mt](https://github.com/River_Mt)|[@jieonkim23](https://github.com/jieonkim23)| [@psm9718](https://github.com/psm9718) |
