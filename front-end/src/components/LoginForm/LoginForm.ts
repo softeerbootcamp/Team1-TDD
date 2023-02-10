@@ -2,7 +2,6 @@ import Component from '@/core/Component';
 import { qs } from '@/utils/querySelector';
 import axios from 'axios';
 import styles from './LoginForm.module.scss';
-import * as process from "process";
 export class LoginForm extends Component {
   template(): string {
     return `
