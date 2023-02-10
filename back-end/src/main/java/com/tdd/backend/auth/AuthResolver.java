@@ -17,7 +17,6 @@ import com.tdd.backend.user.exception.UnauthorizedException;
 
 import lombok.extern.slf4j.Slf4j;
 
-//todo : 로그인 유지 기술 및 테스트 코드 구현
 @Slf4j
 public class AuthResolver implements HandlerMethodArgumentResolver {
 
