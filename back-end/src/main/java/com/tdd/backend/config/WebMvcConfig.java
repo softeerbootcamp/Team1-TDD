@@ -15,9 +15,6 @@ import com.tdd.backend.auth.AuthResolver;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-	@Value("${domain.address}")
-	private String domainAddress; //개발환경에 따른 도메인 주소를 yml에 파일변수로 세팅
-
 	// @Override
 	// public void addCorsMappings(CorsRegistry registry) {
 	// 	registry.addMapping("/**")

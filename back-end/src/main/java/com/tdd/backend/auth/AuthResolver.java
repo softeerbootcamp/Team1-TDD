@@ -1,6 +1,7 @@
 package com.tdd.backend.auth;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -19,13 +20,14 @@ import lombok.extern.slf4j.Slf4j;
 //todo : 로그인 유지 기술 및 테스트 코드 구현
 @Slf4j
 public class AuthResolver implements HandlerMethodArgumentResolver {
-
+	@Value("${domain.address}")
+	private String domainAddress; //개발환경에 따른 도메인 주소를 yml에 파일변수로 세팅
 	// @Value("${jwt.token.secret-key:secret-key}")
 	private final String KEY = "JFbPbHB/8Oz2CSK4q0sAHrRkr4Hs9MYwKkMY4Jf97+0=";
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-
+		log.info(">>> param : {}", parameter.getParameterType());
 		boolean isAnnotation = parameter.getParameterAnnotation(LoginUser.class) != null;
 		boolean isUserSession = parameter.getParameterType().equals(UserSession.class);
 

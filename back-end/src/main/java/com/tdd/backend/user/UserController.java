@@ -35,8 +35,6 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 	private final UserService userService;
 
-	@Value("${domain.address}")
-	private String domainAddress; //개발환경에 따른 도메인 주소를 yml에 파일변수로 세팅
 	// @Value("${jwt.token.secret-key:secret-key}") //jwt secret key (yml 파일변수 세팅)
 	private final String KEY = "JFbPbHB/8Oz2CSK4q0sAHrRkr4Hs9MYwKkMY4Jf97+0=";
 
