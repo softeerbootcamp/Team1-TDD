@@ -60,7 +60,7 @@ export class LoginForm extends Component {
     });
     this.addEvent('click', '#api-test', () => {
       axios
-        .get(`http://localhost:8080/options/sonata`)
+        .get(`http://52.78.106.53:8080/options/sonata`)
         .then((data) => console.log(data))
         .catch((error) => console.log(error));
     });
@@ -71,7 +71,7 @@ export class LoginForm extends Component {
       const enteredEmail = $email.value;
       const enteredPassword = $password.value;
       axios
-        .post(`http://localhost:8080/login`, {
+        .post(`http://52.78.106.53:8080/login`, {
           email: enteredEmail,
           userPassword: enteredPassword,
         })
@@ -91,7 +91,7 @@ export class LoginForm extends Component {
       const enteredName = $name.value;
       const enteredPassword = $password.value;
       axios
-        .post(`http://localhost:8080/users`, {
+        .post(`http://52.78.106.53:8080/users`, {
           email: enteredEmail,
           phoneNumber: enteredTel,
           userName: enteredName,
