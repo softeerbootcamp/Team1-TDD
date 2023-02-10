@@ -2,8 +2,6 @@ package com.tdd.backend.user.data;
 
 import java.util.UUID;
 
-import com.tdd.backend.user.User;
-
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,11 +9,11 @@ import lombok.Getter;
 public class UserSession {
 	private final String accessToken;
 
-	private final User user;
+	private final Long userId;
 
 	@Builder
-	private UserSession(User user) {
+	private UserSession(Long userId) {
 		this.accessToken = UUID.randomUUID().toString();
-		this.user = user;
+		this.userId = userId;
 	}
 }

@@ -70,11 +70,10 @@ class UserServiceTest {
 			.userPassword("pwd")
 			.build();
 
-		String accessToken = userService.signIn(userLogin);
+		Long userId = userService.login(userLogin);
 
 		//then
-		assertThat(SessionStorage.isSession(accessToken)).isTrue();
-		assertThat(SessionStorage.getSession(accessToken).getUser().getId()).isEqualTo(user.getId());
+		assertThat(userId).isEqualTo(user.getId());
 	}
 
 	@Test
@@ -87,7 +86,7 @@ class UserServiceTest {
 			.build();
 
 		//expected
-		assertThrows(UserNotFoundException.class, () -> userService.signIn(userLogin));
+		assertThrows(UserNotFoundException.class, () -> userService.login(userLogin));
 		assertThat(SessionStorage.getCount()).isEqualTo(0);
 	}
 }
