@@ -31,7 +31,6 @@ public class UserService {
 			.orElseThrow(UserNotFoundException::new);
 
 		if (!encryptHelper.isMatch(userLogin.getUserPassword(), user.getUserPassword())) {
-			//todo : Password Not Valid Exception
 			throw new UserNotFoundException();
 		}
 
