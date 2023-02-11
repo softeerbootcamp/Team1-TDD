@@ -61,7 +61,7 @@ public class Post {
 		}
 	}
 
-	public PostDto toDto() {
+	public PostDto toPostDto() {
 		return PostDto.builder()
 			.carName(carName)
 			.userId(userId)

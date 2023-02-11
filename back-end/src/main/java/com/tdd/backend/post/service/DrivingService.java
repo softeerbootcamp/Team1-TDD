@@ -30,7 +30,7 @@ public class DrivingService {
 		Optional<Location> location = postRepository.findLocationByPostId(postId);
 		List<OptionDto> optionDtos = options.stream().map(Option::toDto).collect(Collectors.toList());
 		return SharingDto.builder()
-			.post(post.orElseThrow(RuntimeException::new).toDto())
+			.post(post.orElseThrow(RuntimeException::new).toPostDto())
 			.options(optionDtos)
 			.dates(dates)
 			.location(location.orElseThrow(RuntimeException::new).toDto())
