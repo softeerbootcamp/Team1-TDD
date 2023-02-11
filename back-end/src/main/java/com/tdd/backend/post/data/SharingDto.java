@@ -1,9 +1,9 @@
 package com.tdd.backend.post.data;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
@@ -38,13 +38,11 @@ public class SharingDto {
 	}
 
 	public Post toEntity() {
-		Set<Option> optionSet = new HashSet<>();
-		options.forEach(optionDto -> optionSet.add(optionDto.toEntity()));
-		Set<Appointment> appointments = new HashSet<>();
-		for (String date : dates) {
-			appointments.add(new Appointment(LocalDate.parse(date), AppointmentStatus.PENDING));
-		}
+		Set<Option> optionSet = options.stream().map(OptionDto::toEntity).collect(Collectors.toSet());
+		Set<Appointment> appointmentSet = dates.stream()
+			.map(date -> new Appointment(LocalDate.parse(date), AppointmentStatus.PENDING))
+			.collect(Collectors.toSet());
 		return new Post(post.getUserId(), RideOption.valueOf(post.getRideOption().toUpperCase()), post.getCarName(),
-			post.getRequirement(), optionSet, location.toEntity(), appointments);
+			post.getRequirement(), optionSet, location.toEntity(), appointmentSet);
 	}
 }
