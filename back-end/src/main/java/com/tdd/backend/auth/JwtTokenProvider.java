@@ -45,7 +45,7 @@ public class JwtTokenProvider {
 			.compact();
 	}
 
-	public String getUsernameFromJwt(String authToken) {
+	public String getUserNameFromJwt(String authToken) {
 		Jws<Claims> claims = Jwts.parserBuilder()
 			.setSigningKey(decodeBase64(jwtSecret))
 			.build()

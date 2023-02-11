@@ -39,9 +39,9 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
 		}
 
 		if (jwtTokenProvider.validateToken(jws)) {
-			String usernameFromJwt = jwtTokenProvider.getUsernameFromJwt(jws);
+			String userNameFromJwt = jwtTokenProvider.getUserNameFromJwt(jws);
 			return UserToken.builder()
-				.userName(usernameFromJwt)
+				.userName(userNameFromJwt)
 				.build();
 		}
 		throw new UnauthorizedException();
