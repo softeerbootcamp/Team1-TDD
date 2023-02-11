@@ -4,7 +4,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tdd.backend.auth.JwtTokenProvider;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
 import com.tdd.backend.user.util.EncryptHelper;
@@ -38,6 +38,9 @@ class UserControllerTest {
 	@Autowired
 	EncryptHelper encryptHelper;
 
+	@Autowired
+	JwtTokenProvider jwtTokenProvider;
+
 	@Test
 	@DisplayName("유저 회원가입")
 	void signup() throws Exception {
@@ -55,7 +58,7 @@ class UserControllerTest {
 		mockMvc.perform(post("/users")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(jsonRequest))
-			.andExpect(status().isFound())
+			.andExpect(status().isOk())
 			.andDo(print());
 
 		//then
@@ -137,10 +140,8 @@ class UserControllerTest {
 		mockMvc.perform(post("/login")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(loginRequestBody))
-			.andExpect(status().isFound())
+			.andExpect(status().isOk())
 			.andDo(print());
-
-		Assertions.assertThat(SessionStorage.getCount()).isEqualTo(1);
 	}
 
 	@Test
@@ -159,5 +160,43 @@ class UserControllerTest {
 			.andExpect(status().isUnauthorized())
 			.andExpect(jsonPath("$.errorMessage").value("해당하는 유저가 없습니다."))
 			.andDo(print());
+	}
+
+	@Test
+	@DisplayName("유저 로그인 유지 (jwt)")
+	void login_jwt() throws Exception {
+		//when
+		User user = User.builder()
+			.email("test@test.com")
+			.userPassword(encryptHelper.encrypt("pwd"))
+			.userName("tester")
+			.phoneNumber("010101")
+			.build();
+
+		userRepository.save(user);
+		String jws = jwtTokenProvider.generateToken(user.getUserName());
+
+		//expected
+		mockMvc.perform(get("/test/auth")
+				.header("Authorization", jws)
+			)
+			.andExpect(status().isOk())
+			.andDo(print());
+	}
+	
+	@Test
+	@DisplayName("인증되지 않은 접근 테스트")
+	void access_non_auth() throws Exception {
+	    //when
+		String invalidToken = "aabdakflafklanl";
+	    //expected
+		mockMvc.perform(get("/test/auth")
+				.header("Authorization", invalidToken)
+			)
+			.andExpect(status().isUnauthorized())
+			.andExpect(jsonPath("$.code").value(HttpStatus.UNAUTHORIZED.toString()))
+			.andExpect(jsonPath("$.errorMessage").value("인증되지 않은 접근입니다."))
+			.andDo(print());
+	    
 	}
 }

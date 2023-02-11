@@ -14,7 +14,7 @@ export class LoginForm extends Component {
                     <input id="signup-tel" type="tel" placeholder="010-1234-5678" />
                     <input id="signup-name" type="text" placeholder="홍길동" />
                     <input id="signup-pwd" type="password" placeholder="Password" />
-                    <button type="submit" form="signup-form">Sign Up</button>
+                    <button id="sign-up-button">Sign Up</button>
                 </form>
             </div>
             <div class="${styles['form-container']} ${styles['sign-in-container']}">
@@ -28,8 +28,8 @@ export class LoginForm extends Component {
                     <span>or use your account</span>
                     <input id="signin-email" type="email" placeholder="Email" />
                     <input id="signin-pwd" type="password" placeholder="Password" />
-                    <a href="#">Forgot your password?</a>
-                    <button type="submit" form="signin-form">Sign In</button>
+                    <a  id="api-test">Forgot your password?</a>
+                    <button id="sign-in-button">Sign In</button>
                 </form>
             </div>
             <div class="${styles['overlay-container']}">
@@ -58,15 +58,20 @@ export class LoginForm extends Component {
       const $container = qs('#container', this.target);
       $container?.classList.remove(styles['right-panel-active']);
     });
-
-    this.addEvent('submit', '#signin-form', (e) => {
+    this.addEvent('click', '#api-test', () => {
+      axios
+        .get(`http://52.78.106.53:8080/options/sonata`)
+        .then((data) => console.log(data))
+        .catch((error) => console.log(error));
+    });
+    this.addEvent('click', '#sign-in-button', (e) => {
       e.preventDefault();
       const $email = qs('#signin-email', this.target) as HTMLInputElement;
       const $password = qs('#signin-pwd', this.target) as HTMLInputElement;
       const enteredEmail = $email.value;
       const enteredPassword = $password.value;
       axios
-        .post(`${process.env.VITE_PUBLIC_API_BASEURL}/login`, {
+        .post(`http://52.78.106.53:8080/login`, {
           email: enteredEmail,
           userPassword: enteredPassword,
         })
@@ -74,8 +79,9 @@ export class LoginForm extends Component {
         .catch((error) => console.log(error));
     });
 
-    this.addEvent('submit', '#signup-form', (e) => {
+    this.addEvent('click', '#sign-up-button', (e) => {
       e.preventDefault();
+
       const $email = qs('#signup-email', this.target) as HTMLInputElement;
       const $tel = qs('#signup-tel', this.target) as HTMLInputElement;
       const $name = qs('#signup-name', this.target) as HTMLInputElement;
@@ -85,7 +91,7 @@ export class LoginForm extends Component {
       const enteredName = $name.value;
       const enteredPassword = $password.value;
       axios
-        .post(`${process.env.VITE_PUBLIC_API_BASEURL}/users`, {
+        .post(`http://52.78.106.53:8080/users`, {
           email: enteredEmail,
           phoneNumber: enteredTel,
           userName: enteredName,

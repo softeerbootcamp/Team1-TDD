@@ -3,7 +3,6 @@ package com.tdd.backend.user;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +26,6 @@ class UserServiceTest {
 
 	@Autowired
 	private EncryptHelper encryptHelper;
-
-	@BeforeEach
-	void setup() {
-		userRepository.deleteAll();
-		SessionStorage.clean();
-	}
 
 	@Test
 	@DisplayName("유저 저장")
@@ -70,11 +63,10 @@ class UserServiceTest {
 			.userPassword("pwd")
 			.build();
 
-		String accessToken = userService.signIn(userLogin);
+		String username = userService.login(userLogin);
 
 		//then
-		assertThat(SessionStorage.isSession(accessToken)).isTrue();
-		assertThat(SessionStorage.getSession(accessToken).getUser().getId()).isEqualTo(user.getId());
+		assertThat(username).isEqualTo(user.getUserName());
 	}
 
 	@Test
@@ -87,7 +79,6 @@ class UserServiceTest {
 			.build();
 
 		//expected
-		assertThrows(UserNotFoundException.class, () -> userService.signIn(userLogin));
-		assertThat(SessionStorage.getCount()).isEqualTo(0);
+		assertThrows(UserNotFoundException.class, () -> userService.login(userLogin));
 	}
 }
