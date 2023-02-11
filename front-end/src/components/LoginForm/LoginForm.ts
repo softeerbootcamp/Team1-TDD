@@ -1,4 +1,4 @@
-import { sendLogInRequest } from '@/apis/login';
+import { sendLogInRequest, sendRegisterRequest } from '@/apis/login';
 import Component from '@/core/Component';
 import { qs } from '@/utils/querySelector';
 import axios from 'axios';
@@ -87,6 +87,7 @@ export class LoginForm extends Component {
         .catch((err) => {
           if (err.response.status === 401) {
             this.resetErrorClass($email, $password);
+            this.addErrorClass($email, $password);
             loadingSpinnerHandler.finishRequest();
           }
         });
@@ -95,24 +96,39 @@ export class LoginForm extends Component {
     this.addEvent('click', '#sign-up-button', (e) => {
       e.preventDefault();
 
+      const $button = e.target as HTMLButtonElement;
       const $email = qs('#signup-email', this.target) as HTMLInputElement;
       const $tel = qs('#signup-tel', this.target) as HTMLInputElement;
       const $name = qs('#signup-name', this.target) as HTMLInputElement;
       const $password = qs('#signup-pwd', this.target) as HTMLInputElement;
-      const enteredEmail = $email.value;
-      const enteredTel = $tel.value;
-      const enteredName = $name.value;
-      const enteredPassword = $password.value;
 
-      axios
-        .post(`${process.env.VITE_PUBLIC_API_BASEURL}/users`, {
-          email: enteredEmail,
-          phoneNumber: enteredTel,
-          userName: enteredName,
-          userPassword: enteredPassword,
+      const email = $email.value;
+      const phoneNumber = $tel.value;
+      const userName = $name.value;
+      const userPassword = $password.value;
+
+      this.resetErrorClass($email, $password, $tel, $name);
+      if (!email || !phoneNumber || !userName || !userPassword) {
+        this.addErrorClass($email, $password, $tel, $name);
+        return;
+      }
+      const loadingSpinnerHandler = new LoadingSpinnerHandler($button);
+      loadingSpinnerHandler.startRequest();
+
+      sendRegisterRequest({
+        email,
+        phoneNumber,
+        userName,
+        userPassword,
+      })
+        .then(() => {
+          loadingSpinnerHandler.finishRegister();
         })
-        .then((data) => console.log(data))
-        .catch((error) => console.log(error));
+        .catch(() => {
+          this.resetErrorClass($email, $password, $tel, $name);
+          this.addErrorClass($email, $password, $tel, $name);
+          loadingSpinnerHandler.finishRequest();
+        });
     });
   }
 
@@ -150,5 +166,11 @@ class LoadingSpinnerHandler {
       this.#target.disabled = false;
     }
     this.#target.innerHTML = this.#targetContent;
+  }
+  finishRegister() {
+    if (this.#target instanceof HTMLButtonElement) {
+      this.#target.disabled = true;
+    }
+    this.#target.innerHTML = '가입 완료!';
   }
 }
