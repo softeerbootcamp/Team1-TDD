@@ -76,9 +76,9 @@ export class LoginForm extends Component {
         this.addErrorClass($email, $password);
         return;
       }
+      const loadingSpinnerHandler = new LoadingSpinnerHandler($button);
+      loadingSpinnerHandler.startRequest();
 
-      $button.innerHTML = '<div class="loader"></div>';
-      $button.disabled = true;
       sendLogInRequest(enteredEmail, enteredPassword)
         .then(({ data }) => {
           localStorage.setItem('accessToken', data.accessToken);
@@ -87,8 +87,7 @@ export class LoginForm extends Component {
         .catch((err) => {
           if (err.response.status === 401) {
             this.resetErrorClass($email, $password);
-            $button.innerHTML = 'Sign In';
-            $button.disabled = false;
+            loadingSpinnerHandler.finishRequest();
           }
         });
     });
@@ -104,6 +103,7 @@ export class LoginForm extends Component {
       const enteredTel = $tel.value;
       const enteredName = $name.value;
       const enteredPassword = $password.value;
+
       axios
         .post(`${process.env.VITE_PUBLIC_API_BASEURL}/users`, {
           email: enteredEmail,
@@ -127,5 +127,28 @@ export class LoginForm extends Component {
       ele.classList.remove(styles.error);
     });
     void $target[0]?.offsetWidth;
+  }
+}
+
+class LoadingSpinnerHandler {
+  #loadingSpinner = '<div class="loader"></div>';
+  #target;
+  #targetContent;
+
+  constructor($target: Element) {
+    this.#target = $target;
+    this.#targetContent = this.#target.innerHTML;
+  }
+  startRequest() {
+    if (this.#target instanceof HTMLButtonElement) {
+      this.#target.disabled = true;
+    }
+    this.#target.innerHTML = this.#loadingSpinner;
+  }
+  finishRequest() {
+    if (this.#target instanceof HTMLButtonElement) {
+      this.#target.disabled = false;
+    }
+    this.#target.innerHTML = this.#targetContent;
   }
 }
