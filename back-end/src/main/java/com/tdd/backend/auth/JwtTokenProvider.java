@@ -1,5 +1,6 @@
 package com.tdd.backend.auth;
 
+import static com.tdd.backend.auth.JwtTokenProvider.JwtTokenRole.*;
 import static com.tdd.backend.auth.JwtTokenProvider.JwtTokenStatus.*;
 import static org.apache.tomcat.util.codec.binary.Base64.*;
 
@@ -41,6 +42,7 @@ public class JwtTokenProvider {
 
 		return Jwts.builder()
 			.setSubject(email)
+			.claim("role", ATK)
 			.setIssuedAt(new Date())
 			.setExpiration(expiryDate)
 			.signWith(key)
@@ -56,6 +58,7 @@ public class JwtTokenProvider {
 
 		return Jwts.builder()
 			.setSubject(email)
+			.claim("role", ATK)
 			.setIssuedAt(new Date())
 			.setExpiration(expiryDate)
 			.signWith(key)
@@ -82,6 +85,10 @@ public class JwtTokenProvider {
 			log.error("jwtException : {}", e.getMessage());
 		}
 		return DENIED;
+	}
+
+	public enum JwtTokenRole {
+		ATK, RTK
 	}
 
 	public enum JwtTokenStatus {
