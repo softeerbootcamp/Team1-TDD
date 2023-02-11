@@ -40,7 +40,7 @@ public class JwtEncryptTest {
 		//given
 		String userName = "tester";
 		//when
-		String jws = jwtTokenProvider.generateToken(userName);
+		String jws = jwtTokenProvider.generateAccessToken(userName);
 
 		//expected
 		SoftAssertions softAssertions = new SoftAssertions();
