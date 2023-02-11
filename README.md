@@ -41,7 +41,7 @@
 - 프로젝트에서 사용된 구조나 디자인 원칙을 추가할 수 있습니다.
 
 
-# 팀원 및 참고 자료
+# 팀원
 
 ## FE
 |```이민재```|```이제영```|
@@ -54,8 +54,6 @@
 |<img src="https://avatars.githubusercontent.com/u/80745404?v=4" width=130>|<img src="https://avatars.githubusercontent.com/u/59179386?v=4" width=130>|<img src="https://avatars.githubusercontent.com/u/60373714?v=4" width=130>|
 |[@River-Mt](https://github.com/River_Mt)|[@jieonkim23](https://github.com/jieonkim23)| [@psm9718](https://github.com/psm9718) |
 
-
-- 사용자가 프로젝트를 설치하는 데 도움을 줄 수 있는 튜토리얼이나 자료 링크
 
 # 라이센스
 - 가장 흔한 라이센스는 다른 사람들이 여러분의 코드를 수정할 수 있고 상업적인 용도로 사용할 수 있는 GPL 라이센스입니다. 라이센스를 고를 때 도움을 받고 싶다면, 이 링크를 확인해 보세요: https://choosealicense.com/
