@@ -25,18 +25,13 @@ public class UserService {
 		return userRepository.countByEmail(email) > 0;
 	}
 
-	public Long login(UserLogin userLogin) {
+	public String login(UserLogin userLogin) {
 		User user = userRepository.findByEmail(userLogin.getEmail())
 			.orElseThrow(UserNotFoundException::new);
 
 		if (!encryptHelper.isMatch(userLogin.getUserPassword(), user.getUserPassword())) {
 			throw new UserNotFoundException();
 		}
-		return user.getId();
-	}
-
-	public User findByUserId(Long userId) {
-		return userRepository.findById(userId)
-			.orElseThrow(UserNotFoundException::new);
+		return user.getUserName();
 	}
 }

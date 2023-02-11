@@ -4,7 +4,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -139,8 +138,6 @@ class UserControllerTest {
 				.content(loginRequestBody))
 			.andExpect(status().isOk())
 			.andDo(print());
-
-		Assertions.assertThat(SessionStorage.getCount()).isEqualTo(1);
 	}
 
 	@Test
