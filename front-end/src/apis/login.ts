@@ -6,3 +6,14 @@ export const sendLogInRequest = async (email: string, userPassword: string) => {
     userPassword,
   });
 };
+
+interface IRegisterPayload {
+  email: string;
+  phoneNumber: string;
+  userName: string;
+  userPassword: string;
+}
+
+export const sendRegisterRequest = async (payload: IRegisterPayload) => {
+  return axiosInstance.post('/users', payload);
+};
