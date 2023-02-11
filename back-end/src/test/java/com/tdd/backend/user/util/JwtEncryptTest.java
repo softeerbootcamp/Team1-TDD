@@ -1,5 +1,7 @@
 package com.tdd.backend.user.util;
 
+import static com.tdd.backend.auth.JwtTokenProvider.JwtTokenStatus.*;
+
 import java.security.Key;
 import java.util.Base64;
 
@@ -44,7 +46,7 @@ public class JwtEncryptTest {
 
 		//expected
 		SoftAssertions softAssertions = new SoftAssertions();
-		softAssertions.assertThat(jwtTokenProvider.validateToken(jws)).isTrue();
+		softAssertions.assertThat(jwtTokenProvider.validateToken(jws)).isEqualTo(ACCESS);
 		softAssertions.assertThat(jwtTokenProvider.getEmailFormJwt(jws)).isEqualTo(email);
 	}
 }
