@@ -3,11 +3,13 @@ package com.tdd.backend.post;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.tdd.backend.post.model.Appointment;
 import com.tdd.backend.post.model.Location;
 import com.tdd.backend.post.model.Option;
 import com.tdd.backend.post.model.Post;
@@ -20,6 +22,10 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 	@Query("SELECT name, category FROM options WHERE  post_id = :id")
 	List<Option> findOptionByPostId(@Param("id") Long id);
 
-	@Query("SELECT  date FROM appointments WHERE post_id = :id")
-	List<String> findAppointmentByPostId(@Param("id") Long id);
+	@Query("SELECT id, date, status FROM appointments WHERE post_id = :id")
+	List<Appointment> findAppointmentsByPostId(@Param("id") Long id);
+
+	@Modifying
+	@Query("UPDATE appointments SET status = 'ACCEPT' WHERE id = :id")
+	void updateAppointmentStatus(@Param("id") Long id);
 }
