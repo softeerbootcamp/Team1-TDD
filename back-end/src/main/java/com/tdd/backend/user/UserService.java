@@ -42,12 +42,12 @@ public class UserService {
 			throw new UserNotFoundException();
 		}
 
-		String accessToken = jwtTokenProvider.generateAccessToken(user.getEmail());
-		String refreshToken = jwtTokenProvider.generateRefreshToken(user.getEmail());
+		String accessToken = jwtTokenProvider.generateAccessToken(user.getId());
+		String refreshToken = jwtTokenProvider.generateRefreshToken(user.getId());
 		log.info("> access token : {}", accessToken);
 		log.info("> refresh token : {}", refreshToken);
 
-		RefreshTokenStorage.save(user.getEmail(), refreshToken);
+		RefreshTokenStorage.save(user.getId(), refreshToken);
 
 		return JwtTokenPairResponse.builder()
 			.accessToken(accessToken)
@@ -59,14 +59,14 @@ public class UserService {
 		//리프레쉬 토큰이 validate 하다면 새로운 ATK 재발급
 		if (jwtTokenProvider.validateToken(refreshToken) == ACCESS) {
 			// ATK 재발급은 RTK의 payload에서 유저의 email을 꺼낸 뒤, Redis 인메모리에 해당 유저의 존재 유무로 결정된다.
-			String email = jwtTokenProvider.getEmailFormJwt(refreshToken);
+			Long id = jwtTokenProvider.getUserIdFromJwt(refreshToken);
 
 			//TODO : 이론적으로 인메모리에 해당하는 key (email) 이 없는 경우에 대한 방식이 적절한 지 판단
-			if (!RefreshTokenStorage.isValidateEmail(email)) {
+			if (!RefreshTokenStorage.isValidateUserId(id)) {
 				throw new UnauthorizedException();
 			}
 
-			String newAccessToken = jwtTokenProvider.generateAccessToken(email);
+			String newAccessToken = jwtTokenProvider.generateAccessToken(id);
 			log.info(">> reissued access token : {}", newAccessToken);
 
 			return JwtTokenPairResponse.builder()

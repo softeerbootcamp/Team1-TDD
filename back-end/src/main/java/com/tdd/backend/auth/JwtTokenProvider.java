@@ -35,7 +35,7 @@ public class JwtTokenProvider {
 	@Value("${app.jwt.refreshExpirationInMs}")
 	private int jwtRefreshExpirationInMs;
 
-	public String generateAccessToken(String email) {
+	public String generateAccessToken(Long id) {
 
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
@@ -43,7 +43,7 @@ public class JwtTokenProvider {
 		SecretKey key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtSecret));
 
 		return Jwts.builder()
-			.setSubject(email)
+			.setSubject(String.valueOf(id))
 			.claim("role", ATK)
 			.setIssuedAt(new Date())
 			.setExpiration(expiryDate)
@@ -51,7 +51,7 @@ public class JwtTokenProvider {
 			.compact();
 	}
 
-	public String generateRefreshToken(String email) {
+	public String generateRefreshToken(Long id) {
 
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + jwtRefreshExpirationInMs);
@@ -59,7 +59,7 @@ public class JwtTokenProvider {
 		SecretKey key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtSecret));
 
 		return Jwts.builder()
-			.setSubject(email)
+			.setSubject(String.valueOf(id))
 			.claim("role", ATK)
 			.setIssuedAt(new Date())
 			.setExpiration(expiryDate)
@@ -67,13 +67,13 @@ public class JwtTokenProvider {
 			.compact();
 	}
 
-	public String getEmailFormJwt(String authToken) {
+	public Long getUserIdFromJwt(String authToken) {
 		Jws<Claims> claims = Jwts.parserBuilder()
 			.setSigningKey(decodeBase64(jwtSecret))
 			.build()
 			.parseClaimsJws(authToken);
 
-		return claims.getBody().getSubject();
+		return Long.parseLong(claims.getBody().getSubject());
 	}
 
 	public JwtTokenStatus validateToken(String authToken) {

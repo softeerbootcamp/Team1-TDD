@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 public class UserToken {
 
-	private final String email;
+	private final Long id;
 
 	@Builder
-	private UserToken(String email) {
-		this.email = email;
+	private UserToken(Long id) {
+		this.id = id;
 	}
 }

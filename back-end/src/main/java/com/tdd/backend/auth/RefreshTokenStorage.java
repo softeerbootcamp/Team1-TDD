@@ -9,16 +9,16 @@ import java.util.Map;
  */
 public class RefreshTokenStorage {
 
-	private static final Map<String, String> refreshTokenMap = new HashMap<>();
+	private static final Map<Long, String> refreshTokenMap = new HashMap<>();
 
 	private RefreshTokenStorage() {
 	}
 
-	public static void save(String email, String refreshToken) {
-		refreshTokenMap.put(email, refreshToken);
+	public static void save(Long id, String refreshToken) {
+		refreshTokenMap.put(id, refreshToken);
 	}
 
-	public static boolean isValidateEmail(String email) {
-		return refreshTokenMap.containsKey(email);
+	public static boolean isValidateUserId(Long id) {
+		return refreshTokenMap.containsKey(id);
 	}
 }

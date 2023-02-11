@@ -72,7 +72,7 @@ class UserServiceTest {
 		User findUser = userRepository.findByEmail("test@test.com").orElseThrow(UserNotFoundException::new);
 		softAssertions.assertThat(findUser.getId()).isEqualTo(user.getId());
 
-		softAssertions.assertThat(RefreshTokenStorage.isValidateEmail(user.getEmail())).isTrue();
+		softAssertions.assertThat(RefreshTokenStorage.isValidateUserId(user.getId())).isTrue();
 		softAssertions.assertAll();
 	}
 

@@ -61,6 +61,6 @@ public class UserController {
 
 	@GetMapping("/test/auth")
 	public String testAuth(@LoginUser UserToken userToken) {
-		return "JWT IS AWESOME " + userToken.getEmail();
+		return "JWT IS AWESOME " + userToken.getId();
 	}
 }
