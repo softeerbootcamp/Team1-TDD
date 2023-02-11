@@ -64,7 +64,7 @@ public class JwtTokenProvider {
 	}
 
 
-	public String getUserNameFromJwt(String authToken) {
+	public String getEmailFormJwt(String authToken) {
 		Jws<Claims> claims = Jwts.parserBuilder()
 			.setSigningKey(decodeBase64(jwtSecret))
 			.build()
