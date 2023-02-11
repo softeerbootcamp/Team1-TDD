@@ -40,7 +40,7 @@ export class ExperienceMap extends Component {
 
   init() {
     loadscript(
-      `https://maps.googleapis.com/maps/api/js?key=AIzaSyAbVatL-Ju-loj7qQEtCTTHeRZYFIC7JQo&callback=initMap`,
+      `https://maps.googleapis.com/maps/api/js?key=${process.env.VITE_API_KEY}&callback=initMap`,
       this.initMap.bind(this)
     );
   }
