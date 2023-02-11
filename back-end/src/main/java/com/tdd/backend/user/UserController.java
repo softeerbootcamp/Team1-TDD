@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tdd.backend.auth.JwtTokenProvider;
 import com.tdd.backend.auth.LoginUser;
-import com.tdd.backend.user.data.SessionResponse;
+import com.tdd.backend.user.data.TokenResponse;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
 import com.tdd.backend.user.data.UserToken;
@@ -47,12 +47,12 @@ public class UserController {
 
 	@Operation(summary = "유저 로그인 요청", description = "User Login request")
 	@PostMapping("/login")
-	public SessionResponse login(@RequestBody @Valid UserLogin userLogin) {
+	public TokenResponse login(@RequestBody @Valid UserLogin userLogin) {
 
 		String jws = jwtTokenProvider.generateToken(userService.login(userLogin));
 
 		log.info("> access token : {}", jws);
-		return new SessionResponse(jws);
+		return new TokenResponse(jws);
 	}
 
 	@GetMapping("/test/auth")
