@@ -42,12 +42,22 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
 		}
 
 		JwtTokenStatus jwtTokenStatus = jwtTokenProvider.validateToken(jws);
+
+		//todo : 여기서 분기하는 부분 refactoring 필요
 		if (jwtTokenStatus.equals(ACCESS)) {
 			String emailFormJwt = jwtTokenProvider.getEmailFormJwt(jws);
 			return UserToken.builder()
 				.email(emailFormJwt)
 				.build();
+		} else if (jwtTokenStatus.equals(EXPIRED)) {
+			//todo : code to redirect to POST "/reissue"
+			log.info(">> jwt token expired ! please redirect to POST /reissue to regenerate new access token");
+			return UserToken.builder().email("expired email").build();
+			// RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
+			// redirectAttributes.addFlashAttribute("jws", jws);
+			// return new ModelAndView("redirect:/reissue", redirectAttributes.asMap());
 		}
 		throw new UnauthorizedException();
+
 	}
 }

@@ -1,8 +1,12 @@
 package com.tdd.backend.user;
 
+import static com.tdd.backend.auth.JwtTokenProvider.JwtTokenRole.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.Base64;
+import java.util.Date;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
@@ -20,6 +24,9 @@ import com.tdd.backend.auth.JwtTokenProvider;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
 import com.tdd.backend.user.util.EncryptHelper;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -185,13 +192,13 @@ class UserControllerTest {
 			.andExpect(status().isOk())
 			.andDo(print());
 	}
-	
+
 	@Test
-	@DisplayName("인증되지 않은 접근 테스트")
+	@DisplayName("인증되지 않은 접근")
 	void access_non_auth() throws Exception {
 	    //when
 		String invalidToken = "aabdakflafklanl";
-	    //expected
+		//expected
 		mockMvc.perform(get("/test/auth")
 				.header("Authorization", invalidToken)
 			)
@@ -199,6 +206,51 @@ class UserControllerTest {
 			.andExpect(jsonPath("$.code").value(HttpStatus.UNAUTHORIZED.toString()))
 			.andExpect(jsonPath("$.errorMessage").value("인증되지 않은 접근입니다."))
 			.andDo(print());
-	    
+
+	}
+
+	@Test
+	@DisplayName("ATK 만료시 RTK로 재발급")
+	void reissue_ATK() throws Exception {
+		String email = "test@test.com";
+		Date now = new Date();
+		Date expiryDate = new Date(now.getTime() + 1);
+		String accessToken = Jwts.builder()
+			.setSubject(email)
+			.claim("role", ATK)
+			.setIssuedAt(new Date())
+			.setExpiration(expiryDate)
+			.signWith(Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtTokenProvider.getJwtSecret())))
+			.compact();
+
+		mockMvc.perform(get("/test/auth")
+				.header("Authorization", accessToken)
+				.contentType(MediaType.APPLICATION_JSON)
+			)
+			.andExpect(status().isOk())
+			.andDo(print());
+
+	}
+
+	@Test
+	@DisplayName("ATK와 RTK 모두 만료시 재로그인")
+	void expired_RTK() throws Exception {
+		String email = "test@test.com";
+		Date now = new Date();
+		Date expiryDate = new Date(now.getTime() + 1);
+		String refreshToken = Jwts.builder()
+			.setSubject(email)
+			.claim("role", RTK)
+			.setIssuedAt(new Date())
+			.setExpiration(expiryDate)
+			.signWith(Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtTokenProvider.getJwtSecret())))
+			.compact();
+
+		mockMvc.perform(post("/reissue")
+				.header("Authorization", refreshToken)
+				.contentType(MediaType.APPLICATION_JSON)
+			)
+			.andExpect(status().isUnauthorized())
+			.andDo(print());
 	}
 }

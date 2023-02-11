@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tdd.backend.auth.JwtTokenPairResponse;
 import com.tdd.backend.auth.RefreshTokenStorage;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
@@ -66,16 +65,14 @@ class UserServiceTest {
 			.userPassword("pwd")
 			.build();
 
-		JwtTokenPairResponse jwtTokenPairResponse = userService.login(userLogin);
+		userService.login(userLogin);
 
 		//then
 		SoftAssertions softAssertions = new SoftAssertions();
 		User findUser = userRepository.findByEmail("test@test.com").orElseThrow(UserNotFoundException::new);
 		softAssertions.assertThat(findUser.getId()).isEqualTo(user.getId());
 
-		String refreshToken = jwtTokenPairResponse.getRefreshToken();
-		String savedEmail = RefreshTokenStorage.valueOf(refreshToken);
-		softAssertions.assertThat(savedEmail).isEqualTo(user.getEmail());
+		softAssertions.assertThat(RefreshTokenStorage.isValidateEmail(user.getEmail())).isTrue();
 		softAssertions.assertAll();
 	}
 
@@ -91,4 +88,5 @@ class UserServiceTest {
 		//expected
 		assertThrows(UserNotFoundException.class, () -> userService.login(userLogin));
 	}
+
 }

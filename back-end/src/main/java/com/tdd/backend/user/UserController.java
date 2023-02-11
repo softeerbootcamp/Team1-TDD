@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tdd.backend.auth.JwtTokenPairResponse;
@@ -49,17 +50,14 @@ public class UserController {
 		return ResponseEntity.ok(userService.login(userLogin));
 	}
 
-	// @Operation(summary = "유저 갱신 토큰 요청", description = "User refresh token request")
-	// @PostMapping("/refresh")
-	// public TokenResponse refreshToken(@RequestHeader("Authorization") String token) {
-	// 	String userName = jwtTokenProvider.getUserNameFromJwt(token);
-	// 	if (userName == null || !jwtTokenProvider.validateToken(token)) {
-	// 		throw new InvalidTokenException();
-	// 	}
-	// 	String jws = jwtTokenProvider.generateToken(userName);
-	// 	log.info("> refresh token : {}", jws);
-	// 	return new TokenResponse(jws);
-	// }
+	// RTK이며, 요청이 POST /reissue인 경우 재발급을 진행한다.
+	@PostMapping("/reissue")
+	public ResponseEntity<JwtTokenPairResponse> refreshAccessToken(
+		@RequestHeader("Authorization") String refreshToken) {
+		log.info("> refresh token : {}", refreshToken);
+		//TODO : 역할에 따라 토큰 서비스 클래스 분리
+		return ResponseEntity.ok(userService.reIssueToken(refreshToken));
+	}
 
 	@GetMapping("/test/auth")
 	public String testAuth(@LoginUser UserToken userToken) {
