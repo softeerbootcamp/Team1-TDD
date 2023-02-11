@@ -16,6 +16,7 @@ export class LoginForm extends Component {
                     <input id="signup-name" type="text" placeholder="홍길동" />
                     <input id="signup-pwd" type="password" placeholder="Password" />
                     <button id="sign-up-button">Sign Up</button>
+                    
                 </form>
             </div>
             <div class="${styles['form-container']} ${styles['sign-in-container']}">
@@ -31,6 +32,7 @@ export class LoginForm extends Component {
                     <input id="signin-pwd" type="password" placeholder="Password" />
                     <a  id="api-test">Forgot your password?</a>
                     <button id="sign-in-button">Sign In</button>
+                    
                 </form>
             </div>
             <div class="${styles['overlay-container']}">
@@ -63,19 +65,20 @@ export class LoginForm extends Component {
 
     this.addEvent('click', '#sign-in-button', (e) => {
       e.preventDefault();
+      const $button = e.target as HTMLButtonElement;
       const $email = qs('#signin-email', this.target) as HTMLInputElement;
       const $password = qs('#signin-pwd', this.target) as HTMLInputElement;
       const enteredEmail = $email.value;
       const enteredPassword = $password.value;
 
-      $email.classList.remove(styles.error);
-      $password.classList.remove(styles.error);
-      void $email.offsetWidth;
+      this.resetErrorClass($email, $password);
       if (!enteredEmail || !enteredPassword) {
-        $email.classList.add(styles.error);
-        $password.classList.add(styles.error);
+        this.addErrorClass($email, $password);
         return;
       }
+
+      $button.innerHTML = '<div class="loader"></div>';
+      $button.disabled = true;
       sendLogInRequest(enteredEmail, enteredPassword)
         .then(({ data }) => {
           localStorage.setItem('accessToken', data.accessToken);
@@ -83,8 +86,9 @@ export class LoginForm extends Component {
         })
         .catch((err) => {
           if (err.response.status === 401) {
-            $email.classList.add(styles.error);
-            $password.classList.add(styles.error);
+            this.resetErrorClass($email, $password);
+            $button.innerHTML = 'Sign In';
+            $button.disabled = false;
           }
         });
     });
@@ -110,5 +114,18 @@ export class LoginForm extends Component {
         .then((data) => console.log(data))
         .catch((error) => console.log(error));
     });
+  }
+
+  addErrorClass(...$target: HTMLInputElement[]) {
+    Array.from($target).forEach((ele) => {
+      ele.classList.add(styles.error);
+    });
+  }
+
+  resetErrorClass(...$target: HTMLInputElement[]) {
+    Array.from($target).forEach((ele) => {
+      ele.classList.remove(styles.error);
+    });
+    void $target[0]?.offsetWidth;
   }
 }
