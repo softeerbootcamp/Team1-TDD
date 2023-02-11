@@ -3,12 +3,15 @@ package com.tdd.backend.user;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tdd.backend.auth.JwtTokenPairResponse;
+import com.tdd.backend.auth.RefreshTokenStorage;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
 import com.tdd.backend.user.exception.UserNotFoundException;
@@ -63,11 +66,17 @@ class UserServiceTest {
 			.userPassword("pwd")
 			.build();
 
-		userService.login(userLogin);
+		JwtTokenPairResponse jwtTokenPairResponse = userService.login(userLogin);
 
 		//then
+		SoftAssertions softAssertions = new SoftAssertions();
 		User findUser = userRepository.findByEmail("test@test.com").orElseThrow(UserNotFoundException::new);
-		assertThat(findUser.getId()).isEqualTo(user.getId());
+		softAssertions.assertThat(findUser.getId()).isEqualTo(user.getId());
+
+		String refreshToken = jwtTokenPairResponse.getRefreshToken();
+		String savedEmail = RefreshTokenStorage.valueOf(refreshToken);
+		softAssertions.assertThat(savedEmail).isEqualTo(user.getEmail());
+		softAssertions.assertAll();
 	}
 
 	@Test

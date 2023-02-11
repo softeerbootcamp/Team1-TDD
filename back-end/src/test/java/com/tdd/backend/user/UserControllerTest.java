@@ -141,6 +141,8 @@ class UserControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(loginRequestBody))
 			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.accessToken").isNotEmpty())
+			.andExpect(jsonPath("$.refreshToken").isNotEmpty())
 			.andDo(print());
 	}
 

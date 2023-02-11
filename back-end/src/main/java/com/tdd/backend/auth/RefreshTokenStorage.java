@@ -13,4 +13,8 @@ public class RefreshTokenStorage {
 	public static void save(String refreshToken, String email) {
 		refreshTokenMap.put(refreshToken, email);
 	}
+
+	public static String valueOf(String refreshToken) {
+		return refreshTokenMap.get(refreshToken);
+	}
 }
