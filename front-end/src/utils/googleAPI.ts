@@ -5,6 +5,7 @@ export function loadscript(url: string, initMap: Function) {
   script.src = url;
   script.type = "text/javascript";
   script.async = true;
+  script.defer = true;
   window.initMap = initMap;
 
   const scriptElem = qsa("script") as NodeListOf<HTMLScriptElement>;

@@ -4,8 +4,29 @@ import { mapStyle } from "@/utils/mapStyle";
 import { seoulLocations } from "./dummyData";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import { loadscript } from "@/utils/googleAPI";
+import { qs } from "@/utils/querySelector";
 
 export class ExperienceMap extends Component {
+  async setup() {
+    this.state.markers = [];
+    this.state.userLocation = {};
+    this.state.map = null;
+    if (this.props.hasOwnProperty("ends")) {
+      this.state.userLocation = {
+        lat: (this.props.ends.latHi + this.props.ends.latLo) / 2,
+        lng: (this.props.ends.lngHi + this.props.ends.lngLo) / 2,
+      };
+    } else {
+      if (navigator.geolocation) {
+        const loc = this.getLocation() as Promise<GeolocationPosition>;
+        this.state.userLocation = {
+          lat: (await loc).coords.latitude,
+          lng: (await loc).coords.longitude,
+        };
+      }
+    }
+  }
+
   template(): string {
     return `
     <div class="${styles["desc"]}">시승해보고 싶은 싶은 위치를 골라주세요!</div>
@@ -13,45 +34,92 @@ export class ExperienceMap extends Component {
   }
 
   mounted(): void {
-    let markers: google.maps.Marker[] = [];
-    let markerCluster: MarkerClusterer;
+    this.init();
+    this.getMapBounds();
+  }
 
+  init() {
     loadscript(
-      `https://maps.googleapis.com/maps/api/js?key=${process.env.VITE_API_KEY}&callback=initMap`,
-      initMap
+      `https://maps.googleapis.com/maps/api/js?key=AIzaSyAbVatL-Ju-loj7qQEtCTTHeRZYFIC7JQo&callback=initMap`,
+      this.initMap.bind(this)
+    );
+  }
+
+  initMap() {
+    const map = new google.maps.Map(qs("#googleMap")!, {
+      zoom: 15,
+      center: this.state.userLocation as google.maps.LatLng,
+      styles: mapStyle() as object[],
+    });
+    this.state.map = map;
+    this.moveMap();
+
+    google.maps.event.addListener(
+      map,
+      "bounds_changed",
+      this.handleDebounce(() => {
+        let bounds = map.getBounds()! as google.maps.LatLngBounds;
+        const temp = bounds.toJSON();
+        this.props.userLocation = {
+          latHi: temp.north,
+          latLo: temp.south,
+          lngHi: temp.east,
+          lngLo: temp.west,
+        };
+      }, 500)
     );
 
-    function refreshMap(map: google.maps.Map) {
-      if (markerCluster instanceof MarkerClusterer) {
-        markerCluster.clearMarkers();
-      }
-      markers = [];
-      createMarkers(map);
-    }
+    this.refreshMap();
+  }
 
-    function createMarkers(map: google.maps.Map) {
-      for (let i = 0; i < seoulLocations.length; i++) {
-        let mker = new google.maps.Marker({
-          position: seoulLocations[i] as google.maps.LatLng,
-          map,
-          animation: google.maps.Animation.DROP,
-        });
-        markers.push(mker);
-      }
-      markerCluster = new MarkerClusterer({ markers, map });
-    }
+  moveMap() {
+    this.state.map.panTo(this.state.userLocation);
+  }
 
-    function initMap() {
-      const myLatlng = { lat: 37.4419, lng: 126.67581 };
-      const map = new google.maps.Map(
-        document.getElementById("googleMap")! as HTMLElement,
-        {
-          zoom: 15,
-          center: myLatlng,
-          styles: mapStyle() as object[],
-        }
-      );
-      refreshMap(map);
+  createMarkers() {
+    for (let i = 0; i < seoulLocations.length; i++) {
+      let mker = new google.maps.Marker({
+        position: seoulLocations[i] as google.maps.LatLng,
+        map: this.state.map,
+        animation: google.maps.Animation.DROP,
+      });
+      this.state.markers.push(mker);
     }
+    const markers = this.state.markers;
+    const map = this.state.map;
+    new MarkerClusterer({ map, markers });
+  }
+
+  refreshMap() {
+    this.state.markers = [];
+    this.createMarkers();
+  }
+
+  getMapBounds() {
+    const mapBounds = this.state.map.getBounds();
+    const lngHi = mapBounds.Ma.hi;
+    const lngLo = mapBounds.Ma.lo;
+    const latHi = mapBounds.Ya.hi;
+    const latLo = mapBounds.Ya.lo;
+    return { lngHi, lngLo, latHi, latLo };
+  }
+
+  async getLocation() {
+    const location = await new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, {
+        enableHighAccuracy: true,
+      });
+    });
+    return location;
+  }
+
+  handleDebounce(callback: Function, limit: number) {
+    let timeout: ReturnType<typeof setTimeout>;
+    return (...args: any) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        callback.apply(this, args);
+      }, limit);
+    };
   }
 }
