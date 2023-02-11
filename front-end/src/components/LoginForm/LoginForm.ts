@@ -68,6 +68,14 @@ export class LoginForm extends Component {
       const enteredEmail = $email.value;
       const enteredPassword = $password.value;
 
+      $email.classList.remove(styles.error);
+      $password.classList.remove(styles.error);
+      void $email.offsetWidth;
+      if (!enteredEmail || !enteredPassword) {
+        $email.classList.add(styles.error);
+        $password.classList.add(styles.error);
+        return;
+      }
       sendLogInRequest(enteredEmail, enteredPassword)
         .then(({ data }) => {
           localStorage.setItem('accessToken', data.accessToken);
@@ -75,7 +83,8 @@ export class LoginForm extends Component {
         })
         .catch((err) => {
           if (err.response.status === 401) {
-            alert('invalid user id');
+            $email.classList.add(styles.error);
+            $password.classList.add(styles.error);
           }
         });
     });
