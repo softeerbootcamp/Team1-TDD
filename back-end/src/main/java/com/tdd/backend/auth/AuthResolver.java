@@ -1,31 +1,30 @@
 package com.tdd.backend.auth;
 
-import java.util.Objects;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.tdd.backend.user.SessionStorage;
-import com.tdd.backend.user.data.UserSession;
+import com.tdd.backend.user.data.UserToken;
 import com.tdd.backend.user.exception.UnauthorizedException;
 
 import lombok.extern.slf4j.Slf4j;
 
-//todo : 로그인 유지 기술 및 테스트 코드 구현
 @Slf4j
 public class AuthResolver implements HandlerMethodArgumentResolver {
 
+	private final JwtTokenProvider jwtTokenProvider;
+
+	public AuthResolver(JwtTokenProvider jwtTokenProvider) {
+		this.jwtTokenProvider = jwtTokenProvider;
+	}
+
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-
+		log.info(">>> param : {}", parameter.getParameterType());
 		boolean isAnnotation = parameter.getParameterAnnotation(LoginUser.class) != null;
-		boolean isUserSession = parameter.getParameterType().equals(UserSession.class);
+		boolean isUserSession = parameter.getParameterType().equals(UserToken.class);
 
 		return isAnnotation && isUserSession;
 	}
@@ -33,16 +32,17 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 		NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+		String jws = webRequest.getHeader("Authorization");
 
-		Cookie[] cookies = Objects.requireNonNull(request).getCookies();
-		if (cookies.length == 0) {
+		if (jws == null || jws.equals("")) {
 			throw new UnauthorizedException();
 		}
 
-		String accessToken = cookies[0].getValue();
-		if (SessionStorage.isSession(accessToken)) {
-			return SessionStorage.getSession(accessToken);
+		if (jwtTokenProvider.validateToken(jws)) {
+			String userNameFromJwt = jwtTokenProvider.getUserNameFromJwt(jws);
+			return UserToken.builder()
+				.userName(userNameFromJwt)
+				.build();
 		}
 		throw new UnauthorizedException();
 	}

@@ -1,4 +1,5 @@
 import Component from '@/core/Component';
+import { openLoginModal } from '@/utils/loginModal';
 import { qs } from '@/utils/querySelector';
 import styles from './Navbar.module.scss';
 
@@ -35,5 +36,9 @@ export class Navbar extends Component {
     }
     const scrollPercentage = (scrollY / (offsetHeight - innerHeight)) * 100;
     $progressBar.style.width = `${scrollPercentage}%`;
+  }
+
+  setEvent(): void {
+    this.addEvent('click', `.${styles['login-button']}`, openLoginModal);
   }
 }
