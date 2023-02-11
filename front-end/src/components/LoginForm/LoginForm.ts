@@ -1,3 +1,4 @@
+import { sendLogInRequest } from '@/apis/login';
 import Component from '@/core/Component';
 import { qs } from '@/utils/querySelector';
 import axios from 'axios';
@@ -54,29 +55,29 @@ export class LoginForm extends Component {
       const $container = qs('#container', this.target);
       $container?.classList.add(styles['right-panel-active']);
     });
+
     this.addEvent('click', '#signIn', () => {
       const $container = qs('#container', this.target);
       $container?.classList.remove(styles['right-panel-active']);
     });
-    this.addEvent('click', '#api-test', () => {
-      axios
-        .get(`http://52.78.106.53:8080/options/sonata`)
-        .then((data) => console.log(data))
-        .catch((error) => console.log(error));
-    });
+
     this.addEvent('click', '#sign-in-button', (e) => {
       e.preventDefault();
       const $email = qs('#signin-email', this.target) as HTMLInputElement;
       const $password = qs('#signin-pwd', this.target) as HTMLInputElement;
       const enteredEmail = $email.value;
       const enteredPassword = $password.value;
-      axios
-        .post(`http://52.78.106.53:8080/login`, {
-          email: enteredEmail,
-          userPassword: enteredPassword,
+
+      sendLogInRequest(enteredEmail, enteredPassword)
+        .then(({ data }) => {
+          localStorage.setItem('accessToken', data.accessToken);
+          location.reload();
         })
-        .then((data) => console.log(data))
-        .catch((error) => console.log(error));
+        .catch((err) => {
+          if (err.response.status === 401) {
+            alert('invalid user id');
+          }
+        });
     });
 
     this.addEvent('click', '#sign-up-button', (e) => {
@@ -91,7 +92,7 @@ export class LoginForm extends Component {
       const enteredName = $name.value;
       const enteredPassword = $password.value;
       axios
-        .post(`http://52.78.106.53:8080/users`, {
+        .post(`${process.env.VITE_PUBLIC_API_BASEURL}/users`, {
           email: enteredEmail,
           phoneNumber: enteredTel,
           userName: enteredName,
