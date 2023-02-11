@@ -1,4 +1,4 @@
-package com.tdd.backend.post;
+package com.tdd.backend.post.controller;
 
 import java.net.URI;
 
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tdd.backend.post.data.SharingDto;
+import com.tdd.backend.post.service.SharingService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

@@ -1,4 +1,4 @@
-package com.tdd.backend.post;
+package com.tdd.backend.post.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.tdd.backend.post.data.SharingDto;
+import com.tdd.backend.post.service.DrivingService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;

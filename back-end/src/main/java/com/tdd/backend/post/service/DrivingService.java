@@ -1,4 +1,4 @@
-package com.tdd.backend.post;
+package com.tdd.backend.post.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.tdd.backend.option.data.OptionDto;
+import com.tdd.backend.post.PostRepository;
 import com.tdd.backend.post.data.SharingDto;
 import com.tdd.backend.post.model.Location;
 import com.tdd.backend.post.model.Option;
