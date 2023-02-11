@@ -174,7 +174,7 @@ class UserControllerTest {
 			.build();
 
 		userRepository.save(user);
-		String jws = jwtTokenProvider.generateAccessToken(user.getUserName());
+		String jws = jwtTokenProvider.generateAccessToken(user.getEmail());
 
 		//expected
 		mockMvc.perform(get("/test/auth")

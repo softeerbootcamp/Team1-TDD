@@ -63,10 +63,11 @@ class UserServiceTest {
 			.userPassword("pwd")
 			.build();
 
-		String username = userService.login(userLogin);
+		userService.login(userLogin);
 
 		//then
-		assertThat(username).isEqualTo(user.getUserName());
+		User findUser = userRepository.findByEmail("test@test.com").orElseThrow(UserNotFoundException::new);
+		assertThat(findUser.getId()).isEqualTo(user.getId());
 	}
 
 	@Test

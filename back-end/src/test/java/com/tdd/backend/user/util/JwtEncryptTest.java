@@ -38,13 +38,13 @@ public class JwtEncryptTest {
 	@DisplayName("JwtTokenProvider 빈 테스트")
 	void jwtTokenProvider_test() throws Exception {
 		//given
-		String userName = "tester";
+		String email = "tester@test.com";
 		//when
-		String jws = jwtTokenProvider.generateAccessToken(userName);
+		String jws = jwtTokenProvider.generateAccessToken(email);
 
 		//expected
 		SoftAssertions softAssertions = new SoftAssertions();
 		softAssertions.assertThat(jwtTokenProvider.validateToken(jws)).isTrue();
-		softAssertions.assertThat(jwtTokenProvider.getUserNameFromJwt(jws)).isEqualTo(userName);
+		softAssertions.assertThat(jwtTokenProvider.getUserNameFromJwt(jws)).isEqualTo(email);
 	}
 }
