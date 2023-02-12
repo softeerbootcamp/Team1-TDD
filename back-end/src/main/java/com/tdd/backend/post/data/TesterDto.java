@@ -9,7 +9,7 @@ import lombok.Getter;
 public class TesterDto {
 	@NotNull(message = "시승자의 아이디는 필수입니다.")
 	private final Long testerId;
-
+	//TODO: 해결법 찾습니다..
 	public TesterDto() {
 		testerId = null;
 	}
