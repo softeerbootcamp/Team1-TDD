@@ -45,7 +45,7 @@ public class JwtTokenProvider {
 		return Jwts.builder()
 			.setSubject(String.valueOf(id))
 			.claim("role", ATK)
-			.setIssuedAt(new Date())
+			.setIssuedAt(now)
 			.setExpiration(expiryDate)
 			.signWith(key)
 			.compact();
@@ -61,7 +61,7 @@ public class JwtTokenProvider {
 		return Jwts.builder()
 			.setSubject(String.valueOf(id))
 			.claim("role", ATK)
-			.setIssuedAt(new Date())
+			.setIssuedAt(now)
 			.setExpiration(expiryDate)
 			.signWith(key)
 			.compact();

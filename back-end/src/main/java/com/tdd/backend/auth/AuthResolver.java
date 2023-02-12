@@ -53,9 +53,11 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
 			//todo : code to redirect to POST "/reissue"
 			log.info(">> jwt token expired ! please redirect to POST /reissue to regenerate new access token");
 			return UserToken.builder().id(401L).build();
-			// RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
-			// redirectAttributes.addFlashAttribute("jws", jws);
-			// return new ModelAndView("redirect:/reissue", redirectAttributes.asMap());
+
+			// RedirectView redirectView = new RedirectView();
+			// redirectView.setUrl("/reissue");
+			// redirectView.setStatusCode(HttpStatus.TEMPORARY_REDIRECT);
+			// return redirectView;
 		}
 		throw new UnauthorizedException();
 
