@@ -34,11 +34,11 @@ public class RenderService {
 			List<OptionDto> optionDtoList = new ArrayList<>();
 
 			for (Option carOption : carOptionList) {
-				log.info("category : " + carOption.getCategory());
-				if (isCategoryEquals(category, carOption.getCategory())) {
+				log.info("category : " + carOption.getCategoryName());
+				if (isCategoryEquals(category, carOption.getCategoryName())) {
 					OptionDto optionDto = OptionDto.builder()
 						.name(carOption.getOptionName())
-						.category(carOption.getCategory())
+						.category(carOption.getCategoryName())
 						.build();
 					optionDtoList.add(optionDto);
 				}
