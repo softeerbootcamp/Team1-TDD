@@ -1,5 +1,7 @@
 package com.tdd.backend.post.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -7,14 +9,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.tdd.backend.post.data.DrivingResponse;
+import com.tdd.backend.post.data.TesterDto;
 import com.tdd.backend.post.service.DrivingService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 @RequiredArgsConstructor
 public class DrivingController {
 	private final DrivingService drivingService;
@@ -43,8 +49,8 @@ public class DrivingController {
 
 	@PatchMapping("/appointments/{appointmentId}")
 	@Operation(summary = "최종적인 예약 요청", description = "시승하기에 대한 사용자의 최종적인 요청으로 Appointment의 상태를 승낙으로 Update해야 함.")
-	public ResponseEntity requestAppointment(@PathVariable Long appointmentId) {
-		drivingService.approveAppointment(appointmentId);
+	public ResponseEntity<Void> reserveTestDriving(@PathVariable Long appointmentId, @RequestBody @Valid TesterDto testerDto) {
+		drivingService.approveAppointment(appointmentId, testerDto.getTesterId());
 		return ResponseEntity.ok().build();
 	}
 
