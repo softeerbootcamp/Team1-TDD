@@ -1,4 +1,4 @@
-package com.tdd.backend.option;
+package com.tdd.backend.option.model;
 
 import java.util.Arrays;
 

@@ -1,4 +1,4 @@
-package com.tdd.backend.option.render;
+package com.tdd.backend.option.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,9 +6,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.tdd.backend.car.CarRepository;
-import com.tdd.backend.option.Category;
 import com.tdd.backend.option.data.OptionDto;
 import com.tdd.backend.option.data.OptionResponse;
+import com.tdd.backend.option.model.Category;
+import com.tdd.backend.option.model.RenderOption;
+import com.tdd.backend.option.repository.RenderRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
