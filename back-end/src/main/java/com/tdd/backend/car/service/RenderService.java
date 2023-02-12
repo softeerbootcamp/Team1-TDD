@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.tdd.backend.car.data.OptionDto;
-import com.tdd.backend.car.repository.CarRepository;
 import com.tdd.backend.car.data.OptionResponse;
 import com.tdd.backend.car.model.Category;
 import com.tdd.backend.car.model.Option;
@@ -21,12 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 public class RenderService {
 
 	private final RenderRepository renderRepository;
-	private final CarRepository carRepository;
 
-	public List<OptionResponse> getOptions(String carName) {
-		Long carId = carRepository.findIdByCarName(carName).orElseThrow(IllegalArgumentException::new);
-		log.info("CarId : " + carId);
-
+	public List<OptionResponse> getOptions(Long carId) {
 		List<Option> carOptionList = renderRepository.getCarOptionList(carId);
 		List<OptionResponse> response = new ArrayList<>();
 
