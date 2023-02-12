@@ -1,4 +1,4 @@
-package com.tdd.backend.post;
+package com.tdd.backend.post.repository;
 
 import java.util.List;
 import java.util.Optional;

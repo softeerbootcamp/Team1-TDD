@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tdd.backend.option.data.OptionDto;
+import com.tdd.backend.post.repository.PostRepository;
 import com.tdd.backend.post.data.LocationDto;
 import com.tdd.backend.post.data.PostDto;
 import com.tdd.backend.post.data.SharingDto;

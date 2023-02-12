@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.tdd.backend.option.data.OptionDto;
-import com.tdd.backend.post.PostRepository;
+import com.tdd.backend.post.repository.PostRepository;
 import com.tdd.backend.post.data.AppointmentDto;
 import com.tdd.backend.post.data.DrivingResponse;
 import com.tdd.backend.post.model.Appointment;
