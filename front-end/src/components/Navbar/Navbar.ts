@@ -6,7 +6,7 @@ import styles from './Navbar.module.scss';
 
 export class Navbar extends Component {
   setup(): void {
-    AuthStore.subscribe(this.render.bind(this));
+    AuthStore.subscribe(this.render.bind(this), this.constructor.name);
   }
   template(): string {
     const isLogin = AuthStore.getState().isLogin;
