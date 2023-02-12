@@ -3,27 +3,33 @@ POST http://localhost:8080/sharing
 Content-Type: application/json
 
 {
-  "carName": "Santafe",
+  "post": {
+    "carName": "Santafe",
+    "rideOption": "RIDE_WITH",
+    "userId": 1,
+    "requirement": "lotte v3"
+  },
   "location": {
-    "latitude": "32.23412355",
-    "longitude": "127.234243"
+    "latitude": "37.5326",
+    "longitude": "127.024612"
   },
   "options": [
     {
-      "name": "abc",
+      "name": "d",
       "category": "안전/성능"
     },
     {
-      "name": "red",
+      "name": "e",
+      "category": "내장/외장"
+    },
+    {
+      "name": "f",
       "category": "내장/외장"
     }
   ],
-  "rideOption": "ride_with",
-  "userId": 1,
   "dates": [
-    "2022-10-23",
-    "2024-01-23",
-    "2023-01-01"
-  ],
-  "requirement": "requiredkfjlsdk"
+    "2022-10-01",
+    "2022-10-03",
+    "2022-10-04"
+  ]
 }

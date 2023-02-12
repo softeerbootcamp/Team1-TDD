@@ -15,7 +15,9 @@ export class Home extends Component {
           if (entry.isIntersecting) {
             const target = entry.target as HTMLDivElement;
             target.style.opacity = "1";
-            observer.unobserve(target);
+          } else {
+            const target = entry.target as HTMLDivElement;
+            target.style.opacity = "0";
           }
         });
       }
@@ -24,5 +26,25 @@ export class Home extends Component {
     indexes.forEach((indexWrapper) => {
       observer.observe(indexWrapper);
     });
+
+    const fadeInObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const animation = entry.target.getAttribute("data-animation") as string;
+        if (entry.isIntersecting) {
+          entry.target.classList.add(
+            `${styles["animated"]}`,
+            `${styles[animation]}`
+          );
+        } else {
+          entry.target.classList.remove(
+            `${styles["animated"]}`,
+            `${styles[animation]}`
+          );
+        }
+      });
+    });
+
+    const animatedEls = qsa("[data-animation]");
+    animatedEls.forEach((el) => fadeInObserver.observe(el));
   }
 }

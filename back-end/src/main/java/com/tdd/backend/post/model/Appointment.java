@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
+import com.tdd.backend.post.data.AppointmentDto;
+
 @Table("appointments")
 public class Appointment {
 
@@ -17,5 +19,12 @@ public class Appointment {
 	public Appointment(LocalDate date, AppointmentStatus status) {
 		this.date = date;
 		this.status = status;
+	}
+
+	public AppointmentDto toDto() {
+		return AppointmentDto.builder()
+			.id(id)
+			.date(date.toString())
+			.build();
 	}
 }

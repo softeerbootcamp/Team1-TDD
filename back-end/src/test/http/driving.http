@@ -1,0 +1,6 @@
+### location 리스트에서 하나의 포스트 선택 시에 대한 요청
+GET http://localhost:8080/test-driving/1
+
+
+### 최종적인 예약 요청 ver2
+PATCH http://localhost:8080/appointments/2

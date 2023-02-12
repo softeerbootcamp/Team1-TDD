@@ -8,6 +8,8 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
+import com.tdd.backend.post.data.PostDto;
+
 import lombok.Getter;
 
 @Table("posts")
@@ -57,5 +59,14 @@ public class Post {
 		for (Appointment appointment : appointmentSet) {
 			this.addAppointment(appointment);
 		}
+	}
+
+	public PostDto toPostDto() {
+		return PostDto.builder()
+			.carName(carName)
+			.userId(userId)
+			.requirement(requirement)
+			.rideOption(rideOption.toString())
+			.build();
 	}
 }

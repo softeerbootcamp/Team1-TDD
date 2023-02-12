@@ -57,6 +57,8 @@ create table locations
         foreign key (post_id) references posts (id)
             on update cascade on delete cascade
 );
+create index latitude_longitude_index
+    on car.locations (latitude, longitude);
 
 create table options
 (
