@@ -9,7 +9,7 @@ import com.tdd.backend.car.CarRepository;
 import com.tdd.backend.option.data.OptionDto;
 import com.tdd.backend.option.data.OptionResponse;
 import com.tdd.backend.option.model.Category;
-import com.tdd.backend.option.model.RenderOption;
+import com.tdd.backend.option.model.Option;
 import com.tdd.backend.option.repository.RenderRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -27,23 +27,26 @@ public class RenderService {
 		Long carId = carRepository.findIdByCarName(carName).orElseThrow(IllegalArgumentException::new);
 		log.info("CarId : " + carId);
 
-		List<RenderOption> renderOptionList = renderRepository.getCarOptionList(carId);
+		List<Option> carOptionList = renderRepository.getCarOptionList(carId);
 		List<OptionResponse> response = new ArrayList<>();
 
 		for (Category category : Category.values()) {
 			List<OptionDto> optionDtoList = new ArrayList<>();
 
-			for (RenderOption renderOption : renderOptionList) {
-				log.info("category : " + renderOption.getCategory());
-				if (isCategoryEquals(category, renderOption.getCategory())) {
+			for (Option carOption : carOptionList) {
+				log.info("category : " + carOption.getCategory());
+				if (isCategoryEquals(category, carOption.getCategory())) {
 					OptionDto optionDto = OptionDto.builder()
-						.name(renderOption.getOptionName()).category(renderOption.getCategory())
+						.name(carOption.getOptionName())
+						.category(carOption.getCategory())
 						.build();
 					optionDtoList.add(optionDto);
 				}
 			}
 			if (!optionDtoList.isEmpty()) {
-				response.add(OptionResponse.builder().category(category.getName()).options(optionDtoList).build());
+				response.add(OptionResponse.builder()
+					.category(category.getName())
+					.options(optionDtoList).build());
 			}
 
 		}

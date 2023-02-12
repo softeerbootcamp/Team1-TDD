@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.tdd.backend.option.model.RenderOption;
+import com.tdd.backend.option.model.Option;
 
 @Repository
 public class RenderRepository {
@@ -20,7 +20,7 @@ public class RenderRepository {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
-	public List<RenderOption> getCarOptionList(Long carId) {
+	public List<Option> getCarOptionList(Long carId) {
 		return jdbcTemplate.query(
 			"SELECT E.option_name, E.category_name  "
 				+ "FROM entire_options AS E "
@@ -30,8 +30,8 @@ public class RenderRepository {
 			optionRowMapper(), carId);
 	}
 
-	private RowMapper<RenderOption> optionRowMapper() {
-		return (rs, rowNum) -> new RenderOption(
+	private RowMapper<Option> optionRowMapper() {
+		return (rs, rowNum) -> new Option(
 			rs.getString("option_name"),
 			rs.getString("category_name")
 		);
