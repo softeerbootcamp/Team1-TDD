@@ -3,29 +3,43 @@ import { qs, qsa } from '@/utils/querySelector';
 import styles from './ImageSlider.module.scss';
 import { ICar } from '@/constants/carList';
 import { leftBtn, rightBtn } from './icon';
+import { OptionStore } from '@/store/OptionStore/OptionStore';
 
 export class ImageSlider extends Component {
   setup(): void {
-    this.state.imgIdx = 0;
+    this.state.timer = null;
   }
-
   template(): string {
+    const { props } = this;
+    const { list } = props;
+    const imgIdx = list.findIndex(
+      (ele: any) => ele.title === OptionStore.getState().carModel
+    );
+    this.state.imgIdx = imgIdx;
+    const position = list.map((_: ICar, idx: number) => {
+      if (idx < imgIdx) return 'left: -100%';
+      if (idx === imgIdx) return 'left: 0';
+      if (idx > imgIdx) return 'left: 100%';
+      return '';
+    });
+    const leftBtnClass = this.isStartIdx() ? styles.disabled : '';
+    const rightBtnClass = this.isEndIdx() ? styles.disabled : '';
     return `
     <div class="${styles.wrapper}">
       <div class="${styles['slider-container']}">
-        <button id="left-btn">${leftBtn}</button>
+        <button id="left-btn" class="${leftBtnClass}">${leftBtn}</button>
         <div class="${styles.slider}">
-          ${this.props.list
+          ${list
             .map(
-              (car: ICar) =>
-                `<img style="left: 100%" src="${process.env.VITE_IMAGE_URL}/${car.fileName}" />`
+              (car: ICar, idx: number) =>
+                `<img style="${position[idx]}" src="${process.env.VITE_IMAGE_URL}/${car.fileName}" />`
             )
             .join('')}
         </div>
-        <button id="right-btn">${rightBtn}</button>
+        <button id="right-btn" class="${rightBtnClass}">${rightBtn}</button>
       </div>
       <div class="${styles.title} ${styles.fade}">
-        ${this.props.list[0].title}
+        ${list[imgIdx].title}
       </div>
     </div>
     `;
@@ -35,10 +49,6 @@ export class ImageSlider extends Component {
     this.state.$images = Array.from(
       qsa('img', this.target)
     ) as HTMLImageElement[];
-
-    this.sliderSizeInit();
-    this.imageInit();
-    this.toggleLeftBtn();
   }
 
   setEvent(): void {
@@ -57,6 +67,8 @@ export class ImageSlider extends Component {
     this.updateTitle();
 
     if (this.isStartIdx()) this.toggleLeftBtn();
+
+    this.dispatchModel();
   }
 
   moveNext() {
@@ -69,35 +81,19 @@ export class ImageSlider extends Component {
     this.updateTitle();
 
     if (this.isEndIdx()) this.toggleRightBtn();
+
+    this.dispatchModel();
   }
 
-  sliderSizeInit() {
-    const $slider = qs(`.${styles.slider}`, this.target) as HTMLDivElement;
-    if (this.props.width) {
-      $slider.style.width = this.props.width;
-      $slider.style.height = this.props.height;
-      return;
+  dispatchModel() {
+    if (this.state.timer) {
+      clearTimeout(this.state.timer);
     }
-    const img = new Image();
-    img.src = this.state.$images[0].src;
-    img.onload = function () {
-      $slider.style.width = img.width + 'px';
-      $slider.style.height = img.height + 'px';
-    };
-  }
-
-  imageInit() {
-    this.imageSizeInit();
-    this.state.$images[0].style.left = '0';
-  }
-
-  imageSizeInit() {
-    const $images = qsa('img', this.target);
-    const imageArray = Array.from($images) as HTMLElement[];
-    imageArray.forEach((img) => {
-      img.style.width = this.props.sizeX + 'px';
-      img.style.height = this.props.sizeY + 'px';
-    });
+    this.state.timer = setTimeout(() => {
+      OptionStore.dispatch('SELECT_CAR_MODEL', {
+        name: this.props.list[this.state.imgIdx].title,
+      });
+    }, 1000);
   }
 
   isStartIdx() {

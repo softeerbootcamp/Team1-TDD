@@ -4,7 +4,7 @@ interface DynamicObject {
 
 export class Store {
   #state: DynamicObject;
-  #listeners: Function[] = [];
+  #listeners: DynamicObject = {};
   #reducer: Function;
 
   constructor(state: object, reducer: Function) {
@@ -16,12 +16,12 @@ export class Store {
     return { ...this.#state };
   }
 
-  subscribe(func: any) {
-    this.#listeners.push(func);
+  subscribe(func: Function, fnKey: string) {
+    this.#listeners[fnKey] = func;
   }
 
   publish() {
-    this.#listeners.forEach((listener) => listener());
+    Object.values(this.#listeners).forEach((listener) => listener());
   }
 
   async dispatch(actionKey: string, { ...payload }: DynamicObject = {}) {
