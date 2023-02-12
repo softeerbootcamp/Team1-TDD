@@ -7,7 +7,9 @@ import { leftBtn, rightBtn } from "./icon";
 let date = new Date();
 
 export class Calendar extends Component {
-  setup(): void {}
+  setup(): void {
+    this.props.dates = [];
+  }
 
   template(): string {
     return `
