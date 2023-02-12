@@ -11,10 +11,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tdd.backend.auth.RefreshTokenStorage;
+import com.tdd.backend.auth.util.EncryptHelper;
+import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
 import com.tdd.backend.user.exception.UserNotFoundException;
-import com.tdd.backend.user.util.EncryptHelper;
+import com.tdd.backend.user.repository.UserRepository;
+import com.tdd.backend.user.service.UserService;
 
 @SpringBootTest
 @Transactional

@@ -1,7 +1,7 @@
-package com.tdd.backend.auth;
+package com.tdd.backend.auth.util;
 
-import static com.tdd.backend.auth.JwtTokenProvider.JwtTokenRole.*;
-import static com.tdd.backend.auth.JwtTokenProvider.JwtTokenStatus.*;
+import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenRole.*;
+import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenStatus.*;
 import static org.apache.tomcat.util.codec.binary.Base64.*;
 
 import java.util.Base64;
@@ -11,6 +11,8 @@ import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.tdd.backend.auth.exception.ExpiredATKException;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

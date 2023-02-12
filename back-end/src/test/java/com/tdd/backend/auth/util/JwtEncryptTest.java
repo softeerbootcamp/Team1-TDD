@@ -1,6 +1,6 @@
-package com.tdd.backend.user.util;
+package com.tdd.backend.auth.util;
 
-import static com.tdd.backend.auth.JwtTokenProvider.JwtTokenStatus.*;
+import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenStatus.*;
 
 import java.security.Key;
 import java.util.Base64;
@@ -10,8 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import com.tdd.backend.auth.JwtTokenProvider;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

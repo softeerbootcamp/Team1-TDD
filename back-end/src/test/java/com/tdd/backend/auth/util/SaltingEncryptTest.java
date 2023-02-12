@@ -1,4 +1,4 @@
-package com.tdd.backend.user.util;
+package com.tdd.backend.auth.util;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -9,7 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class SaltingEncryptTest {
 
-	@Autowired private EncryptHelper encryptHelper;
+	@Autowired
+	private EncryptHelper encryptHelper;
 
 	@Test
 	@DisplayName("비밀번호 검증 (BCrypt")

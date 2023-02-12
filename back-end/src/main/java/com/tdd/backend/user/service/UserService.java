@@ -1,19 +1,21 @@
-package com.tdd.backend.user;
+package com.tdd.backend.user.service;
 
-import static com.tdd.backend.auth.JwtTokenProvider.JwtTokenRole.*;
-import static com.tdd.backend.auth.JwtTokenProvider.JwtTokenStatus.*;
+import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenRole.*;
+import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenStatus.*;
 
 import org.springframework.stereotype.Service;
 
-import com.tdd.backend.auth.InvalidTokenException;
-import com.tdd.backend.auth.JwtTokenPairResponse;
-import com.tdd.backend.auth.JwtTokenProvider;
 import com.tdd.backend.auth.RefreshTokenStorage;
+import com.tdd.backend.auth.data.JwtTokenPairResponse;
+import com.tdd.backend.auth.exception.InvalidTokenException;
+import com.tdd.backend.auth.util.EncryptHelper;
+import com.tdd.backend.auth.util.JwtTokenProvider;
+import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
 import com.tdd.backend.user.exception.UnauthorizedException;
 import com.tdd.backend.user.exception.UserNotFoundException;
-import com.tdd.backend.user.util.EncryptHelper;
+import com.tdd.backend.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

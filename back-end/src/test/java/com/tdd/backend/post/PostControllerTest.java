@@ -21,8 +21,8 @@ import com.tdd.backend.post.data.LocationDto;
 import com.tdd.backend.post.data.SharingDto;
 import com.tdd.backend.post.model.Post;
 import com.tdd.backend.post.model.RideOption;
-import com.tdd.backend.user.User;
-import com.tdd.backend.user.UserRepository;
+import com.tdd.backend.user.data.User;
+import com.tdd.backend.user.repository.UserRepository;
 
 @SpringBootTest
 @Transactional

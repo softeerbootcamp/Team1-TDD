@@ -1,6 +1,6 @@
 package com.tdd.backend.user;
 
-import static com.tdd.backend.auth.JwtTokenProvider.JwtTokenRole.*;
+import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenRole.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -23,11 +23,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tdd.backend.auth.JwtTokenProvider;
 import com.tdd.backend.auth.RefreshTokenStorage;
+import com.tdd.backend.auth.util.EncryptHelper;
+import com.tdd.backend.auth.util.JwtTokenProvider;
+import com.tdd.backend.user.controller.UserController;
+import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
-import com.tdd.backend.user.util.EncryptHelper;
+import com.tdd.backend.user.repository.UserRepository;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -125,7 +128,7 @@ class UserControllerTest {
 		userRepository.save(user);
 
 		//when
-		mockMvc.perform(get("/users/validation/{email}}", user.getEmail())
+		mockMvc.perform(get("/users/validation/{email}", user.getEmail())
 				.contentType(MediaType.TEXT_HTML))
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.toString()))

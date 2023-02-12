@@ -1,4 +1,4 @@
-package com.tdd.backend.user;
+package com.tdd.backend.user.controller;
 
 import javax.validation.Valid;
 
@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tdd.backend.auth.JwtTokenPairResponse;
 import com.tdd.backend.auth.LoginUser;
 import com.tdd.backend.auth.RefreshTokenStorage;
+import com.tdd.backend.auth.data.JwtTokenPairResponse;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
 import com.tdd.backend.user.data.UserToken;
 import com.tdd.backend.user.exception.DuplicateEmailException;
+import com.tdd.backend.user.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
