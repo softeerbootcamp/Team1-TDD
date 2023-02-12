@@ -20,6 +20,9 @@ public class Location {
 	}
 
 	public LocationDto toDto() {
-		return LocationDto.builder().latitude(latitude).longitude(longitude).build();
+		return LocationDto.builder()
+			.latitude(latitude)
+			.longitude(longitude)
+			.build();
 	}
 }

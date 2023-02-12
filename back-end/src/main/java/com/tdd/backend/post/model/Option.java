@@ -22,6 +22,9 @@ public class Option {
 	}
 
 	public OptionDto toDto() {
-		return OptionDto.builder().name(name).category(category.getName()).build();
+		return OptionDto.builder()
+			.name(name)
+			.category(category.getName())
+			.build();
 	}
 }

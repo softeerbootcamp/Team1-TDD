@@ -18,7 +18,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@Builder
 public class SharingDto {
 	@NotNull(message = "post 정보는 필수입니다!")
 	private final PostDto post;
@@ -42,6 +41,7 @@ public class SharingDto {
 		Set<Appointment> appointmentSet = dates.stream()
 			.map(date -> new Appointment(LocalDate.parse(date), AppointmentStatus.PENDING))
 			.collect(Collectors.toSet());
+
 		return new Post(post.getUserId(), RideOption.valueOf(post.getRideOption().toUpperCase()), post.getCarName(),
 			post.getRequirement(), optionSet, location.toEntity(), appointmentSet);
 	}
