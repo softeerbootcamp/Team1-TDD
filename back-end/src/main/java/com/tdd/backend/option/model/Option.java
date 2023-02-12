@@ -8,13 +8,13 @@ import lombok.Getter;
 @Table("entire_options")
 @Getter
 public class Option {
-	private final String optionName;
-	private final String category;
 	@Id
 	private Long id;
+	private final String optionName;
+	private final String categoryName;
 
-	public Option(String optionName, String category) {
+	public Option(String optionName, String categoryName) {
 		this.optionName = optionName;
-		this.category = category;
+		this.categoryName = categoryName;
 	}
 }

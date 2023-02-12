@@ -2,39 +2,15 @@ package com.tdd.backend.option.repository;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.data.jdbc.repository.query.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.tdd.backend.option.model.Option;
 
 @Repository
-public class RenderRepository {
-	private final JdbcTemplate jdbcTemplate;
-
-	@Autowired
-	public RenderRepository(DataSource dataSource) {
-		this.jdbcTemplate = new JdbcTemplate(dataSource);
-	}
-
-	public List<Option> getCarOptionList(Long carId) {
-		return jdbcTemplate.query(
-			"SELECT E.option_name, E.category_name  "
-				+ "FROM entire_options AS E "
-				+ "JOIN car_options AS C "
-				+ "ON (E.id = C.entire_option_id) "
-				+ "WHERE C.car_id = ?",
-			optionRowMapper(), carId);
-	}
-
-	private RowMapper<Option> optionRowMapper() {
-		return (rs, rowNum) -> new Option(
-			rs.getString("option_name"),
-			rs.getString("category_name")
-		);
-	}
-
+public interface RenderRepository extends CrudRepository<Option, Long> {
+	@Query("select o.* from entire_options o join car_options co on o.id = co.entire_option_id where co.car_id =:carId")
+	List<Option> getCarOptionList(@Param("carId") Long carId);
 }
