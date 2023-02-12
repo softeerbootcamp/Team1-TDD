@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tdd.backend.auth.JwtTokenPairResponse;
 import com.tdd.backend.auth.LoginUser;
+import com.tdd.backend.auth.RefreshTokenStorage;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
 import com.tdd.backend.user.data.UserToken;
@@ -57,6 +58,13 @@ public class UserController {
 		log.info("> refresh token : {}", refreshToken);
 		//TODO : 역할에 따라 토큰 서비스 클래스 분리
 		return ResponseEntity.ok(userService.reIssueToken(refreshToken));
+	}
+
+	//사용자가 로그아웃을 하면 저장소에서 Refresh Token을 삭제하여 사용이 불가능하도록 한다.
+	//todo : redirect??
+	@GetMapping("/logout")
+	public void logout(@LoginUser UserToken userToken) {
+		RefreshTokenStorage.deleteCache(userToken.getId());
 	}
 
 	@GetMapping("/test/auth")

@@ -21,4 +21,8 @@ public class RefreshTokenStorage {
 	public static boolean isValidateUserId(Long id) {
 		return refreshTokenMap.containsKey(id);
 	}
+
+	public static void deleteCache(Long id) {
+		refreshTokenMap.remove(id);
+	}
 }
