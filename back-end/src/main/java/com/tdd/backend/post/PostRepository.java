@@ -16,7 +16,7 @@ import com.tdd.backend.post.model.Post;
 
 @Repository
 public interface PostRepository extends CrudRepository<Post, Long> {
-	@Query("SELECT latitude,longitude FROM locations WHERE post_id = :id")
+	@Query("SELECT latitude, longitude FROM locations WHERE post_id = :id")
 	Optional<Location> findLocationByPostId(@Param("id") Long id);
 
 	@Query("SELECT name, category FROM options WHERE  post_id = :id")
@@ -26,6 +26,6 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 	List<Appointment> findAppointmentsByPostId(@Param("id") Long id);
 
 	@Modifying
-	@Query("UPDATE appointments SET status = 'ACCEPT' WHERE id = :id")
-	void updateAppointmentStatus(@Param("id") Long id);
+	@Query("UPDATE appointments SET status = 'ACCEPT', tester_id = :testerid WHERE id = :id")
+	void updateTesterIdStatusAccept(@Param("id") Long id, @Param("testerid") Long testerId);
 }

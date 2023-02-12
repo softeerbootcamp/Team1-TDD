@@ -32,9 +32,8 @@ public class DrivingService {
 		Optional<Location> location = postRepository.findLocationByPostId(postId);
 
 		List<OptionDto> optionDtos = options.stream().map(Option::toDto).collect(Collectors.toList());
-		List<AppointmentDto> appointmentDtos = appointments.stream()
-			.map(Appointment::toDto)
-			.collect(Collectors.toList());
+		List<AppointmentDto> appointmentDtos = appointments.stream().map(Appointment::toDto).collect(Collectors.toList());
+
 		return DrivingResponse.builder()
 			.post(post.orElseThrow(RuntimeException::new).toPostDto())
 			.options(optionDtos)
@@ -43,7 +42,7 @@ public class DrivingService {
 			.build();
 	}
 
-	public void approveAppointment(Long id) {
-		postRepository.updateAppointmentStatus(id);
+	public void approveAppointment(Long id, Long testerId) {
+		postRepository.updateTesterIdStatusAccept(id, testerId);
 	}
 }
