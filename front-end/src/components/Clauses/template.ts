@@ -1,6 +1,6 @@
 import styles from "./Clauses.module.scss";
 
-export const literal = () => {
+export const literal = (welcomeMessage: string, status: string) => {
   return `
   <div class=${styles["main-wrapper"]}>
       <div class=${styles["welcome-wrapper"]}>
@@ -10,9 +10,9 @@ export const literal = () => {
       <div class=${styles["texts-wrapper"]}>
         <div class=${styles["text-helper"]}></div>
         <div class=${styles["text-wrapper"]}>
-          <div class=${styles["text"]}>소중한 경험을 공유해주셔서 감사합니다.</div>
+          <div class=${styles["text"]}>${welcomeMessage}</div>
           <div class=${styles["text"]}>
-            공유해주시기에 앞서 아래의 약관에 동의해주세요.
+            ${status} 아래의 약관에 동의해주세요.
           </div>
         </div>
       </div>
