@@ -1,5 +1,6 @@
 package com.tdd.backend.auth;
 
+import static com.tdd.backend.auth.JwtTokenProvider.JwtTokenRole.*;
 import static com.tdd.backend.auth.JwtTokenProvider.JwtTokenStatus.*;
 
 import org.springframework.core.MethodParameter;
@@ -39,6 +40,10 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
 
 		if (jws == null || jws.equals("")) {
 			throw new UnauthorizedException();
+		}
+
+		if (!jwtTokenProvider.getRoleFromJwt(jws).equals(ATK)) {
+			throw new InvalidTokenException();
 		}
 
 		JwtTokenStatus jwtTokenStatus = jwtTokenProvider.validateToken(jws);

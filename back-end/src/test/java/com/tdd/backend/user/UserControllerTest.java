@@ -300,4 +300,22 @@ class UserControllerTest {
 		assertThat(RefreshTokenStorage.isValidateUserId(userId)).isFalse();
 
 	}
+
+	@Test
+	@DisplayName("인증 시 ATK가 아닐 경우 Exception 발생")
+	void check_validate_ATK() throws Exception {
+	    //given
+		Long userId = 1L;
+		String rtk = jwtTokenProvider.generateRefreshToken(userId);
+		//when
+
+		mockMvc.perform(get("/test/auth")
+				.header("Authorization", rtk)
+				.contentType(MediaType.APPLICATION_JSON)
+			)
+			.andExpect(status().isBadRequest())
+			.andDo(print());
+	    //then
+
+	}
 }

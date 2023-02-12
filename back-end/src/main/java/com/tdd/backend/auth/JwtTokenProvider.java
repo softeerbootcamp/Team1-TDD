@@ -60,7 +60,7 @@ public class JwtTokenProvider {
 
 		return Jwts.builder()
 			.setSubject(String.valueOf(id))
-			.claim("role", ATK)
+			.claim("role", RTK)
 			.setIssuedAt(now)
 			.setExpiration(expiryDate)
 			.signWith(key)
@@ -74,6 +74,15 @@ public class JwtTokenProvider {
 			.parseClaimsJws(authToken);
 
 		return Long.parseLong(claims.getBody().getSubject());
+	}
+
+	public JwtTokenRole getRoleFromJwt(String authToken) {
+		Jws<Claims> claims = Jwts.parserBuilder()
+			.setSigningKey(decodeBase64(jwtSecret))
+			.build()
+			.parseClaimsJws(authToken);
+
+		return JwtTokenRole.valueOf(claims.getBody().get("role", String.class));
 	}
 
 	public JwtTokenStatus validateToken(String authToken) {
