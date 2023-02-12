@@ -1,8 +1,15 @@
-import { sendLogInRequest, sendRegisterRequest } from '@/apis/login';
+import {
+  checkEmailValidationRequest,
+  sendLogInRequest,
+  sendRegisterRequest,
+} from '@/apis/login';
 import Component from '@/core/Component';
 import { qs } from '@/utils/querySelector';
 import styles from './LoginForm.module.scss';
 export class LoginForm extends Component {
+  setup(): void {
+    this.state.isEmailValid = false;
+  }
   template(): string {
     return `
         <div class="${styles.container}" id="container">
@@ -14,7 +21,7 @@ export class LoginForm extends Component {
                     <input id="signup-tel" type="tel" placeholder="010-1234-5678" />
                     <input id="signup-name" type="text" placeholder="홍길동" />
                     <input id="signup-pwd" type="password" placeholder="Password" />
-                    <button id="sign-up-button">Sign Up</button>
+                    <button id="sign-up-button">Check Email</button>
                     
                 </form>
             </div>
@@ -94,7 +101,6 @@ export class LoginForm extends Component {
 
     this.addEvent('click', '#sign-up-button', (e) => {
       e.preventDefault();
-
       const $button = e.target as HTMLButtonElement;
       const $email = qs('#signup-email', this.target) as HTMLInputElement;
       const $tel = qs('#signup-tel', this.target) as HTMLInputElement;
@@ -106,28 +112,62 @@ export class LoginForm extends Component {
       const userName = $name.value;
       const userPassword = $password.value;
 
-      this.resetErrorClass($email, $password, $tel, $name);
-      if (!email || !phoneNumber || !userName || !userPassword) {
-        this.addErrorClass($email, $password, $tel, $name);
-        return;
+      if (this.state.isEmailValid) {
+        this.resetErrorClass($email, $password, $tel, $name);
+        if (!email || !phoneNumber || !userName || !userPassword) {
+          this.addErrorClass($email, $password, $tel, $name);
+          return;
+        }
+      } else {
+        this.resetErrorClass($email);
+        if (!email) {
+          this.addErrorClass($email);
+          return;
+        }
       }
+
       const loadingSpinnerHandler = new LoadingSpinnerHandler($button);
       loadingSpinnerHandler.startRequest();
-
-      sendRegisterRequest({
-        email,
-        phoneNumber,
-        userName,
-        userPassword,
-      })
-        .then(() => {
-          loadingSpinnerHandler.finishRegister();
+      if (this.state.isEmailValid) {
+        sendRegisterRequest({
+          email,
+          phoneNumber,
+          userName,
+          userPassword,
         })
-        .catch(() => {
-          this.resetErrorClass($email, $password, $tel, $name);
-          this.addErrorClass($email, $password, $tel, $name);
-          loadingSpinnerHandler.finishRequest();
-        });
+          .then(() => {
+            loadingSpinnerHandler.finishRegister();
+          })
+          .catch(() => {
+            this.resetErrorClass($email, $password, $tel, $name);
+            this.addErrorClass($email, $password, $tel, $name);
+            loadingSpinnerHandler.finishRequest();
+          });
+      } else {
+        checkEmailValidationRequest(email)
+          .then(() => {
+            this.state.isEmailValid = true;
+            this.state.validEmail = email;
+            loadingSpinnerHandler.finishCheckEmail();
+          })
+          .catch(() => {
+            this.resetErrorClass($email, $password, $tel, $name);
+            this.addErrorClass($email);
+            loadingSpinnerHandler.finishRequest();
+          });
+      }
+    });
+
+    this.addEvent('input', '#signup-email', ({ target }) => {
+      const $button = qs('#sign-up-button', this.target) as HTMLButtonElement;
+      if (!(target instanceof HTMLInputElement)) return;
+      if (this.state.validEmail !== target.value) {
+        this.state.isEmailValid = false;
+        $button.textContent = 'Check Email';
+      } else {
+        this.state.isEmailValid = true;
+        $button.textContent = 'Sign Up';
+      }
     });
   }
 
@@ -171,5 +211,11 @@ class LoadingSpinnerHandler {
       this.#target.disabled = true;
     }
     this.#target.innerHTML = '가입 완료!';
+  }
+  finishCheckEmail() {
+    if (this.#target instanceof HTMLButtonElement) {
+      this.#target.disabled = false;
+    }
+    this.#target.innerHTML = 'Sign Up';
   }
 }

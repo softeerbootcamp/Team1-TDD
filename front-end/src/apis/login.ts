@@ -24,3 +24,7 @@ export const sendAuthTestRequest = async () => {
     headers: { Authorization: accessToken },
   });
 };
+
+export const checkEmailValidationRequest = async (email: string) => {
+  return axiosInstance.get(`/users/validation/${email}`);
+};
