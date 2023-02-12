@@ -1,6 +1,7 @@
 package com.tdd.backend.user;
 
 import static com.tdd.backend.auth.JwtTokenProvider.JwtTokenRole.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -9,6 +10,7 @@ import java.util.Base64;
 import java.util.Date;
 
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tdd.backend.auth.JwtTokenProvider;
+import com.tdd.backend.auth.RefreshTokenStorage;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
 import com.tdd.backend.user.util.EncryptHelper;
@@ -47,6 +50,11 @@ class UserControllerTest {
 
 	@Autowired
 	JwtTokenProvider jwtTokenProvider;
+
+	@BeforeEach
+	void setup() {
+		RefreshTokenStorage.clean();
+	}
 
 	@Test
 	@DisplayName("유저 회원가입")
@@ -233,13 +241,32 @@ class UserControllerTest {
 	}
 
 	@Test
+	@DisplayName("ATK만료, RTK 유효시 토큰 재발급")
+	void validate_RTK_expire_ATK() throws Exception {
+		//when
+		Long userId = 1L;
+		String refreshToken = jwtTokenProvider.generateRefreshToken(userId);
+		RefreshTokenStorage.save(userId, refreshToken);
+
+		//expected
+		mockMvc.perform(post("/reissue")
+				.header("Authorization", refreshToken)
+				.contentType(MediaType.APPLICATION_JSON)
+			)
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.accessToken").isNotEmpty())
+			.andExpect(jsonPath("$.refreshToken").isNotEmpty())
+			.andDo(print());
+	}
+
+	@Test
 	@DisplayName("ATK와 RTK 모두 만료시 재로그인")
 	void expired_RTK() throws Exception {
-		String email = "test@test.com";
+		Long userId = 1L;
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + 1);
 		String refreshToken = Jwts.builder()
-			.setSubject(email)
+			.setSubject(String.valueOf(userId))
 			.claim("role", RTK)
 			.setIssuedAt(new Date())
 			.setExpiration(expiryDate)
@@ -252,5 +279,25 @@ class UserControllerTest {
 			)
 			.andExpect(status().isUnauthorized())
 			.andDo(print());
+	}
+
+	@Test
+	@DisplayName("로그아웃 시 RTK 스토리지에서 해당 key-value 쌍 삭제")
+	void logout_RTK_remove() throws Exception {
+		//given
+		Long userId = 1L;
+		String refreshToken = jwtTokenProvider.generateRefreshToken(userId);
+		RefreshTokenStorage.save(userId, refreshToken);
+
+		//expected
+		mockMvc.perform(delete("/logout")
+				.header("Authorization", refreshToken)
+				.contentType(MediaType.APPLICATION_JSON)
+			)
+			.andExpect(status().isOk())
+			.andDo(print());
+
+		assertThat(RefreshTokenStorage.isValidateUserId(userId)).isFalse();
+
 	}
 }

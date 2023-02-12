@@ -25,4 +25,8 @@ public class RefreshTokenStorage {
 	public static void deleteCache(Long id) {
 		refreshTokenMap.remove(id);
 	}
+
+	public static void clean() {
+		refreshTokenMap.clear();
+	}
 }

@@ -67,16 +67,15 @@ public class UserService {
 			}
 
 			String newAccessToken = jwtTokenProvider.generateAccessToken(id);
+			String newRefreshToken = jwtTokenProvider.generateRefreshToken(id);
 			log.info(">> reissued access token : {}", newAccessToken);
+			log.info(">> reissued refresh token : {}", newRefreshToken);
 
 			return JwtTokenPairResponse.builder()
 				.accessToken(newAccessToken)
-				.refreshToken(refreshToken)
+				.refreshToken(newRefreshToken)
 				.build();
 		}
-
-		//리프레쉬 토큰이 validate하지 못하다면 다시 로그인 요청
-		//TODO : 다른 exception 처리 필요
 		throw new UnauthorizedException();
 	}
 }
