@@ -1,8 +1,25 @@
+import {
+  checkEmailValidationRequest,
+  sendLogInRequest,
+  sendRegisterRequest,
+} from '@/apis/login';
 import Component from '@/core/Component';
+import { AuthStore } from '@/store/AuthStore';
 import { qs } from '@/utils/querySelector';
-import axios from 'axios';
+import { LoadingHandler } from './LoadingHandler';
 import styles from './LoginForm.module.scss';
+
+interface ISignUpData {
+  email: string;
+  phoneNumber: string;
+  userName: string;
+  userPassword: string;
+}
+
 export class LoginForm extends Component {
+  setup(): void {
+    this.state.isEmailValid = false;
+  }
   template(): string {
     return `
         <div class="${styles.container}" id="container">
@@ -14,7 +31,8 @@ export class LoginForm extends Component {
                     <input id="signup-tel" type="tel" placeholder="010-1234-5678" />
                     <input id="signup-name" type="text" placeholder="홍길동" />
                     <input id="signup-pwd" type="password" placeholder="Password" />
-                    <button id="sign-up-button">Sign Up</button>
+                    <button id="sign-up-button">Check Email</button>
+                    
                 </form>
             </div>
             <div class="${styles['form-container']} ${styles['sign-in-container']}">
@@ -50,55 +68,161 @@ export class LoginForm extends Component {
         `;
   }
   setEvent(): void {
-    this.addEvent('click', '#signUp', () => {
-      const $container = qs('#container', this.target);
-      $container?.classList.add(styles['right-panel-active']);
-    });
-    this.addEvent('click', '#signIn', () => {
-      const $container = qs('#container', this.target);
-      $container?.classList.remove(styles['right-panel-active']);
-    });
-    this.addEvent('click', '#api-test', () => {
-      axios
-        .get(`http://52.78.106.53:8080/options/sonata`)
-        .then((data) => console.log(data))
-        .catch((error) => console.log(error));
-    });
-    this.addEvent('click', '#sign-in-button', (e) => {
-      e.preventDefault();
-      const $email = qs('#signin-email', this.target) as HTMLInputElement;
-      const $password = qs('#signin-pwd', this.target) as HTMLInputElement;
-      const enteredEmail = $email.value;
-      const enteredPassword = $password.value;
-      axios
-        .post(`http://52.78.106.53:8080/login`, {
-          email: enteredEmail,
-          userPassword: enteredPassword,
-        })
-        .then((data) => console.log(data))
-        .catch((error) => console.log(error));
-    });
+    this.addEvent('click', '#signUp', this.enterSignUpMode.bind(this));
+    this.addEvent('click', '#signIn', this.enterSignInMode.bind(this));
+    this.addEvent('click', '#sign-in-button', this.onClickSignIn.bind(this));
+    this.addEvent('click', '#sign-up-button', this.onClickSignUp.bind(this));
+    this.addEvent('input', '#signup-email', this.onChangeEmail.bind(this));
+  }
 
-    this.addEvent('click', '#sign-up-button', (e) => {
-      e.preventDefault();
+  enterSignUpMode() {
+    const $container = qs('#container', this.target);
+    $container?.classList.add(styles['right-panel-active']);
+  }
 
-      const $email = qs('#signup-email', this.target) as HTMLInputElement;
-      const $tel = qs('#signup-tel', this.target) as HTMLInputElement;
-      const $name = qs('#signup-name', this.target) as HTMLInputElement;
-      const $password = qs('#signup-pwd', this.target) as HTMLInputElement;
-      const enteredEmail = $email.value;
-      const enteredTel = $tel.value;
-      const enteredName = $name.value;
-      const enteredPassword = $password.value;
-      axios
-        .post(`http://52.78.106.53:8080/users`, {
-          email: enteredEmail,
-          phoneNumber: enteredTel,
-          userName: enteredName,
-          userPassword: enteredPassword,
+  enterSignInMode() {
+    const $container = qs('#container', this.target);
+    $container?.classList.remove(styles['right-panel-active']);
+  }
+
+  onClickSignIn(e: Event) {
+    e.preventDefault();
+    const $button = e.target as HTMLButtonElement;
+    const $email = qs('#signin-email', this.target) as HTMLInputElement;
+    const $password = qs('#signin-pwd', this.target) as HTMLInputElement;
+    const inputEls = [$email, $password];
+
+    const email = $email.value;
+    const password = $password.value;
+    this.resetErrorClass(inputEls);
+
+    if (!email || !password) {
+      this.addErrorClassToBlank(inputEls);
+      return;
+    }
+    this.sendSignInRequest({ email, password }, inputEls, $button);
+  }
+
+  sendSignInRequest(
+    userData: { email: string; password: string },
+    inputEls: HTMLInputElement[],
+    $button: HTMLButtonElement
+  ) {
+    const loadingHandler = new LoadingHandler($button);
+    loadingHandler.startRequest();
+
+    sendLogInRequest(userData.email, userData.password)
+      .then(this.loginSuccess)
+      .catch(() => {
+        this.resetErrorClass(inputEls);
+        this.addErrorClass(inputEls);
+        loadingHandler.finishRequest();
+      });
+  }
+
+  loginSuccess({ data }: any) {
+    localStorage.setItem('accessToken', data.accessToken);
+    AuthStore.dispatch('LOGIN');
+    location.reload();
+  }
+
+  loginFail(inputEls: HTMLInputElement[], finishRequest: Function) {
+    this.resetErrorClass(inputEls);
+    this.addErrorClassToBlank(inputEls);
+    finishRequest();
+  }
+
+  onClickSignUp(e: Event) {
+    e.preventDefault();
+    const $button = e.target as HTMLButtonElement;
+    const $email = qs('#signup-email', this.target) as HTMLInputElement;
+    const $tel = qs('#signup-tel', this.target) as HTMLInputElement;
+    const $name = qs('#signup-name', this.target) as HTMLInputElement;
+    const $password = qs('#signup-pwd', this.target) as HTMLInputElement;
+    const inputEls = [$email, $tel, $name, $password];
+
+    const email = $email.value;
+    const phoneNumber = $tel.value;
+    const userName = $name.value;
+    const userPassword = $password.value;
+    const userData = { email, phoneNumber, userName, userPassword };
+    if (this.state.isEmailValid) {
+      this.resetErrorClass(inputEls);
+      if (!email || !phoneNumber || !userName || !userPassword) {
+        this.addErrorClassToBlank(inputEls);
+        return;
+      }
+    } else {
+      this.resetErrorClass([$email]);
+      if (!email) {
+        this.addErrorClassToBlank([$email]);
+        return;
+      }
+    }
+
+    this.sendSignUpRequest(userData, inputEls, $button);
+  }
+
+  sendSignUpRequest(
+    userData: ISignUpData,
+    inputEls: HTMLInputElement[],
+    $button: HTMLButtonElement
+  ) {
+    const loadingHandler = new LoadingHandler($button);
+    loadingHandler.startRequest();
+    if (this.state.isEmailValid) {
+      sendRegisterRequest(userData)
+        .then(() => {
+          loadingHandler.finishRegister();
         })
-        .then((data) => console.log(data))
-        .catch((error) => console.log(error));
+        .catch(() => {
+          this.resetErrorClass(inputEls);
+          this.addErrorClassToBlank(inputEls);
+          loadingHandler.finishRequest();
+        });
+    } else {
+      checkEmailValidationRequest(userData.email)
+        .then(() => {
+          this.state.isEmailValid = true;
+          this.state.validEmail = userData.email;
+          loadingHandler.finishCheckEmail();
+        })
+        .catch(() => {
+          const [$email] = inputEls;
+          this.resetErrorClass(inputEls);
+          this.addErrorClass([$email]);
+          loadingHandler.finishRequest();
+        });
+    }
+  }
+
+  onChangeEmail({ target }: Event) {
+    const $button = qs('#sign-up-button', this.target) as HTMLButtonElement;
+    if (!(target instanceof HTMLInputElement)) return;
+    if (this.state.validEmail !== target.value) {
+      this.state.isEmailValid = false;
+      $button.textContent = 'Check Email';
+    } else {
+      this.state.isEmailValid = true;
+      $button.textContent = 'Sign Up';
+    }
+  }
+
+  addErrorClassToBlank($targets: HTMLInputElement[]) {
+    $targets.forEach((ele) => {
+      if (!ele.value.trim().length) ele.classList.add(styles.error);
     });
+  }
+  addErrorClass($targets: HTMLInputElement[]) {
+    $targets.forEach((ele) => {
+      ele.classList.add(styles.error);
+    });
+  }
+
+  resetErrorClass($targets: HTMLInputElement[]) {
+    $targets.forEach((ele) => {
+      ele.classList.remove(styles.error);
+    });
+    void $targets[0]?.offsetWidth;
   }
 }

@@ -40,8 +40,8 @@
 
   button {
     border-radius: 20px;
-    border: 1px solid #ff4b2b;
-    background-color: #ff4b2b;
+    border: 1px solid #002c5f;
+    background-color: #002c5f;
     color: #ffffff;
     font-size: 12px;
     font-weight: bold;
@@ -81,6 +81,11 @@
     padding: 12px 15px;
     margin: 8px 0;
     width: 100%;
+    border: none;
+    &.error {
+      outline: 1px solid red;
+      animation: shake 0.5s;
+    }
   }
 }
 
@@ -145,9 +150,9 @@
 }
 
 .overlay {
-  background: #ff416c;
-  background: -webkit-linear-gradient(to right, #ff4b2b, #ff416c);
-  background: linear-gradient(to right, #ff4b2b, #ff416c);
+  background: #0095d9;
+  background: -webkit-linear-gradient(to right, #002c5f, #0095d9);
+  background: linear-gradient(to right, #002c5f, #0095d9);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
@@ -209,4 +214,40 @@
   margin: 0 5px;
   height: 40px;
   width: 40px;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+  10% {
+    transform: translate(-1px, -2px) rotate(-1deg);
+  }
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
 }
