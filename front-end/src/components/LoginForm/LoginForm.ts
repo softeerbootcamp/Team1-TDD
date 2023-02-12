@@ -115,7 +115,7 @@ export class LoginForm extends Component {
       .then(this.loginSuccess)
       .catch(() => {
         this.resetErrorClass(inputEls);
-        this.addErrorClassToBlank(inputEls);
+        this.addErrorClass(inputEls);
         loadingHandler.finishRequest();
       });
   }
