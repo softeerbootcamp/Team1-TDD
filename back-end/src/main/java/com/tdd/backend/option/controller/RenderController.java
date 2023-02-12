@@ -1,4 +1,4 @@
-package com.tdd.backend.option.render;
+package com.tdd.backend.option.controller;
 
 import java.util.List;
 
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tdd.backend.option.data.OptionResponse;
+import com.tdd.backend.option.service.RenderService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
