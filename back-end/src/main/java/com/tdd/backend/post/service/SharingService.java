@@ -1,18 +1,19 @@
-package com.tdd.backend.post;
+package com.tdd.backend.post.service;
 
 import org.springframework.stereotype.Service;
 
+import com.tdd.backend.post.repository.PostRepository;
 import com.tdd.backend.post.data.SharingDto;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class PostService {
-
+public class SharingService {
 	private final PostRepository postRepository;
 
 	public void save(SharingDto sharingDto) {
 		postRepository.save(sharingDto.toEntity());
 	}
+
 }

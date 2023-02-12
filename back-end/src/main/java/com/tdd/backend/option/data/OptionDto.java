@@ -12,10 +12,11 @@ public class OptionDto {
 	private final String category;
 
 	@Builder
-	public OptionDto(String name, String category) {
+	private OptionDto(String name, String category) {
 		this.name = name;
 		this.category = category;
 	}
+
 	public Option toEntity() {
 		return new Option(name, Category.getCategory(category));
 	}

@@ -34,7 +34,9 @@ public class RenderService {
 			for (RenderOption renderOption : renderOptionList) {
 				log.info("category : " + renderOption.getCategory());
 				if (isCategoryEquals(category, renderOption.getCategory())) {
-					OptionDto optionDto = new OptionDto(renderOption.getOptionName(), renderOption.getCategory());
+					OptionDto optionDto = OptionDto.builder()
+						.name(renderOption.getOptionName()).category(renderOption.getCategory())
+						.build();
 					optionDtoList.add(optionDto);
 				}
 			}
