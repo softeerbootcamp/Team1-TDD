@@ -85,26 +85,36 @@ export class LoginForm extends Component {
     const $button = e.target as HTMLButtonElement;
     const $email = qs('#signin-email', this.target) as HTMLInputElement;
     const $password = qs('#signin-pwd', this.target) as HTMLInputElement;
-    const enteredEmail = $email.value;
-    const enteredPassword = $password.value;
+    const inputEls = [$email, $password];
 
-    this.resetErrorClass($email, $password);
-    if (!enteredEmail || !enteredPassword) {
-      this.addErrorClass($email, $password);
+    const email = $email.value;
+    const password = $password.value;
+    this.resetErrorClass(inputEls);
+
+    if (!email || !password) {
+      this.addErrorClass(inputEls);
       return;
     }
+    this.sendSignInRequest({ email, password }, inputEls, $button);
+  }
+
+  sendSignInRequest(
+    userData: { email: string; password: string },
+    InputEls: HTMLInputElement[],
+    $button: HTMLButtonElement
+  ) {
     const loadingSpinnerHandler = new LoadingSpinnerHandler($button);
     loadingSpinnerHandler.startRequest();
 
-    sendLogInRequest(enteredEmail, enteredPassword)
+    sendLogInRequest(userData.email, userData.password)
       .then(({ data }) => {
         localStorage.setItem('accessToken', data.accessToken);
         AuthStore.dispatch('LOGIN');
         location.reload();
       })
       .catch(() => {
-        this.resetErrorClass($email, $password);
-        this.addErrorClass($email, $password);
+        this.resetErrorClass(InputEls);
+        this.addErrorClass(InputEls);
         loadingSpinnerHandler.finishRequest();
       });
   }
@@ -116,6 +126,7 @@ export class LoginForm extends Component {
     const $tel = qs('#signup-tel', this.target) as HTMLInputElement;
     const $name = qs('#signup-name', this.target) as HTMLInputElement;
     const $password = qs('#signup-pwd', this.target) as HTMLInputElement;
+    const inputEls = [$email, $tel, $name, $password];
 
     const email = $email.value;
     const phoneNumber = $tel.value;
@@ -123,15 +134,15 @@ export class LoginForm extends Component {
     const userPassword = $password.value;
 
     if (this.state.isEmailValid) {
-      this.resetErrorClass($email, $password, $tel, $name);
+      this.resetErrorClass(inputEls);
       if (!email || !phoneNumber || !userName || !userPassword) {
-        this.addErrorClass($email, $password, $tel, $name);
+        this.addErrorClass(inputEls);
         return;
       }
     } else {
-      this.resetErrorClass($email);
+      this.resetErrorClass([$email]);
       if (!email) {
-        this.addErrorClass($email);
+        this.addErrorClass([$email]);
         return;
       }
     }
@@ -149,8 +160,8 @@ export class LoginForm extends Component {
           loadingSpinnerHandler.finishRegister();
         })
         .catch(() => {
-          this.resetErrorClass($email, $password, $tel, $name);
-          this.addErrorClass($email, $password, $tel, $name);
+          this.resetErrorClass(inputEls);
+          this.addErrorClass(inputEls);
           loadingSpinnerHandler.finishRequest();
         });
     } else {
@@ -161,8 +172,8 @@ export class LoginForm extends Component {
           loadingSpinnerHandler.finishCheckEmail();
         })
         .catch(() => {
-          this.resetErrorClass($email, $password, $tel, $name);
-          this.addErrorClass($email);
+          this.resetErrorClass(inputEls);
+          this.addErrorClass([$email]);
           loadingSpinnerHandler.finishRequest();
         });
     }
@@ -180,17 +191,17 @@ export class LoginForm extends Component {
     }
   }
 
-  addErrorClass(...$target: HTMLInputElement[]) {
-    Array.from($target).forEach((ele) => {
-      ele.classList.add(styles.error);
+  addErrorClass($targets: HTMLInputElement[]) {
+    $targets.forEach((ele) => {
+      if (!ele.value.trim().length) ele.classList.add(styles.error);
     });
   }
 
-  resetErrorClass(...$target: HTMLInputElement[]) {
-    Array.from($target).forEach((ele) => {
+  resetErrorClass($targets: HTMLInputElement[]) {
+    $targets.forEach((ele) => {
       ele.classList.remove(styles.error);
     });
-    void $target[0]?.offsetWidth;
+    void $targets[0]?.offsetWidth;
   }
 }
 
