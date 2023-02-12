@@ -8,6 +8,13 @@ import { AuthStore } from '@/store/AuthStore';
 import { qs } from '@/utils/querySelector';
 import styles from './LoginForm.module.scss';
 
+interface ISignUpData {
+  email: string;
+  phoneNumber: string;
+  userName: string;
+  userPassword: string;
+}
+
 export class LoginForm extends Component {
   setup(): void {
     this.state.isEmailValid = false;
@@ -61,13 +68,9 @@ export class LoginForm extends Component {
   }
   setEvent(): void {
     this.addEvent('click', '#signUp', this.enterSignUpMode.bind(this));
-
     this.addEvent('click', '#signIn', this.enterSignInMode.bind(this));
-
     this.addEvent('click', '#sign-in-button', this.onClickSignIn.bind(this));
-
     this.addEvent('click', '#sign-up-button', this.onClickSignUp.bind(this));
-
     this.addEvent('input', '#signup-email', this.onChangeEmail.bind(this));
   }
 
@@ -75,6 +78,7 @@ export class LoginForm extends Component {
     const $container = qs('#container', this.target);
     $container?.classList.add(styles['right-panel-active']);
   }
+
   enterSignInMode() {
     const $container = qs('#container', this.target);
     $container?.classList.remove(styles['right-panel-active']);
@@ -92,7 +96,7 @@ export class LoginForm extends Component {
     this.resetErrorClass(inputEls);
 
     if (!email || !password) {
-      this.addErrorClass(inputEls);
+      this.addErrorClassToBlank(inputEls);
       return;
     }
     this.sendSignInRequest({ email, password }, inputEls, $button);
@@ -110,7 +114,7 @@ export class LoginForm extends Component {
       .then(this.loginSuccess)
       .catch(() => {
         this.resetErrorClass(inputEls);
-        this.addErrorClass(inputEls);
+        this.addErrorClassToBlank(inputEls);
         loadingSpinnerHandler.finishRequest();
       });
   }
@@ -123,7 +127,7 @@ export class LoginForm extends Component {
 
   loginFail(inputEls: HTMLInputElement[], finishRequest: Function) {
     this.resetErrorClass(inputEls);
-    this.addErrorClass(inputEls);
+    this.addErrorClassToBlank(inputEls);
     finishRequest();
   }
 
@@ -140,46 +144,50 @@ export class LoginForm extends Component {
     const phoneNumber = $tel.value;
     const userName = $name.value;
     const userPassword = $password.value;
-
+    const userData = { email, phoneNumber, userName, userPassword };
     if (this.state.isEmailValid) {
       this.resetErrorClass(inputEls);
       if (!email || !phoneNumber || !userName || !userPassword) {
-        this.addErrorClass(inputEls);
+        this.addErrorClassToBlank(inputEls);
         return;
       }
     } else {
       this.resetErrorClass([$email]);
       if (!email) {
-        this.addErrorClass([$email]);
+        this.addErrorClassToBlank([$email]);
         return;
       }
     }
 
+    this.sendSignUpRequest(userData, inputEls, $button);
+  }
+
+  sendSignUpRequest(
+    userData: ISignUpData,
+    inputEls: HTMLInputElement[],
+    $button: HTMLButtonElement
+  ) {
     const loadingSpinnerHandler = new LoadingSpinnerHandler($button);
     loadingSpinnerHandler.startRequest();
     if (this.state.isEmailValid) {
-      sendRegisterRequest({
-        email,
-        phoneNumber,
-        userName,
-        userPassword,
-      })
+      sendRegisterRequest(userData)
         .then(() => {
           loadingSpinnerHandler.finishRegister();
         })
         .catch(() => {
           this.resetErrorClass(inputEls);
-          this.addErrorClass(inputEls);
+          this.addErrorClassToBlank(inputEls);
           loadingSpinnerHandler.finishRequest();
         });
     } else {
-      checkEmailValidationRequest(email)
+      checkEmailValidationRequest(userData.email)
         .then(() => {
           this.state.isEmailValid = true;
-          this.state.validEmail = email;
+          this.state.validEmail = userData.email;
           loadingSpinnerHandler.finishCheckEmail();
         })
         .catch(() => {
+          const [$email] = inputEls;
           this.resetErrorClass(inputEls);
           this.addErrorClass([$email]);
           loadingSpinnerHandler.finishRequest();
@@ -199,9 +207,14 @@ export class LoginForm extends Component {
     }
   }
 
-  addErrorClass($targets: HTMLInputElement[]) {
+  addErrorClassToBlank($targets: HTMLInputElement[]) {
     $targets.forEach((ele) => {
       if (!ele.value.trim().length) ele.classList.add(styles.error);
+    });
+  }
+  addErrorClass($targets: HTMLInputElement[]) {
+    $targets.forEach((ele) => {
+      ele.classList.add(styles.error);
     });
   }
 
