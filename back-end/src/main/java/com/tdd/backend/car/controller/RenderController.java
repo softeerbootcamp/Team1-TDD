@@ -1,4 +1,4 @@
-package com.tdd.backend.option.controller;
+package com.tdd.backend.car.controller;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tdd.backend.option.data.OptionResponse;
-import com.tdd.backend.option.service.RenderService;
+import com.tdd.backend.car.data.OptionResponse;
+import com.tdd.backend.car.service.RenderService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;

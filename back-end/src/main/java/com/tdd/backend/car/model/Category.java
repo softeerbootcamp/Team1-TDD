@@ -1,4 +1,4 @@
-package com.tdd.backend.option.model;
+package com.tdd.backend.car.model;
 
 import java.util.Arrays;
 
