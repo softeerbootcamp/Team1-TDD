@@ -58,7 +58,7 @@ create table locations
             on update cascade on delete cascade
 );
 create index latitude_longitude_index
-    on car.locations (latitude, longitude);
+    on locations (latitude, longitude);
 
 create table options
 (

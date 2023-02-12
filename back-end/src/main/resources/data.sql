@@ -1,4 +1,4 @@
-insert into cars (car_name)
+INSERT INTO cars (car_name)
 values ('IONIC6');
 insert into cars (car_name)
 values ('IONIC5');
@@ -20,199 +20,353 @@ insert into cars (car_name)
 values ('THE_ALL_NEW_KONA');
 
 
-insert into entire_options (option_name, category_name)
-values ('주차거리경고-전방', '안전/성능');
-insert into entire_options (option_name, category_name)
-values ('주차거리경고-후방', '안전/성능');
-insert into entire_options (option_name, category_name)
-values ('진동경고 스티어링 휠', '안전/성능');
-insert into entire_options (option_name, category_name)
-values ('후측방 충돌방지 보조', '지능형 안전기술');
-insert into entire_options (option_name, category_name)
-values ('안전 하차 보조', '지능형 안전기술');
-insert into entire_options (option_name, category_name)
-values ('차량 이탈방지 보조', '지능형 안전기술');
-insert into entire_options (option_name, category_name)
-values ('LED 헤드램프', '내장/외장');
-insert into entire_options (option_name, category_name)
-values ('루프 랙', '내장/외장');
-insert into entire_options (option_name, category_name)
-values ('선루프', '내장/외장');
-insert into entire_options (option_name, category_name)
-values ('동승석 통풍시트', '시트');
-insert into entire_options (option_name, category_name)
-values ('운전석 자세 메모리 시스템', '시트');
-insert into entire_options (option_name, category_name)
-values ('뒷좌석 열선시트', '시트');
-insert into entire_options (option_name, category_name)
-values ('후방 모니터', '편의');
-insert into entire_options (option_name, category_name)
-values ('후측방 모니터', '편의');
-insert into entire_options (option_name, category_name)
-values ('서라운드 뷰 모니터', '편의');
-insert into entire_options (option_name, category_name)
-values ('디스플레이 오디오', '멀티미디어');
-insert into entire_options (option_name, category_name)
-values ('내비게이션', '멀티미디어');
-insert into entire_options (option_name, category_name)
-values ('프리미엄 사운드 시스템', '멀티미디어');
+INSERT INTO entire_options (option_name, category_name)
+VALUES ('가솔린 1.6', '엔진'),
+       ('가솔린 2.0', '엔진'),
+       ('가솔린 2.5', '엔진'),
+       ('가솔린 3.5', '엔진'),
+       ('가솔린 3.8', '엔진'),
+
+       ('센슈어스(가솔린 1.6T)', '엔진'),
+
+       ('LPG 1.6', '엔진'),
+       ('LPi 2.0', '엔진'),
+       ('LPi 3.5', '엔진'),
+
+       ('디젤 2.2', '엔진'),
+
+       ('2WD', '구동방식'),
+       ('4WD', '구동방식'),
+
+       ('E-LITE(롱레인지) 18인치', '모델'),
+
+       ('Exclusive', '모델'),
+       ('Exclusive(스탠다드) 18인치', '모델'),
+       ('Exclusive(스탠다드) 19인치', '모델'),
+
+       ('Exclusive(롱레인지) 18인치', '모델'),
+       ('Exclusive(롱레인지) 19인치', '모델'),
+       ('Exclusive(롱레인지) 20인치', '모델'),
+
+       ('Exclusive+(롱레인지) 18인치', '모델'),
+       ('Exclusive+(롱레인지) 20인치', '모델'),
+
+       ('Prestige', '모델'),
+       ('Prestige Choice', '모델'),
+       ('Prestige(롱레인지) 18인치', '모델'),
+       ('Prestige(롱레인지) 19인치', '모델'),
+       ('Prestige(롱레인지) 20인치', '모델'),
+
+       ('Modern', '모델'),
+       ('Premium', '모델'),
+       ('Premium+', '모델'),
+       ('Inspiration', '모델'),
+       ('Smart', '모델'),
+       ('N-Line 디자인 에디션', '모델'),
+       ('Calligraphy', '모델'),
+
+       ('5인승', '바디타입'),
+       ('6인승', '바디타입'),
+       ('7인승', '바디타입'),
+       ('8인승', '바디타입'),
+
+       ('A/T', '변속기'),
+       ('DCT', '변속기'),
+
+       ('현대 스마트 센스', '옵션'),
+       ('현대 스마트 센스 I', '옵션'),
+       ('현대 스마트 센스 II', '옵션'),
+       ('현대 스마트 센스 III', '옵션'),
+
+       ('컨비니언스', '옵션'),
+       ('컨비니언스 I', '옵션'),
+       ('컨비니언스 II', '옵션'),
+
+       ('와이드 선루프', '옵션'),
+       ('듀얼 와이드 선루프', '옵션'),
+       ('선루프', '옵션'),
+       ('파노라마 선루프', '옵션'),
+       ('파노라마 선루프 + 루프랙', '옵션'),
+       ('파노라마 선루프 + 루프랙 + LED 실내등(맵램프,룸램프)', '옵션'),
+       ('비전루프', '옵션'),
+
+       ('컴포트', '옵션'),
+       ('컴포트 I', '옵션'),
+       ('컴포트 III', '옵션'),
+       ('컴포트+', '옵션'),
+       ('뒷좌석 컴포트 패키지', '옵션'),
+
+       ('플래티넘', '옵션'),
+       ('플래티넘 I', '옵션'),
+       ('플래티넘 II', '옵션'),
+       ('플래티넘 III', '옵션'),
+       ('플래티넘 Ⅳ', '옵션'),
+
+       ('파킹 어시스트', '옵션'),
+       ('파킹 어시스트+ I', '옵션'),
+       ('파킹 어시스트+ II', '옵션'),
+       ('파킹 어시스트+ III', '옵션'),
+
+       ('KRELL 프리미엄 사운드 시스템(10스피커, 외장앰프)', '옵션'),
+       ('BOSE 프리미엄 사운드', '옵션'),
+       ('BOSE 프리미엄 사운드 패키지', '옵션'),
+       ('BOSE 프리미엄 사운드(12 스피커, 외장앰프)', '옵션'),
+
+       ('디지털 사이드 미러', '옵션'),
+
+       ('실내 V2L', '옵션'),
+
+       ('모던 그레이 인테리어 컬러', '옵션'),
+
+       ('파노라마 디스플레이', '옵션'),
+
+       ('익스테리어 디자인', '옵션'),
+       ('익스테리어 I', '옵션'),
+       ('익스테리어 II', '옵션'),
+
+       ('빌트인 캠', '옵션'),
+       ('빌트인 캠2', '옵션'),
+       ('빌트인 캠(보조배터리 포함)', '옵션'),
+
+       ('하이패스', '옵션'),
+       ('하이패스 시스템 + ECM 룸미러', '옵션'),
+
+       ('클러스터(12.3인치 컬러 LCD)', '옵션'),
 
 
-#IONIC6
-insert into car_options (car_id, entire_option_id) values(1, 1);
-insert into car_options (car_id, entire_option_id) values(1, 2);
-insert into car_options (car_id, entire_option_id) values(1, 4);
-insert into car_options (car_id, entire_option_id) values(1, 5);
-insert into car_options (car_id, entire_option_id) values(1, 6);
-insert into car_options (car_id, entire_option_id) values(1, 7);
-insert into car_options (car_id, entire_option_id) values(1, 9);
-insert into car_options (car_id, entire_option_id) values(1, 10);
-insert into car_options (car_id, entire_option_id) values(1, 11);
-insert into car_options (car_id, entire_option_id) values(1, 12);
-insert into car_options (car_id, entire_option_id) values(1, 13);
-insert into car_options (car_id, entire_option_id) values(1, 14);
-insert into car_options (car_id, entire_option_id) values(1, 15);
-insert into car_options (car_id, entire_option_id) values(1, 17);
-insert into car_options (car_id, entire_option_id) values(1, 18);
+       ('뒷좌석 VIP 패키지', '옵션'),
 
-#IONIC5
-insert into car_options (car_id, entire_option_id) values(2, 1);
-insert into car_options (car_id, entire_option_id) values(2, 2);
-insert into car_options (car_id, entire_option_id) values(2, 4);
-insert into car_options (car_id, entire_option_id) values(2, 5);
-insert into car_options (car_id, entire_option_id) values(2, 6);
-insert into car_options (car_id, entire_option_id) values(2, 7);
-insert into car_options (car_id, entire_option_id) values(2, 9);
-insert into car_options (car_id, entire_option_id) values(2, 10);
-insert into car_options (car_id, entire_option_id) values(2, 11);
-insert into car_options (car_id, entire_option_id) values(2, 12);
-insert into car_options (car_id, entire_option_id) values(2, 13);
-insert into car_options (car_id, entire_option_id) values(2, 14);
-insert into car_options (car_id, entire_option_id) values(2, 15);
-insert into car_options (car_id, entire_option_id) values(2, 17);
-insert into car_options (car_id, entire_option_id) values(2, 18);
+       ('하이테크 패키지', '옵션'),
 
-#NEXO
-insert into car_options (car_id, entire_option_id) values(3, 1);
-insert into car_options (car_id, entire_option_id) values(3, 2);
-insert into car_options (car_id, entire_option_id) values(3, 4);
-insert into car_options (car_id, entire_option_id) values(3, 6);
-insert into car_options (car_id, entire_option_id) values(3, 7);
-insert into car_options (car_id, entire_option_id) values(3, 8);
-insert into car_options (car_id, entire_option_id) values(3, 9);
-insert into car_options (car_id, entire_option_id) values(3, 10);
-insert into car_options (car_id, entire_option_id) values(3, 12);
-insert into car_options (car_id, entire_option_id) values(3, 13);
-insert into car_options (car_id, entire_option_id) values(3, 14);
-insert into car_options (car_id, entire_option_id) values(3, 15);
-insert into car_options (car_id, entire_option_id) values(3, 17);
-insert into car_options (car_id, entire_option_id) values(3, 18);
+       ('헤드업 디스플레이', '옵션'),
+       ('프리미엄 초이스', '옵션'),
 
-#AVANTE
-insert into car_options (car_id, entire_option_id) values(4, 3);
-insert into car_options (car_id, entire_option_id) values(4, 4);
-insert into car_options (car_id, entire_option_id) values(4, 6);
-insert into car_options (car_id, entire_option_id) values(4, 7);
-insert into car_options (car_id, entire_option_id) values(4, 9);
-insert into car_options (car_id, entire_option_id) values(4, 10);
-insert into car_options (car_id, entire_option_id) values(4, 11);
-insert into car_options (car_id, entire_option_id) values(4, 12);
-insert into car_options (car_id, entire_option_id) values(4, 13);
-insert into car_options (car_id, entire_option_id) values(4, 16);
-insert into car_options (car_id, entire_option_id) values(4, 17);
-insert into car_options (car_id, entire_option_id) values(4, 18);
+       ('2열 통풍시트', '옵션'),
 
-#SONATA
-insert into car_options (car_id, entire_option_id) values(5, 1);
-insert into car_options (car_id, entire_option_id) values(5, 2);
-insert into car_options (car_id, entire_option_id) values(5, 3);
-insert into car_options (car_id, entire_option_id) values(5, 4);
-insert into car_options (car_id, entire_option_id) values(5, 5);
-insert into car_options (car_id, entire_option_id) values(5, 6);
-insert into car_options (car_id, entire_option_id) values(5, 10);
-insert into car_options (car_id, entire_option_id) values(5, 11);
-insert into car_options (car_id, entire_option_id) values(5, 12);
-insert into car_options (car_id, entire_option_id) values(5, 13);
-insert into car_options (car_id, entire_option_id) values(5, 14);
-insert into car_options (car_id, entire_option_id) values(5, 15);
-insert into car_options (car_id, entire_option_id) values(5, 16);
-insert into car_options (car_id, entire_option_id) values(5, 17);
-insert into car_options (car_id, entire_option_id) values(5, 18);
+       ('에센셜+', '옵션'),
 
-#THE_ALL_NEW_GRANDEUR
-insert into car_options (car_id, entire_option_id) values(6, 1);
-insert into car_options (car_id, entire_option_id) values(6, 2);
-insert into car_options (car_id, entire_option_id) values(6, 4);
-insert into car_options (car_id, entire_option_id) values(6, 5);
-insert into car_options (car_id, entire_option_id) values(6, 6);
-insert into car_options (car_id, entire_option_id) values(6, 10);
-insert into car_options (car_id, entire_option_id) values(6, 11);
-insert into car_options (car_id, entire_option_id) values(6, 12);
-insert into car_options (car_id, entire_option_id) values(6, 13);
-insert into car_options (car_id, entire_option_id) values(6, 14);
-insert into car_options (car_id, entire_option_id) values(6, 15);
-insert into car_options (car_id, entire_option_id) values(6, 17);
+       ('테크+', '옵션'),
 
-#SANAFE
-insert into car_options (car_id, entire_option_id) values(7, 1);
-insert into car_options (car_id, entire_option_id) values(7, 2);
-insert into car_options (car_id, entire_option_id) values(7, 4);
-insert into car_options (car_id, entire_option_id) values(7, 5);
-insert into car_options (car_id, entire_option_id) values(7, 6);
-insert into car_options (car_id, entire_option_id) values(7, 7);
-insert into car_options (car_id, entire_option_id) values(7, 8);
-insert into car_options (car_id, entire_option_id) values(7, 10);
-insert into car_options (car_id, entire_option_id) values(7, 11);
-insert into car_options (car_id, entire_option_id) values(7, 12);
-insert into car_options (car_id, entire_option_id) values(7, 13);
-insert into car_options (car_id, entire_option_id) values(7, 14);
-insert into car_options (car_id, entire_option_id) values(7, 15);
-insert into car_options (car_id, entire_option_id) values(7, 17);
-insert into car_options (car_id, entire_option_id) values(7, 18);
+       ('주차보조 시스템Ⅰ', '옵션'),
+       ('주차보조 시스템ⅠI', '옵션'),
 
-#PALASADE
-insert into car_options (car_id, entire_option_id) values(8, 1);
-insert into car_options (car_id, entire_option_id) values(8, 2);
-insert into car_options (car_id, entire_option_id) values(8, 3);
-insert into car_options (car_id, entire_option_id) values(8, 4);
-insert into car_options (car_id, entire_option_id) values(8, 5);
-insert into car_options (car_id, entire_option_id) values(8, 6);
-insert into car_options (car_id, entire_option_id) values(8, 8);
-insert into car_options (car_id, entire_option_id) values(8, 9);
-insert into car_options (car_id, entire_option_id) values(8, 10);
-insert into car_options (car_id, entire_option_id) values(8, 11);
-insert into car_options (car_id, entire_option_id) values(8, 13);
-insert into car_options (car_id, entire_option_id) values(8, 14);
-insert into car_options (car_id, entire_option_id) values(8, 15);
-insert into car_options (car_id, entire_option_id) values(8, 17);
-insert into car_options (car_id, entire_option_id) values(8, 18);
+       ('H Genuine Accessories 라이프 스타일', '옵션'),
+       ('H Genuine Accessories 트레일러 & 셀프레벨라이저', '옵션'),
 
-#TUSCON
-insert into car_options (car_id, entire_option_id) values(9, 3);
-insert into car_options (car_id, entire_option_id) values(9, 4);
-insert into car_options (car_id, entire_option_id) values(9, 5);
-insert into car_options (car_id, entire_option_id) values(9, 8);
-insert into car_options (car_id, entire_option_id) values(9, 10);
-insert into car_options (car_id, entire_option_id) values(9, 11);
-insert into car_options (car_id, entire_option_id) values(9, 12);
-insert into car_options (car_id, entire_option_id) values(9, 13);
-insert into car_options (car_id, entire_option_id) values(9, 14);
-insert into car_options (car_id, entire_option_id) values(9, 15);
-insert into car_options (car_id, entire_option_id) values(9, 16);
-insert into car_options (car_id, entire_option_id) values(9, 17);
-insert into car_options (car_id, entire_option_id) values(9, 18);
+       ('프리뷰 전자제어 서스펜션 I', '옵션'),
+       ('프리뷰 전자제어 서스펜션 II', '옵션'),
 
-#THE_ALL_NEW_KONA
-insert into car_options (car_id, entire_option_id) values(10, 1);
-insert into car_options (car_id, entire_option_id) values(10, 2);
-insert into car_options (car_id, entire_option_id) values(10, 4);
-insert into car_options (car_id, entire_option_id) values(10, 6);
-insert into car_options (car_id, entire_option_id) values(10, 7);
-insert into car_options (car_id, entire_option_id) values(10, 8);
-insert into car_options (car_id, entire_option_id) values(10, 9);
-insert into car_options (car_id, entire_option_id) values(10, 10);
-insert into car_options (car_id, entire_option_id) values(10, 11);
-insert into car_options (car_id, entire_option_id) values(10, 12);
-insert into car_options (car_id, entire_option_id) values(10, 13);
-insert into car_options (car_id, entire_option_id) values(10, 14);
-insert into car_options (car_id, entire_option_id) values(10, 15);
+       ('시트+', '옵션'),
+       ('시트+ I', '옵션'),
+       ('시트+ II', '옵션'),
+
+       ('(울산 출고 전용) 라이프 스타일 + 사이드스텝', '옵션'),
+       ('(울산 출고 전용) VIP + 사이드스텝', '옵션'),
+       ('(울산 출고 전용) 라이프 스타일 + VIP + 사이드스텝', '옵션'),
+
+       ('VIP', '옵션'),
+
+       ('인포테인먼트 내비', '옵션'),
+       ('내비게이션 패키지', '옵션'),
+       ('멀티미디어 내비 I', '옵션'),
+
+       ('스타일 I', '옵션'),
+       ('스타일 II', '옵션'),
+
+       ('17인치 알로이 휠 & 타이어 I', '옵션'),
+       ('18인치 알로이 휠 & 피렐리 타이어', '옵션'),
+       ('19인치 알로이 휠 & 피렐리 타이어', '옵션'),
+       ('미쉐린 타이어', '옵션'),
+       ('디젤', '엔진'),
+       ('1.6 가솔린 터보', '엔진'),
+       ('파노라마 선루프 + LED 실내등(맵램프, 룸램프)', '옵션');
+
+
+INSERT INTO car_options (car_id, entire_option_id)
+VALUES (1, 11),
+       (1, 12),
+       (1, 13),
+       (1, 15),
+       (1, 17),
+       (1, 19),
+       (1, 20),
+       (1, 21),
+       (1, 25),
+       (1, 26),
+       (1, 40),
+       (1, 44),
+       (1, 47),
+       (1, 57),
+       (1, 59),
+       (1, 64),
+       (1, 69),
+       (1, 72),
+
+       (2, 11),
+       (2, 12),
+       (2, 16),
+       (2, 18),
+       (2, 19),
+       (2, 25),
+       (2, 26),
+       (2, 73),
+       (2, 40),
+       (2, 54),
+       (2, 57),
+       (2, 53),
+       (2, 64),
+       (2, 72),
+
+       (3, 27),
+       (3, 28),
+
+       (4, 1),
+       (4, 7),
+       (4, 31),
+       (4, 27),
+       (4, 30),
+       (4, 45),
+       (4, 105),
+       (4, 43),
+       (4, 110),
+       (4, 49),
+       (4, 74),
+       (4, 75),
+       (4, 41),
+       (4, 76),
+       (4, 55),
+
+       (5, 6),
+       (5, 2),
+       (5, 8),
+       (5, 27),
+       (5, 29),
+       (5, 30),
+       (5, 32),
+       (5, 79),
+       (5, 50),
+       (5, 83),
+       (5, 40),
+       (5, 84),
+       (5, 71),
+       (5, 111),
+       (5, 112),
+       (5, 59),
+       (5, 56),
+       (5, 46),
+
+       (6, 3),
+       (6, 4),
+       (6, 9),
+       (6, 11),
+       (6, 12),
+       (6, 33),
+       (6, 14),
+       (6, 28),
+       (6, 50),
+       (6, 97),
+       (6, 85),
+       (6, 86),
+       (6, 87),
+       (6, 70),
+       (6, 96),
+       (6, 42),
+       (6, 59),
+       (6, 58),
+       (6, 64),
+       (6, 88),
+
+       (7, 3),
+       (7, 10),
+       (7, 11),
+       (7, 12),
+       (7, 14),
+       (7, 22),
+       (7, 23),
+       (7, 33),
+       (7, 34),
+       (7, 35),
+       (7, 36),
+       (7, 87),
+       (7, 79),
+       (7, 43),
+       (7, 62),
+       (7, 51),
+       (7, 99),
+       (7, 50),
+       (7, 61),
+       (7, 65),
+       (7, 100),
+       (7, 66),
+       (7, 67),
+       (7, 68),
+
+       (8, 5),
+       (8, 10),
+       (8, 11),
+       (8, 12),
+       (8, 14),
+       (8, 22),
+       (8, 33),
+       (8, 36),
+       (8, 37),
+       (8, 48),
+       (8, 89),
+       (8, 81),
+       (8, 90),
+       (8, 44),
+       (8, 92),
+       (8, 91),
+       (8, 41),
+       (8, 93),
+       (8, 94),
+       (8, 95),
+       (8, 101),
+       (8, 102),
+       (8, 103),
+
+       (9, 114),
+       (9, 115),
+       (9, 11),
+       (9, 12),
+       (9, 27),
+       (9, 28),
+       (9, 30),
+       (9, 38),
+       (9, 39),
+       (9, 107),
+       (9, 44),
+       (9, 40),
+       (9, 52),
+       (9, 83),
+       (9, 81),
+       (9, 60),
+       (9, 61),
+       (9, 54),
+       (9, 77),
+       (9, 78),
+       (9, 116),
+       (9, 113),
+       (9, 62),
+       (9, 63),
+       (9, 50),
+
+       (10, 115),
+       (10, 2),
+       (10, 11),
+       (10, 12),
+       (10, 27),
+       (10, 28),
+       (10, 30),
+       (10, 82),
+       (10, 106),
+       (10, 40),
+       (10, 108),
+       (10, 47),
+       (10, 84),
+       (10, 80),
+       (10, 109),
+       (10, 98),
+       (10, 64),
+       (10, 44),
+       (10, 69);
