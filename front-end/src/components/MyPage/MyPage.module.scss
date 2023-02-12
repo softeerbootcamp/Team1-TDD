@@ -1,0 +1,68 @@
+.empty-wrapper {
+  width: 100%;
+  height: 20px;
+}
+
+.user-wrapper {
+  width: 400px;
+  margin-left: 50px;
+  .title {
+    margin-bottom: 30px;
+  }
+
+  .name-wrapper,
+  .registered-wrapper,
+  .email-wrapper,
+  .expno-wrapper,
+  .shareno-wrapper {
+    display: flex;
+    height: 50px;
+    line-height: 50px;
+    font-size: 25px;
+    margin-left: 25px;
+  }
+}
+
+.exp-wrapper,
+.share-wrapper {
+  width: 100%;
+  margin-left: 50px;
+}
+
+.exp-wrapper,
+.share-wrapper {
+  .user-header-wrapper {
+    .exp-title {
+      color: black;
+    }
+  }
+  .board-wrapper {
+    display: flex;
+    .exp-board,
+    .share-board {
+      width: 100%;
+      height: 300px;
+      margin-right: 50px;
+      padding-right: 50px;
+      background-color: lightgray;
+    }
+  }
+}
+
+.left {
+  width: 100px;
+  margin-right: 50px;
+}
+
+.right {
+  width: 200px;
+}
+
+.right-div {
+  width: 50px;
+  height: 300px;
+}
+
+.share-wrapper {
+  margin-bottom: 50px;
+}
