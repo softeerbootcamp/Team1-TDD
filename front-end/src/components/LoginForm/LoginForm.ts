@@ -1,7 +1,6 @@
 import { sendLogInRequest, sendRegisterRequest } from '@/apis/login';
 import Component from '@/core/Component';
 import { qs } from '@/utils/querySelector';
-import axios from 'axios';
 import styles from './LoginForm.module.scss';
 export class LoginForm extends Component {
   template(): string {

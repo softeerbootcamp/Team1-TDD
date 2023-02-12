@@ -17,3 +17,10 @@ interface IRegisterPayload {
 export const sendRegisterRequest = async (payload: IRegisterPayload) => {
   return axiosInstance.post('/users', payload);
 };
+
+export const sendAuthTestRequest = async () => {
+  const accessToken = localStorage.getItem('accessToken');
+  return axiosInstance.get('/test/auth', {
+    headers: { Authorization: accessToken },
+  });
+};
