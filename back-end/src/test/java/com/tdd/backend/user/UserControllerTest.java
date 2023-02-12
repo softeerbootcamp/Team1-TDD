@@ -307,15 +307,31 @@ class UserControllerTest {
 	    //given
 		Long userId = 1L;
 		String rtk = jwtTokenProvider.generateRefreshToken(userId);
-		//when
 
+		//expected
 		mockMvc.perform(get("/test/auth")
 				.header("Authorization", rtk)
 				.contentType(MediaType.APPLICATION_JSON)
 			)
 			.andExpect(status().isBadRequest())
 			.andDo(print());
-	    //then
+
+	}
+
+	@Test
+	@DisplayName("reissue 시 RTK가 아닐 경우 Exception 발생")
+	void check_validate_RTK() throws Exception {
+		//given
+		Long userId = 1L;
+		String atk = jwtTokenProvider.generateAccessToken(userId);
+
+		//expected
+		mockMvc.perform(post("/reissue")
+				.header("Authorization", atk)
+				.contentType(MediaType.APPLICATION_JSON)
+			)
+			.andExpect(status().isBadRequest())
+			.andDo(print());
 
 	}
 }

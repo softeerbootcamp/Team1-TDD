@@ -1,9 +1,11 @@
 package com.tdd.backend.user;
 
+import static com.tdd.backend.auth.JwtTokenProvider.JwtTokenRole.*;
 import static com.tdd.backend.auth.JwtTokenProvider.JwtTokenStatus.*;
 
 import org.springframework.stereotype.Service;
 
+import com.tdd.backend.auth.InvalidTokenException;
 import com.tdd.backend.auth.JwtTokenPairResponse;
 import com.tdd.backend.auth.JwtTokenProvider;
 import com.tdd.backend.auth.RefreshTokenStorage;
@@ -57,6 +59,11 @@ public class UserService {
 
 	public JwtTokenPairResponse reIssueToken(String refreshToken) {
 		//리프레쉬 토큰이 validate 하다면 새로운 ATK 재발급
+		if (!jwtTokenProvider.getRoleFromJwt(refreshToken).equals(RTK)) {
+			throw new InvalidTokenException();
+		}
+
+
 		if (jwtTokenProvider.validateToken(refreshToken) == ACCESS) {
 			// ATK 재발급은 RTK의 payload에서 유저의 email을 꺼낸 뒤, Redis 인메모리에 해당 유저의 존재 유무로 결정된다.
 			Long id = jwtTokenProvider.getUserIdFromJwt(refreshToken);

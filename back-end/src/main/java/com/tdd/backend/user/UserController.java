@@ -52,12 +52,13 @@ public class UserController {
 		return ResponseEntity.ok(userService.login(userLogin));
 	}
 
+	//TODO : 역할에 따라 토큰 서비스 클래스 분리
+
 	// RTK이며, 요청이 POST /reissue인 경우 재발급을 진행한다.
 	@PostMapping("/reissue")
 	public ResponseEntity<JwtTokenPairResponse> refreshAccessToken(
 		@RequestHeader("Authorization") String refreshToken) {
 		log.info("> refresh token : {}", refreshToken);
-		//TODO : 역할에 따라 토큰 서비스 클래스 분리
 		return ResponseEntity.ok(userService.reIssueToken(refreshToken));
 	}
 
