@@ -39,7 +39,7 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@GetMapping("/users/validation/{email}}")
+	@GetMapping("/users/validation/{email}")
 	public void userEmailValidCheck(@PathVariable String email) {
 		if (userService.isDuplicateEmail(email)) {
 			throw new DuplicateEmailException();
