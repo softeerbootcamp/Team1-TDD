@@ -1,5 +1,6 @@
 .wrapper {
   width: fit-content;
+  margin: 0 auto;
 }
 .slider-container {
   display: flex;
@@ -21,6 +22,8 @@
   .slider {
     position: relative;
     overflow: hidden;
+    width: 940px;
+    height: 515px;
 
     img {
       position: absolute;

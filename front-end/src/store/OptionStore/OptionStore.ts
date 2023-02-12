@@ -1,3 +1,4 @@
+import { carList } from '@/constants/carList';
 import { Store } from '@/core/Store.js';
 interface IOptionState {
   carModal: string | null;
@@ -7,32 +8,35 @@ interface IOptionState {
 interface IOption {
   name: string;
   category: string;
+  open: boolean;
 }
 interface DynamicObject {
   [property: string]: any;
 }
-const initState = { carModel: null, rideTogether: false, options: [] };
+const initState = {
+  carModel: carList[0].title,
+  rideTogether: false,
+  options: [],
+  openState: [],
+};
 
 const reducer = (
   state: IOptionState,
   actionKey: string,
   payload: DynamicObject = {}
 ) => {
-  const newState: IOptionState = JSON.parse(JSON.stringify(state));
-
   switch (actionKey) {
     case 'OPTION_INIT':
       return initState;
 
-    case 'ADD_CAR_OPTION':
-      newState.options.push(payload.option);
-      return newState;
+    case 'UPDATE_ACTIVE_CAR_OPTION':
+      return { ...state, options: payload.options };
 
-    case 'DELETE_CAR_OPTION':
-      newState.options = newState.options.filter(
-        (ele) => JSON.stringify(ele) !== JSON.stringify(payload.option)
-      );
-      return newState;
+    case 'SELECT_CAR_MODEL':
+      return { ...state, carModel: payload.name };
+
+    case 'UPDATE_OPEN_STATE':
+      return { ...state, openState: payload.openState };
 
     default:
       return { ...state };

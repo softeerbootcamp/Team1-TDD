@@ -60,7 +60,7 @@ export const carList: ICar[] = [
     title: '아반떼',
   },
   {
-    fileName: '016_아반떼_Hybrid.png',
+    fileName: '016_avante_Hybrid.png',
     title: '아반떼 Hybrid',
   },
   {
