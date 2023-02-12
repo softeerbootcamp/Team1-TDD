@@ -1,4 +1,4 @@
-package com.tdd.backend.option.repository;
+package com.tdd.backend.car.repository;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.tdd.backend.option.model.Option;
+import com.tdd.backend.car.model.Option;
 
 @Repository
 public interface RenderRepository extends CrudRepository<Option, Long> {
