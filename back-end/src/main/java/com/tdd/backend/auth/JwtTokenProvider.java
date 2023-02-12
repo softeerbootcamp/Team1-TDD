@@ -90,8 +90,8 @@ public class JwtTokenProvider {
 			Jwts.parserBuilder().setSigningKey(decodeBase64(jwtSecret)).build().parseClaimsJws(authToken);
 			return ACCESS;
 		} catch (ExpiredJwtException e) {
-			// 만료된 경우에는 refresh token을 확인하기 위해
-			return EXPIRED;
+			log.info(">> Access Token is expired! please redirect to POST /reissue to regenerate new access token");
+			throw new ExpiredATKException();
 		} catch (JwtException | IllegalArgumentException e) {
 			log.error("jwtException : {}", e.getMessage());
 		}

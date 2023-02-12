@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * key : email
+ * key : user_id
  * value : refreshToken
  */
 public class RefreshTokenStorage {

@@ -279,7 +279,7 @@ class UserControllerTest {
 				.header("Authorization", refreshToken)
 				.contentType(MediaType.APPLICATION_JSON)
 			)
-			.andExpect(status().isUnauthorized())
+			.andExpect(status().isFound())
 			.andDo(print());
 	}
 
