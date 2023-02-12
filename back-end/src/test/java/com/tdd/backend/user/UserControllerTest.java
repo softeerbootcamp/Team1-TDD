@@ -2,6 +2,7 @@ package com.tdd.backend.user;
 
 import static com.tdd.backend.auth.JwtTokenProvider.JwtTokenRole.*;
 import static org.assertj.core.api.Assertions.*;
+import static org.springframework.http.HttpStatus.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -204,11 +205,10 @@ class UserControllerTest {
 	@Test
 	@DisplayName("인증되지 않은 접근")
 	void access_non_auth() throws Exception {
-	    //when
-		String invalidToken = "aabdakflafklanl";
+
 		//expected
 		mockMvc.perform(get("/test/auth")
-				.header("Authorization", invalidToken)
+				.contentType(MediaType.TEXT_PLAIN)
 			)
 			.andExpect(status().isUnauthorized())
 			.andExpect(jsonPath("$.code").value(HttpStatus.UNAUTHORIZED.toString()))
@@ -235,7 +235,9 @@ class UserControllerTest {
 				.header("Authorization", accessToken)
 				.contentType(MediaType.APPLICATION_JSON)
 			)
-			.andExpect(status().isOk())
+			.andExpect(status().isFound())
+			.andExpect(jsonPath("$.code").value(FOUND.toString()))
+			.andExpect(jsonPath("$.errorMessage").value("액세스 토큰이 만료되었습니다. 재발급해주세요."))
 			.andDo(print());
 
 	}

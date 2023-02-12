@@ -15,6 +15,7 @@ import com.tdd.backend.user.exception.UnauthorizedException;
 import com.tdd.backend.user.exception.UserNotFoundException;
 import com.tdd.backend.user.util.EncryptHelper;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -59,30 +60,36 @@ public class UserService {
 
 	public JwtTokenPairResponse reIssueToken(String refreshToken) {
 		//리프레쉬 토큰이 validate 하다면 새로운 ATK 재발급
-		if (!jwtTokenProvider.getRoleFromJwt(refreshToken).equals(RTK)) {
-			throw new InvalidTokenException();
-		}
 
-
-		if (jwtTokenProvider.validateToken(refreshToken) == ACCESS) {
-			// ATK 재발급은 RTK의 payload에서 유저의 email을 꺼낸 뒤, Redis 인메모리에 해당 유저의 존재 유무로 결정된다.
-			Long id = jwtTokenProvider.getUserIdFromJwt(refreshToken);
-
-			//TODO : 이론적으로 인메모리에 해당하는 key (email) 이 없는 경우에 대한 방식이 적절한 지 판단
-			if (!RefreshTokenStorage.isValidateUserId(id)) {
-				throw new UnauthorizedException();
+		try {
+			if (!jwtTokenProvider.getRoleFromJwt(refreshToken).equals(RTK)) {
+				throw new InvalidTokenException();
 			}
 
-			String newAccessToken = jwtTokenProvider.generateAccessToken(id);
-			String newRefreshToken = jwtTokenProvider.generateRefreshToken(id);
-			log.info(">> reissued access token : {}", newAccessToken);
-			log.info(">> reissued refresh token : {}", newRefreshToken);
+			if (jwtTokenProvider.validateToken(refreshToken) == ACCESS) {
+				// ATK 재발급은 RTK의 payload에서 유저의 email을 꺼낸 뒤, Redis 인메모리에 해당 유저의 존재 유무로 결정된다.
+				Long id = jwtTokenProvider.getUserIdFromJwt(refreshToken);
 
-			return JwtTokenPairResponse.builder()
-				.accessToken(newAccessToken)
-				.refreshToken(newRefreshToken)
-				.build();
+				//TODO : 이론적으로 인메모리에 해당하는 key (email) 이 없는 경우에 대한 방식이 적절한 지 판단
+				if (!RefreshTokenStorage.isValidateUserId(id)) {
+					throw new UnauthorizedException();
+				}
+
+				String newAccessToken = jwtTokenProvider.generateAccessToken(id);
+				String newRefreshToken = jwtTokenProvider.generateRefreshToken(id);
+				log.info(">> reissued access token : {}", newAccessToken);
+				log.info(">> reissued refresh token : {}", newRefreshToken);
+
+				return JwtTokenPairResponse.builder()
+					.accessToken(newAccessToken)
+					.refreshToken(newRefreshToken)
+					.build();
+			}
+
+		} catch (ExpiredJwtException exception) {
+			throw new UnauthorizedException();
 		}
+
 		throw new UnauthorizedException();
 	}
 }

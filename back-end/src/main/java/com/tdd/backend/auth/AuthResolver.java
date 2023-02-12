@@ -13,6 +13,7 @@ import com.tdd.backend.auth.JwtTokenProvider.JwtTokenStatus;
 import com.tdd.backend.user.data.UserToken;
 import com.tdd.backend.user.exception.UnauthorizedException;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -42,8 +43,13 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
 			throw new UnauthorizedException();
 		}
 
-		if (!jwtTokenProvider.getRoleFromJwt(jws).equals(ATK)) {
-			throw new InvalidTokenException();
+		try {
+			if (!jwtTokenProvider.getRoleFromJwt(jws).equals(ATK)) {
+				throw new InvalidTokenException();
+			}
+		} catch (ExpiredJwtException exception) {
+			log.info(">> Access Token is expired! please redirect to POST /reissue to regenerate new access token");
+			throw new ExpiredATKException();
 		}
 
 		JwtTokenStatus jwtTokenStatus = jwtTokenProvider.validateToken(jws);
@@ -54,10 +60,6 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
 			return UserToken.builder()
 				.id(idFromJwt)
 				.build();
-		} else if (jwtTokenStatus.equals(EXPIRED)) {
-			//todo : code to redirect to POST "/reissue"
-			log.info(">> jwt token expired ! please redirect to POST /reissue to regenerate new access token");
-			return UserToken.builder().id(401L).build();
 		}
 		throw new UnauthorizedException();
 

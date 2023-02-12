@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.tdd.backend.auth.ExpiredATKException;
 import com.tdd.backend.auth.InvalidTokenException;
 import com.tdd.backend.user.exception.DuplicateEmailException;
 import com.tdd.backend.user.exception.UnauthorizedException;
@@ -69,6 +70,15 @@ public class ExceptionController {
 	public ErrorResponse invalidTokenExceptionHandler(InvalidTokenException ex) {
 		return ErrorResponse.builder()
 			.code(HttpStatus.BAD_REQUEST.toString())
+			.errorMessage(ex.getMessage())
+			.build();
+	}
+
+	@ResponseStatus(HttpStatus.FOUND)
+	@ExceptionHandler(ExpiredATKException.class)
+	public ErrorResponse expiredATKExceptionHandler(ExpiredATKException ex) {
+		return ErrorResponse.builder()
+			.code(HttpStatus.FOUND.toString())
 			.errorMessage(ex.getMessage())
 			.build();
 	}

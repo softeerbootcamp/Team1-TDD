@@ -22,8 +22,8 @@ public class RefreshTokenStorage {
 		return refreshTokenMap.containsKey(id);
 	}
 
-	public static void deleteCache(Long id) {
-		refreshTokenMap.remove(id);
+	public static void deleteCache(String refreshToken) {
+		refreshTokenMap.values().remove(refreshToken);
 	}
 
 	public static void clean() {

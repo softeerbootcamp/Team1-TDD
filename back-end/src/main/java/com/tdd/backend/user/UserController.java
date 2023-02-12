@@ -65,8 +65,8 @@ public class UserController {
 	//사용자가 로그아웃을 하면 저장소에서 Refresh Token을 삭제하여 사용이 불가능하도록 한다.
 	//todo : redirect??
 	@DeleteMapping("/logout")
-	public void logout(@LoginUser UserToken userToken) {
-		RefreshTokenStorage.deleteCache(userToken.getId());
+	public void logout(@RequestHeader("Authorization") String refreshToken) {
+		RefreshTokenStorage.deleteCache(refreshToken);
 	}
 
 	@GetMapping("/test/auth")
