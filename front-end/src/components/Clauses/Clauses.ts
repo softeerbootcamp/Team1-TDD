@@ -18,30 +18,25 @@ export class Clauses extends Component {
     return literal(this.state.welcomeMessage, this.state.status);
   }
 
-  mounted(): void {
-    const form = qs("form")! as HTMLFormElement;
-    form.addEventListener("submit", (e: SubmitEvent) => e.preventDefault());
-    const checkbox = qsa("input")! as NodeListOf<HTMLInputElement>;
-
-    checkbox.forEach((box) => {
-      box.addEventListener("click", (_) => {
-        const nextBtn = qs(`.${styles["next-button"]}`)! as HTMLButtonElement;
-        if (allChecked()) {
-          nextBtn.disabled = false;
-          nextBtn.classList.toggle("active");
-        } else {
-          nextBtn.disabled = true;
-          nextBtn.classList.toggle("active");
-        }
-      });
-    });
-
-    function allChecked() {
-      const checkbox = qsa("input")! as NodeListOf<HTMLInputElement>;
-      for (const check of checkbox) {
-        if (!check.checked) return false;
+  setEvent(): void {
+    this.addEvent("submit", "form", (e) => e.preventDefault());
+    this.addEvent("click", "input", (_) => {
+      const nextBtn = qs(`.${styles["next-button"]}`)! as HTMLButtonElement;
+      if (this.isAllChecked()) {
+        nextBtn.disabled = false;
+        nextBtn.classList.toggle("active");
+      } else {
+        nextBtn.disabled = true;
+        nextBtn.classList.toggle("active");
       }
-      return true;
+    });
+  }
+
+  isAllChecked() {
+    const checkbox = qsa("input")! as NodeListOf<HTMLInputElement>;
+    for (const check of checkbox) {
+      if (!check.checked) return false;
     }
+    return true;
   }
 }
