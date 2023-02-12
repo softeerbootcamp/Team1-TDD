@@ -6,12 +6,12 @@ import lombok.Getter;
 
 @Getter
 public enum Category {
-	SAFETY_OR_PERFORMANCE("안전/성능"),
-	INTELLIGENT_TECHNOLOGY("지능형 안전기술"),
-	INTERIOR_OR_EXTERIOR("내장/외장"),
-	SEAT("시트"),
-	CONVENIENCE("편의"),
-	MULTIMEDIA("멀티미디어");
+	ENGINE("엔진"),
+	DRIVING_SYSTEM("구동방식"),
+	CAR_MODEL("모델"),
+	CAR_BODY_TYPE("바디타입"),
+	TRANSMISSION("변속기"),
+	CAR_OPTION("옵션");
 
 	private final String name;
 
