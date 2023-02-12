@@ -2,6 +2,8 @@ package com.tdd.backend.car.model;
 
 import java.util.Arrays;
 
+import com.tdd.backend.car.exception.CategoryNotFoundException;
+
 import lombok.Getter;
 
 @Getter
@@ -22,7 +24,7 @@ public enum Category {
 	public static Category getCategory(String category) {
 		return Arrays.stream(Category.values())
 			.filter(c -> c.getName().equals(category))
-			.findAny()
-			.get();
+			.findFirst()
+			.orElseThrow(CategoryNotFoundException::new);
 	}
 }
