@@ -100,23 +100,31 @@ export class LoginForm extends Component {
 
   sendSignInRequest(
     userData: { email: string; password: string },
-    InputEls: HTMLInputElement[],
+    inputEls: HTMLInputElement[],
     $button: HTMLButtonElement
   ) {
     const loadingSpinnerHandler = new LoadingSpinnerHandler($button);
     loadingSpinnerHandler.startRequest();
 
     sendLogInRequest(userData.email, userData.password)
-      .then(({ data }) => {
-        localStorage.setItem('accessToken', data.accessToken);
-        AuthStore.dispatch('LOGIN');
-        location.reload();
-      })
+      .then(this.loginSuccess)
       .catch(() => {
-        this.resetErrorClass(InputEls);
-        this.addErrorClass(InputEls);
+        this.resetErrorClass(inputEls);
+        this.addErrorClass(inputEls);
         loadingSpinnerHandler.finishRequest();
       });
+  }
+
+  loginSuccess({ data }: any) {
+    localStorage.setItem('accessToken', data.accessToken);
+    AuthStore.dispatch('LOGIN');
+    location.reload();
+  }
+
+  loginFail(inputEls: HTMLInputElement[], finishRequest: Function) {
+    this.resetErrorClass(inputEls);
+    this.addErrorClass(inputEls);
+    finishRequest();
   }
 
   onClickSignUp(e: Event) {
