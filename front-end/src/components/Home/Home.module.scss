@@ -1,7 +1,28 @@
 @font-face {
-  font-family: "ROK";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.1/ROKABold.woff")
-    format("woff");
+  font-family: "temp";
+  src: url("../../assets/fonts/NEXON_LV2.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "temp";
+  src: url("../../assets/fonts/Elice.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  unicode-range: U+AC00-D7A3;
+}
+
+@font-face {
+  font-family: "LINE";
+  src: url("../../assets/fonts/LINESEED.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "level";
+  src: url("../../assets/fonts/NEXON_LV2.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
@@ -20,7 +41,8 @@ $font100: 100px;
 }
 
 .main-wrapper {
-  font-family: "ROK";
+  font-family: "temp";
+  font-weight: 900;
   user-select: none;
 }
 
@@ -38,6 +60,7 @@ $font100: 100px;
     width: 30%;
     height: 300px;
     display: flex;
+    letter-spacing: -20px;
     .first-title {
       margin: 0;
       writing-mode: vertical-rl;
@@ -47,13 +70,15 @@ $font100: 100px;
   }
   .mid-wrapper {
     height: 330px;
+    letter-spacing: -25px;
     .helper-second {
       width: 70%;
       height: 330px;
     }
     .second-title {
       margin: 0;
-      width: 15%;
+      width: 10%;
+      height: 500px;
       writing-mode: vertical-lr;
       text-orientation: upright;
     }
@@ -86,7 +111,7 @@ $font100: 100px;
   .second-bottom-wrapper {
     height: 300px;
     .helper-second {
-      width: 25%;
+      width: 50%;
     }
     .second-second-text {
       line-height: 300px;
@@ -139,9 +164,12 @@ $font100: 100px;
     font-size: 33px;
     .fourth-mid-text {
       line-height: 100px;
-      .big {
-        font-size: 70px;
-        display: block;
+      span {
+        font-size: 33px;
+      }
+      span.big {
+        display: inline-block;
+        font-size: 77px;
       }
     }
     .fourth-bottom-text {
@@ -243,4 +271,14 @@ $font100: 100px;
 .fadeInLeft {
   -webkit-animation-name: fadeInLeft;
   animation-name: fadeInLeft;
+}
+
+.bold {
+  font-family: "LINE";
+  font-weight: 700;
+}
+
+.level {
+  font-family: "level";
+  font-weight: 900;
 }
