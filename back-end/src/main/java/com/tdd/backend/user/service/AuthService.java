@@ -9,7 +9,7 @@ import com.tdd.backend.auth.data.JwtTokenPairResponse;
 import com.tdd.backend.auth.exception.InvalidTokenException;
 import com.tdd.backend.auth.jwt.JwtTokenProvider;
 import com.tdd.backend.auth.jwt.RefreshTokenService;
-import com.tdd.backend.auth.jwt.RefreshTokenStorage;
+import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.exception.UnauthorizedException;
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +23,20 @@ public class AuthService {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final RefreshTokenService refreshTokenService;
 
+	public JwtTokenPairResponse issueToken(User user) {
+		String accessToken = jwtTokenProvider.generateAccessToken(user.getId());
+		String refreshToken = jwtTokenProvider.generateRefreshToken(user.getId());
+		log.info("> access token : {}", accessToken);
+		log.info("> refresh token : {}", refreshToken);
+
+		refreshTokenService.saveRefreshToken(user.getId(), refreshToken);
+
+		return JwtTokenPairResponse.builder()
+			.accessToken(accessToken)
+			.refreshToken(refreshToken)
+			.build();
+	}
+
 	// TODO : RTK도 만료시 재로그인 요청 보내야함 InvalidToken이랑 다름.
 	public JwtTokenPairResponse reIssueToken(String refreshToken) {
 		//리프레쉬 토큰이 validate 하고 유효한 RTK라면, 새로운 ATK 재발급
@@ -34,7 +48,7 @@ public class AuthService {
 			Long id = jwtTokenProvider.getUserIdFromJwt(refreshToken);
 
 			//TODO : 이론적으로 인메모리에 해당하는 key (email) 이 없는 경우에 대한 방식이 적절한 지 판단
-			if (!RefreshTokenStorage.isValidateUserId(id)) {
+			if (!refreshTokenService.isRefreshTokenExists(id)) {
 				throw new UnauthorizedException();
 			}
 
@@ -52,6 +66,7 @@ public class AuthService {
 	}
 
 	public void deleteCache(String refreshToken) {
-		RefreshTokenStorage.deleteCache(refreshToken);
+		Long userIdFromJwt = jwtTokenProvider.getUserIdFromJwt(refreshToken);
+		refreshTokenService.deleteRefreshToken(userIdFromJwt);
 	}
 }

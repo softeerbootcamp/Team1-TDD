@@ -1,5 +1,7 @@
 package com.tdd.backend.auth.jwt;
 
+import java.util.Objects;
+
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +27,15 @@ public class RefreshTokenService {
 		return redisTemplate.opsForValue().get(String.valueOf(userId));
 	}
 
+	public boolean isRefreshTokenExists(Long userId) {
+		return Boolean.TRUE.equals(redisTemplate.hasKey(String.valueOf(userId)));
+	}
+
 	public void deleteRefreshToken(Long userId) {
 		redisTemplate.delete(String.valueOf(userId));
+	}
+
+	public void deleteAll() {
+		redisTemplate.delete(Objects.requireNonNull(redisTemplate.keys("*")));
 	}
 }

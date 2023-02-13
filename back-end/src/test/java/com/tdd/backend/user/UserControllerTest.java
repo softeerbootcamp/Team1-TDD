@@ -25,7 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tdd.backend.auth.jwt.RefreshTokenStorage;
+import com.tdd.backend.auth.jwt.RefreshTokenService;
 import com.tdd.backend.auth.encrypt.EncryptHelper;
 import com.tdd.backend.auth.jwt.JwtTokenProvider;
 import com.tdd.backend.user.controller.UserController;
@@ -57,9 +57,12 @@ class UserControllerTest {
 	@Autowired
 	JwtTokenProvider jwtTokenProvider;
 
+	@Autowired
+	RefreshTokenService refreshTokenService;
+
 	@BeforeEach
 	void setup() {
-		RefreshTokenStorage.clean();
+		refreshTokenService.deleteAll();
 	}
 
 	@Test
@@ -256,7 +259,7 @@ class UserControllerTest {
 		//when
 		Long userId = 1L;
 		String refreshToken = jwtTokenProvider.generateRefreshToken(userId);
-		RefreshTokenStorage.save(userId, refreshToken);
+		refreshTokenService.saveRefreshToken(userId, refreshToken);
 
 		//expected
 		mockMvc.perform(post("/reissue")
@@ -297,7 +300,7 @@ class UserControllerTest {
 		//given
 		Long userId = 1L;
 		String refreshToken = jwtTokenProvider.generateRefreshToken(userId);
-		RefreshTokenStorage.save(userId, refreshToken);
+		refreshTokenService.saveRefreshToken(userId, refreshToken);
 
 		//expected
 		mockMvc.perform(delete("/logout")
@@ -307,7 +310,7 @@ class UserControllerTest {
 			.andExpect(status().isOk())
 			.andDo(print());
 
-		assertThat(RefreshTokenStorage.isValidateUserId(userId)).isFalse();
+		assertThat(refreshTokenService.isRefreshTokenExists(userId)).isFalse();
 
 	}
 

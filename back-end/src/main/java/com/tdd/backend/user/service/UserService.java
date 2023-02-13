@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.tdd.backend.auth.data.JwtTokenPairResponse;
 import com.tdd.backend.auth.encrypt.EncryptHelper;
 import com.tdd.backend.auth.jwt.JwtTokenProvider;
-import com.tdd.backend.auth.jwt.RefreshTokenStorage;
 import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
@@ -25,6 +24,7 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final EncryptHelper encryptHelper;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final AuthService authService;
 
 	public void save(UserCreate userCreate) {
 		String encryptPwd = encryptHelper.encrypt(userCreate.getUserPassword());
@@ -37,6 +37,7 @@ public class UserService {
 	}
 
 	public JwtTokenPairResponse login(UserLogin userLogin) {
+		//유저 인증 (디비)
 		User user = userRepository.findByEmail(userLogin.getEmail())
 			.orElseThrow(UserNotFoundException::new);
 
@@ -44,16 +45,11 @@ public class UserService {
 			throw new UserNotFoundException();
 		}
 
-		String accessToken = jwtTokenProvider.generateAccessToken(user.getId());
-		String refreshToken = jwtTokenProvider.generateRefreshToken(user.getId());
-		log.info("> access token : {}", accessToken);
-		log.info("> refresh token : {}", refreshToken);
+		// 토큰 쌍 발급하여 응답
+		return authService.issueToken(user);
+	}
 
-		RefreshTokenStorage.save(user.getId(), refreshToken);
-
-		return JwtTokenPairResponse.builder()
-			.accessToken(accessToken)
-			.refreshToken(refreshToken)
-			.build();
+	public void logout(String refreshToken) {
+		authService.deleteCache(refreshToken);
 	}
 }
