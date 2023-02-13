@@ -53,10 +53,4 @@ public class DrivingController {
 		drivingService.approveAppointment(appointmentId, testerDto.getTesterId());
 		return ResponseEntity.ok().build();
 	}
-
-	@GetMapping("/test-driving/appointments/{postId}")
-	@Operation(summary = "해당 Post의 예약현황(날짜) 요청", description = "postId에 해당하는 포스트가 가진 Appointment 리스트로 응답해야 함.")
-	public void getAppointments(@PathVariable Long postId) {
-		// 응답 :  appointment 리스트
-	}
 }
