@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import com.tdd.backend.car.data.OptionDto;
 import com.tdd.backend.post.data.AppointmentDto;
 import com.tdd.backend.post.data.DrivingResponse;
-import com.tdd.backend.post.repository.PostRepository;
 import com.tdd.backend.post.model.Appointment;
 import com.tdd.backend.post.model.Location;
 import com.tdd.backend.post.model.Option;
 import com.tdd.backend.post.model.Post;
+import com.tdd.backend.post.repository.PostRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,9 @@ public class DrivingService {
 		Optional<Location> location = postRepository.findLocationByPostId(postId);
 
 		List<OptionDto> optionDtos = options.stream().map(Option::toDto).collect(Collectors.toList());
-		List<AppointmentDto> appointmentDtos = appointments.stream().map(Appointment::toDto).collect(Collectors.toList());
+		List<AppointmentDto> appointmentDtos = appointments.stream()
+			.map(Appointment::toDto)
+			.collect(Collectors.toList());
 
 		return DrivingResponse.builder()
 			.post(post.orElseThrow(RuntimeException::new).toPostDto())
