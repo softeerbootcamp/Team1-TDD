@@ -4,6 +4,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.time.LocalDate;
+
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -105,11 +107,12 @@ class UserControllerTest {
 			.userName("tester")
 			.userPassword("pwd")
 			.phoneNumber("101010")
+			.createdAt(LocalDate.now())
 			.build();
 		userRepository.save(user);
 
 		//when
-		mockMvc.perform(get("/users/validation/{email}}", user.getEmail())
+		mockMvc.perform(get("/users/validation/{email}", user.getEmail())
 				.contentType(MediaType.TEXT_HTML))
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.toString()))
@@ -126,6 +129,7 @@ class UserControllerTest {
 			.userPassword(encryptHelper.encrypt("pwd"))
 			.userName("tester")
 			.phoneNumber("010101")
+			.createdAt(LocalDate.now())
 			.build()
 		);
 
@@ -171,6 +175,7 @@ class UserControllerTest {
 			.userPassword(encryptHelper.encrypt("pwd"))
 			.userName("tester")
 			.phoneNumber("010101")
+			.createdAt(LocalDate.now())
 			.build();
 
 		userRepository.save(user);
