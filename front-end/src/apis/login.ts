@@ -28,3 +28,41 @@ export const sendAuthTestRequest = async () => {
 export const checkEmailValidationRequest = async (email: string) => {
   return axiosInstance.get(`/users/validation/${email}`);
 };
+
+export const HandleAuthAPICall = async (
+  api: Function,
+  resolve: Function,
+  reject: Function
+) => {
+  api()
+    .then((res: any) => {
+      resolve(res);
+    })
+    .catch(({ response }: any) => {
+      const { status } = response;
+      if (status === 302) {
+        sendReissueRequest()
+          .then((res: any) => {
+            setToken(res);
+            resolve(res);
+          })
+          .catch(() => {
+            reject();
+          });
+      }
+      reject();
+    });
+};
+
+function setToken(res: any) {
+  const { accessToken, refreshToken } = res.data;
+  localStorage.setItem('accessToken', accessToken);
+  localStorage.setItem('refreshToken', refreshToken);
+}
+
+function sendReissueRequest() {
+  const refreshToken = localStorage.getItem('refreshToken');
+  return axiosInstance.post('/reissue', null, {
+    headers: { Authorization: refreshToken },
+  });
+}
