@@ -3,11 +3,10 @@ import styles from './Calendar.module.scss';
 import { qs, qsa } from '@/utils/querySelector';
 import { months, daysOfWeek } from './constants';
 
-let date = new Date();
-
 export class Calendar extends Component {
   setup(): void {
-    this.props.dates = [];
+    this.state.dates = [];
+    this.state.calendarDay = new Date();
   }
 
   template(): string {
@@ -28,27 +27,27 @@ export class Calendar extends Component {
       if (!isActive) {
         target.classList.add(`${styles['active']}`);
         const dateString = this.getDateString(target);
-        this.props.dates.push(dateString);
+        this.state.dates.push(dateString);
       } else {
         target.classList.remove(`${styles['active']}`);
         const dateString = this.getDateString(target);
-        this.props.dates = this.props.dates.filter(
+        this.state.dates = this.state.dates.filter(
           (ele: string) => ele !== dateString
         );
       }
     });
   }
   getDateString(target: HTMLTableCellElement) {
-    return `${date.getFullYear()}/${('0' + date.getMonth()).slice(-2)}/${(
-      '0' + target.innerText
-    ).slice(-2)}`;
+    return `${this.state.calendarDay.getFullYear()}/${(
+      '0' + this.state.calendarDay.getMonth()
+    ).slice(-2)}/${('0' + target.innerText).slice(-2)}`;
   }
   markDates() {
-    const yearMonth = `${date.getFullYear()}/${('0' + date.getMonth()).slice(
-      -2
-    )}`;
+    const yearMonth = `${this.state.calendarDay.getFullYear()}/${(
+      '0' + this.state.calendarDay.getMonth()
+    ).slice(-2)}`;
 
-    const trimedDates: string[] = this.props.dates
+    const trimedDates: string[] = this.state.dates
       .filter((ele: string) => ele.includes(yearMonth))
       .map((day: string) => day.slice(-2));
 
@@ -61,19 +60,23 @@ export class Calendar extends Component {
   }
 
   movePrevMonth() {
-    date.setMonth(date.getMonth() - 1);
-    this.setState(this.props.dates);
+    const calendarDay = new Date(this.state.calendarDay);
+    calendarDay.setMonth(calendarDay.getMonth() - 1);
+    this.setState({ calendarDay });
   }
 
   moveNextMonth() {
-    date.setMonth(date.getMonth() + 1);
-    this.setState(this.props.dates);
+    const calendarDay = new Date(this.state.calendarDay);
+    calendarDay.setMonth(calendarDay.getMonth() + 1);
+    this.setState({ calendarDay });
   }
 
   selectYear() {
-    const year = qs('#year-select') as HTMLOptionElement;
-    date.setFullYear(parseInt(year.value));
-    this.setState(this.props.dates);
+    const year = qs('#year-select', this.target) as HTMLOptionElement;
+    const calendarDay = new Date(this.state.calendarDay);
+    const enteredYear = parseInt(year.value);
+    calendarDay.setFullYear(enteredYear);
+    this.setState({ calendarDay });
   }
 
   getDaysInMonth(year: number, month: number) {
@@ -81,8 +84,8 @@ export class Calendar extends Component {
   }
 
   renderCalendar() {
-    let year = date.getFullYear();
-    let month = date.getMonth();
+    let year = this.state.calendarDay.getFullYear();
+    let month = this.state.calendarDay.getMonth();
 
     let header = `
         <div id="${styles['month-header']}">
@@ -97,7 +100,7 @@ export class Calendar extends Component {
             </tr>
           </thead>
           <tbody>
-            ${this.generateCalendar(date)}
+            ${this.generateCalendar(this.state.calendarDay)}
           </tbody>
         </table>
         <div class=${styles['year-wrapper']}>
@@ -148,7 +151,7 @@ export class Calendar extends Component {
   }
 
   mounted(): void {
-    this.generateCalendar(date);
+    this.generateCalendar(this.state.calendarDay);
     this.renderCalendar();
   }
 }
