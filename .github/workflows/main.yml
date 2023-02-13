@@ -2,7 +2,7 @@ name: Java CI with Gradle # workflow 이름
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "fix/deploy-test" ]
 
 permissions:
   contents: read
@@ -33,7 +33,8 @@ jobs:
       - name: Build with Gradle
         run: |
           cd ./back-end
-          ./gradlew build
+          ./gradlew test
+          ./gradlew bootJar
       ## 도커 로그인
       - name: Docker Hub login
         uses: docker/login-action@v2
