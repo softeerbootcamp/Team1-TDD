@@ -1,4 +1,4 @@
-package com.tdd.backend.myPage.data;
+package com.tdd.backend.mypage.data;
 
 import java.util.List;
 

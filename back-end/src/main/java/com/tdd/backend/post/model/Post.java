@@ -10,8 +10,8 @@ import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
 import com.tdd.backend.car.data.OptionDto;
+import com.tdd.backend.mypage.data.DefaultInfo;
 import com.tdd.backend.post.data.PostDto;
-import com.tdd.backend.myPage.data.DefaultInfo;
 
 import lombok.Getter;
 

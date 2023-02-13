@@ -1,12 +1,12 @@
-package com.tdd.backend.myPage.Controller;
+package com.tdd.backend.mypage.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.tdd.backend.auth.LoginUser;
-import com.tdd.backend.myPage.data.MyPageResponse;
-import com.tdd.backend.myPage.service.MyPageService;
+import com.tdd.backend.mypage.data.MyPageResponse;
+import com.tdd.backend.mypage.service.MyPageService;
 import com.tdd.backend.user.data.UserToken;
 
 import io.swagger.v3.oas.annotations.Operation;

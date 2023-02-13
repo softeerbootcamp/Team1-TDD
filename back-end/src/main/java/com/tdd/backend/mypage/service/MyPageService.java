@@ -1,4 +1,4 @@
-package com.tdd.backend.myPage.service;
+package com.tdd.backend.mypage.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,20 +7,19 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.tdd.backend.car.data.OptionDto;
-import com.tdd.backend.myPage.data.DefaultInfo;
-import com.tdd.backend.myPage.data.DrivingInfo;
-import com.tdd.backend.myPage.data.SharingInfo;
-import com.tdd.backend.myPage.data.MyPageResponse;
+import com.tdd.backend.mypage.data.DefaultInfo;
+import com.tdd.backend.mypage.data.DrivingInfo;
+import com.tdd.backend.mypage.data.MyPageResponse;
+import com.tdd.backend.mypage.data.SharingInfo;
+import com.tdd.backend.mypage.data.UserInfo;
 import com.tdd.backend.post.data.AppointmentDto;
 import com.tdd.backend.post.model.Appointment;
 import com.tdd.backend.post.model.Option;
 import com.tdd.backend.post.repository.PostRepository;
-import com.tdd.backend.myPage.data.UserInfo;
 import com.tdd.backend.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MyPageService {
 	private final PostRepository postRepository;
 	private final UserRepository userRepository;
+
 	public MyPageResponse getMyPageInfo(Long userId) {
 		// 시승했던 정보
 		List<DrivingInfo> drivingInfoList = new ArrayList<>();
@@ -35,12 +35,14 @@ public class MyPageService {
 
 		log.info(String.valueOf(postIdList));
 
-		for(Long postId : postIdList) {
+		for (Long postId : postIdList) {
 			List<OptionDto> optionDtoList = postRepository.findOptionByPostId(postId)
 				.stream()
 				.map(Option::toDto)
 				.collect(Collectors.toList());
-			DefaultInfo defaultInfo = postRepository.findById(postId).orElseThrow(RuntimeException::new).toDefaultInfo(optionDtoList);
+			DefaultInfo defaultInfo = postRepository.findById(postId)
+				.orElseThrow(RuntimeException::new)
+				.toDefaultInfo(optionDtoList);
 			String date = postRepository.findDateByPostIdAndUserId(postId, userId).orElseThrow();
 			drivingInfoList.add(DrivingInfo.builder()
 				.post(defaultInfo)
@@ -50,7 +52,7 @@ public class MyPageService {
 
 		//공유하기 정보
 		List<SharingInfo> sharingInfoList = new ArrayList<>();
-		List<DefaultInfo> defaultInfoList  = postRepository.findPostByUserId(userId)
+		List<DefaultInfo> defaultInfoList = postRepository.findPostByUserId(userId)
 			.stream()
 			.map(post -> post.toDefaultInfo(postRepository.findOptionByPostId(post.getId())
 				.stream()
@@ -64,7 +66,9 @@ public class MyPageService {
 			.build()));
 
 		//유저 정보
-		UserInfo userInfo = userRepository.findById(userId).orElseThrow().toUserInfo(sharingInfoList.size(), drivingInfoList.size());
+		UserInfo userInfo = userRepository.findById(userId)
+			.orElseThrow()
+			.toUserInfo(sharingInfoList.size(), drivingInfoList.size());
 
 		return MyPageResponse.builder()
 			.user(userInfo)
@@ -72,6 +76,7 @@ public class MyPageService {
 			.driving(drivingInfoList)
 			.build();
 	}
+
 	private List<AppointmentDto> getAppointmentListByPostId(Long postId) {
 		return postRepository.findAppointmentsByPostId(postId)
 			.stream()
