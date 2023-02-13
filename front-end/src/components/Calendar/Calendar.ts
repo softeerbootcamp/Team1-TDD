@@ -41,7 +41,6 @@ export class Calendar extends Component {
       '0' + target.innerText
     ).slice(-2)}`;
   }
-
   markDates() {
     const yearMonth = `${date.getFullYear()}/${('0' + date.getMonth()).slice(
       -2
@@ -49,13 +48,11 @@ export class Calendar extends Component {
 
     const trimedDates: string[] = this.props.dates
       .filter((ele: string) => ele.includes(yearMonth))
-      .map((day: string) => day.slice(-2))
-      .sort();
+      .map((day: string) => day.slice(-2));
 
     const tds = qsa('td', this.target) as NodeListOf<HTMLTableCellElement>;
-
-    tds.forEach((td, index) => {
-      if (index < trimedDates.length && td.innerText === trimedDates[index]) {
+    tds.forEach((td) => {
+      if (trimedDates.includes(td.innerHTML)) {
         td.classList.add(`${styles['active']}`);
       }
     });
