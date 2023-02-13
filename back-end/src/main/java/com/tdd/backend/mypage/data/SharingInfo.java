@@ -11,6 +11,7 @@ import lombok.Getter;
 public class SharingInfo {
 	private final DefaultInfo post;
 	private final List<AppointmentDto> appointments;
+
 	@Builder
 	private SharingInfo(DefaultInfo post, List<AppointmentDto> appointments) {
 		this.post = post;

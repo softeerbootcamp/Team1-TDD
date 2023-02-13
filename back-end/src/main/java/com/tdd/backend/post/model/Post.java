@@ -19,33 +19,18 @@ import lombok.Getter;
 @Getter
 public class Post {
 
-	@Id
-	private Long id;
-
 	private final Long userId;
-
 	private final RideOption rideOption;
-
 	private final String carName;
-
 	private final String requirement;
-
 	@MappedCollection(idColumn = "post_id")
 	private final Set<Option> optionSet = new HashSet<>();
-
-	public void addOption(Option option) {
-		optionSet.add(option);
-	}
-
 	@MappedCollection(idColumn = "post_id")
 	private final Set<Appointment> appointmentSet = new HashSet<>();
-
-	public void addAppointment(Appointment appointment) {
-		appointmentSet.add(appointment);
-	}
-
 	@Column("post_id")
 	private final Location location;
+	@Id
+	private Long id;
 
 	public Post(Long userId, RideOption rideOption, String carName, String requirement,
 		Set<Option> optionSet, Location location, Set<Appointment> appointmentSet) {
@@ -62,6 +47,14 @@ public class Post {
 		for (Appointment appointment : appointmentSet) {
 			this.addAppointment(appointment);
 		}
+	}
+
+	public void addOption(Option option) {
+		optionSet.add(option);
+	}
+
+	public void addAppointment(Appointment appointment) {
+		appointmentSet.add(appointment);
 	}
 
 	public PostDto toPostDto() {

@@ -10,6 +10,7 @@ public class MyPageResponse {
 	private final UserInfo user;
 	private final List<DrivingInfo> driving;
 	private final List<SharingInfo> sharing;
+
 	@Builder
 	private MyPageResponse(UserInfo user, List<DrivingInfo> driving, List<SharingInfo> sharing) {
 		this.user = user;

@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class MyPageController {
 	private final MyPageService myPageService;
+
 	@GetMapping("/mypage")
 	@Operation(summary = "해당 Post의 예약현황(날짜) 요청", description = "postId에 해당하는 포스트가 가진 Appointment 리스트로 응답해야 함.")
 	public ResponseEntity<MyPageResponse> getAppointments(@LoginUser UserToken userToken) {
