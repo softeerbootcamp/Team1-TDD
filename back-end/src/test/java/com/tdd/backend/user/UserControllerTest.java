@@ -1,6 +1,6 @@
 package com.tdd.backend.user;
 
-import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenRole.*;
+import static com.tdd.backend.auth.jwt.JwtTokenProvider.JwtTokenRole.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -23,9 +23,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tdd.backend.auth.RefreshTokenStorage;
-import com.tdd.backend.auth.util.EncryptHelper;
-import com.tdd.backend.auth.util.JwtTokenProvider;
+import com.tdd.backend.auth.jwt.RefreshTokenStorage;
+import com.tdd.backend.auth.encrypt.EncryptHelper;
+import com.tdd.backend.auth.jwt.JwtTokenProvider;
 import com.tdd.backend.user.controller.UserController;
 import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.data.UserCreate;

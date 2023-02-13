@@ -1,4 +1,4 @@
-package com.tdd.backend.auth;
+package com.tdd.backend.auth.jwt;
 
 import java.util.Objects;
 

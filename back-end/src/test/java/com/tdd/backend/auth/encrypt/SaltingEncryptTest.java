@@ -1,4 +1,4 @@
-package com.tdd.backend.auth.util;
+package com.tdd.backend.auth.encrypt;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

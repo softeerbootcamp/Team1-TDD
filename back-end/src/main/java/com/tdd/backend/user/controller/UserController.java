@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tdd.backend.auth.LoginUser;
-import com.tdd.backend.auth.RefreshTokenStorage;
 import com.tdd.backend.auth.data.JwtTokenPairResponse;
+import com.tdd.backend.auth.jwt.RefreshTokenStorage;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
 import com.tdd.backend.user.data.UserToken;

@@ -1,7 +1,7 @@
 package com.tdd.backend.auth;
 
-import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenRole.*;
-import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenStatus.*;
+import static com.tdd.backend.auth.jwt.JwtTokenProvider.JwtTokenRole.*;
+import static com.tdd.backend.auth.jwt.JwtTokenProvider.JwtTokenStatus.*;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -10,7 +10,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.tdd.backend.auth.exception.InvalidTokenException;
-import com.tdd.backend.auth.util.JwtTokenProvider;
+import com.tdd.backend.auth.jwt.JwtTokenProvider;
 import com.tdd.backend.user.data.UserToken;
 import com.tdd.backend.user.exception.UnauthorizedException;
 

@@ -1,4 +1,4 @@
-package com.tdd.backend.auth.util;
+package com.tdd.backend.auth.encrypt;
 
 public interface EncryptHelper {
 	String encrypt(String password);

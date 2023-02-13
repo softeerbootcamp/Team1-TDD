@@ -1,15 +1,15 @@
 package com.tdd.backend.user.service;
 
-import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenRole.*;
-import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenStatus.*;
+import static com.tdd.backend.auth.jwt.JwtTokenProvider.JwtTokenRole.*;
+import static com.tdd.backend.auth.jwt.JwtTokenProvider.JwtTokenStatus.*;
 
 import org.springframework.stereotype.Service;
 
-import com.tdd.backend.auth.RefreshTokenStorage;
 import com.tdd.backend.auth.data.JwtTokenPairResponse;
+import com.tdd.backend.auth.encrypt.EncryptHelper;
 import com.tdd.backend.auth.exception.InvalidTokenException;
-import com.tdd.backend.auth.util.EncryptHelper;
-import com.tdd.backend.auth.util.JwtTokenProvider;
+import com.tdd.backend.auth.jwt.JwtTokenProvider;
+import com.tdd.backend.auth.jwt.RefreshTokenStorage;
 import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
