@@ -16,14 +16,10 @@ export class SharingMap extends Component {
         lng: (this.props.ends.lngHi + this.props.ends.lngLo) / 2,
       };
     } else {
-      if (navigator.geolocation) {
-        await navigator.geolocation.getCurrentPosition((position) => {
-          this.state.userLocation = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-        });
-      }
+      this.state.userLocation = {
+        lat: 37.56,
+        lng: 127.0,
+      };
     }
   }
 
