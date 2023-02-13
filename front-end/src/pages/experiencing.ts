@@ -6,6 +6,7 @@ import { carList } from '@/constants/carList';
 import Component from '@/core/Component';
 import { qs } from '@/utils/querySelector';
 import styles from '@/styles/experiencing.module.scss';
+import { OptionStore } from '@/store/OptionStore/OptionStore';
 
 export class Experiencing extends Component {
   template(): string {
@@ -23,10 +24,15 @@ export class Experiencing extends Component {
     const $optionSelector = qs('#ex-optionSelector', this.target);
     const $calendar = qs('#ex-calendar', this.target);
     const $map = qs('#ex-map', this.target);
-
+    const onDatesChange = (dates: string[]) => {
+      OptionStore.dispatch('CHANGE_DATES', { dates });
+    };
     new ImageSlider($imageSlider as HTMLDivElement, { list: carList });
     new OptionForm($optionSelector as HTMLDivElement);
-    new Calendar($calendar as HTMLDivElement);
+    new Calendar($calendar as HTMLDivElement, {
+      dates: OptionStore.getState().dates,
+      onDatesChange,
+    });
     new ExperienceMap($map as HTMLDivElement);
   }
 }

@@ -5,7 +5,7 @@ import { months, daysOfWeek } from './constants';
 
 export class Calendar extends Component {
   setup(): void {
-    this.state.dates = [];
+    this.state.dates = [...this.props.dates];
     this.state.calendarDay = new Date();
   }
 
@@ -27,13 +27,17 @@ export class Calendar extends Component {
       if (!isActive) {
         target.classList.add(`${styles['active']}`);
         const dateString = this.getDateString(target);
-        this.state.dates.push(dateString);
+        const dates = [...this.state.dates, dateString];
+        this.setState({ dates });
+        this.props.onDatesChange(dates);
       } else {
         target.classList.remove(`${styles['active']}`);
         const dateString = this.getDateString(target);
-        this.state.dates = this.state.dates.filter(
+        const dates = this.state.dates.filter(
           (ele: string) => ele !== dateString
         );
+        this.setState({ dates });
+        this.props.onDatesChange(dates);
       }
     });
   }

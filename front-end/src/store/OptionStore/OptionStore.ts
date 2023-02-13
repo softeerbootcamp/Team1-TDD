@@ -4,6 +4,8 @@ interface IOptionState {
   carModal: string | null;
   rideTogether: boolean;
   options: IOption[];
+  openState: boolean[];
+  dates: string[];
 }
 interface IOption {
   name: string;
@@ -18,6 +20,7 @@ const initState = {
   rideTogether: false,
   options: [],
   openState: [],
+  dates: [],
 };
 
 const reducer = (
@@ -37,6 +40,10 @@ const reducer = (
 
     case 'UPDATE_OPEN_STATE':
       return { ...state, openState: payload.openState };
+
+    case 'CHANGE_DATES':
+      console.log(payload.dates);
+      return { ...state, dates: payload.dates };
 
     default:
       return { ...state };
