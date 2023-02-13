@@ -85,7 +85,7 @@ public class ExceptionController {
 	}
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(DuplicateEmailException.class)
+	@ExceptionHandler(CarNotFoundException.class)
 	public ErrorResponse carNotFoundExceptionHandler(CarNotFoundException ex) {
 		return ErrorResponse.builder()
 			.code(HttpStatus.BAD_REQUEST.toString())
