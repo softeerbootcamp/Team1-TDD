@@ -1,6 +1,7 @@
 package com.tdd.backend.post.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
@@ -8,7 +9,9 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
+import com.tdd.backend.car.data.OptionDto;
 import com.tdd.backend.post.data.PostDto;
+import com.tdd.backend.myPage.data.DefaultInfo;
 
 import lombok.Getter;
 
@@ -67,6 +70,16 @@ public class Post {
 			.userId(userId)
 			.requirement(requirement)
 			.rideOption(rideOption.toString())
+			.build();
+	}
+
+	public DefaultInfo toDefaultInfo(List<OptionDto> options) {
+		return DefaultInfo.builder()
+			.id(id)
+			.carName(carName)
+			.rideOption(rideOption.toString())
+			.requirement(requirement)
+			.options(options)
 			.build();
 	}
 }
