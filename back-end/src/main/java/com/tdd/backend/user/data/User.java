@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+import com.tdd.backend.mypage.data.UserInfo;
 import com.tdd.backend.post.model.Appointment;
 
 import lombok.Builder;
@@ -48,5 +49,16 @@ public class User {
 
 	public Long getId() {
 		return id;
+	}
+
+	public UserInfo toUserInfo(int sharingCount, int drivingCount) {
+		return UserInfo.builder()
+			.userName(userName)
+			.phoneNumber(phoneNumber)
+			.email(email)
+			.createdAt(createdAt.toString())
+			.sharingCount(sharingCount)
+			.drivingCount(drivingCount)
+			.build();
 	}
 }

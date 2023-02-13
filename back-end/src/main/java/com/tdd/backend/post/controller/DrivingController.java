@@ -49,14 +49,9 @@ public class DrivingController {
 
 	@PatchMapping("/appointments/{appointmentId}")
 	@Operation(summary = "최종적인 예약 요청", description = "시승하기에 대한 사용자의 최종적인 요청으로 Appointment의 상태를 승낙으로 Update해야 함.")
-	public ResponseEntity<Void> reserveTestDriving(@PathVariable Long appointmentId, @RequestBody @Valid TesterDto testerDto) {
+	public ResponseEntity<Void> reserveTestDriving(@PathVariable Long appointmentId,
+		@RequestBody @Valid TesterDto testerDto) {
 		drivingService.approveAppointment(appointmentId, testerDto.getTesterId());
 		return ResponseEntity.ok().build();
-	}
-
-	@GetMapping("/test-driving/appointments/{postId}")
-	@Operation(summary = "해당 Post의 예약현황(날짜) 요청", description = "postId에 해당하는 포스트가 가진 Appointment 리스트로 응답해야 함.")
-	public void getAppointments(@PathVariable Long postId) {
-		// 응답 :  appointment 리스트
 	}
 }

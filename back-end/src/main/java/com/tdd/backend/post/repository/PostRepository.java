@@ -28,4 +28,13 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 	@Modifying
 	@Query("UPDATE appointments SET status = 'ACCEPT', tester_id = :testerid WHERE id = :id")
 	void updateTesterIdStatusAccept(@Param("id") Long id, @Param("testerid") Long testerId);
+
+	@Query("SELECT id, ride_option, car_name, user_id, requirement FROM  posts WHERE user_id = :id")
+	List<Post> findPostByUserId(@Param("id") Long id);
+
+	@Query("SELECT post_id FROM appointments WHERE tester_id = :userId")
+	List<Long> findPostIdByTesterId(@Param("userId") Long userId);
+
+	@Query("SELECT date FROM appointments WHERE post_id = :postId and tester_id = :userId")
+	Optional<String> findDateByPostIdAndUserId(@Param("postId") Long postId, @Param("userId") Long userId);
 }

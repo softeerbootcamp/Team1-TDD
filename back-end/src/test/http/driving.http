@@ -3,4 +3,9 @@ GET http://localhost:8080/test-driving/1
 
 
 ### 최종적인 예약 요청 ver2
-PATCH http://localhost:8080/appointments/2
+PATCH http://localhost:8080/appointments/1
+Content-Type: application/json
+
+{
+  "testerId": 3
+}
