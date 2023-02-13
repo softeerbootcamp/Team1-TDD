@@ -3,6 +3,8 @@ package com.tdd.backend.user.service;
 import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenRole.*;
 import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenStatus.*;
 
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Service;
 
 import com.tdd.backend.auth.RefreshTokenStorage;
@@ -31,7 +33,8 @@ public class UserService {
 
 	public void save(UserCreate userCreate) {
 		String encryptPwd = encryptHelper.encrypt(userCreate.getUserPassword());
-		userRepository.save(User.createUser(userCreate, encryptPwd));
+		LocalDate createdAt = LocalDate.now();
+		userRepository.save(User.createUser(userCreate, encryptPwd, createdAt));
 	}
 
 	public boolean isDuplicateEmail(String email) {
@@ -66,7 +69,7 @@ public class UserService {
 			if (!jwtTokenProvider.getRoleFromJwt(refreshToken).equals(RTK)) {
 				throw new InvalidTokenException();
 			}
-			// ATK 재발급은 RTK의 payload에서 유저의 email을 꺼낸 뒤, Redis 인메모리에 해당 유저의 존재 유무로 결정된다.
+			// ATK 재발급은 RTK의 payload에서 유저의 id를 꺼낸 뒤, Redis 인메모리에 해당 유저의 존재 유무로 결정된다.
 			Long id = jwtTokenProvider.getUserIdFromJwt(refreshToken);
 
 			//TODO : 이론적으로 인메모리에 해당하는 key (email) 이 없는 경우에 대한 방식이 적절한 지 판단

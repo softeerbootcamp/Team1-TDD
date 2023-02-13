@@ -2,7 +2,7 @@ package com.tdd.backend.post.data;
 
 import java.util.List;
 
-import com.tdd.backend.option.data.OptionDto;
+import com.tdd.backend.car.data.OptionDto;
 
 import lombok.Builder;
 import lombok.Getter;

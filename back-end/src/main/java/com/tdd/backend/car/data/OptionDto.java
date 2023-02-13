@@ -1,6 +1,6 @@
-package com.tdd.backend.option.data;
+package com.tdd.backend.car.data;
 
-import com.tdd.backend.option.Category;
+import com.tdd.backend.car.model.Category;
 import com.tdd.backend.post.model.Option;
 
 import lombok.Builder;

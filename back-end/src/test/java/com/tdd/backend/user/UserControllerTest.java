@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.time.LocalDate;
+
 import java.util.Base64;
 import java.util.Date;
 
@@ -124,6 +126,7 @@ class UserControllerTest {
 			.userName("tester")
 			.userPassword("pwd")
 			.phoneNumber("101010")
+			.createdAt(LocalDate.now())
 			.build();
 		userRepository.save(user);
 
@@ -145,6 +148,7 @@ class UserControllerTest {
 			.userPassword(encryptHelper.encrypt("pwd"))
 			.userName("tester")
 			.phoneNumber("010101")
+			.createdAt(LocalDate.now())
 			.build()
 		);
 
@@ -192,6 +196,7 @@ class UserControllerTest {
 			.userPassword(encryptHelper.encrypt("pwd"))
 			.userName("tester")
 			.phoneNumber("010101")
+			.createdAt(LocalDate.now())
 			.build();
 
 		userRepository.save(user);
@@ -240,7 +245,7 @@ class UserControllerTest {
 			)
 			.andExpect(status().isFound())
 			.andExpect(jsonPath("$.code").value(FOUND.toString()))
-			.andExpect(jsonPath("$.errorMessage").value("액세스 토큰이 만료되었습니다. 재발급해주세요."))
+			.andExpect(jsonPath("$.errorMessage").value("토큰이 만료되었습니다. 재발급해주세요."))
 			.andDo(print());
 
 	}
@@ -309,7 +314,7 @@ class UserControllerTest {
 	@Test
 	@DisplayName("인증 시 ATK가 아닐 경우 Exception 발생")
 	void check_validate_ATK() throws Exception {
-	    //given
+		//given
 		Long userId = 1L;
 		String rtk = jwtTokenProvider.generateRefreshToken(userId);
 

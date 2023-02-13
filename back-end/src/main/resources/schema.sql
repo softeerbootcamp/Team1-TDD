@@ -14,7 +14,8 @@ create table users
     email         varchar(255) not null UNIQUE,
     user_name     varchar(255) not null,
     phone_number  varchar(100) not null,
-    user_password varchar(255) null
+    user_password varchar(255) null,
+    created_at  date         not null
 );
 
 create table posts
@@ -58,7 +59,7 @@ create table locations
             on update cascade on delete cascade
 );
 create index latitude_longitude_index
-    on car.locations (latitude, longitude);
+    on locations (latitude, longitude);
 
 create table options
 (
@@ -87,7 +88,7 @@ create table entire_options
 
 create table car_options
 (
-    car_id    bigint not null,
+    car_id           bigint not null,
     entire_option_id bigint not null,
     primary key (car_id, entire_option_id),
     constraint car_options_cars_id_fk

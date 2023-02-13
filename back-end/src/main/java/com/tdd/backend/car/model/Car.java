@@ -1,4 +1,4 @@
-package com.tdd.backend.car;
+package com.tdd.backend.car.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
