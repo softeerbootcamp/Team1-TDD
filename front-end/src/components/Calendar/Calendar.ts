@@ -41,6 +41,7 @@ export class Calendar extends Component {
       '0' + target.innerText
     ).slice(-2)}`;
   }
+
   markDates() {
     const yearMonth = `${date.getFullYear()}/${('0' + date.getMonth()).slice(
       -2
@@ -63,22 +64,17 @@ export class Calendar extends Component {
   movePrevMonth() {
     date.setMonth(date.getMonth() - 1);
     this.setState(this.props.dates);
-    this.renderCalendar();
-    this.markDates();
   }
 
   moveNextMonth() {
     date.setMonth(date.getMonth() + 1);
     this.setState(this.props.dates);
-    this.renderCalendar();
-    this.markDates();
   }
 
   selectYear() {
     const year = qs('#year-select') as HTMLOptionElement;
     date.setFullYear(parseInt(year.value));
-    this.renderCalendar();
-    this.markDates();
+    this.setState(this.props.dates);
   }
 
   getDaysInMonth(year: number, month: number) {
