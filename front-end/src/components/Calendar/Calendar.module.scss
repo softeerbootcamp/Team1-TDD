@@ -36,11 +36,11 @@
         border: 0;
         border-radius: 100%;
         vertical-align: middle;
-        cursor: pointer;
 
-        &:hover {
+        &.hasNumber:hover {
           outline: lightgray solid;
           border-radius: 100%;
+          cursor: pointer;
         }
       }
     }
@@ -60,8 +60,7 @@ table {
   border-collapse: collapse;
   width: 100%;
 }
-
-.active {
+.hasNumber.active {
   background-color: gray;
 }
 .none {

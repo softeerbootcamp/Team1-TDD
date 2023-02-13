@@ -22,6 +22,8 @@ export class Calendar extends Component {
     this.addEvent('change', '#year-select', this.selectYear.bind(this));
     this.addEvent('click', 'td', (e) => {
       const target = e.target as HTMLTableCellElement;
+      const hasNumber = target.classList.contains(styles.hasNumber);
+      if (!hasNumber) return;
       const isActive = target.classList.contains(`${styles['active']}`);
       if (!isActive) {
         target.classList.add(`${styles['active']}`);
@@ -131,7 +133,9 @@ export class Calendar extends Component {
         if (week === 0 && i < firstDayOfMonth) {
           html += '<td></td>';
         } else if (day <= daysInMonth) {
-          html += `<td>${('0' + day).slice(-2)}</td>`;
+          html += `<td class="${styles.hasNumber}">${('0' + day).slice(
+            -2
+          )}</td>`;
           day++;
         } else {
           html += '<td></td>';
