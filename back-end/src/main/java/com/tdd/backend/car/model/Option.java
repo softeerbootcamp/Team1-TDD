@@ -1,4 +1,4 @@
-package com.tdd.backend.option.render;
+package com.tdd.backend.car.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
@@ -7,14 +7,14 @@ import lombok.Getter;
 
 @Table("entire_options")
 @Getter
-public class RenderOption {
+public class Option {
 	@Id
 	private Long id;
 	private final String optionName;
-	private final String category;
+	private final String categoryName;
 
-	public RenderOption(String optionName, String category) {
+	public Option(String optionName, String categoryName) {
 		this.optionName = optionName;
-		this.category = category;
+		this.categoryName = categoryName;
 	}
 }

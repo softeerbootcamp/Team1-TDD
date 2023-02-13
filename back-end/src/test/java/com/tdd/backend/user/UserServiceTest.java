@@ -3,6 +3,8 @@ package com.tdd.backend.user;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDate;
+
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -59,6 +61,7 @@ class UserServiceTest {
 			.userPassword(encryptHelper.encrypt("pwd"))
 			.userName("tester")
 			.phoneNumber("01010")
+			.createdAt(LocalDate.now())
 			.build();
 		userRepository.save(user);
 
@@ -91,5 +94,4 @@ class UserServiceTest {
 		//expected
 		assertThrows(UserNotFoundException.class, () -> userService.login(userLogin));
 	}
-
 }

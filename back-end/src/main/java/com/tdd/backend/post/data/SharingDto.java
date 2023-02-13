@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
-import com.tdd.backend.option.data.OptionDto;
+import com.tdd.backend.car.data.OptionDto;
 import com.tdd.backend.post.model.Appointment;
 import com.tdd.backend.post.model.AppointmentStatus;
 import com.tdd.backend.post.model.Option;

@@ -1,4 +1,4 @@
-package com.tdd.backend.option.data;
+package com.tdd.backend.car.data;
 
 import java.util.List;
 
