@@ -1,3 +1,4 @@
+import { sendLogOutRequest } from '@/apis/login';
 import Component from '@/core/Component';
 import { AuthStore } from '@/store/AuthStore';
 import { openLoginModal } from '@/utils/loginModal';
@@ -48,7 +49,10 @@ export class Navbar extends Component {
 
   setEvent(): void {
     this.addEvent('click', `.${styles['login-button']}`, openLoginModal);
-    this.addEvent('click', `.${styles['logout-button']}`, () => {
+    this.addEvent('click', `.${styles['logout-button']}`, this.onLogout);
+  }
+  onLogout() {
+    sendLogOutRequest().then(() => {
       AuthStore.dispatch('LOGOUT');
     });
   }
