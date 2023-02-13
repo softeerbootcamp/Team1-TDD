@@ -1,4 +1,6 @@
-package com.tdd.backend.user.util;
+package com.tdd.backend.auth.util;
+
+import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenStatus.*;
 
 import java.security.Key;
 import java.util.Base64;
@@ -8,8 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import com.tdd.backend.auth.JwtTokenProvider;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -37,14 +37,11 @@ public class JwtEncryptTest {
 	@Test
 	@DisplayName("JwtTokenProvider 빈 테스트")
 	void jwtTokenProvider_test() throws Exception {
-		//given
-		String userName = "tester";
-		//when
-		String jws = jwtTokenProvider.generateToken(userName);
+		String jws = jwtTokenProvider.generateAccessToken(1L);
 
 		//expected
 		SoftAssertions softAssertions = new SoftAssertions();
-		softAssertions.assertThat(jwtTokenProvider.validateToken(jws)).isTrue();
-		softAssertions.assertThat(jwtTokenProvider.getUserNameFromJwt(jws)).isEqualTo(userName);
+		softAssertions.assertThat(jwtTokenProvider.validateToken(jws)).isEqualTo(ACCESS);
+		softAssertions.assertThat(jwtTokenProvider.getUserIdFromJwt(jws)).isEqualTo(1L);
 	}
 }

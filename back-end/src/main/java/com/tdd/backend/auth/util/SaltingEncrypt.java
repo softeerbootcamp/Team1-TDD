@@ -1,4 +1,4 @@
-package com.tdd.backend.user.util;
+package com.tdd.backend.auth.util;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Component;

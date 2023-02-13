@@ -1,10 +1,17 @@
 package com.tdd.backend.user;
 
+import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenRole.*;
+import static org.assertj.core.api.Assertions.*;
+import static org.springframework.http.HttpStatus.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.Base64;
+import java.util.Date;
+
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +23,17 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tdd.backend.auth.JwtTokenProvider;
+import com.tdd.backend.auth.RefreshTokenStorage;
+import com.tdd.backend.auth.util.EncryptHelper;
+import com.tdd.backend.auth.util.JwtTokenProvider;
+import com.tdd.backend.user.controller.UserController;
+import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
-import com.tdd.backend.user.util.EncryptHelper;
+import com.tdd.backend.user.repository.UserRepository;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -40,6 +54,11 @@ class UserControllerTest {
 
 	@Autowired
 	JwtTokenProvider jwtTokenProvider;
+
+	@BeforeEach
+	void setup() {
+		RefreshTokenStorage.clean();
+	}
 
 	@Test
 	@DisplayName("유저 회원가입")
@@ -109,7 +128,7 @@ class UserControllerTest {
 		userRepository.save(user);
 
 		//when
-		mockMvc.perform(get("/users/validation/{email}}", user.getEmail())
+		mockMvc.perform(get("/users/validation/{email}", user.getEmail())
 				.contentType(MediaType.TEXT_HTML))
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.toString()))
@@ -141,6 +160,8 @@ class UserControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(loginRequestBody))
 			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.accessToken").isNotEmpty())
+			.andExpect(jsonPath("$.refreshToken").isNotEmpty())
 			.andDo(print());
 	}
 
@@ -174,7 +195,7 @@ class UserControllerTest {
 			.build();
 
 		userRepository.save(user);
-		String jws = jwtTokenProvider.generateToken(user.getUserName());
+		String jws = jwtTokenProvider.generateAccessToken(user.getId());
 
 		//expected
 		mockMvc.perform(get("/test/auth")
@@ -183,20 +204,139 @@ class UserControllerTest {
 			.andExpect(status().isOk())
 			.andDo(print());
 	}
-	
+
 	@Test
-	@DisplayName("인증되지 않은 접근 테스트")
+	@DisplayName("인증되지 않은 접근")
 	void access_non_auth() throws Exception {
-	    //when
-		String invalidToken = "aabdakflafklanl";
-	    //expected
+
+		//expected
 		mockMvc.perform(get("/test/auth")
-				.header("Authorization", invalidToken)
+				.contentType(MediaType.TEXT_PLAIN)
 			)
 			.andExpect(status().isUnauthorized())
 			.andExpect(jsonPath("$.code").value(HttpStatus.UNAUTHORIZED.toString()))
 			.andExpect(jsonPath("$.errorMessage").value("인증되지 않은 접근입니다."))
 			.andDo(print());
-	    
+
+	}
+
+	@Test
+	@DisplayName("ATK 만료시 RTK로 재발급")
+	void reissue_ATK() throws Exception {
+		String email = "test@test.com";
+		Date now = new Date();
+		Date expiryDate = new Date(now.getTime() + 1);
+		String accessToken = Jwts.builder()
+			.setSubject(email)
+			.claim("role", ATK)
+			.setIssuedAt(new Date())
+			.setExpiration(expiryDate)
+			.signWith(Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtTokenProvider.getJwtSecret())))
+			.compact();
+
+		mockMvc.perform(get("/test/auth")
+				.header("Authorization", accessToken)
+				.contentType(MediaType.APPLICATION_JSON)
+			)
+			.andExpect(status().isFound())
+			.andExpect(jsonPath("$.code").value(FOUND.toString()))
+			.andExpect(jsonPath("$.errorMessage").value("액세스 토큰이 만료되었습니다. 재발급해주세요."))
+			.andDo(print());
+
+	}
+
+	@Test
+	@DisplayName("ATK만료, RTK 유효시 토큰 재발급")
+	void validate_RTK_expire_ATK() throws Exception {
+		//when
+		Long userId = 1L;
+		String refreshToken = jwtTokenProvider.generateRefreshToken(userId);
+		RefreshTokenStorage.save(userId, refreshToken);
+
+		//expected
+		mockMvc.perform(post("/reissue")
+				.header("Authorization", refreshToken)
+				.contentType(MediaType.APPLICATION_JSON)
+			)
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.accessToken").isNotEmpty())
+			.andExpect(jsonPath("$.refreshToken").isNotEmpty())
+			.andDo(print());
+	}
+
+	@Test
+	@DisplayName("ATK와 RTK 모두 만료시 재로그인")
+	void expired_RTK() throws Exception {
+		Long userId = 1L;
+		Date now = new Date();
+		Date expiryDate = new Date(now.getTime() + 1);
+		String refreshToken = Jwts.builder()
+			.setSubject(String.valueOf(userId))
+			.claim("role", RTK)
+			.setIssuedAt(new Date())
+			.setExpiration(expiryDate)
+			.signWith(Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtTokenProvider.getJwtSecret())))
+			.compact();
+
+		mockMvc.perform(post("/reissue")
+				.header("Authorization", refreshToken)
+				.contentType(MediaType.APPLICATION_JSON)
+			)
+			.andExpect(status().isFound())
+			.andDo(print());
+	}
+
+	@Test
+	@DisplayName("로그아웃 시 RTK 스토리지에서 해당 key-value 쌍 삭제")
+	void logout_RTK_remove() throws Exception {
+		//given
+		Long userId = 1L;
+		String refreshToken = jwtTokenProvider.generateRefreshToken(userId);
+		RefreshTokenStorage.save(userId, refreshToken);
+
+		//expected
+		mockMvc.perform(delete("/logout")
+				.header("Authorization", refreshToken)
+				.contentType(MediaType.APPLICATION_JSON)
+			)
+			.andExpect(status().isOk())
+			.andDo(print());
+
+		assertThat(RefreshTokenStorage.isValidateUserId(userId)).isFalse();
+
+	}
+
+	@Test
+	@DisplayName("인증 시 ATK가 아닐 경우 Exception 발생")
+	void check_validate_ATK() throws Exception {
+	    //given
+		Long userId = 1L;
+		String rtk = jwtTokenProvider.generateRefreshToken(userId);
+
+		//expected
+		mockMvc.perform(get("/test/auth")
+				.header("Authorization", rtk)
+				.contentType(MediaType.APPLICATION_JSON)
+			)
+			.andExpect(status().isBadRequest())
+			.andDo(print());
+
+	}
+
+	@Test
+	@DisplayName("reissue 시 RTK가 아닐 경우 Exception 발생")
+	void check_validate_RTK() throws Exception {
+		//given
+		Long userId = 1L;
+		String atk = jwtTokenProvider.generateAccessToken(userId);
+
+		//expected
+		mockMvc.perform(post("/reissue")
+				.header("Authorization", atk)
+				.contentType(MediaType.APPLICATION_JSON)
+			)
+			.andExpect(status().isBadRequest())
+			.andDo(print());
+
 	}
 }

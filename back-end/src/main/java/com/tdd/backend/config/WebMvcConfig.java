@@ -7,7 +7,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.tdd.backend.auth.AuthResolver;
-import com.tdd.backend.auth.JwtTokenProvider;
+import com.tdd.backend.auth.util.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 

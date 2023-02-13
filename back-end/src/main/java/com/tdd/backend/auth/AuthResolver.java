@@ -1,11 +1,16 @@
 package com.tdd.backend.auth;
 
+import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenRole.*;
+import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenStatus.*;
+
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import com.tdd.backend.auth.exception.InvalidTokenException;
+import com.tdd.backend.auth.util.JwtTokenProvider;
 import com.tdd.backend.user.data.UserToken;
 import com.tdd.backend.user.exception.UnauthorizedException;
 
@@ -38,12 +43,18 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
 			throw new UnauthorizedException();
 		}
 
-		if (jwtTokenProvider.validateToken(jws)) {
-			String userNameFromJwt = jwtTokenProvider.getUserNameFromJwt(jws);
+		if (jwtTokenProvider.validateToken(jws).equals(ACCESS)) {
+			if (!jwtTokenProvider.getRoleFromJwt(jws).equals(ATK)) {
+				throw new InvalidTokenException();
+			}
+
+			Long idFromJwt = jwtTokenProvider.getUserIdFromJwt(jws);
 			return UserToken.builder()
-				.userName(userNameFromJwt)
+				.id(idFromJwt)
 				.build();
+
 		}
 		throw new UnauthorizedException();
+
 	}
 }

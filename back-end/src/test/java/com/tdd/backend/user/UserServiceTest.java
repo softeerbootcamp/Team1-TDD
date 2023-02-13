@@ -3,16 +3,21 @@ package com.tdd.backend.user;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tdd.backend.auth.RefreshTokenStorage;
+import com.tdd.backend.auth.util.EncryptHelper;
+import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
 import com.tdd.backend.user.exception.UserNotFoundException;
-import com.tdd.backend.user.util.EncryptHelper;
+import com.tdd.backend.user.repository.UserRepository;
+import com.tdd.backend.user.service.UserService;
 
 @SpringBootTest
 @Transactional
@@ -63,10 +68,15 @@ class UserServiceTest {
 			.userPassword("pwd")
 			.build();
 
-		String username = userService.login(userLogin);
+		userService.login(userLogin);
 
 		//then
-		assertThat(username).isEqualTo(user.getUserName());
+		SoftAssertions softAssertions = new SoftAssertions();
+		User findUser = userRepository.findByEmail("test@test.com").orElseThrow(UserNotFoundException::new);
+		softAssertions.assertThat(findUser.getId()).isEqualTo(user.getId());
+
+		softAssertions.assertThat(RefreshTokenStorage.isValidateUserId(user.getId())).isTrue();
+		softAssertions.assertAll();
 	}
 
 	@Test
@@ -81,4 +91,5 @@ class UserServiceTest {
 		//expected
 		assertThrows(UserNotFoundException.class, () -> userService.login(userLogin));
 	}
+
 }

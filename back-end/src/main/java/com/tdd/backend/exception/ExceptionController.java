@@ -9,12 +9,23 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.tdd.backend.auth.exception.ExpiredATKException;
+import com.tdd.backend.auth.exception.InvalidTokenException;
 import com.tdd.backend.user.exception.DuplicateEmailException;
 import com.tdd.backend.user.exception.UnauthorizedException;
 import com.tdd.backend.user.exception.UserNotFoundException;
 
 @RestControllerAdvice
 public class ExceptionController {
+
+	@ResponseStatus(HttpStatus.FOUND)
+	@ExceptionHandler(ExpiredATKException.class)
+	public ErrorResponse expiredATKExceptionHandler(ExpiredATKException ex) {
+		return ErrorResponse.builder()
+			.code(HttpStatus.FOUND.toString())
+			.errorMessage(ex.getMessage())
+			.build();
+	}
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -41,6 +52,15 @@ public class ExceptionController {
 			.errorMessage(ex.getMessage())
 			.build();
 
+	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(InvalidTokenException.class)
+	public ErrorResponse invalidTokenExceptionHandler(InvalidTokenException ex) {
+		return ErrorResponse.builder()
+			.code(HttpStatus.BAD_REQUEST.toString())
+			.errorMessage(ex.getMessage())
+			.build();
 	}
 
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
