@@ -3,6 +3,8 @@ package com.tdd.backend.user.service;
 import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenRole.*;
 import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenStatus.*;
 
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Service;
 
 import com.tdd.backend.auth.RefreshTokenStorage;
@@ -31,7 +33,8 @@ public class UserService {
 
 	public void save(UserCreate userCreate) {
 		String encryptPwd = encryptHelper.encrypt(userCreate.getUserPassword());
-		userRepository.save(User.createUser(userCreate, encryptPwd));
+		LocalDate createdAt = LocalDate.now();
+		userRepository.save(User.createUser(userCreate, encryptPwd, createdAt));
 	}
 
 	public boolean isDuplicateEmail(String email) {

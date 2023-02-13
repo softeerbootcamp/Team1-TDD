@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.assertj.core.api.SoftAssertions;
@@ -47,6 +48,7 @@ public class PostControllerTest {
 			.userName("young")
 			.phoneNumber("01012341234")
 			.userPassword("glory")
+			.createdAt(LocalDate.now())
 			.build();
 		userRepository.save(user);
 
@@ -61,7 +63,7 @@ public class PostControllerTest {
 				.latitude("32.23423424")
 				.longitude("127.123123")
 				.build())
-			.options(List.of(OptionDto.builder().name("최고안전").category("안전/성능").build()))
+			.options(List.of(OptionDto.builder().name("최고안전").category("옵션").build()))
 			.dates(List.of("2022-10-23", "2023-10-11", "2023-02-11"))
 			.build();
 		String requestBody = objectMapper.writeValueAsString(sharingDto);

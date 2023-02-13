@@ -1,5 +1,7 @@
 package com.tdd.backend.user.data;
 
+import java.time.LocalDate;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
@@ -17,25 +19,31 @@ public class User {
 	private Long id;
 
 	private final String email;
-	private final String userPassword;
-
 	private final String userName;
 	private final String phoneNumber;
+	private final String userPassword;
+	private final LocalDate createdAt;
 
 	@Column("tester_id")
 	private Appointment appointment;
 
 	@Builder
-	private User(String email, String userName, String phoneNumber, String userPassword) {
+	private User(String email, String userName, String phoneNumber, String userPassword, LocalDate createdAt) {
 		this.email = email;
 		this.userName = userName;
 		this.phoneNumber = phoneNumber;
 		this.userPassword = userPassword;
+		this.createdAt = createdAt;
 	}
 
-	public static User createUser(UserCreate userCreate, String encryptPwd) {
-		return new User(userCreate.getEmail(), userCreate.getUserName(), userCreate.getPhoneNumber(),
-			encryptPwd);
+	public static User createUser(UserCreate userCreate, String encryptPwd, LocalDate createdAt) {
+		return User.builder()
+			.email(userCreate.getEmail())
+			.userPassword(encryptPwd)
+			.userName(userCreate.getUserName())
+			.phoneNumber(userCreate.getPhoneNumber())
+			.createdAt(createdAt)
+			.build();
 	}
 
 	public Long getId() {
