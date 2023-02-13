@@ -7,6 +7,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import com.tdd.backend.post.model.Appointment;
+import com.tdd.backend.myPage.data.UserInfo;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -48,5 +49,15 @@ public class User {
 
 	public Long getId() {
 		return id;
+	}
+	public UserInfo toUserInfo(int sharingCount, int drivingCount) {
+		return UserInfo.builder()
+			.userName(userName)
+			.phoneNumber(phoneNumber)
+			.email(email)
+			.createdAt(createdAt.toString())
+			.sharingCount(sharingCount)
+			.drivingCount(drivingCount)
+			.build();
 	}
 }
