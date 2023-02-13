@@ -22,7 +22,7 @@ class RefreshTokenServiceTest {
 	JwtTokenProvider jwtTokenProvider;
 
 	@Test
-	@DisplayName("RTK Redis에 저장 & redis에서 꺼내오기")
+	@DisplayName("RTK Redis에 저장 & Redis에서 꺼내오기")
 	void rtk_save_get() throws Exception {
 		//given
 		Long userId = 1L;
@@ -36,7 +36,7 @@ class RefreshTokenServiceTest {
 	}
 
 	@Test
-	@DisplayName("rtk 레디스에서 삭제")
+	@DisplayName("RTK Redis에서 삭제")
 	void rtk_delete() throws Exception {
 		//given
 		Long userId = 1L;

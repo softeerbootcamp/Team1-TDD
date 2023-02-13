@@ -30,8 +30,9 @@ public class AuthController {
 		return ResponseEntity.ok(authService.reIssueToken(refreshToken));
 	}
 
-	@GetMapping("/test/auth")
-	public String testAuth(@LoginUser UserToken userToken) {
-		return "JWT IS AWESOME " + userToken.getId();
+	@Operation(summary = "유저의 로그인 유무 판단", description = "클라이언트에서 특정 유저가 로그인 상태인지를 판단할 수 있다.")
+	@GetMapping("/auth")
+	public ResponseEntity<Void> testAuth(@LoginUser UserToken userToken) {
+		return ResponseEntity.ok().build();
 	}
 }
