@@ -13,8 +13,9 @@ public class RefreshToken implements Serializable {
 
 	private Long userId;
 	private String refreshToken;
+
 	@Builder
-	public RefreshToken(Long userId, String refreshToken) {
+	private RefreshToken(Long userId, String refreshToken) {
 		this.userId = userId;
 		this.refreshToken = refreshToken;
 	}
