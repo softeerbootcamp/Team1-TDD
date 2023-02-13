@@ -17,13 +17,10 @@ export class ExperienceMap extends Component {
         lng: (this.props.ends.lngHi + this.props.ends.lngLo) / 2,
       };
     } else {
-      if (navigator.geolocation) {
-        const loc = this.getLocation() as Promise<GeolocationPosition>;
-        this.state.userLocation = {
-          lat: (await loc).coords.latitude,
-          lng: (await loc).coords.longitude,
-        };
-      }
+      this.state.userLocation = {
+        lat: 37.56,
+        lng: 127.0,
+      };
     }
   }
 
