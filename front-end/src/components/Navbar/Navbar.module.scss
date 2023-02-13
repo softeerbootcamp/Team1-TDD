@@ -1,16 +1,19 @@
 .navbar {
+  user-select: none;
   display: flex;
   justify-content: space-between;
   max-width: 1400px;
   margin: 0 auto;
   font-size: 1.2rem;
   padding: 5px 0;
+  white-space: nowrap;
   a {
     text-decoration-line: none;
     color: black;
   }
   ul {
     display: flex;
+    margin: 0.5rem;
   }
   li {
     list-style: none;
@@ -50,4 +53,36 @@
 }
 .login-button {
   color: blue;
+}
+
+.dropdown {
+  display: flex;
+  position: relative;
+  .options {
+    font-size: 1rem;
+    position: absolute;
+    top: 50px;
+    left: -120px;
+    width: 150px;
+    background: #fff;
+    // box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 14px 28px rgb(0 0 0 / 25%), 0 10px 10px rgb(0 0 0 / 22%);
+    border-radius: 10px;
+    overflow: hidden;
+    display: none;
+  }
+  &.active .options {
+    display: block;
+  }
+  .options div {
+    padding: 12px 20px;
+    cursor: pointer;
+  }
+  .options div:hover {
+    background: #62baea;
+    color: #fff;
+  }
+  &:hover {
+    cursor: pointer;
+  }
 }
