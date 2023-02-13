@@ -39,8 +39,8 @@
         cursor: pointer;
 
         &:hover {
-          background-color: lightcyan;
-          opacity: 0.5;
+          outline: lightgray solid;
+          border-radius: 100%;
         }
       }
     }
@@ -54,15 +54,6 @@
       margin: 0;
     }
   }
-
-  // #year-selector {
-  //   display: inline-block;
-  //   font-size: 16px;
-  //   padding: 10px;
-  //   border: 1px solid lightblue;
-  //   border-radius: 5px;
-  //   background-color: white;
-  // }
 }
 
 table {
@@ -71,7 +62,7 @@ table {
 }
 
 .active {
-  background-color: lightblue;
+  background-color: gray;
 }
 .none {
   pointer-events: none;
