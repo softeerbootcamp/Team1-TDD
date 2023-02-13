@@ -2,7 +2,6 @@ import Component from '@/core/Component';
 import styles from './Calendar.module.scss';
 import { qs, qsa } from '@/utils/querySelector';
 import { months, daysOfWeek } from './constants';
-import { leftBtn, rightBtn } from './icon';
 
 let date = new Date();
 
@@ -23,47 +22,42 @@ export class Calendar extends Component {
     this.addEvent('change', '#year-select', this.selectYear.bind(this));
     this.addEvent('click', 'td', (e) => {
       const target = e.target as HTMLTableCellElement;
-      if (!target.classList.contains(`${styles['active']}`)) {
+      const isActive = target.classList.contains(`${styles['active']}`);
+      if (!isActive) {
         target.classList.add(`${styles['active']}`);
-        this.props.dates.push(
-          `${date.getFullYear()}/${('0' + date.getMonth()).slice(-2)}/${(
-            '0' + target.innerText
-          ).slice(-2)}`
-        );
-        console.log(this.props);
+        const dateString = this.getDateString(target);
+        this.props.dates.push(dateString);
       } else {
         target.classList.remove(`${styles['active']}`);
+        const dateString = this.getDateString(target);
         this.props.dates = this.props.dates.filter(
-          (ele: string) =>
-            ele !==
-            `${date.getFullYear()}/${('0' + date.getMonth()).slice(-2)}/${(
-              '0' + target.innerText
-            ).slice(-2)}`
+          (ele: string) => ele !== dateString
         );
-        console.log(this.props.dates);
       }
     });
   }
-
+  getDateString(target: HTMLTableCellElement) {
+    return `${date.getFullYear()}/${('0' + date.getMonth()).slice(-2)}/${(
+      '0' + target.innerText
+    ).slice(-2)}`;
+  }
   markDates() {
     const yearMonth = `${date.getFullYear()}/${('0' + date.getMonth()).slice(
       -2
     )}`;
-    const matchedDates = this.props.dates.filter((ele: string) =>
-      ele.includes(yearMonth)
-    );
-    const trimedDates: string[] = matchedDates
+
+    const trimedDates: string[] = this.props.dates
+      .filter((ele: string) => ele.includes(yearMonth))
       .map((day: string) => day.slice(-2))
       .sort();
-    const tds = qsa('td') as NodeListOf<HTMLTableCellElement>;
-    let datesIdx = 0;
-    for (let i = 0; i < tds.length; i++) {
-      if (datesIdx === trimedDates.length) break;
-      if (tds[i].innerText === trimedDates[datesIdx]) {
-        tds[i].classList.add(`${styles['active']}`);
-        datesIdx++;
+
+    const tds = qsa('td', this.target) as NodeListOf<HTMLTableCellElement>;
+
+    tds.forEach((td, index) => {
+      if (index < trimedDates.length && td.innerText === trimedDates[index]) {
+        td.classList.add(`${styles['active']}`);
       }
-    }
+    });
   }
 
   movePrevMonth() {
