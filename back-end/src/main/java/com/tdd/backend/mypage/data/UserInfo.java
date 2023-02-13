@@ -1,11 +1,10 @@
-package com.tdd.backend.myPage.data;
+package com.tdd.backend.mypage.data;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class UserInfo {
-
 	private final String email;
 	private final String userName;
 	private final String phoneNumber;

@@ -1,4 +1,4 @@
-package com.tdd.backend.myPage.data;
+package com.tdd.backend.mypage.data;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class SharingInfo {
 	private final DefaultInfo post;
 	private final List<AppointmentDto> appointments;
 	@Builder
-	public SharingInfo(DefaultInfo post, List<AppointmentDto> appointments) {
+	private SharingInfo(DefaultInfo post, List<AppointmentDto> appointments) {
 		this.post = post;
 		this.appointments = appointments;
 	}

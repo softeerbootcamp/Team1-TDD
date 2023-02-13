@@ -1,4 +1,4 @@
-package com.tdd.backend.myPage.data;
+package com.tdd.backend.mypage.data;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +8,7 @@ public class DrivingInfo {
 	private final DefaultInfo post;
 	private final String date;
 	@Builder
-	public DrivingInfo(DefaultInfo post, String date) {
+	private DrivingInfo(DefaultInfo post, String date) {
 		this.post = post;
 		this.date = date;
 	}
