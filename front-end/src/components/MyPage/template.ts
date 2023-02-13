@@ -32,21 +32,65 @@ export function literal() {
       <div class="${styles["empty-wrapper"]}"></div>
       <div class="${styles["exp-wrapper"]}">
         <div class="${styles["user-header-wrapper"]}">
-          <h1 class="${styles["exp-title"]}">경험 신청 내역</h1>
+          <p class="${styles["title"]}">경험 신청 내역</p>
         </div>
         <div class="${styles["board-wrapper"]}">
-          <div class="${styles["exp-board"]}"></div>
-          <div class="${styles["right-div"]}"></div>
+          <div class="${styles["exp-board"]}">
+            <div class=${styles["card-wrapper"]}>
+              <div class=${styles["image-wrapper"]}>
+                <img class="${styles["image"]}" src="${process.env.VITE_IMAGE_URL}/001_ionic6.png" />
+              </div>
+              <div class="${styles["text-wrapper"]}">
+                <div class="${styles["car-name"]}">아이오닉 6</div>
+                <div class="${styles["options"]}">수소/전기차, 전기, 주차거리 경보</div>
+                <div class="${styles["date"]}">2023-02-20</div>
+                <div class="${styles["location"]}">서울특별시 어쩌구 저쩌구</div>
+              </div>
+            </div>
+            <div class=${styles["card-wrapper"]}>
+              <div class=${styles["image-wrapper"]}>
+                <img class="${styles["image"]}" src="${process.env.VITE_IMAGE_URL}/001_ionic6.png" />
+              </div>
+              <div class="${styles["text-wrapper"]}">
+                <div class="${styles["car-name"]}">아이오닉 6</div>
+                <div class="${styles["options"]}">수소/전기차, 전기, 주차거리 경보</div>
+                <div class="${styles["date"]}">2023-02-20</div>
+                <div class="${styles["location"]}">서울특별시 어쩌구 저쩌구</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="${styles["empty-wrapper"]}"></div>
       <div class="${styles["share-wrapper"]}">
         <div class="${styles["user-header-wrapper"]}">
-          <h1 class="${styles["share-title"]}">공유한 차량 관리</h1>
+          <p class="${styles["title"]}">공유한 차량 관리</p>
         </div>
         <div class="${styles["board-wrapper"]}">
-          <div class="${styles["share-board"]}"></div>
-          <div class="${styles["right-div"]}"></div>
+          <div class="${styles["share-board"]}">
+            <div class=${styles["card-wrapper"]}>
+              <div class=${styles["image-wrapper"]}>
+                <img class="${styles["image"]}" src="${process.env.VITE_IMAGE_URL}/001_ionic6.png" />
+              </div>
+              <div class="${styles["text-wrapper"]}">
+                <div class="${styles["car-name"]}">아이오닉 6</div>
+                <div class="${styles["options"]}">수소/전기차, 전기, 주차거리 경보</div>
+                <div class="${styles["date"]}">2023-02-20</div>
+                <div class="${styles["location"]}">서울특별시 어쩌구 저쩌구</div>
+              </div>
+            </div>
+            <div class=${styles["card-wrapper"]}>
+              <div class=${styles["image-wrapper"]}>
+                <img class="${styles["image"]}" src="${process.env.VITE_IMAGE_URL}/001_ionic6.png" />
+              </div>
+              <div class="${styles["text-wrapper"]}">
+                <div class="${styles["car-name"]}">아이오닉 6</div>
+                <div class="${styles["options"]}">수소/전기차, 전기, 주차거리 경보</div>
+                <div class="${styles["date"]}">2023-02-20</div>
+                <div class="${styles["location"]}">서울특별시 어쩌구 저쩌구</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
