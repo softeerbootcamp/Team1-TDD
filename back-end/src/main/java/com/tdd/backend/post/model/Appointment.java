@@ -25,6 +25,7 @@ public class Appointment {
 		return AppointmentDto.builder()
 			.id(id)
 			.date(date.toString())
+			.status(status.toString())
 			.build();
 	}
 }
