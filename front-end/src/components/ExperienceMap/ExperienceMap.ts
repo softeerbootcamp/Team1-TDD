@@ -1,17 +1,17 @@
-import Component from "@/core/Component";
-import styles from "./ExperienceMap.module.scss";
-import { mapStyle } from "@/utils/mapStyle";
-import { seoulLocations } from "./dummyData";
-import { MarkerClusterer } from "@googlemaps/markerclusterer";
-import { loadscript } from "@/utils/googleAPI";
-import { qs } from "@/utils/querySelector";
+import Component from '@/core/Component';
+import styles from './ExperienceMap.module.scss';
+import { mapStyle } from '@/utils/mapStyle';
+import { seoulLocations } from './dummyData';
+import { MarkerClusterer } from '@googlemaps/markerclusterer';
+import { loadscript } from '@/utils/googleAPI';
+import { qs } from '@/utils/querySelector';
 
 export class ExperienceMap extends Component {
   async setup() {
     this.state.markers = [];
     this.state.userLocation = {};
     this.state.map = null;
-    if (this.props.hasOwnProperty("ends")) {
+    if (this.props.hasOwnProperty('ends')) {
       this.state.userLocation = {
         lat: (this.props.ends.latHi + this.props.ends.latLo) / 2,
         lng: (this.props.ends.lngHi + this.props.ends.lngLo) / 2,
@@ -26,8 +26,8 @@ export class ExperienceMap extends Component {
 
   template(): string {
     return `
-    <div class="${styles["desc"]}">시승해보고 싶은 싶은 위치를 골라주세요!</div>
-    <div id="googleMap" class="${styles["googleMap"]}"></div>`;
+    <div class="${styles['desc']}">시승해보고 싶은 싶은 위치를 골라주세요!</div>
+    <div id="googleMap" class="${styles['googleMap']}"></div>`;
   }
 
   mounted(): void {
@@ -43,7 +43,7 @@ export class ExperienceMap extends Component {
   }
 
   initMap() {
-    const map = new google.maps.Map(qs("#googleMap")!, {
+    const map = new google.maps.Map(qs('#googleMap')!, {
       zoom: 15,
       center: this.state.userLocation as google.maps.LatLng,
       styles: mapStyle() as object[],
@@ -53,7 +53,7 @@ export class ExperienceMap extends Component {
 
     google.maps.event.addListener(
       map,
-      "bounds_changed",
+      'bounds_changed',
       this.handleDebounce(() => {
         let bounds = map.getBounds()! as google.maps.LatLngBounds;
         const temp = bounds.toJSON();
@@ -67,6 +67,19 @@ export class ExperienceMap extends Component {
     );
 
     this.refreshMap();
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        const { latitude, longitude } = coords;
+        moveMapToLocation(latitude, longitude);
+      });
+    } else {
+      console.log('Geolocation is not supported by this browser.');
+    }
+    function moveMapToLocation(lat, lng) {
+      let newLocation = new google.maps.LatLng(lat, lng);
+      map.setCenter(newLocation);
+    }
   }
 
   moveMap() {
