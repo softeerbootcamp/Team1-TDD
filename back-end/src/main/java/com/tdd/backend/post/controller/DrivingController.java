@@ -1,5 +1,7 @@
 package com.tdd.backend.post.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.http.MediaType;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.tdd.backend.post.data.DrivingDto;
 import com.tdd.backend.post.data.DrivingResponse;
 import com.tdd.backend.post.data.TesterDto;
 import com.tdd.backend.post.service.DrivingService;
@@ -36,15 +39,14 @@ public class DrivingController {
 			.body(drivingResponse);
 	}
 
-	@PostMapping("/test-driving/")
+	@PostMapping("/test-driving/posts")
 	@Operation(summary = "시승가능한 차량 공유에 대한 모든 정보 요청", description = "차종과 가능한 날짜 리스트, 선택한 옵션 리스트를 요청 받으면 해당하는 Post의 관련 모든 정보를 응답함.")
-	public void sendSharingDataByOptions() {
-		// 요청: 차 이름, 날짜리스트, 옵션 리스트
-		// 차이름: 필수
-		// 옵션: 모든 옵션을 필수 포함
-		// 날짜는 해당하는 경우가 있는 모든
-		// 응답 : location 리스트 (postId, locationX, locationY)
-
+	public ResponseEntity<List<DrivingResponse>> sendSharingDataByOptions(@RequestBody @Valid DrivingDto drivingDto) {
+		List<DrivingResponse> drivingResponseList = drivingService.getDrivingResponseList(drivingDto);
+		return ResponseEntity
+			.ok()
+			.contentType(MediaType.APPLICATION_JSON)
+			.body(drivingResponseList);
 	}
 
 	@PatchMapping("/appointments/{appointmentId}")
