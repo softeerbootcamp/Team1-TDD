@@ -1,6 +1,6 @@
 package com.tdd.backend.user;
 
-import static com.tdd.backend.auth.jwt.JwtTokenProvider.JwtTokenRole.*;
+import static com.tdd.backend.auth.jwt.JwtProvider.JwtTokenRole.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.time.LocalDate;
-
 import java.util.Base64;
 import java.util.Date;
 
@@ -25,13 +24,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tdd.backend.auth.jwt.RefreshTokenService;
 import com.tdd.backend.auth.encrypt.EncryptHelper;
-import com.tdd.backend.auth.jwt.JwtTokenProvider;
+import com.tdd.backend.auth.jwt.JwtProvider;
+import com.tdd.backend.auth.jwt.RefreshTokenService;
 import com.tdd.backend.user.controller.UserController;
 import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
+import com.tdd.backend.user.exception.UserNotFoundException;
 import com.tdd.backend.user.repository.UserRepository;
 
 import io.jsonwebtoken.Jwts;
@@ -55,7 +55,7 @@ class UserControllerTest {
 	EncryptHelper encryptHelper;
 
 	@Autowired
-	JwtTokenProvider jwtTokenProvider;
+	JwtProvider jwtProvider;
 
 	@Autowired
 	RefreshTokenService refreshTokenService;
@@ -90,7 +90,7 @@ class UserControllerTest {
 		softAssertions.assertThat(userRepository.count()).isEqualTo(1);
 
 		User user = userRepository.findByEmail(userCreate.getEmail())
-			.orElseThrow(RuntimeException::new);
+			.orElseThrow(UserNotFoundException::new);
 		softAssertions.assertThat(user.getUserName()).isEqualTo(userCreate.getUserName());
 
 		softAssertions.assertAll();
@@ -203,10 +203,10 @@ class UserControllerTest {
 			.build();
 
 		userRepository.save(user);
-		String jws = jwtTokenProvider.generateAccessToken(user.getId());
+		String jws = jwtProvider.generateAccessToken(user.getId());
 
 		//expected
-		mockMvc.perform(get("/test/auth")
+		mockMvc.perform(get("/auth")
 				.header("Authorization", jws)
 			)
 			.andExpect(status().isOk())
@@ -218,7 +218,7 @@ class UserControllerTest {
 	void access_non_auth() throws Exception {
 
 		//expected
-		mockMvc.perform(get("/test/auth")
+		mockMvc.perform(get("/auth")
 				.contentType(MediaType.TEXT_PLAIN)
 			)
 			.andExpect(status().isUnauthorized())
@@ -239,10 +239,10 @@ class UserControllerTest {
 			.claim("role", ATK)
 			.setIssuedAt(new Date())
 			.setExpiration(expiryDate)
-			.signWith(Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtTokenProvider.getJwtSecret())))
+			.signWith(Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtProvider.getJwtSecret())))
 			.compact();
 
-		mockMvc.perform(get("/test/auth")
+		mockMvc.perform(get("/auth")
 				.header("Authorization", accessToken)
 				.contentType(MediaType.APPLICATION_JSON)
 			)
@@ -258,7 +258,7 @@ class UserControllerTest {
 	void validate_RTK_expire_ATK() throws Exception {
 		//when
 		Long userId = 1L;
-		String refreshToken = jwtTokenProvider.generateRefreshToken(userId);
+		String refreshToken = jwtProvider.generateRefreshToken(userId);
 		refreshTokenService.saveRefreshToken(userId, refreshToken);
 
 		//expected
@@ -283,7 +283,7 @@ class UserControllerTest {
 			.claim("role", RTK)
 			.setIssuedAt(new Date())
 			.setExpiration(expiryDate)
-			.signWith(Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtTokenProvider.getJwtSecret())))
+			.signWith(Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtProvider.getJwtSecret())))
 			.compact();
 
 		mockMvc.perform(post("/reissue")
@@ -299,7 +299,7 @@ class UserControllerTest {
 	void logout_RTK_remove() throws Exception {
 		//given
 		Long userId = 1L;
-		String refreshToken = jwtTokenProvider.generateRefreshToken(userId);
+		String refreshToken = jwtProvider.generateRefreshToken(userId);
 		refreshTokenService.saveRefreshToken(userId, refreshToken);
 
 		//expected
@@ -319,10 +319,10 @@ class UserControllerTest {
 	void check_validate_ATK() throws Exception {
 		//given
 		Long userId = 1L;
-		String rtk = jwtTokenProvider.generateRefreshToken(userId);
+		String rtk = jwtProvider.generateRefreshToken(userId);
 
 		//expected
-		mockMvc.perform(get("/test/auth")
+		mockMvc.perform(get("/auth")
 				.header("Authorization", rtk)
 				.contentType(MediaType.APPLICATION_JSON)
 			)
@@ -336,7 +336,7 @@ class UserControllerTest {
 	void check_validate_RTK() throws Exception {
 		//given
 		Long userId = 1L;
-		String atk = jwtTokenProvider.generateAccessToken(userId);
+		String atk = jwtProvider.generateAccessToken(userId);
 
 		//expected
 		mockMvc.perform(post("/reissue")

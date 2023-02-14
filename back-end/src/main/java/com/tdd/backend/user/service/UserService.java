@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.tdd.backend.auth.data.JwtTokenPairResponse;
 import com.tdd.backend.auth.encrypt.EncryptHelper;
-import com.tdd.backend.auth.jwt.JwtTokenProvider;
 import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
@@ -23,7 +22,6 @@ public class UserService {
 
 	private final UserRepository userRepository;
 	private final EncryptHelper encryptHelper;
-	private final JwtTokenProvider jwtTokenProvider;
 	private final AuthService authService;
 
 	public void save(UserCreate userCreate) {

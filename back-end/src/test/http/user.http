@@ -19,5 +19,5 @@ Content-Type: application/json
 }
 
 ### test auth
-GET http://{{domain-address}}/test/auth
+GET http://{{domain-address}}/auth
 Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFUSyIsImlhdCI6MTY3NjE3NDk1OCwiZXhwIjoxNjc2MTc2NzU4fQ.6Y_8XgXwoQZIA-FJSAEj7krKq3YMWY_0ypg95RZx9ms

@@ -1,7 +1,7 @@
 package com.tdd.backend.auth.jwt;
 
-import static com.tdd.backend.auth.jwt.JwtTokenProvider.JwtTokenRole.*;
-import static com.tdd.backend.auth.jwt.JwtTokenProvider.JwtTokenStatus.*;
+import static com.tdd.backend.auth.jwt.JwtProvider.JwtTokenRole.*;
+import static com.tdd.backend.auth.jwt.JwtProvider.JwtTokenStatus.*;
 import static org.apache.tomcat.util.codec.binary.Base64.*;
 
 import java.util.Base64;
@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Getter
 @Component
-public class JwtTokenProvider {
+public class JwtProvider {
 
 	@Value("${app.jwt.secret}")
 	private String jwtSecret;

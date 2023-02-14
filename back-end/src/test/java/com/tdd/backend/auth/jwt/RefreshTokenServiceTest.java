@@ -19,14 +19,14 @@ class RefreshTokenServiceTest {
 	RefreshTokenService refreshTokenService;
 
 	@Autowired
-	JwtTokenProvider jwtTokenProvider;
+	JwtProvider jwtProvider;
 
 	@Test
 	@DisplayName("RTK Redis에 저장 & Redis에서 꺼내오기")
 	void rtk_save_get() throws Exception {
 		//given
 		Long userId = 1L;
-		String refreshToken = jwtTokenProvider.generateRefreshToken(userId);
+		String refreshToken = jwtProvider.generateRefreshToken(userId);
 		//when
 		refreshTokenService.saveRefreshToken(userId, refreshToken);
 
@@ -40,7 +40,7 @@ class RefreshTokenServiceTest {
 	void rtk_delete() throws Exception {
 		//given
 		Long userId = 1L;
-		String refreshToken = jwtTokenProvider.generateRefreshToken(userId);
+		String refreshToken = jwtProvider.generateRefreshToken(userId);
 		refreshTokenService.saveRefreshToken(userId, refreshToken);
 		//when
 		refreshTokenService.deleteRefreshToken(userId);
