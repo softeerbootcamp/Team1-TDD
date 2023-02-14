@@ -1,7 +1,7 @@
 import { carList } from '@/constants/carList';
 import { Store } from '@/core/Store.js';
 interface IOptionState {
-  carModal: string | null;
+  carModel: string | null;
   rideTogether: boolean;
   options: IOption[];
   openState: boolean[];
@@ -42,7 +42,6 @@ const reducer = (
       return { ...state, openState: payload.openState };
 
     case 'CHANGE_DATES':
-      console.log(payload.dates);
       return { ...state, dates: payload.dates };
 
     default:
