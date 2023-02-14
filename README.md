@@ -1,3 +1,7 @@
+<p align=center>
+<img src="https://capsule-render.vercel.app/api?type=waving&&color=timeGradient&height=300&section=header&text=Try,%20Drive,%20Delightly!&fontSize=90" />
+</p>
+
 ## 목차 
 - 사용자들이 다른 섹션으로 쉽게 이동할 수 있는 목차
 # 프로젝트명
