@@ -13,7 +13,16 @@ interface IUserData {
 
 export class MyPage extends Component {
   setup(): void {
-    this.state.userInfo = null;
+    getUserInfo()
+      .then((res) => {
+        this.state.driving = res.data.driving;
+        this.state.sharing = res.data.sharing;
+        this.state.user = res.data.user;
+        console.log(this.state.user);
+        console.log(res);
+        console.log("hi");
+      })
+      .catch((err) => console.log(err));
   }
 
   template(): string {
@@ -21,38 +30,32 @@ export class MyPage extends Component {
   }
 
   mounted(): void {
-    getUserInfo()
-      .then((res) => {
-        this.state.userInfo = res;
-        console.log(this.state.userInfo);
-      })
-      .catch((err) => console.log(err));
-
     const expBoard = qs(`.${styles["exp-board"]}`) as HTMLDivElement;
     const shareBoard = qs(`.${styles["share-board"]}`) as HTMLDivElement;
   }
 
-  generateCard(data: IUserData): HTMLDivElement {
-    const cardWrapper = document.createElement("div");
-    const imageWrapper = document.createElement("div");
-    imageWrapper.classList.add(`${styles["image-wrapper"]}`);
-    const img = document.createElement("img");
-    img.classList.add(`${styles["imamge"]}`);
-    img.src = `${process.env.VITE_IMAGE_URL}/001_ionic6.png`;
-    imageWrapper.append(img);
-    const textWrapper = document.createElement("div");
-    textWrapper.classList.add(`${styles["text-wrapper"]}`);
-    const carName = document.createElement("div");
-    carName.classList.add(`${styles["car-name"]}`);
-    const options = document.createElement("div");
-    options.classList.add(`${styles["options"]}`);
-    const date = document.createElement("div");
-    date.classList.add(`${styles["date"]}`);
-    const location = document.createElement("div");
-    location.classList.add(`${styles["location"]}`);
-    textWrapper.append(carName, options, date, location);
-    cardWrapper.append(imageWrapper, textWrapper);
+  setUserInfo() {
+    const {
+      userName,
+      createdAt,
+      email,
+      phoneNumber,
+      drivingCount,
+      sharingCount,
+    } = this.state.user;
+    console.log(
+      userName,
+      createdAt,
+      email,
+      phoneNumber,
+      drivingCount,
+      sharingCount
+    );
+  }
 
-    return cardWrapper;
+  generateCard(data: IUserData): string {
+    return `
+    
+    `;
   }
 }
