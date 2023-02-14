@@ -8,6 +8,7 @@ import { qs } from '@/utils/querySelector';
 import styles from '@/styles/experiencing.module.scss';
 import { OptionStore } from '@/store/OptionStore/OptionStore';
 import { mapInfo } from '@/components/ExperienceMap/interface';
+import { seoulLocations } from '@/components/ExperienceMap/dummyData';
 
 export class Experiencing extends Component {
   template(): string {
@@ -40,6 +41,7 @@ export class Experiencing extends Component {
     });
     new ExperienceMap($map as HTMLDivElement, {
       changePositionHandler: this.changePositionHandler,
+      locations: seoulLocations,
     });
   }
 

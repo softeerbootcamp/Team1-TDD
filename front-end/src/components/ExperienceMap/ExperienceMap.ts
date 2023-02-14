@@ -1,7 +1,6 @@
 import Component from '@/core/Component';
 import styles from './ExperienceMap.module.scss';
 import { mapStyle } from '@/utils/mapStyle';
-import { seoulLocations } from './dummyData';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import { loadscript } from '@/utils/googleAPI';
 import { qs } from '@/utils/querySelector';
@@ -28,7 +27,10 @@ export class ExperienceMap extends Component {
   template(): string {
     return `
     <div class="${styles['desc']}">시승해보고 싶은 싶은 위치를 골라주세요!</div>
-    <div id="googleMap" class="${styles['googleMap']}"></div>`;
+    <div id="googleMap" class="${styles['googleMap']}"></div>
+    <button id="make-markers">make markers</button>
+    <button id="move-my-location">move</button>
+    `;
   }
 
   mounted(): void {
@@ -55,31 +57,26 @@ export class ExperienceMap extends Component {
       map,
       'bounds_changed',
       this.handleDebounce(() => {
-        let bounds = map.getBounds()! as google.maps.LatLngBounds;
-        const temp = bounds.toJSON();
-        this.props.userLocation = {
-          latHi: temp.north,
-          latLo: temp.south,
-          lngHi: temp.east,
-          lngLo: temp.west,
-        };
         this.props.changePositionHandler(this.getMapInfo());
       }, 500)
     );
 
     this.refreshMap();
+  }
 
+  moveToMyLocation() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(({ coords }) => {
-        const { latitude, longitude } = coords;
-        moveMapToLocation(latitude, longitude);
-      });
+      navigator.geolocation.getCurrentPosition(
+        ({ coords }) => {
+          const { latitude, longitude } = coords;
+          this.setMapPosition(latitude, longitude);
+        },
+        () => {
+          console.log('moving map has failed');
+        }
+      );
     } else {
       console.log('Geolocation is not supported by this browser.');
-    }
-    function moveMapToLocation(lat: number, lng: number) {
-      let newLocation = new google.maps.LatLng(lat, lng);
-      map.setCenter(newLocation);
     }
   }
 
@@ -88,41 +85,22 @@ export class ExperienceMap extends Component {
   }
 
   createMarkers() {
-    for (let i = 0; i < seoulLocations.length; i++) {
-      let mker = new google.maps.Marker({
-        position: seoulLocations[i] as google.maps.LatLng,
-        map: this.state.map,
-        animation: google.maps.Animation.DROP,
-      });
-      this.state.markers.push(mker);
-    }
-    const markers = this.state.markers;
-    const map = this.state.map;
+    const markers = this.props.locations.map(
+      (loc: google.maps.LatLng) =>
+        new google.maps.Marker({
+          position: loc,
+          map: this.state.map,
+          animation: google.maps.Animation.DROP,
+        })
+    );
+    this.state.markers = [...this.state.markers, ...markers];
+    const { map } = this.state;
     new MarkerClusterer({ map, markers });
   }
 
   refreshMap() {
     this.state.markers = [];
     this.createMarkers();
-  }
-
-  getMapBounds() {
-    if (!this.state.map) return;
-    const mapBounds = this.state.map.getBounds();
-    const lngHi = mapBounds.Ma.hi;
-    const lngLo = mapBounds.Ma.lo;
-    const latHi = mapBounds.Ya.hi;
-    const latLo = mapBounds.Ya.lo;
-    return { lngHi, lngLo, latHi, latLo };
-  }
-
-  async getLocation() {
-    const location = await new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject, {
-        enableHighAccuracy: true,
-      });
-    });
-    return location;
   }
 
   handleDebounce(callback: Function, limit: number) {
@@ -158,5 +136,26 @@ export class ExperienceMap extends Component {
     const newCenter = { lat, lng };
     map.setCenter(newCenter);
     zoom && map.setZoom(zoom);
+  }
+
+  setEvent(): void {
+    this.addEvent('click', `.${styles['desc']}`, () => {
+      this.clearMarkers();
+      console.log(this.state.markers);
+    });
+    this.addEvent('click', `#make-markers`, () => {
+      this.createMarkers();
+      console.log(this.state.markers);
+    });
+    this.addEvent('click', `#move-my-location`, () => {
+      this.moveToMyLocation();
+    });
+  }
+
+  clearMarkers() {
+    this.state.markers.forEach((marker: google.maps.Marker) =>
+      marker.setMap(null)
+    );
+    this.state.markers = [];
   }
 }
