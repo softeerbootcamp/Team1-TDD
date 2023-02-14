@@ -7,6 +7,7 @@ import Component from '@/core/Component';
 import { qs } from '@/utils/querySelector';
 import styles from '@/styles/experiencing.module.scss';
 import { OptionStore } from '@/store/OptionStore/OptionStore';
+import { mapInfo } from '@/components/ExperienceMap/interface';
 
 export class Experiencing extends Component {
   template(): string {
@@ -37,10 +38,15 @@ export class Experiencing extends Component {
       store: OptionStore,
       onChangeDates: this.onChangeDates,
     });
-    new ExperienceMap($map as HTMLDivElement);
+    new ExperienceMap($map as HTMLDivElement, {
+      changePositionHandler: this.changePositionHandler,
+    });
   }
 
   onChangeDates(dates: string[]) {
     OptionStore.dispatch('CHANGE_DATES', { dates });
+  }
+  changePositionHandler(mapInfo: mapInfo) {
+    OptionStore.dispatch('MOVE_MAP', { mapInfo });
   }
 }

@@ -5,9 +5,10 @@ import { seoulLocations } from './dummyData';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import { loadscript } from '@/utils/googleAPI';
 import { qs } from '@/utils/querySelector';
+import { mapInfo } from './interface';
 
 export class ExperienceMap extends Component {
-  async setup() {
+  setup() {
     this.state.markers = [];
     this.state.userLocation = {};
     this.state.map = null;
@@ -32,7 +33,6 @@ export class ExperienceMap extends Component {
 
   mounted(): void {
     this.init();
-    this.getMapBounds();
   }
 
   init() {
@@ -63,6 +63,7 @@ export class ExperienceMap extends Component {
           lngHi: temp.east,
           lngLo: temp.west,
         };
+        this.props.changePositionHandler(this.getMapInfo());
       }, 500)
     );
 
@@ -76,7 +77,7 @@ export class ExperienceMap extends Component {
     } else {
       console.log('Geolocation is not supported by this browser.');
     }
-    function moveMapToLocation(lat, lng) {
+    function moveMapToLocation(lat: number, lng: number) {
       let newLocation = new google.maps.LatLng(lat, lng);
       map.setCenter(newLocation);
     }
@@ -106,6 +107,7 @@ export class ExperienceMap extends Component {
   }
 
   getMapBounds() {
+    if (!this.state.map) return;
     const mapBounds = this.state.map.getBounds();
     const lngHi = mapBounds.Ma.hi;
     const lngLo = mapBounds.Ma.lo;
@@ -131,5 +133,30 @@ export class ExperienceMap extends Component {
         callback.apply(this, args);
       }, limit);
     };
+  }
+
+  getMapInfo(): mapInfo {
+    const { map } = this.state;
+    const mapBounds = map.getBounds();
+    const lngHi = mapBounds.Ma.hi;
+    const lngLo = mapBounds.Ma.lo;
+    const latHi = mapBounds.Ya.hi;
+    const latLo = mapBounds.Ya.lo;
+    return {
+      centerLat: map.getCenter().lat(),
+      centerLng: map.getCenter().lng(),
+      zoom: map.getZoom(),
+      latHi,
+      latLo,
+      lngHi,
+      lngLo,
+    };
+  }
+
+  setMapPosition(lat: number, lng: number, zoom: number) {
+    const { map } = this.state;
+    const newCenter = { lat, lng };
+    map.setCenter(newCenter);
+    map.setZoom(zoom);
   }
 }

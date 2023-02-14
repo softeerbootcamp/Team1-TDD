@@ -1,3 +1,4 @@
+import { mapInfo } from '@/components/ExperienceMap/interface';
 import { carList } from '@/constants/carList';
 import { Store } from '@/core/Store.js';
 interface IOptionState {
@@ -6,6 +7,7 @@ interface IOptionState {
   options: IOption[];
   openState: boolean[];
   dates: string[];
+  mapInfo: mapInfo;
 }
 interface IOption {
   name: string;
@@ -21,6 +23,7 @@ const initState = {
   options: [],
   openState: [],
   dates: [],
+  mapInfo: null,
 };
 
 const reducer = (
@@ -43,6 +46,10 @@ const reducer = (
 
     case 'CHANGE_DATES':
       return { ...state, dates: payload.dates };
+
+    case 'MOVE_MAP':
+      const { mapInfo } = payload;
+      return { ...state, mapInfo };
 
     default:
       return { ...state };
