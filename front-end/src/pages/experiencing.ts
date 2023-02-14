@@ -24,15 +24,17 @@ export class Experiencing extends Component {
     const $optionSelector = qs('#ex-optionSelector', this.target);
     const $calendar = qs('#ex-calendar', this.target);
     const $map = qs('#ex-map', this.target);
-    const onChangeDates = (dates: string[]) => {
-      OptionStore.dispatch('CHANGE_DATES', { dates });
-    };
+
     new ImageSlider($imageSlider as HTMLDivElement, { list: carList });
     new OptionForm($optionSelector as HTMLDivElement);
     new Calendar($calendar as HTMLDivElement, {
       dates: OptionStore.getState().dates,
-      onChangeDates,
+      onChangeDates: this.onChangeDates,
     });
     new ExperienceMap($map as HTMLDivElement);
+  }
+
+  onChangeDates(dates: string[]) {
+    OptionStore.dispatch('CHANGE_DATES', { dates });
   }
 }
