@@ -41,7 +41,8 @@ export class Experiencing extends Component {
     });
     new ExperienceMap($map as HTMLDivElement, {
       changePositionHandler: this.changePositionHandler,
-      locations: seoulLocations,
+      locations: seoulLocations, //TODO:OptionStore.locations로 바꿔야됨
+      store: OptionStore,
     });
   }
 

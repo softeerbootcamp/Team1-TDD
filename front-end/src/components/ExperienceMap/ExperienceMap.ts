@@ -22,14 +22,16 @@ export class ExperienceMap extends Component {
         lng: 127.0,
       };
     }
+    this.props.store.subscribe(
+      this.updateMarkers.bind(this),
+      this.constructor.name
+    );
   }
 
   template(): string {
     return `
     <div class="${styles['desc']}">시승해보고 싶은 싶은 위치를 골라주세요!</div>
     <div id="googleMap" class="${styles['googleMap']}"></div>
-    <button id="make-markers">make markers</button>
-    <button id="move-my-location">move</button>
     `;
   }
 
@@ -83,14 +85,16 @@ export class ExperienceMap extends Component {
   moveMap() {
     this.state.map.panTo(this.state.userLocation);
   }
-
+  updateMarkers() {
+    this.clearMarkers();
+    this.createMarkers();
+  }
   createMarkers() {
     const markers = this.props.locations.map(
       (loc: google.maps.LatLng) =>
         new google.maps.Marker({
           position: loc,
           map: this.state.map,
-          animation: google.maps.Animation.DROP,
         })
     );
     this.state.markers = [...this.state.markers, ...markers];
@@ -136,20 +140,6 @@ export class ExperienceMap extends Component {
     const newCenter = { lat, lng };
     map.setCenter(newCenter);
     zoom && map.setZoom(zoom);
-  }
-
-  setEvent(): void {
-    this.addEvent('click', `.${styles['desc']}`, () => {
-      this.clearMarkers();
-      console.log(this.state.markers);
-    });
-    this.addEvent('click', `#make-markers`, () => {
-      this.createMarkers();
-      console.log(this.state.markers);
-    });
-    this.addEvent('click', `#move-my-location`, () => {
-      this.moveToMyLocation();
-    });
   }
 
   clearMarkers() {
