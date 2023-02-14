@@ -2,13 +2,10 @@ import Component from "@/core/Component";
 import { qsa } from "@/utils/querySelector";
 import { literal } from "./template";
 import styles from "./MyPage.module.scss";
-// import styles from "../BulletinBoard/BulletinBoard.module.scss";
 import { BulletinBoard } from "../BulletinBoard/BulletinBoard";
 
 export class MyPage extends Component {
-  setup(): void {
-    console.log(styles);
-  }
+  setup(): void {}
 
   template(): string {
     return literal();
