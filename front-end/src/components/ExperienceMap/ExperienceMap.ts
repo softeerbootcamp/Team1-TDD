@@ -153,10 +153,10 @@ export class ExperienceMap extends Component {
     };
   }
 
-  setMapPosition(lat: number, lng: number, zoom: number) {
+  setMapPosition(lat: number, lng: number, zoom: number | null = null) {
     const { map } = this.state;
     const newCenter = { lat, lng };
     map.setCenter(newCenter);
-    map.setZoom(zoom);
+    zoom && map.setZoom(zoom);
   }
 }
