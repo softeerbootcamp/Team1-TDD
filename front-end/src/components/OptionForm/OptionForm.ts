@@ -1,6 +1,5 @@
 import Component from '@/core/Component';
 import styles from './OptionForm.module.scss';
-import { OptionStore } from '@/store/OptionStore/OptionStore';
 import { qsa } from '@/utils/querySelector';
 const DUMMY_DATA = [
   {
@@ -118,11 +117,11 @@ export class OptionForm extends Component {
   setup(): void {
     this.state.optionTimer = null;
     this.state.openStateTimer = null;
-    OptionStore.subscribe(this.render.bind(this), this.constructor.name);
+    this.props.store.subscribe(this.render.bind(this), this.constructor.name);
   }
   template(): string {
     const data = DUMMY_DATA;
-    const openState = OptionStore.getState().openState;
+    const openState = this.props.store.getState().openState;
     return `
     <div class="${styles['form-container']}">
       ${data
@@ -146,7 +145,7 @@ export class OptionForm extends Component {
 
   optionBtnTemplate({ category, name }: IOptions) {
     const isActive =
-      OptionStore.getState().options.findIndex((ele: IOptions) => {
+      this.props.store.getState().options.findIndex((ele: IOptions) => {
         return (
           ele.category.trim() === category.trim() &&
           ele.name.trim() === name.trim()
@@ -213,7 +212,7 @@ export class OptionForm extends Component {
       clearTimeout(this.state.openStateTimer);
     }
     this.state.openStateTimer = setTimeout(() => {
-      OptionStore.dispatch('UPDATE_OPEN_STATE', {
+      this.props.store.dispatch('UPDATE_OPEN_STATE', {
         openState: this.getAllCategoryState(),
       });
     }, 500);
@@ -224,7 +223,7 @@ export class OptionForm extends Component {
       clearTimeout(this.state.optionTimer);
     }
     this.state.optionTimer = setTimeout(() => {
-      OptionStore.dispatch('UPDATE_ACTIVE_CAR_OPTION', {
+      this.props.store.dispatch('UPDATE_ACTIVE_CAR_OPTION', {
         options: this.getActiveBtnProperty(),
       });
     }, 400);

@@ -25,10 +25,16 @@ export class Experiencing extends Component {
     const $calendar = qs('#ex-calendar', this.target);
     const $map = qs('#ex-map', this.target);
 
-    new ImageSlider($imageSlider as HTMLDivElement, { list: carList });
-    new OptionForm($optionSelector as HTMLDivElement);
+    new ImageSlider($imageSlider as HTMLDivElement, {
+      list: carList,
+      store: OptionStore,
+    });
+    new OptionForm($optionSelector as HTMLDivElement, {
+      store: OptionStore,
+    });
     new Calendar($calendar as HTMLDivElement, {
       dates: OptionStore.getState().dates,
+      store: OptionStore,
       onChangeDates: this.onChangeDates,
     });
     new ExperienceMap($map as HTMLDivElement);
