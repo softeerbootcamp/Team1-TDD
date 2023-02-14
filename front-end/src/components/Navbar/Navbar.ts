@@ -1,7 +1,9 @@
+import { sendLogOutRequest } from '@/apis/login';
 import Component from '@/core/Component';
 import { AuthStore } from '@/store/AuthStore';
 import { openLoginModal } from '@/utils/loginModal';
 import { qs } from '@/utils/querySelector';
+import { userIcon } from './icon';
 import styles from './Navbar.module.scss';
 
 export class Navbar extends Component {
@@ -22,9 +24,18 @@ export class Navbar extends Component {
         <li><a data-link href="/experiencing">경험하기</a></li>
         ${
           isLogin
-            ? `<button class="${styles['logout-button']}">logout</button>`
+            ? `
+            <div class="${styles.dropdown}">
+            ${userIcon}
+              <div class="${styles.options}">
+                <div><a data-link href="/mypage">마이페이지</a></div>
+                <div class="${styles['logout-button']}">Logout</div>
+              </div>
+            </div>
+            `
             : `<button class="${styles['login-button']}">login</button>`
         }
+        
       </ul>
     </nav>
     `;
@@ -48,7 +59,30 @@ export class Navbar extends Component {
 
   setEvent(): void {
     this.addEvent('click', `.${styles['login-button']}`, openLoginModal);
-    this.addEvent('click', `.${styles['logout-button']}`, () => {
+    this.addEvent('click', `.${styles['logout-button']}`, this.onLogout);
+    this.addEvent('click', '#user-icon', this.toggleDropDown);
+    document.addEventListener('click', this.closeDropDown);
+  }
+
+  toggleDropDown({ target }: Event) {
+    if (!(target instanceof SVGElement)) return;
+    target.closest(`.${styles.dropdown}`)?.classList.toggle(styles.active);
+    console.log(document.activeElement);
+  }
+
+  closeDropDown(e: Event) {
+    const dropdownMenu = qs(`.${styles.dropdown}`) as HTMLDivElement;
+    const target = e.target as Element;
+    if (
+      !target.closest('#user-icon') &&
+      dropdownMenu.classList.contains(styles.active)
+    ) {
+      dropdownMenu.classList.remove(styles.active);
+    }
+  }
+
+  onLogout() {
+    sendLogOutRequest().then(() => {
       AuthStore.dispatch('LOGOUT');
     });
   }
