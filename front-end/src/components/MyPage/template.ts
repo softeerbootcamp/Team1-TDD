@@ -34,20 +34,14 @@ export function literal() {
         <div class="${styles["user-header-wrapper"]}">
           <h1 class="${styles["exp-title"]}">경험 신청 내역</h1>
         </div>
-        <div class="${styles["board-wrapper"]}">
-          <div class="${styles["exp-board"]}"></div>
-          <div class="${styles["right-div"]}"></div>
-        </div>
+        <div class="${styles["board-wrapper"]}"></div>
       </div>
       <div class="${styles["empty-wrapper"]}"></div>
       <div class="${styles["share-wrapper"]}">
         <div class="${styles["user-header-wrapper"]}">
           <h1 class="${styles["share-title"]}">공유한 차량 관리</h1>
         </div>
-        <div class="${styles["board-wrapper"]}">
-          <div class="${styles["share-board"]}"></div>
-          <div class="${styles["right-div"]}"></div>
-        </div>
+        <div class="${styles["board-wrapper"]}"></div>
       </div>
     </div>
   `;
