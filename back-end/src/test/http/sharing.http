@@ -16,15 +16,15 @@ Content-Type: application/json
   "options": [
     {
       "name": "d",
-      "category": "안전/성능"
+      "category": "옵션"
     },
     {
       "name": "e",
-      "category": "내장/외장"
+      "category": "모델"
     },
     {
       "name": "f",
-      "category": "내장/외장"
+      "category": "엔진"
     }
   ],
   "dates": [
