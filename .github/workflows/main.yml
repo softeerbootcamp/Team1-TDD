@@ -33,7 +33,7 @@ jobs:
       - name: Build with Gradle
         run: |
           cd ./back-end
-          ./gradlew build
+          ./gradlew bootJar
       ## 도커 로그인
       - name: Docker Hub login
         uses: docker/login-action@v2
