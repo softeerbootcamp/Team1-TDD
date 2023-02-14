@@ -29,7 +29,7 @@ export class Calendar extends Component {
         const dateString = this.getDateString(target);
         const dates = [...this.state.dates, dateString];
         this.setState({ dates });
-        this.props.onDatesChange(dates);
+        this.props.onChangeDates(dates);
       } else {
         target.classList.remove(`${styles['active']}`);
         const dateString = this.getDateString(target);
@@ -37,7 +37,7 @@ export class Calendar extends Component {
           (ele: string) => ele !== dateString
         );
         this.setState({ dates });
-        this.props.onDatesChange(dates);
+        this.props.onChangeDates(dates);
       }
     });
   }
