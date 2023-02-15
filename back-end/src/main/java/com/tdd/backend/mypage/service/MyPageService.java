@@ -13,6 +13,7 @@ import com.tdd.backend.mypage.data.MyPageResponse;
 import com.tdd.backend.mypage.data.SharingInfo;
 import com.tdd.backend.mypage.data.UserInfo;
 import com.tdd.backend.post.data.AppointmentDto;
+import com.tdd.backend.post.data.LocationDto;
 import com.tdd.backend.post.model.Appointment;
 import com.tdd.backend.post.model.Option;
 import com.tdd.backend.post.repository.PostRepository;
@@ -51,7 +52,7 @@ public class MyPageService {
 		List<SharingInfo> sharingInfoList = new ArrayList<>();
 		List<DefaultInfo> defaultInfoList = postRepository.findPostByUserId(userId)
 			.stream()
-			.map(post -> post.toDefaultInfo(getOptionListByPostId(post.getId())))
+			.map(post -> post.toDefaultInfo(getOptionListByPostId(post.getId()), getLocation(post.getId())))
 			.collect(Collectors.toList());
 		log.info(String.valueOf(defaultInfoList.size()));
 
@@ -61,13 +62,6 @@ public class MyPageService {
 			.build()));
 
 		return sharingInfoList;
-	}
-
-	private List<OptionDto> getOptionListByPostId(Long id) {
-		return postRepository.findOptionByPostId(id)
-			.stream()
-			.map(Option::toDto)
-			.collect(Collectors.toList());
 	}
 
 	private List<DrivingInfo> getDrivingInfoList(Long userId) {
@@ -80,7 +74,7 @@ public class MyPageService {
 
 			DefaultInfo defaultInfo = postRepository.findById(postId)
 				.orElse(null)
-				.toDefaultInfo(optionDtoList);
+				.toDefaultInfo(optionDtoList, getLocation(postId));
 
 			String date = postRepository.findDateByPostIdAndUserId(postId, userId)
 				.orElse("");
@@ -92,6 +86,19 @@ public class MyPageService {
 		}
 
 		return drivingInfoList;
+	}
+
+	private LocationDto getLocation(Long postId) {
+		return postRepository.findLocationByPostId(postId)
+			.orElse(null)
+			.toDto();
+	}
+
+	private List<OptionDto> getOptionListByPostId(Long id) {
+		return postRepository.findOptionByPostId(id)
+			.stream()
+			.map(Option::toDto)
+			.collect(Collectors.toList());
 	}
 
 	private List<AppointmentDto> getAppointmentListByPostId(Long postId) {
