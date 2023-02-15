@@ -30,8 +30,12 @@ export class ExperienceMap extends Component {
 
   template(): string {
     return `
-    <div class="${styles['desc']}">시승해보고 싶은 싶은 위치를 골라주세요!</div>
-    <div id="googleMap" class="${styles['googleMap']}"></div>
+    <div class=${styles.container}>
+      <div class="${styles.desc}">시승해보고 싶은 싶은 위치를 골라주세요!</div>
+      <button class="${styles['find-my-position']} ${styles.jelly}">내 위치를 찾아줘..!</button>
+      <span class="${styles.loader} ${styles.hidden}"></span>
+    </div>
+    <div id="googleMap" class="${styles.googleMap}"></div>
     `;
   }
 
@@ -67,14 +71,24 @@ export class ExperienceMap extends Component {
   }
 
   moveToMyLocation() {
+    const loader = qs(`.${styles.loader}`, this.target);
+    loader?.classList.remove(styles.hidden);
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
           const { latitude, longitude } = coords;
           this.setMapPosition(latitude, longitude);
+          loader?.classList.add(styles.hidden);
         },
         () => {
           console.log('moving map has failed');
+          loader?.classList.add(styles.hidden);
+        },
+        {
+          enableHighAccuracy: false,
+          timeout: 5000,
+          maximumAge: Infinity,
         }
       );
     } else {
@@ -147,5 +161,12 @@ export class ExperienceMap extends Component {
       marker.setMap(null)
     );
     this.state.markers = [];
+  }
+  setEvent(): void {
+    this.addEvent(
+      'click',
+      `.${styles['find-my-position']}`,
+      this.moveToMyLocation.bind(this)
+    );
   }
 }
