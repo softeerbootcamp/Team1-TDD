@@ -20,7 +20,7 @@ export const sendRegisterRequest = async (payload: IRegisterPayload) => {
 
 export const sendAuthTestRequest = async () => {
   const accessToken = localStorage.getItem('accessToken');
-  return axiosInstance.get('/test/auth', {
+  return axiosInstance.get('/auth', {
     headers: { Authorization: accessToken },
   });
 };
