@@ -1,12 +1,12 @@
 ### 공유하기
 POST http://localhost:8080/sharing
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFUSyIsImlhdCI6MTY3NjQzNzEzOCwiZXhwIjoxNjc2NTIzNTM4fQ.viY5xrJhRQP3JcVljkxOUXUHEah4TZOnvautWNJC6Kc
 
 {
   "post": {
-    "carName": "Santafe",
+    "carName": "Santafe-",
     "rideOption": "RIDE_WITH",
-    "userId": 1,
     "requirement": "lotte v3"
   },
   "location": {
@@ -16,15 +16,15 @@ Content-Type: application/json
   "options": [
     {
       "name": "d",
-      "category": "안전/성능"
+      "category": "옵션"
     },
     {
       "name": "e",
-      "category": "내장/외장"
+      "category": "엔진"
     },
     {
       "name": "f",
-      "category": "내장/외장"
+      "category": "엔진"
     }
   ],
   "dates": [

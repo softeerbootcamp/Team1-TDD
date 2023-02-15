@@ -104,7 +104,8 @@ public class PostRepositoryTest {
 			"SANTAFE",
 			"hello",
 			optionSet,
-			location, appointmentSet
+			location,
+			appointmentSet
 		);
 
 		postRepository.save(post);
@@ -130,7 +131,8 @@ public class PostRepositoryTest {
 			"SANTAFE",
 			"hello world",
 			optionSet,
-			location, appointmentSet
+			location,
+			appointmentSet
 		);
 
 		postRepository.save(post1);
@@ -159,7 +161,8 @@ public class PostRepositoryTest {
 			"SANTAFE",
 			"hello world",
 			optionSet,
-			location, appointmentSet
+			location,
+			appointmentSet
 		);
 
 		postRepository.save(post2);
