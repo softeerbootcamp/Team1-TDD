@@ -12,12 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tdd.backend.auth.LoginUser;
-import com.tdd.backend.auth.RefreshTokenStorage;
 import com.tdd.backend.auth.data.JwtTokenPairResponse;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
-import com.tdd.backend.user.data.UserToken;
 import com.tdd.backend.user.exception.DuplicateEmailException;
 import com.tdd.backend.user.service.UserService;
 
@@ -40,6 +37,7 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	@Operation(summary = "유저 이메일 중복여부 체크", description = "디비에 이미 저장되어 잇을 시 DuplicateEmailException 응답")
 	@GetMapping("/users/validation/{email}")
 	public void userEmailValidCheck(@PathVariable String email) {
 		if (userService.isDuplicateEmail(email)) {
@@ -53,25 +51,9 @@ public class UserController {
 		return ResponseEntity.ok(userService.login(userLogin));
 	}
 
-	//TODO : 역할에 따라 토큰 서비스 클래스 분리
-
-	// RTK이며, 요청이 POST /reissue인 경우 재발급을 진행한다.
-	@PostMapping("/reissue")
-	public ResponseEntity<JwtTokenPairResponse> refreshAccessToken(
-		@RequestHeader("Authorization") String refreshToken) {
-		log.info("> refresh token : {}", refreshToken);
-		return ResponseEntity.ok(userService.reIssueToken(refreshToken));
-	}
-
-	//사용자가 로그아웃을 하면 저장소에서 Refresh Token을 삭제하여 사용이 불가능하도록 한다.
-	//todo : redirect??
+	@Operation(summary = "유저 로그아웃 요청", description = "사용자가 로그아웃을 하면 저장소에서 Refresh Token을 삭제하여 사용이 불가능하도록 한다.")
 	@DeleteMapping("/logout")
 	public void logout(@RequestHeader("Authorization") String refreshToken) {
-		RefreshTokenStorage.deleteCache(refreshToken);
-	}
-
-	@GetMapping("/test/auth")
-	public String testAuth(@LoginUser UserToken userToken) {
-		return "JWT IS AWESOME " + userToken.getId();
+		userService.logout(refreshToken);
 	}
 }

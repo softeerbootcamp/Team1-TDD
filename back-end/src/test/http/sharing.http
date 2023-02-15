@@ -1,5 +1,5 @@
 ### 공유하기
-POST http://localhost:8080/sharing
+POST {{domain-address}}/sharing
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFUSyIsImlhdCI6MTY3NjQzNzEzOCwiZXhwIjoxNjc2NTIzNTM4fQ.viY5xrJhRQP3JcVljkxOUXUHEah4TZOnvautWNJC6Kc
 
