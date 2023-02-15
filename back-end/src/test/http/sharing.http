@@ -1,5 +1,5 @@
 ### 공유하기
-POST http://localhost:8080/sharing
+POST {{domain-address}}/sharing
 Content-Type: application/json
 
 {
