@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.tdd.backend.auth.LoginUser;
 import com.tdd.backend.post.data.DrivingDto;
 import com.tdd.backend.post.data.DrivingResponse;
-import com.tdd.backend.post.data.TesterDto;
 import com.tdd.backend.post.service.DrivingService;
+import com.tdd.backend.user.data.UserToken;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -51,9 +52,9 @@ public class DrivingController {
 
 	@PatchMapping("/appointments/{appointmentId}")
 	@Operation(summary = "최종적인 예약 요청", description = "시승하기에 대한 사용자의 최종적인 요청으로 Appointment의 상태를 승낙으로 Update해야 함.")
-	public ResponseEntity<Void> reserveTestDriving(@PathVariable Long appointmentId,
-		@RequestBody @Valid TesterDto testerDto) {
-		drivingService.approveAppointment(appointmentId, testerDto.getTesterId());
+	public ResponseEntity<Void> reserveTestDriving(@LoginUser UserToken userToken,
+		@PathVariable Long appointmentId) {
+		drivingService.approveAppointment(appointmentId, userToken.getId());
 		return ResponseEntity.ok().build();
 	}
 }
