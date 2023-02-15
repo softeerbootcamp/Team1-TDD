@@ -4,3 +4,5 @@ GET {{domain-address}}/test-driving/1
 
 ### 최종적인 예약 요청 ver2
 PATCH {{domain-address}}/appointments/2
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFUSyIsImlhdCI6MTY3NjQzNzEzOCwiZXhwIjoxNjc2NTIzNTM4fQ.viY5xrJhRQP3JcVljkxOUXUHEah4TZOnvautWNJC6Kc

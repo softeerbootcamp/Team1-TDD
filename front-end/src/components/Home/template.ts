@@ -11,7 +11,7 @@ export const homeTemplate = (): string => {
         </div>
         <div class="${styles["mid-wrapper"]} ${styles["flex-box"]}">
           <div class="${styles["helper-second"]}"></div>
-          <span class="${styles["second-title"]}">티디디</span>
+          <span class="${styles["second-title"]} ">티디디</span>
         </div>
         <div class="${styles["last-wrapper"]}">
           <div class="${styles["flex-box"]}">
@@ -56,8 +56,8 @@ export const homeTemplate = (): string => {
     process.env.VITE_IMAGE_URL
   }/share.png"></img>
           <div class="${styles["third-bottom-text"]}">
-            <b class="${styles.darkblue}">당신의 경험</b>이
-            <b class="${styles.tossblue}">타인의 경험</b>으로
+            <b class="${styles.darkblue} ${styles["bold"]}">당신의 경험</b>이
+            <b class="${styles.tossblue} ${styles["bold"]}">타인의 경험</b>으로
           </div>
         </div>
       </div>
@@ -71,7 +71,9 @@ export const homeTemplate = (): string => {
         </div>
         <div class="${styles["fourth-bottom-wrapper"]}">
           <div class="${["fourth-mid-text"]}">
-            <span class="${styles.darkblue} ${styles.big}">티디디</span>
+            <span class="${styles.darkblue} ${
+    styles["big"]
+  }" style="font-size: 250%;">티디디</span>
             <span>는 다음과 같은 아이디어에서
             출발했습니다.</span>
           </div>
@@ -88,9 +90,9 @@ export const homeTemplate = (): string => {
       </div>
       <div class="${styles["index-5"]} ${styles["idxes"]}" id="index">
         <div class="${styles["fifth-top-wrapper"]} ${styles.tossblue}">
-          <div class="${styles["fifth-title-text"]}">
+          <div class="${styles["fifth-title-text"]} ${styles["level"]}">
             <spsn>지금 바로</span> <br />
-            <span>경험 시작</span>
+            <span>경험 시작.</span>
           </div>
         </div>
         <div class="${styles["fifth-bottom-wrapper"]}">

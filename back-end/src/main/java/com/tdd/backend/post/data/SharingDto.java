@@ -36,13 +36,13 @@ public class SharingDto {
 		this.dates = dates;
 	}
 
-	public Post toEntity() {
+	public Post toEntity(Long userId) {
 		Set<Option> optionSet = options.stream().map(OptionDto::toEntity).collect(Collectors.toSet());
 		Set<Appointment> appointmentSet = dates.stream()
 			.map(date -> new Appointment(LocalDate.parse(date), AppointmentStatus.PENDING))
 			.collect(Collectors.toSet());
 
-		return new Post(post.getUserId(), RideOption.valueOf(post.getRideOption().toUpperCase()), post.getCarName(),
+		return new Post(userId, RideOption.valueOf(post.getRideOption().toUpperCase()), post.getCarName(),
 			post.getRequirement(), optionSet, location.toEntity(), appointmentSet);
 	}
 }

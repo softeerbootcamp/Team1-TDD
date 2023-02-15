@@ -9,12 +9,10 @@ import com.tdd.backend.car.model.Category;
 @Table("options")
 public class Option {
 
+	private final String name;
+	private final Category category;
 	@Id
 	private Long id;
-
-	private final String name;
-
-	private final Category category;
 
 	public Option(String name, Category category) {
 		this.name = name;

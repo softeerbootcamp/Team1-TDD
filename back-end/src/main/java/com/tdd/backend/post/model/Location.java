@@ -8,11 +8,10 @@ import com.tdd.backend.post.data.LocationDto;
 @Table("locations")
 public class Location {
 
-	@Id
-	private Long id;
-
 	private final String latitude;
 	private final String longitude;
+	@Id
+	private Long id;
 
 	public Location(String latitude, String longitude) {
 		this.latitude = latitude;
