@@ -74,14 +74,14 @@ Let’s TDD. Try, Drive, Delightly. 로고에 대한 설명을 하겠습니다. 
 
 ### FE
 
-```jsx
+```shell
 cd ./frontend
 npm install
 npm run dev //localhost:5173
 ```
 ### BE
 
-```jsx
+```shell
 cd ./backend
 ./gradlew bootJar
 java -jar ./build/libs/back-end-0.0.1-SNAPSHOT.jar 
