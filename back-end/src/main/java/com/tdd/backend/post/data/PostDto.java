@@ -14,7 +14,7 @@ public class PostDto {
 	private final String requirement;
 
 	@Builder
-	public PostDto(String carName, String rideOption, String requirement) {
+	private PostDto(String carName, String rideOption, String requirement) {
 		this.carName = carName;
 		this.rideOption = rideOption;
 		this.requirement = requirement;
