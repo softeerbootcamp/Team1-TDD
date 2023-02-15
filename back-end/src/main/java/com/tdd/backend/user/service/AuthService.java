@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.tdd.backend.auth.data.JwtTokenPairResponse;
 import com.tdd.backend.auth.exception.InvalidTokenException;
 import com.tdd.backend.auth.jwt.JwtProvider;
-import com.tdd.backend.auth.jwt.RefreshTokenService;
 import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.exception.UnauthorizedException;
 
@@ -21,15 +20,12 @@ import lombok.extern.slf4j.Slf4j;
 public class AuthService {
 
 	private final JwtProvider jwtProvider;
-	private final RefreshTokenService refreshTokenService;
 
 	public JwtTokenPairResponse issueToken(User user) {
 		String accessToken = jwtProvider.generateAccessToken(user.getId());
 		String refreshToken = jwtProvider.generateRefreshToken(user.getId());
 		log.info("> access token : {}", accessToken);
 		log.info("> refresh token : {}", refreshToken);
-
-		refreshTokenService.saveRefreshToken(user.getId(), refreshToken);
 
 		return JwtTokenPairResponse.builder()
 			.accessToken(accessToken)
@@ -44,13 +40,9 @@ public class AuthService {
 			if (!jwtProvider.getRoleFromJwt(refreshToken).equals(RTK)) {
 				throw new InvalidTokenException();
 			}
-			// ATK 재발급은 RTK의 payload에서 유저의 id를 꺼낸 뒤, Redis 인메모리에 해당 유저의 존재 유무로 결정된다.
+			// TODO : ATK 재발급은 RTK의 payload에서 유저의 id를 꺼내며, 꺼내지는 지에 대한 Validation 처리 필요
+			// throw new UnauthorizedException();
 			Long id = jwtProvider.getUserIdFromJwt(refreshToken);
-
-			//TODO : 이론적으로 인메모리에 해당하는 key (email) 이 없는 경우에 대한 방식이 적절한 지 판단
-			if (!refreshTokenService.isRefreshTokenExists(id)) {
-				throw new UnauthorizedException();
-			}
 
 			String newAccessToken = jwtProvider.generateAccessToken(id);
 			String newRefreshToken = jwtProvider.generateRefreshToken(id);
@@ -63,10 +55,5 @@ public class AuthService {
 				.build();
 		}
 		throw new UnauthorizedException();
-	}
-
-	public void deleteCache(String refreshToken) {
-		Long userIdFromJwt = jwtProvider.getUserIdFromJwt(refreshToken);
-		refreshTokenService.deleteRefreshToken(userIdFromJwt);
 	}
 }
