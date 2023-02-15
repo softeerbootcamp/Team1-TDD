@@ -12,10 +12,13 @@ import com.tdd.backend.mypage.data.DrivingInfo;
 import com.tdd.backend.mypage.data.MyPageResponse;
 import com.tdd.backend.mypage.data.SharingInfo;
 import com.tdd.backend.mypage.data.UserInfo;
+import com.tdd.backend.mypage.exception.AppointmentNotFoundException;
+import com.tdd.backend.mypage.exception.PostNotFoundException;
 import com.tdd.backend.post.data.AppointmentDto;
 import com.tdd.backend.post.model.Appointment;
 import com.tdd.backend.post.model.Option;
 import com.tdd.backend.post.repository.PostRepository;
+import com.tdd.backend.user.exception.UserNotFoundException;
 import com.tdd.backend.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -41,9 +44,10 @@ public class MyPageService {
 				.map(Option::toDto)
 				.collect(Collectors.toList());
 			DefaultInfo defaultInfo = postRepository.findById(postId)
-				.orElseThrow(RuntimeException::new)
+				.orElseThrow(PostNotFoundException::new)
 				.toDefaultInfo(optionDtoList);
-			String date = postRepository.findDateByPostIdAndUserId(postId, userId).orElseThrow();
+			String date = postRepository.findDateByPostIdAndUserId(postId, userId)
+				.orElseThrow(AppointmentNotFoundException::new);
 			drivingInfoList.add(DrivingInfo.builder()
 				.post(defaultInfo)
 				.date(date)
@@ -67,7 +71,7 @@ public class MyPageService {
 
 		//유저 정보
 		UserInfo userInfo = userRepository.findById(userId)
-			.orElseThrow()
+			.orElseThrow(UserNotFoundException::new)
 			.toUserInfo(sharingInfoList.size(), drivingInfoList.size());
 
 		return MyPageResponse.builder()
