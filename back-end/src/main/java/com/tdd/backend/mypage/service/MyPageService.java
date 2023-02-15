@@ -15,6 +15,7 @@ import com.tdd.backend.mypage.data.UserInfo;
 import com.tdd.backend.post.data.AppointmentDto;
 import com.tdd.backend.post.data.LocationDto;
 import com.tdd.backend.post.model.Appointment;
+import com.tdd.backend.post.model.Location;
 import com.tdd.backend.post.model.Option;
 import com.tdd.backend.post.repository.PostRepository;
 import com.tdd.backend.user.exception.UserNotFoundException;
@@ -73,8 +74,8 @@ public class MyPageService {
 			List<OptionDto> optionDtoList = getOptionListByPostId(postId);
 
 			DefaultInfo defaultInfo = postRepository.findById(postId)
-				.orElse(null)
-				.toDefaultInfo(optionDtoList, getLocation(postId));
+				.map(post -> post.toDefaultInfo(optionDtoList, getLocation(postId)))
+				.orElse(DefaultInfo.builder().build());
 
 			String date = postRepository.findDateByPostIdAndUserId(postId, userId)
 				.orElse("");
@@ -90,8 +91,8 @@ public class MyPageService {
 
 	private LocationDto getLocation(Long postId) {
 		return postRepository.findLocationByPostId(postId)
-			.orElse(null)
-			.toDto();
+			.map(Location::toDto)
+			.orElse(LocationDto.builder().build());
 	}
 
 	private List<OptionDto> getOptionListByPostId(Long id) {
