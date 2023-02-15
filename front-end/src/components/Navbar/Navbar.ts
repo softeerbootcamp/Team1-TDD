@@ -72,6 +72,7 @@ export class Navbar extends Component {
 
   closeDropDown(e: Event) {
     const dropdownMenu = qs(`.${styles.dropdown}`) as HTMLDivElement;
+    if (!dropdownMenu) return;
     const target = e.target as Element;
     if (
       !target.closest('#user-icon') &&
