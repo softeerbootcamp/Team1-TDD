@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.tdd.backend.car.data.OptionDto;
 import com.tdd.backend.post.data.AppointmentDto;
+import com.tdd.backend.post.data.DrivingDto;
 import com.tdd.backend.post.data.DrivingResponse;
 import com.tdd.backend.post.model.Appointment;
 import com.tdd.backend.post.model.Location;
@@ -42,6 +43,33 @@ public class DrivingService {
 			.appointments(appointmentDtos)
 			.location(location.orElseThrow(RuntimeException::new).toDto())
 			.build();
+	}
+
+	public List<DrivingResponse> getDrivingResponseList(DrivingDto drivingDto) {
+		List<String> options = drivingDto.getOptionList();
+		List<String> dates = drivingDto.getDateList();
+		String carName = drivingDto.getCarName();
+
+		List<Long> postIds;
+
+		if (options != null && dates != null) {
+			postIds = postRepository.findPostIdsByOptionsAndDatesAndCarName(options, dates, carName, options.size());
+		} else if (options != null) {
+			postIds = postRepository.findPostIdsByOptionsAndCarName(options, carName, options.size());
+		} else if (dates != null) {
+			postIds = postRepository.findPostIdsByDatesAndCarName(dates, carName);
+		} else {
+			postIds = postRepository.findPostIdsByCarName(carName);
+		}
+
+		return getDrivingResponses(postIds);
+
+	}
+
+	private List<DrivingResponse> getDrivingResponses(List<Long> postIdList) {
+		return postIdList.stream()
+			.map(this::getAllDataByPostId)
+			.collect(Collectors.toList());
 	}
 
 	public void approveAppointment(Long id, Long testerId) {
