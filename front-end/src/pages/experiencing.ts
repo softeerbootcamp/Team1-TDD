@@ -9,6 +9,7 @@ import styles from '@/styles/experiencing.module.scss';
 import { OptionStore } from '@/store/OptionStore/OptionStore';
 import { mapInfo } from '@/components/ExperienceMap/interface';
 import { seoulLocations } from '@/components/ExperienceMap/dummyData';
+import { BulletinBoard } from '@/components/BulletinBoard/BulletinBoard';
 
 export class Experiencing extends Component {
   template(): string {
@@ -19,6 +20,7 @@ export class Experiencing extends Component {
       <div id="ex-calendar"></div>
     </div>
     <div id="ex-map"></div>
+    <div id="bulletin-board"><div>
     `;
   }
   mounted(): void {
@@ -26,7 +28,7 @@ export class Experiencing extends Component {
     const $optionSelector = qs('#ex-optionSelector', this.target);
     const $calendar = qs('#ex-calendar', this.target);
     const $map = qs('#ex-map', this.target);
-
+    const $bulletinBoard = qs('#bulletin-board', this.target);
     new ImageSlider($imageSlider as HTMLDivElement, {
       list: carList,
       store: OptionStore,
@@ -44,6 +46,7 @@ export class Experiencing extends Component {
       locations: seoulLocations, //TODO:OptionStore.locations로 바꿔야됨
       store: OptionStore,
     });
+    new BulletinBoard($bulletinBoard as HTMLDivElement);
   }
 
   onChangeDates(dates: string[]) {
