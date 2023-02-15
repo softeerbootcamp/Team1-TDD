@@ -81,7 +81,7 @@ npm run dev //localhost:5173
 ```
 ### BE
 
-```
+```jsx
 cd ./backend
 ./gradlew bootJar
 java -jar ./build/libs/back-end-0.0.1-SNAPSHOT.jar 
