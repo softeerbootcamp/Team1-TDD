@@ -46,8 +46,4 @@ public class UserService {
 		// 토큰 쌍 발급하여 응답
 		return authService.issueToken(user);
 	}
-
-	public void logout(String refreshToken) {
-		authService.deleteCache(refreshToken);
-	}
 }

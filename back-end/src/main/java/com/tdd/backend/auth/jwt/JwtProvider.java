@@ -105,6 +105,6 @@ public class JwtProvider {
 	}
 
 	public enum JwtTokenStatus {
-		DENIED, ACCESS, EXPIRED
+		DENIED, ACCESS
 	}
 }

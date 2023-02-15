@@ -14,10 +14,10 @@ POST {{domain-address}}/login
 Content-Type: application/json
 
 {
-  "email": "david@test.com",
+  "email": "test@test.com",
   "userPassword": "비밀번호"
 }
 
 ### test auth
 GET {{domain-address}}/auth
-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFUSyIsImlhdCI6MTY3NjE3NDk1OCwiZXhwIjoxNjc2MTc2NzU4fQ.6Y_8XgXwoQZIA-FJSAEj7krKq3YMWY_0ypg95RZx9ms
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFUSyIsImlhdCI6MTY3NjQ1NDc0MSwiZXhwIjoxNjc2NDU2NTQxfQ.ZZbgv1VgzyvdfzEbKGrmWqo1Q6_3cdWBXh1uLolG7wk

@@ -50,10 +50,4 @@ public class UserController {
 	public ResponseEntity<JwtTokenPairResponse> login(@RequestBody @Valid UserLogin userLogin) {
 		return ResponseEntity.ok(userService.login(userLogin));
 	}
-
-	@Operation(summary = "유저 로그아웃 요청", description = "사용자가 로그아웃을 하면 저장소에서 Refresh Token을 삭제하여 사용이 불가능하도록 한다.")
-	@DeleteMapping("/logout")
-	public void logout(@RequestHeader("Authorization") String refreshToken) {
-		userService.logout(refreshToken);
-	}
 }
