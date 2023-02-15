@@ -83,8 +83,6 @@ export class Navbar extends Component {
   }
 
   onLogout() {
-    sendLogOutRequest().then(() => {
-      AuthStore.dispatch('LOGOUT');
-    });
+    AuthStore.dispatch('LOGOUT');
   }
 }
