@@ -12,8 +12,8 @@ import lombok.RequiredArgsConstructor;
 public class SharingService {
 	private final PostRepository postRepository;
 
-	public void save(SharingDto sharingDto) {
-		postRepository.save(sharingDto.toEntity());
+	public void save(SharingDto sharingDto, Long userId) {
+		postRepository.save(sharingDto.toEntity(userId));
 	}
 
 }
