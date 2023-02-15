@@ -1,4 +1,3 @@
-import { sendLogOutRequest } from '@/apis/login';
 import Component from '@/core/Component';
 import { AuthStore } from '@/store/AuthStore';
 import { openLoginModal } from '@/utils/loginModal';
