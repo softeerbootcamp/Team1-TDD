@@ -51,33 +51,40 @@ public class MyPageService {
 		List<SharingInfo> sharingInfoList = new ArrayList<>();
 		List<DefaultInfo> defaultInfoList = postRepository.findPostByUserId(userId)
 			.stream()
-			.map(post -> post.toDefaultInfo(postRepository.findOptionByPostId(post.getId())
-				.stream()
-				.map(Option::toDto)
-				.collect(Collectors.toList())))
+			.map(post -> post.toDefaultInfo(getOptionListByPostId(post.getId())))
 			.collect(Collectors.toList());
 		log.info(String.valueOf(defaultInfoList.size()));
+
 		defaultInfoList.forEach(defaultInfo -> sharingInfoList.add(SharingInfo.builder()
 			.post(defaultInfo)
 			.appointments(getAppointmentListByPostId(defaultInfo.getId()))
 			.build()));
+
 		return sharingInfoList;
+	}
+
+	private List<OptionDto> getOptionListByPostId(Long id) {
+		return postRepository.findOptionByPostId(id)
+			.stream()
+			.map(Option::toDto)
+			.collect(Collectors.toList());
 	}
 
 	private List<DrivingInfo> getDrivingInfoList(Long userId) {
 		List<DrivingInfo> drivingInfoList = new ArrayList<>();
 		List<Long> postIdList = postRepository.findPostIdByTesterId(userId);
 		log.info(String.valueOf(postIdList));
+
 		for (Long postId : postIdList) {
-			List<OptionDto> optionDtoList = postRepository.findOptionByPostId(postId)
-				.stream()
-				.map(Option::toDto)
-				.collect(Collectors.toList());
+			List<OptionDto> optionDtoList = getOptionListByPostId(postId);
+
 			DefaultInfo defaultInfo = postRepository.findById(postId)
 				.orElse(null)
 				.toDefaultInfo(optionDtoList);
+
 			String date = postRepository.findDateByPostIdAndUserId(postId, userId)
 				.orElse("");
+
 			drivingInfoList.add(DrivingInfo.builder()
 				.post(defaultInfo)
 				.date(date)
