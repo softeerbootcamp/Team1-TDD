@@ -60,7 +60,6 @@ public class Post {
 	public PostDto toPostDto() {
 		return PostDto.builder()
 			.carName(carName)
-			.userId(userId)
 			.requirement(requirement)
 			.rideOption(rideOption.toString())
 			.build();

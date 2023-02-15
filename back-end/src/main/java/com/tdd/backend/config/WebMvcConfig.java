@@ -7,7 +7,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.tdd.backend.auth.AuthResolver;
-import com.tdd.backend.auth.util.JwtTokenProvider;
+import com.tdd.backend.auth.jwt.JwtProvider;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,10 +15,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
 
-	private final JwtTokenProvider jwtTokenProvider;
+	private final JwtProvider jwtProvider;
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-		resolvers.add(new AuthResolver(jwtTokenProvider));
+		resolvers.add(new AuthResolver(jwtProvider));
 	}
 
 }

@@ -11,7 +11,8 @@ const reducer = (state: IAuthState, actionKey: string) => {
       return { ...state, isLogin: true };
     case 'LOGOUT':
       localStorage.removeItem('accessToken');
-      location.reload();
+      localStorage.removeItem('refreshToken');
+      location.replace('/');
       return { ...state, isLogin: false };
     case 'CHECK':
       const accessToken = localStorage.getItem('accessToken');

@@ -1,4 +1,13 @@
+<<<<<<< HEAD
 ## 목차 
+=======
+<p align=center>
+<a href="http://letstdd.site"><img src="https://capsule-render.vercel.app/api?type=waving&&color=timeGradient&height=300&section=header&text=Try,%20Drive,%20Delightly!&fontSize=90" /></a>
+</p>
+
+## 0. 목차
+
+>>>>>>> f78cac96fa1d7c7d2e00ad73ffff3195627fc6b8
 - 사용자들이 다른 섹션으로 쉽게 이동할 수 있는 목차
 # 프로젝트명
 ## 🚘 사용자 경험을 공유하는 C2C 시승 플랫폼 TDD
@@ -31,8 +40,30 @@
 - 당면했던 문제
 - 나중에 추가하고 싶은 기능
 
+<<<<<<< HEAD
 # 프로젝트 설치 및 실행 방법
 - 개발 환경을 세팅하고 실행할 수 있는 단계적인 설명
+=======
+## 4. 프로젝트 설치 및 실행 방법
+
+### FE
+
+```shell
+cd ./frontend
+npm install
+npm run dev //localhost:5173
+```
+### BE
+
+```shell
+cd ./backend
+./gradlew bootJar
+java -jar ./build/libs/back-end-0.0.1-SNAPSHOT.jar 
+```
+![image](https://user-images.githubusercontent.com/59179386/218938109-76d37c2c-8b1f-4950-a600-06004ee15042.png)
+
+## 5. 프로젝트 사용 방법
+>>>>>>> f78cac96fa1d7c7d2e00ad73ffff3195627fc6b8
 
 # 프로젝트 사용 방법
 - 사용자/기여자들이 프로젝트를 이용할 수 있는 방법과 예시
@@ -55,8 +86,15 @@
 |[@River-Mt](https://github.com/River_Mt)|[@jieonkim23](https://github.com/jieonkim23)| [@psm9718](https://github.com/psm9718) |
 
 
+<<<<<<< HEAD
 # 라이센스
 - 가장 흔한 라이센스는 다른 사람들이 여러분의 코드를 수정할 수 있고 상업적인 용도로 사용할 수 있는 GPL 라이센스입니다. 라이센스를 고를 때 도움을 받고 싶다면, 이 링크를 확인해 보세요: https://choosealicense.com/
+=======
+# Stacks  
+### ✔️Frond-end
+<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=black"> <img src="https://img.shields.io/badge/SCSS-CC6699?style=for-the-badge&logo=SASS&logoColor=white"> <img src="https://img.shields.io/badge/.env-ECD53F?style=for-the-badge&logo=.env&logoColor=black">
+<img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"> <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white"> <img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white">
+>>>>>>> f78cac96fa1d7c7d2e00ad73ffff3195627fc6b8
 
 # 뱃지
 <div align=left>

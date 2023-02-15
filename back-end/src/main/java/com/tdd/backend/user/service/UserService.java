@@ -1,21 +1,14 @@
 package com.tdd.backend.user.service;
 
-import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenRole.*;
-import static com.tdd.backend.auth.util.JwtTokenProvider.JwtTokenStatus.*;
-
 import java.time.LocalDate;
 
 import org.springframework.stereotype.Service;
 
-import com.tdd.backend.auth.RefreshTokenStorage;
 import com.tdd.backend.auth.data.JwtTokenPairResponse;
-import com.tdd.backend.auth.exception.InvalidTokenException;
-import com.tdd.backend.auth.util.EncryptHelper;
-import com.tdd.backend.auth.util.JwtTokenProvider;
+import com.tdd.backend.auth.encrypt.EncryptHelper;
 import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
-import com.tdd.backend.user.exception.UnauthorizedException;
 import com.tdd.backend.user.exception.UserNotFoundException;
 import com.tdd.backend.user.repository.UserRepository;
 
@@ -29,7 +22,7 @@ public class UserService {
 
 	private final UserRepository userRepository;
 	private final EncryptHelper encryptHelper;
-	private final JwtTokenProvider jwtTokenProvider;
+	private final AuthService authService;
 
 	public void save(UserCreate userCreate) {
 		String encryptPwd = encryptHelper.encrypt(userCreate.getUserPassword());
@@ -42,6 +35,7 @@ public class UserService {
 	}
 
 	public JwtTokenPairResponse login(UserLogin userLogin) {
+		//유저 인증 (디비)
 		User user = userRepository.findByEmail(userLogin.getEmail())
 			.orElseThrow(UserNotFoundException::new);
 
@@ -49,44 +43,7 @@ public class UserService {
 			throw new UserNotFoundException();
 		}
 
-		String accessToken = jwtTokenProvider.generateAccessToken(user.getId());
-		String refreshToken = jwtTokenProvider.generateRefreshToken(user.getId());
-		log.info("> access token : {}", accessToken);
-		log.info("> refresh token : {}", refreshToken);
-
-		RefreshTokenStorage.save(user.getId(), refreshToken);
-
-		return JwtTokenPairResponse.builder()
-			.accessToken(accessToken)
-			.refreshToken(refreshToken)
-			.build();
-	}
-
-	// TODO : RTK도 만료시 재로그인 요청 보내야함 InvalidToken이랑 다름.
-	public JwtTokenPairResponse reIssueToken(String refreshToken) {
-		//리프레쉬 토큰이 validate 하고 유효한 RTK라면, 새로운 ATK 재발급
-		if (jwtTokenProvider.validateToken(refreshToken) == ACCESS) {
-			if (!jwtTokenProvider.getRoleFromJwt(refreshToken).equals(RTK)) {
-				throw new InvalidTokenException();
-			}
-			// ATK 재발급은 RTK의 payload에서 유저의 id를 꺼낸 뒤, Redis 인메모리에 해당 유저의 존재 유무로 결정된다.
-			Long id = jwtTokenProvider.getUserIdFromJwt(refreshToken);
-
-			//TODO : 이론적으로 인메모리에 해당하는 key (email) 이 없는 경우에 대한 방식이 적절한 지 판단
-			if (!RefreshTokenStorage.isValidateUserId(id)) {
-				throw new UnauthorizedException();
-			}
-
-			String newAccessToken = jwtTokenProvider.generateAccessToken(id);
-			String newRefreshToken = jwtTokenProvider.generateRefreshToken(id);
-			log.info(">> reissued access token : {}", newAccessToken);
-			log.info(">> reissued refresh token : {}", newRefreshToken);
-
-			return JwtTokenPairResponse.builder()
-				.accessToken(newAccessToken)
-				.refreshToken(newRefreshToken)
-				.build();
-		}
-		throw new UnauthorizedException();
+		// 토큰 쌍 발급하여 응답
+		return authService.issueToken(user);
 	}
 }

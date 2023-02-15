@@ -1,11 +1,8 @@
 ### location 리스트에서 하나의 포스트 선택 시에 대한 요청
-GET http://localhost:8080/test-driving/1
+GET {{domain-address}}/test-driving/1
 
 
 ### 최종적인 예약 요청 ver2
-PATCH http://localhost:8080/appointments/1
+PATCH {{domain-address}}/appointments/2
 Content-Type: application/json
-
-{
-  "testerId": 3
-}
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFUSyIsImlhdCI6MTY3NjQzNzEzOCwiZXhwIjoxNjc2NTIzNTM4fQ.viY5xrJhRQP3JcVljkxOUXUHEah4TZOnvautWNJC6Kc

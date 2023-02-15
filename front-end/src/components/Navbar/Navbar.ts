@@ -48,8 +48,30 @@ export class Navbar extends Component {
 
   setEvent(): void {
     this.addEvent('click', `.${styles['login-button']}`, openLoginModal);
-    this.addEvent('click', `.${styles['logout-button']}`, () => {
-      AuthStore.dispatch('LOGOUT');
-    });
+    this.addEvent('click', `.${styles['logout-button']}`, this.onLogout);
+    this.addEvent('click', '#user-icon', this.toggleDropDown);
+    document.addEventListener('click', this.closeDropDown);
+  }
+
+  toggleDropDown({ target }: Event) {
+    if (!(target instanceof SVGElement)) return;
+    target.closest(`.${styles.dropdown}`)?.classList.toggle(styles.active);
+    console.log(document.activeElement);
+  }
+
+  closeDropDown(e: Event) {
+    const dropdownMenu = qs(`.${styles.dropdown}`) as HTMLDivElement;
+    if (!dropdownMenu) return;
+    const target = e.target as Element;
+    if (
+      !target.closest('#user-icon') &&
+      dropdownMenu.classList.contains(styles.active)
+    ) {
+      dropdownMenu.classList.remove(styles.active);
+    }
+  }
+
+  onLogout() {
+    AuthStore.dispatch('LOGOUT');
   }
 }
