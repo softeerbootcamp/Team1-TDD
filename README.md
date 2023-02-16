@@ -26,7 +26,7 @@ Let’s TDD. Try, Drive, Delightly. 로고에 대한 설명을 하겠습니다. 
 
 ## 3. 프로젝트 설명
 
-[TDD 사이트 링크](http://www.letstdd.site/)
+[LetsTDD.site](http://www.letstdd.site/)
 
 ### 주요 기능 캡쳐
 
