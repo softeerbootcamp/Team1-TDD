@@ -8,9 +8,9 @@ import lombok.Getter;
 @Table("cars")
 @Getter
 public class Car {
+	private final String carName;
 	@Id
 	private Long id;
-	private final String carName;
 
 	public Car(String carName) {
 		this.carName = carName;

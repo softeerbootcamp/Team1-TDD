@@ -1,6 +1,5 @@
 package com.tdd.backend.auth.encrypt;
 
-import static com.tdd.backend.auth.jwt.JwtProvider.JwtTokenStatus.*;
 
 import java.security.Key;
 import java.util.Base64;
@@ -39,11 +38,16 @@ public class JwtEncryptTest {
 	@Test
 	@DisplayName("JwtTokenProvider 빈 테스트")
 	void jwtTokenProvider_test() throws Exception {
-		String jws = jwtProvider.generateAccessToken(1L);
+		Long id = 1L;
+		String email = "test@test.com";
+
+		String jws = jwtProvider.generateAccessToken(1L, email);
 
 		//expected
 		SoftAssertions softAssertions = new SoftAssertions();
-		softAssertions.assertThat(jwtProvider.validateToken(jws)).isEqualTo(ACCESS);
-		softAssertions.assertThat(jwtProvider.getUserIdFromJwt(jws)).isEqualTo(1L);
+		softAssertions.assertThat(jwtProvider.isValidateToken(jws)).isTrue();
+		softAssertions.assertThat(jwtProvider.getUserIdFromJwt(jws)).isEqualTo(id);
+		softAssertions.assertThat(jwtProvider.getEmailFromJwt(jws)).isEqualTo(email);
+		softAssertions.assertAll();
 	}
 }

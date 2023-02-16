@@ -1,7 +1,6 @@
 package com.tdd.backend.auth.jwt;
 
-import static com.tdd.backend.auth.jwt.JwtProvider.JwtTokenRole.*;
-import static com.tdd.backend.auth.jwt.JwtProvider.JwtTokenStatus.*;
+import static com.tdd.backend.auth.jwt.JwtProvider.JwtRole.*;
 import static org.apache.tomcat.util.codec.binary.Base64.*;
 
 import java.util.Base64;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.tdd.backend.auth.exception.ExpiredATKException;
+import com.tdd.backend.user.exception.UnauthorizedException;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -37,7 +37,7 @@ public class JwtProvider {
 	@Value("${app.jwt.refreshExpirationInMs}")
 	private int jwtRefreshExpirationInMs;
 
-	public String generateAccessToken(Long id) {
+	public String generateAccessToken(Long id, String email) {
 
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
@@ -46,6 +46,7 @@ public class JwtProvider {
 
 		return Jwts.builder()
 			.setSubject(String.valueOf(id))
+			.claim("email", email)
 			.claim("role", ATK)
 			.setIssuedAt(now)
 			.setExpiration(expiryDate)
@@ -53,7 +54,7 @@ public class JwtProvider {
 			.compact();
 	}
 
-	public String generateRefreshToken(Long id) {
+	public String generateRefreshToken(Long id, String email) {
 
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + jwtRefreshExpirationInMs);
@@ -62,6 +63,7 @@ public class JwtProvider {
 
 		return Jwts.builder()
 			.setSubject(String.valueOf(id))
+			.claim("email", email)
 			.claim("role", RTK)
 			.setIssuedAt(now)
 			.setExpiration(expiryDate)
@@ -78,33 +80,38 @@ public class JwtProvider {
 		return Long.parseLong(claims.getBody().getSubject());
 	}
 
-	public JwtTokenRole getRoleFromJwt(String authToken) {
+	public String getEmailFromJwt(String authToken) {
 		Jws<Claims> claims = Jwts.parserBuilder()
 			.setSigningKey(decodeBase64(jwtSecret))
 			.build()
 			.parseClaimsJws(authToken);
 
-		return JwtTokenRole.valueOf(claims.getBody().get("role", String.class));
+		return claims.getBody().get("email", String.class);
 	}
 
-	public JwtTokenStatus validateToken(String authToken) {
+	public JwtRole getRoleFromJwt(String authToken) {
+		Jws<Claims> claims = Jwts.parserBuilder()
+			.setSigningKey(decodeBase64(jwtSecret))
+			.build()
+			.parseClaimsJws(authToken);
+
+		return JwtRole.valueOf(claims.getBody().get("role", String.class));
+	}
+
+	public boolean isValidateToken(String authToken) {
 		try {
 			Jwts.parserBuilder().setSigningKey(decodeBase64(jwtSecret)).build().parseClaimsJws(authToken);
-			return ACCESS;
+			return true;
 		} catch (ExpiredJwtException e) {
 			log.info(">> Access Token is expired! please redirect to POST /reissue to regenerate new access token");
 			throw new ExpiredATKException();
 		} catch (JwtException | IllegalArgumentException e) {
 			log.error("jwtException : {}", e.getMessage());
 		}
-		return DENIED;
+		throw new UnauthorizedException();
 	}
 
-	public enum JwtTokenRole {
+	public enum JwtRole {
 		ATK, RTK
-	}
-
-	public enum JwtTokenStatus {
-		DENIED, ACCESS
 	}
 }

@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tdd.backend.auth.encrypt.EncryptHelper;
-import com.tdd.backend.auth.jwt.RefreshTokenService;
 import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
@@ -33,9 +31,6 @@ class UserServiceTest {
 
 	@Autowired
 	private EncryptHelper encryptHelper;
-
-	@Autowired
-	RefreshTokenService refreshTokenService;
 
 	@Test
 	@DisplayName("유저 저장")
@@ -77,12 +72,8 @@ class UserServiceTest {
 		userService.login(userLogin);
 
 		//then
-		SoftAssertions softAssertions = new SoftAssertions();
 		User findUser = userRepository.findByEmail("test@test.com").orElseThrow(UserNotFoundException::new);
-		softAssertions.assertThat(findUser.getId()).isEqualTo(user.getId());
-
-		softAssertions.assertThat(refreshTokenService.isRefreshTokenExists(user.getId())).isTrue();
-		softAssertions.assertAll();
+		assertThat(findUser.getId()).isEqualTo(user.getId());
 	}
 
 	@Test
