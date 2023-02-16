@@ -33,7 +33,7 @@ public class DrivingController {
 	private final MailService mailService;
 
 	@GetMapping("/test-driving/{postId}")
-	@Operation(summary = "location 리스트에서 하나의 포스트 선택 시에 대한 요청", description = "포스트의 해당 차종과 옵션 목록으로 응답해야 함.")
+	@Operation(summary = "post의 id로 하나의 포스트 선택 시에 대한 요청", description = "포스트의 해당 차종과 옵션 목록으로 응답해야 함.")
 	public ResponseEntity<DrivingResponse> sendAllDataByPostId(@PathVariable Long postId) {
 		//TODO: pending 확인하고 아니면 다른 응답 보내야함
 		DrivingResponse drivingResponse = drivingService.getAllDataByPostId(postId);

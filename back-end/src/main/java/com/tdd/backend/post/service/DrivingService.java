@@ -57,11 +57,11 @@ public class DrivingService {
 
 		List<Long> postIds;
 
-		if (options != null && dates != null) {
+		if (!options.isEmpty() && !dates.isEmpty()) {
 			postIds = postRepository.findPostIdsByOptionsAndDatesAndCarName(options, dates, carName, options.size());
-		} else if (options != null) {
+		} else if (!options.isEmpty()) {
 			postIds = postRepository.findPostIdsByOptionsAndCarName(options, carName, options.size());
-		} else if (dates != null) {
+		} else if (!dates.isEmpty()) {
 			postIds = postRepository.findPostIdsByDatesAndCarName(dates, carName);
 		} else {
 			postIds = postRepository.findPostIdsByCarName(carName);
