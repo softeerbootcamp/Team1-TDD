@@ -2,6 +2,7 @@ import { axiosInstance } from '@/apis';
 import { mapInfo } from '@/components/ExperienceMap/interface';
 import { carList } from '@/constants/carList';
 import { Store } from '@/core/Store.js';
+import { getQueryStringParameter } from '@/utils/urlParser';
 import { totalDataHandler } from './DataHandler';
 import { ItestDrivingRes } from './interface';
 export interface IOptionState {
@@ -21,13 +22,17 @@ interface IOption {
 interface DynamicObject {
   [property: string]: any;
 }
+const carModel = getQueryStringParameter('car')?.toLocaleUpperCase();
+const options = getQueryStringParameter('options');
+const dates = getQueryStringParameter('dates');
+const location = getQueryStringParameter('location');
 const initState = {
-  carModel: carList[0].name,
+  carModel: carModel || carList[0].name,
   rideTogether: false,
-  options: [],
+  options: options ? JSON.parse(options) : [],
   openState: [],
-  dates: [],
-  mapInfo: null,
+  dates: dates ? JSON.parse(dates) : [],
+  mapInfo: location ? JSON.parse(location) : null,
   optionList: [],
   filteredPost: [],
 };
@@ -38,6 +43,8 @@ const reducer = async (
   payload: DynamicObject = {}
 ) => {
   switch (actionKey) {
+    case 'INIT':
+      return { ...state, carModel: payload.carModel };
     case 'INIT_CAR':
       const response = await axiosInstance.get(`/options/${payload.name}`);
       return { ...state, optionList: response.data };

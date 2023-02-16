@@ -8,20 +8,20 @@ import { mapInfo } from './interface';
 
 export class ExperienceMap extends Component {
   setup() {
+    const location = this.props.store.getState().mapInfo;
+    const initLocation = { lat: location?.centerLat, lng: location?.centerLng };
+    const initZoom = location?.zoom;
+
     this.state.markers = [];
-    this.state.userLocation = {};
+    this.state.userLocation = location
+      ? initLocation
+      : {
+          lat: 37.5326,
+          lng: 127.024612,
+        };
+    this.state.zoom = initZoom || 15;
     this.state.map = null;
-    if (this.props.hasOwnProperty('ends')) {
-      this.state.userLocation = {
-        lat: (this.props.ends.latHi + this.props.ends.latLo) / 2,
-        lng: (this.props.ends.lngHi + this.props.ends.lngLo) / 2,
-      };
-    } else {
-      this.state.userLocation = {
-        lat: 37.56,
-        lng: 127.0,
-      };
-    }
+
     this.props.store.subscribe(
       this.updateMarkers.bind(this),
       this.constructor.name
@@ -52,7 +52,7 @@ export class ExperienceMap extends Component {
 
   initMap() {
     const map = new google.maps.Map(qs('#googleMap')!, {
-      zoom: 15,
+      zoom: this.state.zoom,
       center: this.state.userLocation as google.maps.LatLng,
       styles: mapStyle() as object[],
     });
