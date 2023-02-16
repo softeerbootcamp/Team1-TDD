@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tdd.backend.car.data.CarDto;
 import com.tdd.backend.car.data.OptionResponse;
 import com.tdd.backend.car.service.CarService;
 import com.tdd.backend.car.service.RenderService;
@@ -38,5 +39,17 @@ public class RenderController {
 			.ok()
 			.contentType(MediaType.APPLICATION_JSON)
 			.body(renderService.getOptions(carId));
+	}
+
+	/**
+	 * 모든 차종에 대한 사진 Url과 한글 이름 반환
+	 */
+	@GetMapping("/rendering/cars")
+	@Operation(summary = "모든 차종에 대한 사진, 한글 이름을 반환", description = "모든 차종에 대한 사진과 한글 이름을 렌더링 하기 위해 제공해야 함.")
+	public ResponseEntity<List<CarDto>> renderCarsNameAndImage() {
+		return ResponseEntity
+			.ok()
+			.contentType(MediaType.APPLICATION_JSON)
+			.body(carService.findAllCar());
 	}
 }
