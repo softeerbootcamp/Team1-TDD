@@ -1,7 +1,6 @@
 package com.tdd.backend.user;
 
-import static com.tdd.backend.auth.jwt.JwtProvider.JwtTokenRole.*;
-import static org.assertj.core.api.Assertions.*;
+import static com.tdd.backend.auth.jwt.JwtProvider.JwtRole.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
@@ -12,7 +11,6 @@ import java.util.Base64;
 import java.util.Date;
 
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tdd.backend.auth.encrypt.EncryptHelper;
 import com.tdd.backend.auth.jwt.JwtProvider;
-import com.tdd.backend.auth.jwt.RefreshTokenService;
 import com.tdd.backend.user.controller.UserController;
 import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.data.UserCreate;
@@ -56,14 +53,6 @@ class UserControllerTest {
 
 	@Autowired
 	JwtProvider jwtProvider;
-
-	@Autowired
-	RefreshTokenService refreshTokenService;
-
-	@BeforeEach
-	void setup() {
-		refreshTokenService.deleteAll();
-	}
 
 	@Test
 	@DisplayName("유저 회원가입")
@@ -203,7 +192,7 @@ class UserControllerTest {
 			.build();
 
 		userRepository.save(user);
-		String jws = jwtProvider.generateAccessToken(user.getId());
+		String jws = jwtProvider.generateAccessToken(user.getId(), user.getEmail());
 
 		//expected
 		mockMvc.perform(get("/auth")
@@ -258,8 +247,9 @@ class UserControllerTest {
 	void validate_RTK_expire_ATK() throws Exception {
 		//when
 		Long userId = 1L;
-		String refreshToken = jwtProvider.generateRefreshToken(userId);
-		refreshTokenService.saveRefreshToken(userId, refreshToken);
+		String email = "test@test.com";
+
+		String refreshToken = jwtProvider.generateRefreshToken(userId, email);
 
 		//expected
 		mockMvc.perform(post("/reissue")
@@ -295,31 +285,12 @@ class UserControllerTest {
 	}
 
 	@Test
-	@DisplayName("로그아웃 시 RTK 스토리지에서 해당 key-value 쌍 삭제")
-	void logout_RTK_remove() throws Exception {
-		//given
-		Long userId = 1L;
-		String refreshToken = jwtProvider.generateRefreshToken(userId);
-		refreshTokenService.saveRefreshToken(userId, refreshToken);
-
-		//expected
-		mockMvc.perform(delete("/logout")
-				.header("Authorization", refreshToken)
-				.contentType(MediaType.APPLICATION_JSON)
-			)
-			.andExpect(status().isOk())
-			.andDo(print());
-
-		assertThat(refreshTokenService.isRefreshTokenExists(userId)).isFalse();
-
-	}
-
-	@Test
 	@DisplayName("인증 시 ATK가 아닐 경우 Exception 발생")
 	void check_validate_ATK() throws Exception {
 		//given
 		Long userId = 1L;
-		String rtk = jwtProvider.generateRefreshToken(userId);
+		String email = "test@test.com";
+		String rtk = jwtProvider.generateRefreshToken(userId, email);
 
 		//expected
 		mockMvc.perform(get("/auth")
@@ -336,7 +307,8 @@ class UserControllerTest {
 	void check_validate_RTK() throws Exception {
 		//given
 		Long userId = 1L;
-		String atk = jwtProvider.generateAccessToken(userId);
+		String email = "test@test.com";
+		String atk = jwtProvider.generateAccessToken(userId, email);
 
 		//expected
 		mockMvc.perform(post("/reissue")
