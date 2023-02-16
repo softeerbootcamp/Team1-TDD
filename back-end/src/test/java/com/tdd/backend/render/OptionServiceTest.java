@@ -61,24 +61,20 @@ public class OptionServiceTest {
 			.build();
 
 		assertThat(actualCarDtoList.get(0)).extracting(
-			CarDto::getCarId,
 			CarDto::getCarName,
 			CarDto::getCarKorName,
 			CarDto::getCarImageUrl
 		).containsExactly(
-			expected1.getCarId(),
 			expected1.getCarName(),
 			expected1.getCarKorName(),
 			expected1.getCarImageUrl()
 		);
 
 		assertThat(actualCarDtoList.get(1)).extracting(
-			CarDto::getCarId,
 			CarDto::getCarName,
 			CarDto::getCarKorName,
 			CarDto::getCarImageUrl
 		).containsExactly(
-			expected2.getCarId(),
 			expected2.getCarName(),
 			expected2.getCarKorName(),
 			expected2.getCarImageUrl());

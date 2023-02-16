@@ -25,7 +25,6 @@ public class Car {
 	}
 	public CarDto teCarDto() {
 		return CarDto.builder()
-			.carId(this.id)
 			.carName(this.carName)
 			.carKorName(this.carKorName)
 			.carImageUrl(this.carImageUrl)
