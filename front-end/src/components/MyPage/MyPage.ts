@@ -94,14 +94,19 @@ export class MyPage extends Component {
     });
   }
 
-  async reverseGeocode(latlng: object) {
+  reverseGeocode(latlng: object) {
     const LatLng = latlng as google.maps.LatLng;
+
     const geocoder = new google.maps.Geocoder();
-    let content = '';
-    geocoder.geocode({ location: LatLng }, (response) => {
-      content = response[0].formatted_address;
+    let temp: string = '';
+    geocoder.geocode({ location: LatLng }, async (response, status) => {
+      if (status === google.maps.GeocoderStatus.OK) {
+        const address = response[0].formatted_address;
+        console.log(address);
+        temp = address;
+      }
     });
-    return content;
+    return temp;
   }
 
   setUserInfo(user: IUser) {
@@ -124,18 +129,17 @@ export class MyPage extends Component {
   }
 
   generateDrivingCard(data: IDriving): string {
-    const carName = data.post.carName.toLowerCase();
-    const carImage = this.findCarImage(carName);
-    const options = data.post.options;
-    const date = data.date;
     const lat = +data.post.location.latitude;
     const lng = +data.post.location.longitude;
     const loc = {
       lat: lat,
       lng: lng,
     };
-    debugger;
     const location = this.reverseGeocode(loc);
+    const carName = data.post.carName.toLowerCase();
+    const carImage = this.findCarImage(carName);
+    const options = data.post.options;
+    const date = data.date;
     return `
     <div class="${styles['card-wrapper']}">
       <div class=${styles['image-wrapper']}>
@@ -168,9 +172,6 @@ export class MyPage extends Component {
       lng: lng,
     };
     const location = this.reverseGeocode(loc);
-    // const appointment = data.appointments;
-    // <div class="${styles['date']}">${appointment[0].date}</div>
-    // 이거는 고민 좀 해봐야할 듯
     return `
     <div class=${styles['card-wrapper']}>
       <div class=${styles['image-wrapper']}>

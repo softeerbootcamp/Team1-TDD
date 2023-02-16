@@ -51,20 +51,3 @@ export function literal() {
       </div>
   `;
 }
-
-/* 
-<div class="${styles['card-wrapper']}">
-                <div class=${styles['image-wrapper']}>
-                  <div class=${styles['helper']}></div>
-                  <img class="${styles['image']}" src="${process.env.VITE_IMAGE_URL}/018_sonata_Hybrid.png"/>
-                </div>
-                <div class="${styles['text-wrapper']}">
-                  <div class='${styles['helper']}'></div>
-                  <div class="${styles['car-name']}">소나타</div>
-                  <div class="${styles['options']}">ㅇㅇㅇ</div>
-                  <div class="${styles['date']}">싫다</div>
-                  <div class="${styles['location']}"></div>
-                </div>
-              </div>
-
-*/
