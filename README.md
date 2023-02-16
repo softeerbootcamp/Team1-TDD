@@ -1,5 +1,5 @@
 <p align=center>
-<a href="http://letstdd.site"><img src="https://capsule-render.vercel.app/api?type=waving&&color=timeGradient&height=300&section=header&text=Try,%20Drive,%20Delightly!&fontSize=90" /></a>
+<a href="https://letstdd.site"><img src="https://capsule-render.vercel.app/api?type=waving&&color=timeGradient&height=300&section=header&text=Try,%20Drive,%20Delightly!&fontSize=90" /></a>
 </p>
 
 ## 0. 목차
@@ -26,7 +26,7 @@ Let’s TDD. Try, Drive, Delightly. 로고에 대한 설명을 하겠습니다. 
 
 ## 3. 프로젝트 설명
 
-[LetsTDD.site](http://www.letstdd.site/)
+[LetsTDD.site](https://www.letstdd.site/)
 
 ### 주요 기능 캡쳐
 
