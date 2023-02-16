@@ -12,7 +12,7 @@ export class ImageSlider extends Component {
     const { props } = this;
     const { list } = props;
     const imgIdx = list.findIndex(
-      (ele: any) => ele.title === this.props.store.getState().carModel
+      (ele: any) => ele.name === this.props.store.getState().carModel
     );
     this.state.imgIdx = imgIdx;
     const position = list.map((_: ICar, idx: number) => {
@@ -23,6 +23,7 @@ export class ImageSlider extends Component {
     });
     const leftBtnClass = this.isStartIdx() ? styles.disabled : '';
     const rightBtnClass = this.isEndIdx() ? styles.disabled : '';
+
     return `
     <div class="${styles.wrapper}">
       <div class="${styles['slider-container']}">
@@ -49,7 +50,7 @@ export class ImageSlider extends Component {
       qsa('img', this.target)
     ) as HTMLImageElement[];
     this.props.store.dispatch('INIT_CAR', {
-      name: this.props.list[0].name,
+      name: this.props.list[this.state.imgIdx].name,
     });
   }
 

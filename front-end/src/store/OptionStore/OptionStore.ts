@@ -22,7 +22,7 @@ interface DynamicObject {
   [property: string]: any;
 }
 const initState = {
-  carModel: carList[0].title,
+  carModel: carList[0].name,
   rideTogether: false,
   options: [],
   openState: [],
