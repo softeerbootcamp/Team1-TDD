@@ -8,7 +8,6 @@ import { qs } from '@/utils/querySelector';
 import styles from '@/styles/experiencing.module.scss';
 import { OptionStore } from '@/store/OptionStore/OptionStore';
 import { mapInfo } from '@/components/ExperienceMap/interface';
-import { seoulLocations } from '@/components/ExperienceMap/dummyData';
 import { BulletinBoard } from '@/components/BulletinBoard/BulletinBoard';
 
 export class Experiencing extends Component {
@@ -43,7 +42,6 @@ export class Experiencing extends Component {
     });
     new ExperienceMap($map as HTMLDivElement, {
       changePositionHandler: this.changePositionHandler,
-      locations: seoulLocations, //TODO:OptionStore.locations로 바꿔야됨
       store: OptionStore,
     });
     new BulletinBoard($bulletinBoard as HTMLDivElement);

@@ -71,19 +71,18 @@ export class ExperienceMap extends Component {
   }
 
   moveToMyLocation() {
-    const loader = qs(`.${styles.loader}`, this.target);
-    loader?.classList.remove(styles.hidden);
+    this.showSpinner();
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
           const { latitude, longitude } = coords;
           this.setMapPosition(latitude, longitude);
-          loader?.classList.add(styles.hidden);
+          this.hideSpinner();
         },
         () => {
           console.log('moving map has failed');
-          loader?.classList.add(styles.hidden);
+          this.hideSpinner();
         },
         {
           enableHighAccuracy: false,
@@ -100,11 +99,21 @@ export class ExperienceMap extends Component {
     this.state.map.panTo(this.state.userLocation);
   }
   updateMarkers() {
+    this.showSpinner();
+    const locations = this.props.store
+      .getState()
+      .filteredPost.map((ele: any) => {
+        return {
+          lat: +ele.location.latitude.trim(),
+          lng: +ele.location.longitude.trim(),
+        };
+      });
     this.clearMarkers();
-    this.createMarkers();
+    this.createMarkers(locations);
+    this.hideSpinner();
   }
-  createMarkers() {
-    const markers = this.props.locations.map(
+  createMarkers(locations: google.maps.LatLng[]) {
+    const markers = locations.map(
       (loc: google.maps.LatLng) =>
         new google.maps.Marker({
           position: loc,
@@ -118,7 +127,7 @@ export class ExperienceMap extends Component {
 
   refreshMap() {
     this.state.markers = [];
-    this.createMarkers();
+    this.createMarkers([]);
   }
 
   handleDebounce(callback: Function, limit: number) {
@@ -168,5 +177,14 @@ export class ExperienceMap extends Component {
       `.${styles['find-my-position']}`,
       this.moveToMyLocation.bind(this)
     );
+  }
+
+  showSpinner() {
+    const loader = qs(`.${styles.loader}`, this.target);
+    loader?.classList.remove(styles.hidden);
+  }
+  hideSpinner() {
+    const loader = qs(`.${styles.loader}`, this.target);
+    loader?.classList.add(styles.hidden);
   }
 }

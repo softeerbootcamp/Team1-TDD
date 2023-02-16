@@ -48,7 +48,6 @@ const reducer = async (
       const res = await axiosInstance.get(`/options/${payload.name}`);
       const optionList = res.data;
       const result = [];
-
       for (const item of state.options) {
         const name = item.name;
         for (const obj of optionList) {
@@ -66,8 +65,7 @@ const reducer = async (
         options: result,
       };
       const updatedPostState = await totalDataHandler(updatedOptionState);
-      console.log(updatedPostState);
-      return { ...state, carModel: payload.name, optionList, options: result };
+      return updatedPostState;
 
     case 'UPDATE_OPEN_STATE':
       return { ...state, openState: payload.openState };
