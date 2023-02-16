@@ -2,6 +2,8 @@ import { axiosInstance } from '@/apis';
 import { mapInfo } from '@/components/ExperienceMap/interface';
 import { carList } from '@/constants/carList';
 import { Store } from '@/core/Store.js';
+import { totalDataHandler } from './DataHandler';
+import { ItestDrivingRes } from './interface';
 export interface IOptionState {
   carModel: string;
   rideTogether: boolean;
@@ -10,11 +12,11 @@ export interface IOptionState {
   dates: string[];
   mapInfo: mapInfo;
   optionList: any;
+  filteredPost: ItestDrivingRes[];
 }
 interface IOption {
   name: string;
   category: string;
-  open: boolean;
 }
 interface DynamicObject {
   [property: string]: any;
@@ -27,6 +29,7 @@ const initState = {
   dates: [],
   mapInfo: null,
   optionList: [],
+  filteredPost: [],
 };
 
 const reducer = async (
@@ -56,7 +59,14 @@ const reducer = async (
           }
         }
       }
-
+      const updatedOptionState: IOptionState = {
+        ...state,
+        carModel: payload.name,
+        optionList,
+        options: result,
+      };
+      const updatedPostState = await totalDataHandler(updatedOptionState);
+      console.log(updatedPostState);
       return { ...state, carModel: payload.name, optionList, options: result };
 
     case 'UPDATE_OPEN_STATE':
