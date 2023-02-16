@@ -1,8 +1,8 @@
 import { mapInfo } from '@/components/ExperienceMap/interface';
 import { carList } from '@/constants/carList';
 import { Store } from '@/core/Store.js';
-interface IOptionState {
-  carModel: string | null;
+export interface IOptionState {
+  carModel: string;
   rideTogether: boolean;
   options: IOption[];
   openState: boolean[];
