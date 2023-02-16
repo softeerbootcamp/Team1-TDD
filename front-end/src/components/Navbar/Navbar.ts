@@ -2,7 +2,6 @@ import Component from '@/core/Component';
 import { AuthStore } from '@/store/AuthStore';
 import { openLoginModal } from '@/utils/loginModal';
 import { qs } from '@/utils/querySelector';
-import { userIcon } from './icon';
 import styles from './Navbar.module.scss';
 
 export class Navbar extends Component {
@@ -23,18 +22,9 @@ export class Navbar extends Component {
         <li><a data-link href="/experiencing">경험하기</a></li>
         ${
           isLogin
-            ? `
-            <div class="${styles.dropdown}">
-            ${userIcon}
-              <div class="${styles.options}">
-                <div><a data-link href="/mypage">마이페이지</a></div>
-                <div class="${styles['logout-button']}">Logout</div>
-              </div>
-            </div>
-            `
+            ? `<button class="${styles['logout-button']}">logout</button>`
             : `<button class="${styles['login-button']}">login</button>`
         }
-        
       </ul>
     </nav>
     `;
