@@ -35,30 +35,3 @@ export class BulletinBoard extends Component {
     `;
   }
 }
-
-const dummyReturn = [
-  {
-    appointments: [
-      {
-        date: 'string',
-        id: 0,
-        status: 'string',
-      },
-    ],
-    location: {
-      latitude: 'string',
-      longitude: 'string',
-    },
-    options: [
-      {
-        category: 'string',
-        name: 'string',
-      },
-    ],
-    post: {
-      carName: 'string',
-      requirement: 'string',
-      rideOption: 'string',
-    },
-  },
-];

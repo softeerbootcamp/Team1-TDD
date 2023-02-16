@@ -23,36 +23,3 @@ export async function totalDataHandler(state: IOptionState) {
   });
   return { ...state, filteredPost };
 }
-
-const dummyReq = {
-  carName: 'sonata',
-  dateList: [],
-  optionList: [],
-};
-
-const dummyReturn = [
-  {
-    appointments: [
-      {
-        date: 'string',
-        id: 0,
-        status: 'string',
-      },
-    ],
-    location: {
-      latitude: 'string',
-      longitude: 'string',
-    },
-    options: [
-      {
-        category: 'string',
-        name: 'string',
-      },
-    ],
-    post: {
-      carName: 'string',
-      requirement: 'string',
-      rideOption: 'string',
-    },
-  },
-];
