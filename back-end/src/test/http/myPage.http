@@ -1,2 +1,2 @@
-GET http://localhost:8080/mypage
-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZSI6IkFUSyIsImlhdCI6MTY3NjI4OTMxMSwiZXhwIjoxNjc2Mzc1NzExfQ.z2PhsAxz4Ghh3fpBekYpYQu7f5T0CZvaj0URxpfkgU4
+GET {{domain-address}}/mypage
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFUSyIsImlhdCI6MTY3NjQ2MzAxMywiZXhwIjoxNjc2NTQ5NDEzfQ.INRY2SeSHC8ffYsaZwnbe4ibx_xsbr-89r6_qj9fq3s
