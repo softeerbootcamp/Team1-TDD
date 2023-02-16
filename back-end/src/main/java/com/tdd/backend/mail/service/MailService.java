@@ -5,8 +5,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.tdd.backend.mail.data.EmailMessage;
-import com.tdd.backend.mail.data.EmailMessage.UserType;
 import com.tdd.backend.mail.data.PostInfo;
+import com.tdd.backend.mail.data.UserType;
 import com.tdd.backend.post.repository.PostRepository;
 import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.repository.UserRepository;

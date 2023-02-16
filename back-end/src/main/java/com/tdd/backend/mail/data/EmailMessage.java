@@ -32,28 +32,16 @@ public class EmailMessage {
 
 	public String getMessage() {
 		String userStr = userType.getName();
-		return new StringBuilder()
-			.append(userStr + " 성함: " + name + "\n")
-			.append(userStr + " 번호: " + phoneNumber + "\n")
-			.append(userStr + " 메일: " + email + "\n")
-			.append("-------------------------\n")
-			.append("차종: " + carName + "\n")
-			.append("시승 날짜: " + date + "\n")
-			.append("세부 사항: " + requirement)
-			.toString();
-	}
 
-	@Getter
-	public enum UserType {
-		OWNER("공유자", "등록하신 차량 공유가 성사되었습니다."),
-		TESTER("시승자", "차량 시승 신청이 완료되었습니다.");
-		private String name;
-		private String subject;
-
-		UserType(String name, String subject) {
-			this.name = name;
-			this.subject = subject;
-		}
+		StringBuilder sb = new StringBuilder();
+		sb.append(userStr + " 성함: " + name + "\n");
+		sb.append(userStr + " 번호: " + phoneNumber + "\n");
+		sb.append(userStr + " 메일: " + email + "\n");
+		sb.append("-------------------------\n");
+		sb.append("차종: " + carName + "\n");
+		sb.append("시승 날짜: " + date + "\n");
+		sb.append("세부 사항: " + requirement);
+		return sb.toString();
 	}
 
 }
