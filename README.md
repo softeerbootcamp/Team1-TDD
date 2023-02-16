@@ -2,6 +2,8 @@
 <a href="https://letstdd.site"><img src="https://capsule-render.vercel.app/api?type=waving&&color=timeGradient&height=300&section=header&text=Try,%20Drive,%20Delightly!&fontSize=90" /></a>
 </p>
 
+<p align=center>🚘사용자간 자동차 경험을 공유하는 웹 기반 C2C 시승 플랫폼 TDD입니다.(https://letstdd.site)</p>
+
 ## 0. 목차
 
 - 사용자들이 다른 섹션으로 쉽게 이동할 수 있는 목차
@@ -30,6 +32,18 @@ Let’s TDD. Try, Drive, Delightly. 로고에 대한 설명을 하겠습니다. 
 
 ### 주요 기능 캡쳐
 
+
+
+### 기술 스택  
+### ✔️Frond-end
+<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=black"> <img src="https://img.shields.io/badge/SCSS-CC6699?style=for-the-badge&logo=SASS&logoColor=white"> <img src="https://img.shields.io/badge/.env-ECD53F?style=for-the-badge&logo=.env&logoColor=black">
+<img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"> <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white"> <img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white">
+
+### ✔️Back-end
+<img src="https://img.shields.io/badge/java 11-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/spring data jdbc-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white"> <img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white"> <img src="https://img.shields.io/badge/junit5-25A162?style=for-the-badge&logo=junit5&logoColor=white">
+
+### ✔️Deploy
+<img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"> <img src="https://img.shields.io/badge/amazonAWS-232F3E?style=for-the-badge&logo=amazonAWS&logoColor=white"> <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white"> <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/githubactions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white"> <img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white">
 ### 이 애플리케이션이 하는 일
 
 자동차 시승을 해보고 싶은 유저와 자동차를 대여해주고 이득을 취하고 싶은 유저를 매칭해주는 플랫폼입니다. 차를 구매하기 전 다양한 차를 직접 체험해 보고싶은 사용자, 실제 사용자의 실사용 후기를 듣고싶은 사용자를 매칭해줍니다.
