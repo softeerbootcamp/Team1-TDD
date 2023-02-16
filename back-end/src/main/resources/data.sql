@@ -1,24 +1,14 @@
-INSERT INTO cars (car_name)
-values ('IONIC6');
-insert into cars (car_name)
-values ('IONIC5');
-insert into cars (car_name)
-values ('NEXO');
-insert into cars (car_name)
-values ('AVANTE');
-insert into cars (car_name)
-values ('SONATA');
-insert into cars (car_name)
-values ('THE_ALL_NEW_GRANDEUR');
-insert into cars (car_name)
-values ('SANTAFE');
-insert into cars (car_name)
-values ('PALASADE');
-insert into cars (car_name)
-values ('TUSCON');
-insert into cars (car_name)
-values ('THE_ALL_NEW_KONA');
-
+INSERT INTO cars (car_name, car_kor_name, car_image_url)
+VALUES ('IONIC6', '아이오닉6', 'https://team1-tdd.s3.ap-northeast-2.amazonaws.com/images/001_ionic6.png'),
+       ('IONIC5', '아이오닉5', 'https://team1-tdd.s3.ap-northeast-2.amazonaws.com/images/002_ionic5.png'),
+       ('NEXO', '넥쏘', 'https://team1-tdd.s3.ap-northeast-2.amazonaws.com/images/003_nexo.png'),
+       ('AVANTE', '아반떼', 'https://team1-tdd.s3.ap-northeast-2.amazonaws.com/images/015_avante.png'),
+       ('SONATA', '소나타', 'https://team1-tdd.s3.ap-northeast-2.amazonaws.com/images/017_sonata.png'),
+       ('THE_ALL_NEW_GRANDEUR', '그랜저', 'https://team1-tdd.s3.ap-northeast-2.amazonaws.com/images/013_grandeur.png'),
+       ('SANTAFE', '산타페', 'https://team1-tdd.s3.ap-northeast-2.amazonaws.com/images/sanfate.png'),
+       ('PALASADE', '팰리세이드', 'https://team1-tdd.s3.ap-northeast-2.amazonaws.com/images/palisade.png'),
+       ('TUCSON', '투싼', 'https://team1-tdd.s3.ap-northeast-2.amazonaws.com/images/tuscan.png'),
+       ('THE_ALL_NEW_KONA', '코나', 'https://team1-tdd.s3.ap-northeast-2.amazonaws.com/images/019_kona.png');
 
 INSERT INTO entire_options (option_name, category_name)
 VALUES ('가솔린 1.6', '엔진'),
