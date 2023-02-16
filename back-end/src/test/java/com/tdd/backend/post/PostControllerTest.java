@@ -17,13 +17,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tdd.backend.auth.jwt.JwtProvider;
 import com.tdd.backend.car.data.OptionDto;
-import com.tdd.backend.post.repository.PostRepository;
+import com.tdd.backend.mypage.exception.PostNotFoundException;
 import com.tdd.backend.post.data.LocationDto;
 import com.tdd.backend.post.data.PostDto;
 import com.tdd.backend.post.data.SharingDto;
 import com.tdd.backend.post.model.Post;
 import com.tdd.backend.post.model.RideOption;
+import com.tdd.backend.post.repository.PostRepository;
 import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.repository.UserRepository;
 
@@ -37,6 +39,10 @@ public class PostControllerTest {
 	UserRepository userRepository;
 	@Autowired
 	PostRepository postRepository;
+
+	@Autowired
+	JwtProvider jwtProvider;
+
 	@Autowired
 	MockMvc mockMvc;
 
@@ -53,16 +59,19 @@ public class PostControllerTest {
 		userRepository.save(user);
 
 		SharingDto sharingDto = SharingDto.builder()
-			.post( PostDto.builder()
-				.carName("Santafe")
-				.requirement("hello")
-				.userId(user.getId())
-				.rideOption(RideOption.RIDE_ALONE.toString())
-				.build())
-			.location(LocationDto.builder()
-				.latitude("32.23423424")
-				.longitude("127.123123")
-				.build())
+			.post(
+				PostDto.builder()
+					.carName("Santafe")
+					.requirement("hello")
+					.rideOption(RideOption.RIDE_ALONE.toString())
+					.build()
+			)
+			.location(
+				LocationDto.builder()
+					.latitude("32.23423424")
+					.longitude("127.123123")
+					.build()
+			)
 			.options(List.of(OptionDto.builder().name("최고안전").category("옵션").build()))
 			.dates(List.of("2022-10-23", "2023-10-11", "2023-02-11"))
 			.build();
@@ -70,11 +79,12 @@ public class PostControllerTest {
 
 		mockMvc.perform(post("/sharing")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(requestBody))
+				.content(requestBody)
+				.header("Authorization", jwtProvider.generateAccessToken(1L)))
 			.andExpect(status().isFound())
 			.andDo(print());
 		SoftAssertions soft = new SoftAssertions();
-		Post post = postRepository.findById(1L).get();
+		Post post = postRepository.findById(1L).orElseThrow(PostNotFoundException::new);
 		soft.assertThat(post.getId()).isEqualTo(user.getId());
 		soft.assertThat(post.getCarName()).isEqualTo("Santafe");
 		soft.assertAll();

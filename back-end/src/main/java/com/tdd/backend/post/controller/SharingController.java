@@ -32,6 +32,7 @@ public class SharingController {
 	public ResponseEntity<Void> shares(@LoginUser UserToken userToken,
 		@RequestBody @Valid SharingDto sharingDto) {
 		sharingService.save(sharingDto, userToken.getId());
+
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(URI.create("/"));
 		return new ResponseEntity<>(headers, HttpStatus.FOUND);

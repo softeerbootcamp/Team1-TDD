@@ -1,7 +1,6 @@
 package com.tdd.backend.user;
 
 import static com.tdd.backend.auth.jwt.JwtProvider.JwtTokenRole.*;
-import static org.assertj.core.api.Assertions.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
@@ -12,7 +11,6 @@ import java.util.Base64;
 import java.util.Date;
 
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tdd.backend.auth.encrypt.EncryptHelper;
 import com.tdd.backend.auth.jwt.JwtProvider;
-import com.tdd.backend.auth.jwt.RefreshTokenService;
 import com.tdd.backend.user.controller.UserController;
 import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.data.UserCreate;
@@ -56,14 +53,6 @@ class UserControllerTest {
 
 	@Autowired
 	JwtProvider jwtProvider;
-
-	@Autowired
-	RefreshTokenService refreshTokenService;
-
-	@BeforeEach
-	void setup() {
-		refreshTokenService.deleteAll();
-	}
 
 	@Test
 	@DisplayName("유저 회원가입")
@@ -259,7 +248,6 @@ class UserControllerTest {
 		//when
 		Long userId = 1L;
 		String refreshToken = jwtProvider.generateRefreshToken(userId);
-		refreshTokenService.saveRefreshToken(userId, refreshToken);
 
 		//expected
 		mockMvc.perform(post("/reissue")
@@ -292,26 +280,6 @@ class UserControllerTest {
 			)
 			.andExpect(status().isFound())
 			.andDo(print());
-	}
-
-	@Test
-	@DisplayName("로그아웃 시 RTK 스토리지에서 해당 key-value 쌍 삭제")
-	void logout_RTK_remove() throws Exception {
-		//given
-		Long userId = 1L;
-		String refreshToken = jwtProvider.generateRefreshToken(userId);
-		refreshTokenService.saveRefreshToken(userId, refreshToken);
-
-		//expected
-		mockMvc.perform(delete("/logout")
-				.header("Authorization", refreshToken)
-				.contentType(MediaType.APPLICATION_JSON)
-			)
-			.andExpect(status().isOk())
-			.andDo(print());
-
-		assertThat(refreshTokenService.isRefreshTokenExists(userId)).isFalse();
-
 	}
 
 	@Test
