@@ -9,8 +9,9 @@ public class PostInfo {
 	private final String requirement;
 	private final Long userId;
 	private final String date;
+
 	@Builder
-	public PostInfo(String carName, String date, String requirement, Long userId) {
+	private PostInfo(String carName, String date, String requirement, Long userId) {
 		this.carName = carName;
 		this.date = date;
 		this.requirement = requirement;

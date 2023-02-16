@@ -17,7 +17,7 @@ public class EmailMessage {
 	private final UserType userType;
 
 	@Builder
-	public EmailMessage(String to, String name, String phoneNumber, String email, String date, String carName,
+	private EmailMessage(String to, String name, String phoneNumber, String email, String date, String carName,
 		String requirement, String subject, UserType userType) {
 		this.to = to;
 		this.name = name;
