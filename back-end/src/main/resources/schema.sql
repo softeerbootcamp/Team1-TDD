@@ -75,9 +75,13 @@ create table options
 
 create table cars
 (
-    id       bigint auto_increment primary key,
-    car_name varchar(100) not null
+    id            bigint auto_increment
+        primary key,
+    car_name      varchar(100) not null,
+    car_kor_name  varchar(100) not null,
+    car_image_url varchar(255) not null
 );
+
 
 create table entire_options
 (

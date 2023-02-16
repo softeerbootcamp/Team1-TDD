@@ -3,16 +3,31 @@ package com.tdd.backend.car.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
+import com.tdd.backend.car.data.CarDto;
+
+import lombok.Builder;
 import lombok.Getter;
 
 @Table("cars")
 @Getter
 public class Car {
-	private final String carName;
 	@Id
 	private Long id;
+	private final String carName;
+	private final String carKorName;
+	private final String carImageUrl;
 
-	public Car(String carName) {
+	@Builder
+	private Car(String carName, String carKorName, String carImageUrl) {
 		this.carName = carName;
+		this.carKorName = carKorName;
+		this.carImageUrl = carImageUrl;
+	}
+	public CarDto teCarDto() {
+		return CarDto.builder()
+			.carName(this.carName)
+			.carKorName(this.carKorName)
+			.carImageUrl(this.carImageUrl)
+			.build();
 	}
 }

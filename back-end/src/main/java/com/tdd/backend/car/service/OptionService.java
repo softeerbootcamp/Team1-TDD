@@ -9,7 +9,7 @@ import com.tdd.backend.car.data.OptionDto;
 import com.tdd.backend.car.data.OptionResponse;
 import com.tdd.backend.car.model.Category;
 import com.tdd.backend.car.model.Option;
-import com.tdd.backend.car.repository.RenderRepository;
+import com.tdd.backend.car.repository.OptionRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,12 +17,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class RenderService {
+public class OptionService {
 
-	private final RenderRepository renderRepository;
+	private final OptionRepository optionRepository;
 
 	public List<OptionResponse> getOptions(Long carId) {
-		List<Option> carOptionList = renderRepository.getCarOptionList(carId);
+		List<Option> carOptionList = optionRepository.findCarOptionList(carId);
 		List<OptionResponse> response = new ArrayList<>();
 
 		for (Category category : Category.values()) {

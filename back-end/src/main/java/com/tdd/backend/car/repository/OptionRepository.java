@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.tdd.backend.car.model.Option;
 
 @Repository
-public interface RenderRepository extends CrudRepository<Option, Long> {
+public interface OptionRepository extends CrudRepository<Option, Long> {
 	@Query("select o.* from entire_options o join car_options co on o.id = co.entire_option_id where co.car_id =:carId")
-	List<Option> getCarOptionList(@Param("carId") Long carId);
+	List<Option> findCarOptionList(@Param("carId") Long carId);
 }
