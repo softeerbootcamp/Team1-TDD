@@ -25,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 public class SharingController {
 	private final SharingService sharingService;
 
-
 	@PostMapping("/sharing")
 	@Operation(summary = "차량 공유하기 요청", description = "차량 공유하기 시 Post 정보가 insert 되어야 합니다.")
 	@ApiResponse(responseCode = "302", description = "메인 페이지로 REDIRECT")

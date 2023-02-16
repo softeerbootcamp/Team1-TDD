@@ -1,7 +1,7 @@
 ### 공유하기
 POST {{domain-address}}/sharing
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFUSyIsImlhdCI6MTY3NjQzNzEzOCwiZXhwIjoxNjc2NTIzNTM4fQ.viY5xrJhRQP3JcVljkxOUXUHEah4TZOnvautWNJC6Kc
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicm9sZSI6IkFUSyIsImlhdCI6MTY3NjUzMTU3NywiZXhwIjoxNjc2NTMzMzc3fQ.nNFWOu6uIeNHyiCXTOKwlJabelnouS0gAujDrKlL_0Q
 
 {
   "post": {

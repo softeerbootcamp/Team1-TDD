@@ -41,7 +41,7 @@ public class JwtEncryptTest {
 		Long id = 1L;
 		String email = "test@test.com";
 
-		String jws = jwtProvider.generateAccessToken(1L, email );
+		String jws = jwtProvider.generateAccessToken(1L, email);
 
 		//expected
 		SoftAssertions softAssertions = new SoftAssertions();
