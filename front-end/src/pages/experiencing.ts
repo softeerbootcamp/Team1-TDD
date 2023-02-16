@@ -30,7 +30,7 @@ export class Experiencing extends Component {
     const $map = qs('#ex-map', this.target);
     const $bulletinBoard = qs('#bulletin-board', this.target);
     new ImageSlider($imageSlider as HTMLDivElement, {
-      list: carList,
+      list: carList.filter((ele) => !!ele.name),
       store: OptionStore,
     });
     new OptionForm($optionSelector as HTMLDivElement, {

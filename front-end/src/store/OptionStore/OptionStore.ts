@@ -1,3 +1,4 @@
+import { axiosInstance } from '@/apis';
 import { mapInfo } from '@/components/ExperienceMap/interface';
 import { carList } from '@/constants/carList';
 import { Store } from '@/core/Store.js';
@@ -8,6 +9,7 @@ export interface IOptionState {
   openState: boolean[];
   dates: string[];
   mapInfo: mapInfo;
+  optionList: any;
 }
 interface IOption {
   name: string;
@@ -24,9 +26,10 @@ const initState = {
   openState: [],
   dates: [],
   mapInfo: null,
+  optionList: [],
 };
 
-const reducer = (
+const reducer = async (
   state: IOptionState,
   actionKey: string,
   payload: DynamicObject = {}
@@ -39,7 +42,22 @@ const reducer = (
       return { ...state, options: payload.options };
 
     case 'SELECT_CAR_MODEL':
-      return { ...state, carModel: payload.name };
+      const res = await axiosInstance.get(`/options/${payload.name}`);
+      const optionList = res.data;
+      const result = [];
+
+      for (const item of state.options) {
+        const name = item.name;
+        for (const obj of optionList) {
+          for (const option of obj.options) {
+            if (option.name === name) {
+              result.push({ category: obj.category, name });
+            }
+          }
+        }
+      }
+
+      return { ...state, carModel: payload.name, optionList, options: result };
 
     case 'UPDATE_OPEN_STATE':
       return { ...state, openState: payload.openState };

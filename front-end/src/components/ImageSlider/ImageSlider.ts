@@ -90,7 +90,7 @@ export class ImageSlider extends Component {
     }
     this.state.timer = setTimeout(() => {
       this.props.store.dispatch('SELECT_CAR_MODEL', {
-        name: this.props.list[this.state.imgIdx].title,
+        name: this.props.list[this.state.imgIdx].name,
       });
     }, 1000);
   }
