@@ -3,26 +3,13 @@
   margin: 0 auto;
   border-collapse: collapse;
   user-select: none;
-  padding: 1rem;
-  margin: 0 2rem;
-  box-shadow: 0 14px 28px rgb(0 0 0 / 25%), 0 10px 10px rgb(0 0 0 / 22%);
-  border-radius: 1rem;
-
-  font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight',
-    'Helvetica Neue', Arial, Helvetica, sans-serif;
-  color: rgba(255, 255, 255, 1);
-
-  border-collapse: collapse;
-  background-color: #4a4a4a;
-
   thead {
     border-collapse: collapse;
     th {
-      background-color: gray;
+      background-color: lightgray;
       color: white;
       text-align: center;
       padding: 10px 0;
-      font-weight: lighter;
     }
   }
   tbody {
@@ -36,11 +23,11 @@
         border: 0;
         border-radius: 100%;
         vertical-align: middle;
+        cursor: pointer;
 
-        &.hasNumber:hover {
-          outline: lightgray solid;
-          border-radius: 100%;
-          cursor: pointer;
+        &:hover {
+          background-color: lightcyan;
+          opacity: 0.5;
         }
       }
     }
@@ -54,45 +41,39 @@
       margin: 0;
     }
   }
+
+  // #year-selector {
+  //   display: inline-block;
+  //   font-size: 16px;
+  //   padding: 10px;
+  //   border: 1px solid lightblue;
+  //   border-radius: 5px;
+  //   background-color: white;
+  // }
 }
 
 table {
   border-collapse: collapse;
-  width: 100%;
 }
-.hasNumber.active {
-  background-color: gray;
+
+.active {
+  background-color: lightblue;
 }
 .none {
   pointer-events: none;
 }
 
-.prev,
-.next {
+#prev,
+#next {
   font-size: 2rem;
   color: black;
   cursor: pointer;
 }
-.prev,
-.next {
-  width: 0px;
-  height: 0px;
-  border-style: solid;
-  top: 50%;
-  cursor: pointer;
-  margin: 0 10px;
-}
 
-.prev {
-  border-width: 7.5px 10px 7.5px 0;
-  border-color: transparent rgba(160, 159, 160, 1) transparent transparent;
-}
-.next {
-  border-width: 7.5px 0 7.5px 10px;
-  border-color: transparent transparent transparent rgba(160, 159, 160, 1);
-}
 table {
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid lightgray;
 }
 
 .year-wrapper {
@@ -122,8 +103,4 @@ table {
       }
     }
   }
-}
-select {
-  background-color: #4a4a4a;
-  color: whitesmoke;
 }

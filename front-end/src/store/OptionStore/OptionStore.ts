@@ -1,13 +1,9 @@
-import { mapInfo } from '@/components/ExperienceMap/interface';
 import { carList } from '@/constants/carList';
 import { Store } from '@/core/Store.js';
-export interface IOptionState {
-  carModel: string;
+interface IOptionState {
+  carModal: string | null;
   rideTogether: boolean;
   options: IOption[];
-  openState: boolean[];
-  dates: string[];
-  mapInfo: mapInfo;
 }
 interface IOption {
   name: string;
@@ -22,8 +18,6 @@ const initState = {
   rideTogether: false,
   options: [],
   openState: [],
-  dates: [],
-  mapInfo: null,
 };
 
 const reducer = (
@@ -43,13 +37,6 @@ const reducer = (
 
     case 'UPDATE_OPEN_STATE':
       return { ...state, openState: payload.openState };
-
-    case 'CHANGE_DATES':
-      return { ...state, dates: payload.dates };
-
-    case 'MOVE_MAP':
-      const { mapInfo } = payload;
-      return { ...state, mapInfo };
 
     default:
       return { ...state };

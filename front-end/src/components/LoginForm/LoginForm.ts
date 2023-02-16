@@ -122,6 +122,7 @@ export class LoginForm extends Component {
 
   loginSuccess({ data }: any) {
     localStorage.setItem('accessToken', data.accessToken);
+    localStorage.setItem('refreshToken', data.refreshToken);
     AuthStore.dispatch('LOGIN');
     location.reload();
   }

@@ -1,17 +1,17 @@
-import Component from '@/core/Component';
-import styles from './ExperienceMap.module.scss';
-import { mapStyle } from '@/utils/mapStyle';
-import { MarkerClusterer } from '@googlemaps/markerclusterer';
-import { loadscript } from '@/utils/googleAPI';
-import { qs } from '@/utils/querySelector';
-import { mapInfo } from './interface';
+import Component from "@/core/Component";
+import styles from "./ExperienceMap.module.scss";
+import { mapStyle } from "@/utils/mapStyle";
+import { seoulLocations } from "./dummyData";
+import { MarkerClusterer } from "@googlemaps/markerclusterer";
+import { loadscript } from "@/utils/googleAPI";
+import { qs } from "@/utils/querySelector";
 
 export class ExperienceMap extends Component {
-  setup() {
+  async setup() {
     this.state.markers = [];
     this.state.userLocation = {};
     this.state.map = null;
-    if (this.props.hasOwnProperty('ends')) {
+    if (this.props.hasOwnProperty("ends")) {
       this.state.userLocation = {
         lat: (this.props.ends.latHi + this.props.ends.latLo) / 2,
         lng: (this.props.ends.lngHi + this.props.ends.lngLo) / 2,
@@ -22,25 +22,17 @@ export class ExperienceMap extends Component {
         lng: 127.0,
       };
     }
-    this.props.store.subscribe(
-      this.updateMarkers.bind(this),
-      this.constructor.name
-    );
   }
 
   template(): string {
     return `
-    <div class=${styles.container}>
-      <div class="${styles.desc}">시승해보고 싶은 싶은 위치를 골라주세요!</div>
-      <button class="${styles['find-my-position']} ${styles.jelly}">내 위치를 찾아줘..!</button>
-      <span class="${styles.loader} ${styles.hidden}"></span>
-    </div>
-    <div id="googleMap" class="${styles.googleMap}"></div>
-    `;
+    <div class="${styles["desc"]}">시승해보고 싶은 싶은 위치를 골라주세요!</div>
+    <div id="googleMap" class="${styles["googleMap"]}"></div>`;
   }
 
   mounted(): void {
     this.init();
+    this.getMapBounds();
   }
 
   init() {
@@ -51,7 +43,7 @@ export class ExperienceMap extends Component {
   }
 
   initMap() {
-    const map = new google.maps.Map(qs('#googleMap')!, {
+    const map = new google.maps.Map(qs("#googleMap")!, {
       zoom: 15,
       center: this.state.userLocation as google.maps.LatLng,
       styles: mapStyle() as object[],
@@ -61,64 +53,61 @@ export class ExperienceMap extends Component {
 
     google.maps.event.addListener(
       map,
-      'bounds_changed',
+      "bounds_changed",
       this.handleDebounce(() => {
-        this.props.changePositionHandler(this.getMapInfo());
+        let bounds = map.getBounds()! as google.maps.LatLngBounds;
+        const temp = bounds.toJSON();
+        this.props.userLocation = {
+          latHi: temp.north,
+          latLo: temp.south,
+          lngHi: temp.east,
+          lngLo: temp.west,
+        };
       }, 500)
     );
 
     this.refreshMap();
   }
 
-  moveToMyLocation() {
-    const loader = qs(`.${styles.loader}`, this.target);
-    loader?.classList.remove(styles.hidden);
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        ({ coords }) => {
-          const { latitude, longitude } = coords;
-          this.setMapPosition(latitude, longitude);
-          loader?.classList.add(styles.hidden);
-        },
-        () => {
-          console.log('moving map has failed');
-          loader?.classList.add(styles.hidden);
-        },
-        {
-          enableHighAccuracy: false,
-          timeout: 5000,
-          maximumAge: Infinity,
-        }
-      );
-    } else {
-      console.log('Geolocation is not supported by this browser.');
-    }
-  }
-
   moveMap() {
     this.state.map.panTo(this.state.userLocation);
   }
-  updateMarkers() {
-    this.clearMarkers();
-    this.createMarkers();
-  }
+
   createMarkers() {
-    const markers = this.props.locations.map(
-      (loc: google.maps.LatLng) =>
-        new google.maps.Marker({
-          position: loc,
-          map: this.state.map,
-        })
-    );
-    this.state.markers = [...this.state.markers, ...markers];
-    const { map } = this.state;
+    for (let i = 0; i < seoulLocations.length; i++) {
+      let mker = new google.maps.Marker({
+        position: seoulLocations[i] as google.maps.LatLng,
+        map: this.state.map,
+        animation: google.maps.Animation.DROP,
+      });
+      this.state.markers.push(mker);
+    }
+    const markers = this.state.markers;
+    const map = this.state.map;
     new MarkerClusterer({ map, markers });
   }
 
   refreshMap() {
     this.state.markers = [];
     this.createMarkers();
+  }
+
+  getMapBounds() {
+    const mapBounds = this.state.map.getBounds();
+    const lngHi = mapBounds.Ma.hi;
+    const lngLo = mapBounds.Ma.lo;
+    const latHi = mapBounds.Ya.hi;
+    const latLo = mapBounds.Ya.lo;
+    return { lngHi, lngLo, latHi, latLo };
+  }
+
+  async getLocation() {
+    const location = await new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, {
+        enableHighAccuracy: true,
+      });
+    });
+    return location;
   }
 
   handleDebounce(callback: Function, limit: number) {
@@ -129,44 +118,5 @@ export class ExperienceMap extends Component {
         callback.apply(this, args);
       }, limit);
     };
-  }
-
-  getMapInfo(): mapInfo {
-    const { map } = this.state;
-    const mapBounds = map.getBounds();
-    const lngHi = mapBounds.Ma.hi;
-    const lngLo = mapBounds.Ma.lo;
-    const latHi = mapBounds.Ya.hi;
-    const latLo = mapBounds.Ya.lo;
-    return {
-      centerLat: map.getCenter().lat(),
-      centerLng: map.getCenter().lng(),
-      zoom: map.getZoom(),
-      latHi,
-      latLo,
-      lngHi,
-      lngLo,
-    };
-  }
-
-  setMapPosition(lat: number, lng: number, zoom: number | null = null) {
-    const { map } = this.state;
-    const newCenter = { lat, lng };
-    map.setCenter(newCenter);
-    zoom && map.setZoom(zoom);
-  }
-
-  clearMarkers() {
-    this.state.markers.forEach((marker: google.maps.Marker) =>
-      marker.setMap(null)
-    );
-    this.state.markers = [];
-  }
-  setEvent(): void {
-    this.addEvent(
-      'click',
-      `.${styles['find-my-position']}`,
-      this.moveToMyLocation.bind(this)
-    );
   }
 }
