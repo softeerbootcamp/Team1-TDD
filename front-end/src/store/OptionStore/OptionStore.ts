@@ -42,7 +42,8 @@ const reducer = async (
       return initState;
 
     case 'UPDATE_ACTIVE_CAR_OPTION':
-      return { ...state, options: payload.options };
+      const newOptionState = { ...state, options: payload.options };
+      return await totalDataHandler(newOptionState);
 
     case 'SELECT_CAR_MODEL':
       const res = await axiosInstance.get(`/options/${payload.name}`);
@@ -64,18 +65,19 @@ const reducer = async (
         optionList,
         options: result,
       };
-      const updatedPostState = await totalDataHandler(updatedOptionState);
-      return updatedPostState;
+      return await totalDataHandler(updatedOptionState);
 
     case 'UPDATE_OPEN_STATE':
       return { ...state, openState: payload.openState };
 
     case 'CHANGE_DATES':
-      return { ...state, dates: payload.dates };
+      const newDateState = { ...state, dates: payload.dates };
+      return await totalDataHandler(newDateState);
 
     case 'MOVE_MAP':
       const { mapInfo } = payload;
-      return { ...state, mapInfo };
+      const newMapState = { ...state, mapInfo };
+      return await totalDataHandler(newMapState);
 
     default:
       return { ...state };
