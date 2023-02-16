@@ -1,5 +1,5 @@
 import Component from '@/core/Component';
-import { HandleAuthAPICall, sendAuthTestRequest } from './apis/login';
+import { sendAuthTestRequest } from './apis/login';
 import { Footer } from './components/Footer/Footer';
 import { Navbar } from './components/Navbar/Navbar';
 import { Router } from './core/Router';
@@ -10,9 +10,15 @@ import { qs } from './utils/querySelector';
 export class App extends Component {
   setup(): void {
     const accessToken = localStorage.getItem('accessToken');
-    if (!accessToken) return;
-
-    HandleAuthAPICall(sendAuthTestRequest, resolve, reject);
+    if (accessToken) {
+      sendAuthTestRequest()
+        .then(() => {
+          AuthStore.dispatch('LOGIN');
+        })
+        .catch(() => {
+          localStorage.removeItem('accessToken');
+        });
+    }
   }
   template(): string {
     return `
@@ -34,12 +40,3 @@ export class App extends Component {
     new Footer($footer);
   }
 }
-
-const resolve = () => {
-  AuthStore.dispatch('LOGIN');
-};
-
-const reject = () => {
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
-};

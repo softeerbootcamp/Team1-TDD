@@ -2,14 +2,13 @@ name: Java CI with Gradle # workflow 이름
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: ['dev']
 
 permissions:
   contents: read
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -25,7 +24,7 @@ jobs:
           # create application.yml
           cd ./back-end/src/main
           cd ./resources
-          
+
           # application.yml 파일에 쓰기
           echo "${{ secrets.DATABASE }}" >> ./application.yml
         shell: bash
@@ -66,7 +65,7 @@ jobs:
             sudo docker stop front
             sudo docker rm -f $(sudo docker ps -qa)
             sudo docker rmi $(sudo docker images -q)
-            
+
             sudo docker pull ${{ secrets.DOCKER_REPO }}-server:latest
             sudo docker pull ${{ secrets.DOCKER_REPO }}-front:latest
             sudo docker build -t tdd-nginx .
