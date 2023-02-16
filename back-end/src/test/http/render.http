@@ -4,5 +4,6 @@ GET {{domain-address}}/options/NEXO
 ### AVANTE 옵션 렌더링
 GET {{domain-address}}/options/AVANTE
 
-
+### 모든 차량 정보 반환
+GET {{domain-address}}/rendering/cars
 
