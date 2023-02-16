@@ -17,7 +17,7 @@ import com.tdd.backend.car.repository.CarRepository;
 import com.tdd.backend.car.service.CarService;
 
 @ExtendWith(MockitoExtension.class)
-public class RenderServiceTest {
+public class OptionServiceTest {
 
 	@Mock
 	private CarRepository carRepository;

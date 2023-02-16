@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class RenderService {
+public class OptionService {
 
 	private final OptionRepository optionRepository;
 

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tdd.backend.car.data.CarDto;
 import com.tdd.backend.car.data.OptionResponse;
 import com.tdd.backend.car.service.CarService;
-import com.tdd.backend.car.service.RenderService;
+import com.tdd.backend.car.service.OptionService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RenderController {
 
-	private final RenderService renderService;
+	private final OptionService optionService;
 	private final CarService carService;
 
 	/**
@@ -38,7 +38,7 @@ public class RenderController {
 		return ResponseEntity
 			.ok()
 			.contentType(MediaType.APPLICATION_JSON)
-			.body(renderService.getOptions(carId));
+			.body(optionService.getOptions(carId));
 	}
 
 	/**
