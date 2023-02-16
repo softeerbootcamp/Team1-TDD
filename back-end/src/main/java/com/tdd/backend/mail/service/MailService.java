@@ -25,9 +25,9 @@ public class MailService {
 	public void send(Long appointmentId, Long testerId) {
 		PostInfo postInfo = postRepository.findPostInfoByAppointmentId(appointmentId).orElseThrow();
 		EmailMessage ownerEmailMessage = generateEmailMessage(postInfo, testerId, postInfo.getUserId(),
-			UserType.TESTER);
-		EmailMessage testerEmailMessage = generateEmailMessage(postInfo, postInfo.getUserId(), testerId,
 			UserType.OWNER);
+		EmailMessage testerEmailMessage = generateEmailMessage(postInfo, postInfo.getUserId(), testerId,
+			UserType.TESTER);
 
 		sendSimpleMail(ownerEmailMessage);
 		sendSimpleMail(testerEmailMessage);

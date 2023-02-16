@@ -31,7 +31,7 @@ public class EmailMessage {
 	}
 
 	public String getMessage() {
-		String userStr = userType.getName();
+		String userStr = userType.getOpponentType();
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(userStr + " 성함: " + name + "\n");
