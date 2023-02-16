@@ -37,7 +37,7 @@ public class JwtProvider {
 	@Value("${app.jwt.refreshExpirationInMs}")
 	private int jwtRefreshExpirationInMs;
 
-	public String generateAccessToken(Long id) {
+	public String generateAccessToken(Long id, String email) {
 
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
@@ -46,6 +46,7 @@ public class JwtProvider {
 
 		return Jwts.builder()
 			.setSubject(String.valueOf(id))
+			.claim("email", email)
 			.claim("role", ATK)
 			.setIssuedAt(now)
 			.setExpiration(expiryDate)
@@ -53,7 +54,7 @@ public class JwtProvider {
 			.compact();
 	}
 
-	public String generateRefreshToken(Long id) {
+	public String generateRefreshToken(Long id, String email) {
 
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + jwtRefreshExpirationInMs);
@@ -62,6 +63,7 @@ public class JwtProvider {
 
 		return Jwts.builder()
 			.setSubject(String.valueOf(id))
+			.claim("email", email)
 			.claim("role", RTK)
 			.setIssuedAt(now)
 			.setExpiration(expiryDate)
@@ -76,6 +78,15 @@ public class JwtProvider {
 			.parseClaimsJws(authToken);
 
 		return Long.parseLong(claims.getBody().getSubject());
+	}
+
+	public String getEmailFromJwt(String authToken) {
+		Jws<Claims> claims = Jwts.parserBuilder()
+			.setSigningKey(decodeBase64(jwtSecret))
+			.build()
+			.parseClaimsJws(authToken);
+
+		return claims.getBody().get("email", String.class);
 	}
 
 	public JwtRole getRoleFromJwt(String authToken) {

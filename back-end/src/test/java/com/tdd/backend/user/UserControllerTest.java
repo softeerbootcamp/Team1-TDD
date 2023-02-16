@@ -192,7 +192,7 @@ class UserControllerTest {
 			.build();
 
 		userRepository.save(user);
-		String jws = jwtProvider.generateAccessToken(user.getId());
+		String jws = jwtProvider.generateAccessToken(user.getId(), user.getEmail());
 
 		//expected
 		mockMvc.perform(get("/auth")
@@ -247,7 +247,9 @@ class UserControllerTest {
 	void validate_RTK_expire_ATK() throws Exception {
 		//when
 		Long userId = 1L;
-		String refreshToken = jwtProvider.generateRefreshToken(userId);
+		String email = "test@test.com";
+
+		String refreshToken = jwtProvider.generateRefreshToken(userId, email);
 
 		//expected
 		mockMvc.perform(post("/reissue")
@@ -287,7 +289,8 @@ class UserControllerTest {
 	void check_validate_ATK() throws Exception {
 		//given
 		Long userId = 1L;
-		String rtk = jwtProvider.generateRefreshToken(userId);
+		String email = "test@test.com";
+		String rtk = jwtProvider.generateRefreshToken(userId, email);
 
 		//expected
 		mockMvc.perform(get("/auth")
@@ -304,7 +307,8 @@ class UserControllerTest {
 	void check_validate_RTK() throws Exception {
 		//given
 		Long userId = 1L;
-		String atk = jwtProvider.generateAccessToken(userId);
+		String email = "test@test.com";
+		String atk = jwtProvider.generateAccessToken(userId, email);
 
 		//expected
 		mockMvc.perform(post("/reissue")

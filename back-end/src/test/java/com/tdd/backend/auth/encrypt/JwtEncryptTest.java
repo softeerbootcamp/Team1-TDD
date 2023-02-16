@@ -38,7 +38,10 @@ public class JwtEncryptTest {
 	@Test
 	@DisplayName("JwtTokenProvider 빈 테스트")
 	void jwtTokenProvider_test() throws Exception {
-		String jws = jwtProvider.generateAccessToken(1L);
+		Long id = 1L;
+		String email = "test@test.com";
+
+		String jws = jwtProvider.generateAccessToken(1L, email );
 
 		//expected
 		SoftAssertions softAssertions = new SoftAssertions();

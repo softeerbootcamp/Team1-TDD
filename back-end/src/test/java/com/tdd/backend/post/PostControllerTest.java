@@ -80,7 +80,7 @@ public class PostControllerTest {
 		mockMvc.perform(post("/sharing")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(requestBody)
-				.header("Authorization", jwtProvider.generateAccessToken(1L)))
+				.header("Authorization", jwtProvider.generateAccessToken(user.getId(), user.getEmail())))
 			.andExpect(status().isFound())
 			.andDo(print());
 		SoftAssertions soft = new SoftAssertions();
