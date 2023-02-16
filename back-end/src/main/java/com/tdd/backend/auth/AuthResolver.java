@@ -1,7 +1,6 @@
 package com.tdd.backend.auth;
 
-import static com.tdd.backend.auth.jwt.JwtProvider.JwtTokenRole.*;
-import static com.tdd.backend.auth.jwt.JwtProvider.JwtTokenStatus.*;
+import static com.tdd.backend.auth.jwt.JwtProvider.JwtRole.*;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -43,7 +42,7 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
 			throw new UnauthorizedException();
 		}
 
-		if (jwtProvider.validateToken(jws).equals(ACCESS)) {
+		if (jwtProvider.isValidateToken(jws)) {
 			if (!jwtProvider.getRoleFromJwt(jws).equals(ATK)) {
 				throw new InvalidTokenException();
 			}

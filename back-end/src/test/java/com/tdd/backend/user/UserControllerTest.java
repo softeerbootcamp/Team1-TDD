@@ -1,6 +1,6 @@
 package com.tdd.backend.user;
 
-import static com.tdd.backend.auth.jwt.JwtProvider.JwtTokenRole.*;
+import static com.tdd.backend.auth.jwt.JwtProvider.JwtRole.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;

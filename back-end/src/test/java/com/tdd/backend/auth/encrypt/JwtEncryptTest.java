@@ -1,6 +1,5 @@
 package com.tdd.backend.auth.encrypt;
 
-import static com.tdd.backend.auth.jwt.JwtProvider.JwtTokenStatus.*;
 
 import java.security.Key;
 import java.util.Base64;
@@ -43,7 +42,7 @@ public class JwtEncryptTest {
 
 		//expected
 		SoftAssertions softAssertions = new SoftAssertions();
-		softAssertions.assertThat(jwtProvider.validateToken(jws)).isEqualTo(ACCESS);
+		softAssertions.assertThat(jwtProvider.isValidateToken(jws)).isTrue();
 		softAssertions.assertThat(jwtProvider.getUserIdFromJwt(jws)).isEqualTo(1L);
 	}
 }

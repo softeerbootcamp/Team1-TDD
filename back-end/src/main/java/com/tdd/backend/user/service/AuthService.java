@@ -1,7 +1,6 @@
 package com.tdd.backend.user.service;
 
-import static com.tdd.backend.auth.jwt.JwtProvider.JwtTokenRole.*;
-import static com.tdd.backend.auth.jwt.JwtProvider.JwtTokenStatus.*;
+import static com.tdd.backend.auth.jwt.JwtProvider.JwtRole.*;
 
 import org.springframework.stereotype.Service;
 
@@ -36,7 +35,7 @@ public class AuthService {
 	// TODO : RTK도 만료시 재로그인 요청 보내야함 InvalidToken이랑 다름.
 	public JwtTokenPairResponse reIssueToken(String refreshToken) {
 		//리프레쉬 토큰이 validate 하고 유효한 RTK라면, 새로운 ATK 재발급
-		if (jwtProvider.validateToken(refreshToken) == ACCESS) {
+		if (jwtProvider.isValidateToken(refreshToken)) {
 			if (!jwtProvider.getRoleFromJwt(refreshToken).equals(RTK)) {
 				throw new InvalidTokenException();
 			}
