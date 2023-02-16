@@ -5,9 +5,8 @@ export async function totalDataHandler(state: IOptionState) {
   const reqBody: ItestDrivingReq = {
     carName: state.carModel,
     dateList: state.dates,
-    optionList: state.options,
+    optionList: state.options.map((ele) => ele.name),
   };
-
   const response = await axiosInstance.post('/test-driving/posts', reqBody);
   const { latHi, latLo, lngHi, lngLo } = state.mapInfo;
   const filteredPost = response.data.filter((ele: ItestDrivingRes) => {
