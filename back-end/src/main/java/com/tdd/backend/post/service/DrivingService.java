@@ -77,7 +77,7 @@ public class DrivingService {
 			.collect(Collectors.toList());
 	}
 
-	public void approveAppointment(Long id, Long testerId) {
-		postRepository.updateTesterIdStatusAccept(id, testerId);
+	public void approveAppointment(Long appointmentId, Long testerId) {
+		postRepository.updateTesterIdStatusAccept(appointmentId, testerId);
 	}
 }
