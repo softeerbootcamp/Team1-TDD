@@ -14,7 +14,7 @@ export const routes: IRoute[] = [
   { path: /^\/aboutus$/, element: AboutUs },
   { path: /^\/sharing$/, element: Sharing },
   { path: /^\/experiencing$/, element: Experiencing },
-  { path: /^\/mypage$/, element: MyPage },
   //test용
+  { path: /^\/mypage$/, element: MyPage },
   { path: /^\/post\/[\w]+$/, element: NotFound },
 ];

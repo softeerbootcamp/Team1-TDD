@@ -2,8 +2,8 @@ import Component from '@/core/Component';
 import { AuthStore } from '@/store/AuthStore';
 import { openLoginModal } from '@/utils/loginModal';
 import { qs } from '@/utils/querySelector';
-import { userIcon } from './icon';
 import styles from './Navbar.module.scss';
+import { userIcon } from './icon';
 
 export class Navbar extends Component {
   setup(): void {
@@ -24,17 +24,16 @@ export class Navbar extends Component {
         ${
           isLogin
             ? `
-            <div class="${styles.dropdown}">
-            ${userIcon}
-              <div class="${styles.options}">
-                <div><a data-link href="/mypage">마이페이지</a></div>
-                <div class="${styles['logout-button']}">Logout</div>
-              </div>
+          <div class="${styles.dropdown}">
+          ${userIcon}
+            <div class="${styles.options}">
+              <a data-link href="/mypage"><div>마이페이지</div></a>
+              <div class="${styles['logout-button']}">Logout</div>
             </div>
-            `
+          </div>
+          `
             : `<button class="${styles['login-button']}">login</button>`
         }
-        
       </ul>
     </nav>
     `;
