@@ -46,6 +46,8 @@ public class JwtEncryptTest {
 		//expected
 		SoftAssertions softAssertions = new SoftAssertions();
 		softAssertions.assertThat(jwtProvider.isValidateToken(jws)).isTrue();
-		softAssertions.assertThat(jwtProvider.getUserIdFromJwt(jws)).isEqualTo(1L);
+		softAssertions.assertThat(jwtProvider.getUserIdFromJwt(jws)).isEqualTo(id);
+		softAssertions.assertThat(jwtProvider.getEmailFromJwt(jws)).isEqualTo(email);
+		softAssertions.assertAll();
 	}
 }
