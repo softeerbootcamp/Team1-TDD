@@ -38,8 +38,9 @@ const reducer = async (
   payload: DynamicObject = {}
 ) => {
   switch (actionKey) {
-    case 'OPTION_INIT':
-      return initState;
+    case 'INIT_CAR':
+      const response = await axiosInstance.get(`/options/${payload.name}`);
+      return { ...state, optionList: response.data };
 
     case 'UPDATE_ACTIVE_CAR_OPTION':
       const newOptionState = { ...state, options: payload.options };

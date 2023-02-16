@@ -48,6 +48,9 @@ export class ImageSlider extends Component {
     this.state.$images = Array.from(
       qsa('img', this.target)
     ) as HTMLImageElement[];
+    this.props.store.dispatch('INIT_CAR', {
+      name: this.props.list[0].name,
+    });
   }
 
   setEvent(): void {

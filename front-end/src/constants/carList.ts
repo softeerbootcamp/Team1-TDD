@@ -48,7 +48,7 @@ export const carList: ICar[] = [
   {
     fileName: '011_tucsonN.png',
     title: '투싼 N',
-    name: 'TUSCON',
+    name: 'TUCSON',
   },
   {
     fileName: '012_tucsonN_Hybrid.png',

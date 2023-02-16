@@ -28,9 +28,10 @@ export class Experiencing extends Component {
     const $calendar = qs('#ex-calendar', this.target);
     const $map = qs('#ex-map', this.target);
     const $bulletinBoard = qs('#bulletin-board', this.target);
+    const list = carList.filter((ele) => !!ele.name);
 
     new ImageSlider($imageSlider as HTMLDivElement, {
-      list: carList.filter((ele) => !!ele.name),
+      list,
       store: OptionStore,
     });
     new OptionForm($optionSelector as HTMLDivElement, {
