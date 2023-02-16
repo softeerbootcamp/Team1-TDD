@@ -3,7 +3,6 @@ import { qs, qsa } from '@/utils/querySelector';
 import styles from './ImageSlider.module.scss';
 import { ICar } from '@/constants/carList';
 import { leftBtn, rightBtn } from './icon';
-import { OptionStore } from '@/store/OptionStore/OptionStore';
 
 export class ImageSlider extends Component {
   setup(): void {
@@ -13,7 +12,7 @@ export class ImageSlider extends Component {
     const { props } = this;
     const { list } = props;
     const imgIdx = list.findIndex(
-      (ele: any) => ele.title === OptionStore.getState().carModel
+      (ele: any) => ele.title === this.props.store.getState().carModel
     );
     this.state.imgIdx = imgIdx;
     const position = list.map((_: ICar, idx: number) => {
@@ -90,7 +89,7 @@ export class ImageSlider extends Component {
       clearTimeout(this.state.timer);
     }
     this.state.timer = setTimeout(() => {
-      OptionStore.dispatch('SELECT_CAR_MODEL', {
+      this.props.store.dispatch('SELECT_CAR_MODEL', {
         name: this.props.list[this.state.imgIdx].title,
       });
     }, 1000);

@@ -7,13 +7,6 @@ export const sendLogInRequest = async (email: string, userPassword: string) => {
   });
 };
 
-export const sendLogOutRequest = async () => {
-  const refreshToken = localStorage.getItem('refreshToken');
-  return axiosInstance.delete('/logout', {
-    headers: { Authorization: refreshToken },
-  });
-};
-
 interface IRegisterPayload {
   email: string;
   phoneNumber: string;
@@ -27,7 +20,7 @@ export const sendRegisterRequest = async (payload: IRegisterPayload) => {
 
 export const sendAuthTestRequest = async () => {
   const accessToken = localStorage.getItem('accessToken');
-  return axiosInstance.get('/test/auth', {
+  return axiosInstance.get('/auth', {
     headers: { Authorization: accessToken },
   });
 };

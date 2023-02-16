@@ -1,8 +1,8 @@
 ### NEXO 옵션 렌더링
-GET http://{{domain-address}}/options/NEXO
+GET {{domain-address}}/options/NEXO
 
 ### AVANTE 옵션 렌더링
-GET http://{{domain-address}}/options/AVANTE
+GET {{domain-address}}/options/AVANTE
 
 
 

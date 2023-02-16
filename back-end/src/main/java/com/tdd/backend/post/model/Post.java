@@ -11,6 +11,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import com.tdd.backend.car.data.OptionDto;
 import com.tdd.backend.mypage.data.DefaultInfo;
+import com.tdd.backend.post.data.LocationDto;
 import com.tdd.backend.post.data.PostDto;
 
 import lombok.Getter;
@@ -59,20 +60,21 @@ public class Post {
 
 	public PostDto toPostDto() {
 		return PostDto.builder()
+			.id(id)
 			.carName(carName)
-			.userId(userId)
 			.requirement(requirement)
 			.rideOption(rideOption.toString())
 			.build();
 	}
 
-	public DefaultInfo toDefaultInfo(List<OptionDto> options) {
+	public DefaultInfo toDefaultInfo(List<OptionDto> options, LocationDto location) {
 		return DefaultInfo.builder()
 			.id(id)
 			.carName(carName)
 			.rideOption(rideOption.toString())
 			.requirement(requirement)
 			.options(options)
+			.location(location)
 			.build();
 	}
 }

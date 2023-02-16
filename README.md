@@ -1,5 +1,5 @@
 <p align=center>
-<a href="http://letstdd.site"><img src="https://capsule-render.vercel.app/api?type=waving&&color=timeGradient&height=300&section=header&text=Try,%20Drive,%20Delightly!&fontSize=90" /></a>
+<a href="https://letstdd.site"><img src="https://capsule-render.vercel.app/api?type=waving&&color=timeGradient&height=300&section=header&text=Try,%20Drive,%20Delightly!&fontSize=90" /></a>
 </p>
 
 ## 0. 목차
@@ -26,7 +26,7 @@ Let’s TDD. Try, Drive, Delightly. 로고에 대한 설명을 하겠습니다. 
 
 ## 3. 프로젝트 설명
 
-[TDD 사이트 링크](http://www.letstdd.site/)
+[LetsTDD.site](https://letstdd.site)
 
 ### 주요 기능 캡쳐
 
@@ -74,13 +74,19 @@ Let’s TDD. Try, Drive, Delightly. 로고에 대한 설명을 하겠습니다. 
 
 ### FE
 
-```jsx
+```shell
+cd ./frontend
 npm install
 npm run dev //localhost:5173
 ```
+### BE
 
-![https://lh3.googleusercontent.com/bqc5D2Fs86dkTmBmvXi7127Tq69Pg6V4wYO-KrM82OD8ftunLIzxkgG1gRVTpwp88dNNLsoX433F9i-m0T3rqH28-c_P2GItG4RhP1_6aeCRMa5qJYqIkBqCDuifLeDP2o_7HXAq_xxyPVQ43Q_I7aw](https://lh3.googleusercontent.com/bqc5D2Fs86dkTmBmvXi7127Tq69Pg6V4wYO-KrM82OD8ftunLIzxkgG1gRVTpwp88dNNLsoX433F9i-m0T3rqH28-c_P2GItG4RhP1_6aeCRMa5qJYqIkBqCDuifLeDP2o_7HXAq_xxyPVQ43Q_I7aw)
-
+```shell
+cd ./backend
+./gradlew bootJar
+java -jar ./build/libs/back-end-0.0.1-SNAPSHOT.jar 
+```
+![image](https://user-images.githubusercontent.com/59179386/219247646-fdb88bc6-32cc-45ed-a4d3-4ddf2cc2df74.png)
 ## 5. 프로젝트 사용 방법
 
 - 사용자/기여자들이 프로젝트를 이용할 수 있는 방법과 예시
@@ -105,7 +111,7 @@ npm run dev //localhost:5173
 # Stacks  
 ### ✔️Frond-end
 <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=black"> <img src="https://img.shields.io/badge/SCSS-CC6699?style=for-the-badge&logo=SASS&logoColor=white"> <img src="https://img.shields.io/badge/.env-ECD53F?style=for-the-badge&logo=.env&logoColor=black">
-<img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"> <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white">
+<img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"> <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white"> <img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white">
 
 ### ✔️Back-end
 <img src="https://img.shields.io/badge/java 11-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/spring data jdbc-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white"> <img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white"> <img src="https://img.shields.io/badge/junit5-25A162?style=for-the-badge&logo=junit5&logoColor=white">

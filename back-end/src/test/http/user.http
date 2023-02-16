@@ -1,5 +1,5 @@
 ### 회원가입
-POST http://{{domain-address}}/users
+POST {{domain-address}}/users
 Content-Type: application/json
 
 {
@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ### 로그인
-POST http://{{domain-address}}/login
+POST {{domain-address}}/login
 Content-Type: application/json
 
 {
@@ -19,5 +19,5 @@ Content-Type: application/json
 }
 
 ### test auth
-GET http://{{domain-address}}/test/auth
-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFUSyIsImlhdCI6MTY3NjE3NDk1OCwiZXhwIjoxNjc2MTc2NzU4fQ.6Y_8XgXwoQZIA-FJSAEj7krKq3YMWY_0ypg95RZx9ms
+GET {{domain-address}}/auth
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicm9sZSI6IkFUSyIsImlhdCI6MTY3NjQ1NDc0MSwiZXhwIjoxNjc2NDU2NTQxfQ.ZZbgv1VgzyvdfzEbKGrmWqo1Q6_3cdWBXh1uLolG7wk

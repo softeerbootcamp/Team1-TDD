@@ -34,7 +34,6 @@ export class App extends Component {
     new Footer($footer);
   }
 }
-
 const resolve = () => {
   AuthStore.dispatch('LOGIN');
 };
