@@ -86,8 +86,7 @@ cd ./backend
 ./gradlew bootJar
 java -jar ./build/libs/back-end-0.0.1-SNAPSHOT.jar 
 ```
-![image](https://user-images.githubusercontent.com/59179386/218938109-76d37c2c-8b1f-4950-a600-06004ee15042.png)
-
+![image](https://user-images.githubusercontent.com/59179386/219247646-fdb88bc6-32cc-45ed-a4d3-4ddf2cc2df74.png)
 ## 5. 프로젝트 사용 방법
 
 - 사용자/기여자들이 프로젝트를 이용할 수 있는 방법과 예시
