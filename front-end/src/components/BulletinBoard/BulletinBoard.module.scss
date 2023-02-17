@@ -1,4 +1,6 @@
 .wrapper {
+  text-decoration: none;
+  color: black;
   margin: auto;
   cursor: pointer;
   padding: 20px;
@@ -39,6 +41,7 @@
     color: #858a8d;
   }
   .circle {
+    color: black;
     border: 1px solid #dee2e6;
     width: 60px;
     height: 60px;
