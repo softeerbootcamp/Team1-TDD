@@ -16,15 +16,17 @@ public class DefaultInfo {
 	private final String requirement;
 	private final LocationDto location;
 	private final List<OptionDto> options;
+	private final String imageUrl;
 
 	@Builder
 	private DefaultInfo(Long id, String carName, String rideOption, String requirement, LocationDto location,
-		List<OptionDto> options) {
+		List<OptionDto> options, String imageUrl) {
 		this.id = id;
 		this.carName = carName;
 		this.rideOption = rideOption;
 		this.requirement = requirement;
 		this.location = location;
 		this.options = options;
+		this.imageUrl = imageUrl;
 	}
 }
