@@ -67,7 +67,7 @@ public class Post {
 			.build();
 	}
 
-	public DefaultInfo toDefaultInfo(List<OptionDto> options, LocationDto location) {
+	public DefaultInfo toDefaultInfo(List<OptionDto> options, LocationDto location, String imageUrl) {
 		return DefaultInfo.builder()
 			.id(id)
 			.carName(carName)
@@ -75,6 +75,7 @@ public class Post {
 			.requirement(requirement)
 			.options(options)
 			.location(location)
+			.imageUrl(imageUrl)
 			.build();
 	}
 }
