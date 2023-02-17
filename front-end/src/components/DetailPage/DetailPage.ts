@@ -25,6 +25,15 @@ export class DetailPage extends Component {
     this.state = { ...this.state, ...newState };
   }
 
+  setEvent(): void {
+    this.addEvent('click', `.${styles['confirm']}`, (_) => {
+      window.location.href = '/mypage';
+    });
+    this.addEvent('click', `.${styles['cancel']}`, (_) => {
+      window.location.href = '/';
+    });
+  }
+
   template(): string {
     const { appointments, imageUrl, location, options, post } = this.state.res;
     return `
