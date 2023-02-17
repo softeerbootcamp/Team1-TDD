@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.tdd.backend.auth.LoginUser;
+import com.tdd.backend.mail.service.MailService;
 import com.tdd.backend.post.data.DrivingDto;
 import com.tdd.backend.post.data.DrivingResponse;
 import com.tdd.backend.post.service.DrivingService;
@@ -28,6 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class DrivingController {
 	private final DrivingService drivingService;
+
+	private final MailService mailService;
 
 	@GetMapping("/test-driving/{postId}")
 	@Operation(summary = "post의 id로 하나의 포스트 선택 시에 대한 요청", description = "포스트의 해당 차종과 옵션 목록으로 응답해야 함.")
@@ -52,9 +55,9 @@ public class DrivingController {
 
 	@PatchMapping("/appointments/{appointmentId}")
 	@Operation(summary = "최종적인 예약 요청", description = "시승하기에 대한 사용자의 최종적인 요청으로 Appointment의 상태를 승낙으로 Update해야 함.")
-	public ResponseEntity<Void> reserveTestDriving(@LoginUser UserToken userToken,
-		@PathVariable Long appointmentId) {
+	public ResponseEntity<Void> reserveTestDriving(@LoginUser UserToken userToken, @PathVariable Long appointmentId) {
 		drivingService.approveAppointment(appointmentId, userToken.getId());
+		mailService.send(appointmentId, userToken.getId());
 		return ResponseEntity.ok().build();
 	}
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.tdd.backend.auth.exception.ExpiredATKException;
 import com.tdd.backend.auth.exception.InvalidTokenException;
 import com.tdd.backend.car.exception.CarNotFoundException;
+import com.tdd.backend.mail.exception.EmailNotFoundException;
 import com.tdd.backend.user.exception.DuplicateEmailException;
 import com.tdd.backend.user.exception.UnauthorizedException;
 import com.tdd.backend.user.exception.UserNotFoundException;
@@ -91,6 +92,14 @@ public class ExceptionController {
 			.code(HttpStatus.BAD_REQUEST.toString())
 			.errorMessage(ex.getMessage())
 			.build();
+	}
 
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(EmailNotFoundException.class)
+	public ErrorResponse emailNotFoundExceptionHandler(EmailNotFoundException ex) {
+		return ErrorResponse.builder()
+			.code(HttpStatus.BAD_REQUEST.toString())
+			.errorMessage(ex.getMessage())
+			.build();
 	}
 }

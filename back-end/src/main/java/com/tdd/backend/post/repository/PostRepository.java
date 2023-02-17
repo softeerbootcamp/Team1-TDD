@@ -9,6 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.tdd.backend.mail.data.PostInfo;
 import com.tdd.backend.post.model.Appointment;
 import com.tdd.backend.post.model.Location;
 import com.tdd.backend.post.model.Option;
@@ -37,6 +38,11 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 
 	@Query("SELECT date FROM appointments WHERE post_id = :postId and tester_id = :userId")
 	Optional<String> findDateByPostIdAndUserId(@Param("postId") Long postId, @Param("userId") Long userId);
+
+	@Query("SELECT p.car_name, p.requirement, p.user_id, a.date FROM posts p "
+		+ "JOIN appointments a on p.id = a.post_id "
+		+ "WHERE a.id = :id")
+	Optional<PostInfo> findPostInfoByAppointmentId(@Param("id") Long id);
 
 	@Query("SELECT p.id FROM posts p "
 		+ "JOIN options o ON p.id = o.post_id "
