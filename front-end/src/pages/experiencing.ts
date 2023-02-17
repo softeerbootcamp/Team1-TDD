@@ -9,6 +9,7 @@ import styles from '@/styles/experiencing.module.scss';
 import { OptionStore } from '@/store/OptionStore/OptionStore';
 import { mapInfo } from '@/components/ExperienceMap/interface';
 import { BulletinBoard } from '@/components/BulletinBoard/BulletinBoard';
+import { CopyLinkBtn } from '@/components/CopyLinkBtn/CopyLinkBtn';
 
 export class Experiencing extends Component {
   template(): string {
@@ -19,10 +20,7 @@ export class Experiencing extends Component {
       <div id="ex-calendar"></div>
     </div>
     <div id="ex-map"></div>
-    <button id="copy-link" class="${styles['copy-link']} ${styles['copy-link-flip-down']}">이 검색결과를 공유하기
-      <div class="${styles.front}">이 검색결과를 공유하기</div>
-      <div class="${styles.back}">CLICK!</div>
-    </button>
+    <div id="copy-link-btn"></div>
     <div id="bulletin-board"><div>
     `;
   }
@@ -32,6 +30,7 @@ export class Experiencing extends Component {
     const $calendar = qs('#ex-calendar', this.target);
     const $map = qs('#ex-map', this.target);
     const $bulletinBoard = qs('#bulletin-board', this.target);
+    const $copyLinkBtn = qs('#copy-link-btn', this.target);
     const list = carList.filter((ele) => !!ele.name);
 
     new ImageSlider($imageSlider as HTMLDivElement, {
@@ -50,6 +49,7 @@ export class Experiencing extends Component {
       changePositionHandler: this.changePositionHandler,
       store: OptionStore,
     });
+    new CopyLinkBtn($copyLinkBtn as HTMLDivElement);
     new BulletinBoard($bulletinBoard as HTMLDivElement, { store: OptionStore });
   }
 
@@ -58,10 +58,5 @@ export class Experiencing extends Component {
   }
   changePositionHandler(mapInfo: mapInfo) {
     OptionStore.dispatch('MOVE_MAP', { mapInfo });
-  }
-  setEvent(): void {
-    this.addEvent('click', `.${styles.back}`, () => {
-      console.log('a');
-    });
   }
 }

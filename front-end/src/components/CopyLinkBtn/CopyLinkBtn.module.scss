@@ -1,0 +1,59 @@
+.copy-link {
+  font-family: '돋움';
+  display: flex;
+  margin: 2rem auto;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 1rem;
+  &-flip-down {
+    --flip-button-height: 40px;
+    height: var(--flip-button-height);
+    color: transparent;
+    border: none;
+    border-radius: 0;
+    perspective: 500px;
+    transition: 0.3s;
+
+    &:hover {
+      color: transparent;
+      background: transparent;
+    }
+
+    .front,
+    .back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .front {
+      background: #0095d9;
+      color: white;
+      transition: 0.3s;
+      transform-origin: center center calc(var(--flip-button-height) / -2);
+    }
+
+    .back {
+      color: white;
+      background: #0095d9;
+      transform: rotateX(88deg);
+      transform-origin: center center calc(var(--flip-button-height) / -2);
+      transition: 0.3s;
+    }
+
+    &:hover {
+      .front {
+        transform: rotateX(-90deg);
+      }
+
+      .back {
+        transform: rotateX(0deg);
+      }
+    }
+  }
+}
