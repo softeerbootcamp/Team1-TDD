@@ -1,6 +1,6 @@
 @font-face {
-  font-family: "temp";
-  src: url("@/assets/fonts/NEXON_LV2.woff") format("woff");
+  font-family: 'temp';
+  src: url('@/assets/fonts/LINESEED.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   unicode-range: U+AC00-D7A3;
@@ -26,8 +26,9 @@
 }
 
 .container {
-  font-family: "temp";
+  font-family: 'temp';
   user-select: none;
+  font-weight: 400;
   width: 90%;
   margin: auto;
   .infos {
@@ -42,20 +43,25 @@
       display: flex;
       flex-direction: column;
       justify-content: space-evenly;
-      width: 500px;
+      width: 550px;
+      border: 1px solid lightgray;
+      border-radius: 5px;
+      padding-left: 20px;
+
       .car-name,
       .date,
-      .location {
+      .location,
+      .appointments {
         display: flex;
-        font-size: 30px;
+        font-size: 25px;
         .left {
-          width: 150px;
+          min-width: 150px;
         }
       }
       .options {
         display: flex;
-        font-size: 30px;
-        line-height: 30px;
+        font-size: 25px;
+        line-height: 25px;
         .left {
           width: 150px;
           min-width: 150px;
@@ -84,6 +90,21 @@
           }
         }
       }
+      .location {
+        .right {
+          a {
+            display: block;
+            text-decoration: none;
+            &:visited {
+              color: black;
+            }
+            &:hover {
+              color: white;
+              background-color: black;
+            }
+          }
+        }
+      }
     }
   }
   .button-wrapper {
@@ -94,9 +115,9 @@
     text-align: center;
     .confirm,
     .cancel {
-      width: 150px;
-      height: 75px;
-      font-size: 50px;
+      width: 120px;
+      height: 60px;
+      font-size: 40px;
       line-height: 75px;
       $btn-color: black;
       position: relative;
@@ -112,7 +133,7 @@
         background-color: $btn-color;
         transform: rotateZ(-45deg) translate(-50%, -50%);
         transition: all 0.3s;
-        content: "";
+        content: '';
         z-index: -1;
       }
       &:hover {
