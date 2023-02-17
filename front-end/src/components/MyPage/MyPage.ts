@@ -4,7 +4,6 @@ import { qs } from '@/utils/querySelector';
 import { literal } from './template';
 import styles from './MyPage.module.scss';
 import { loadscript } from '@/utils/googleAPI';
-import { carList } from '@/constants/carList';
 
 interface IAppointment {
   date: string;
@@ -27,6 +26,7 @@ interface ISharing {
   post: {
     carName: string;
     id: number;
+    imageUrl: string;
     location: ILocation;
     options: IOptions[];
     requirement: string;
@@ -39,6 +39,7 @@ interface IDriving {
   post: {
     carName: string;
     id: number;
+    imageUrl: string;
     location: ILocation;
     options: IOptions[];
     requirement: string;
@@ -121,33 +122,26 @@ export class MyPage extends Component {
     $shrno.innerText = user.sharingCount as unknown as string;
   }
 
-  findCarImage(carName: string) {
-    const matched = carList.filter((car) => car.fileName.includes(carName));
-    return matched.length === 0 ? null : matched[0].fileName;
-  }
-
   generateDrivingCard(data: IDriving): string {
     const lat = +data.post.location.latitude;
     const lng = +data.post.location.longitude;
     const location = `https://www.google.co.kr/maps?&z=18.5&q=${lat},${lng}&ll=${lat},${lng}z`;
-    const carName = data.post.carName.toLowerCase();
-    const carImage = this.findCarImage(carName);
+    const carName = data.post.carName;
+    const carImage = data.post.imageUrl;
     const options = data.post.options;
     const date = data.date;
     return `
     <div class="${styles['card-wrapper']}">
       <div class=${styles['image-wrapper']}>
         <div class="${styles['helper']}"></div>
-        <img class="${styles['image']}" src="${
-      process.env.VITE_IMAGE_URL
-    }/${carImage}" />
+        <img class="${styles['image']}" src="${carImage}" />
       </div>
       <div class="${styles['text-wrapper']}">
         <div class="${styles['helper']}"></div>
         <div class="${styles['car-name']}">${carName}</div>
-        <div class="${styles['options']}">${options.map(
-      (ele) => ele.name
-    )}</div>
+        <div class="${styles['options']}">${options
+      .map((ele) => ele.name)
+      .join(', ')}</div>
         <div class="${styles['date']}">${date}</div>
         <div class="${styles['location']}">
           <a href="${location}" target="_blank">위치</a>
@@ -158,27 +152,28 @@ export class MyPage extends Component {
   }
 
   generateSharingCard(data: ISharing): string {
-    const carName = data.post.carName.toLowerCase();
-    const carImage = this.findCarImage(carName);
+    const carName = data.post.carName;
+    const carImage = data.post.imageUrl;
     const options = data.post.options;
     const lat = +data.post.location.latitude;
     const lng = +data.post.location.longitude;
+    const appointments = data.appointments;
     const location = `https://www.google.co.kr/maps?&z=18.5&q=${lat},${lng}&ll=${lat},${lng}z`;
     return `
     <div class=${styles['card-wrapper']}>
       <div class=${styles['image-wrapper']}>
         <div class=${styles['helper']}></div>
-        <img class="${styles['image']}" src="${
-      process.env.VITE_IMAGE_URL
-    }/${carImage}" />
+        <img class="${styles['image']}" src="${carImage}" />
       </div>
       <div class="${styles['text-wrapper']}">
         <div class="${styles['helper']}"></div>
         <div class="${styles['car-name']}">${carName}</div>
-        <div class="${styles['options']}">${options.map(
-      (ele) => ele.name
-    )}</div>
-        
+        <div class="${styles['options']}">${options
+      .map((ele) => ele.name)
+      .join(', ')}</div>
+        <div class="${styles['date']}">${appointments
+      .map((ele) => ele.date)
+      .join(', ')}</div>
         <div class="${styles['location']}">
           <a href="${location}" target="_blank">위치</a>
         </div>
