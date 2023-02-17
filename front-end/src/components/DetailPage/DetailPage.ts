@@ -1,5 +1,4 @@
 import { getPosts } from '@/apis/detailPage';
-import { carList } from '@/constants/carList';
 import Component from '@/core/Component';
 import styles from './DetailPage.module.scss';
 
@@ -16,7 +15,7 @@ interface IOptions {
 
 export class DetailPage extends Component {
   async render() {
-    const res = await getPosts(4);
+    const res = await getPosts(1);
     this.setState({ res: res.data });
     this.target.innerHTML = this.template();
     this.mounted();
@@ -27,14 +26,12 @@ export class DetailPage extends Component {
   }
 
   template(): string {
-    const { appointments, location, options, post } = this.state.res;
+    const { appointments, imageUrl, location, options, post } = this.state.res;
     return `
       <div class="${styles['container']}">
         <div class="${styles['infos']}">
           <div class="${styles['image-wrapper']}">
-            <img class="${styles['image']}" src="${
-      process.env.VITE_IMAGE_URL
-    }/${this.findCarImage(post.carName)}" />
+            <img class="${styles['image']}" src="${imageUrl}" />
           </div>
           <div class="${styles['text-wrapper']}">
             <div class="${styles['car-name']}">
@@ -76,13 +73,6 @@ export class DetailPage extends Component {
         </div>
       </div>
     `;
-  }
-
-  findCarImage(carName: string) {
-    for (const car of carList) {
-      if (car.fileName.includes(carName.toLowerCase())) return car.fileName;
-    }
-    return 'error';
   }
 
   optionCreator(option: string): string {
