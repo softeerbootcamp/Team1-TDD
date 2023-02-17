@@ -17,4 +17,7 @@ public interface CarRepository extends CrudRepository<Car, Long> {
 
 	@Query("SELECT c.car_name, c.car_kor_name, c.car_image_url FROM cars c")
 	List<Car> findAllCar();
+
+	@Query("SELECT c.car_image_url FROM cars c WHERE c.car_name = :name")
+	Optional<String> findImageUrlByName(@Param("name") String name);
 }
