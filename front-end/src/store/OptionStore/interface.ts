@@ -24,6 +24,7 @@ interface Ilocation {
   longitude: string;
 }
 interface Ipost {
+  id: number;
   carName: string;
   requirement: string;
   rideOption: string;

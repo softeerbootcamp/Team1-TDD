@@ -19,6 +19,10 @@ export class Experiencing extends Component {
       <div id="ex-calendar"></div>
     </div>
     <div id="ex-map"></div>
+    <button id="copy-link" class="${styles['copy-link']} ${styles['copy-link-flip-down']}">이 검색결과를 공유하기
+      <div class="${styles.front}">이 검색결과를 공유하기</div>
+      <div class="${styles.back}">CLICK!</div>
+    </button>
     <div id="bulletin-board"><div>
     `;
   }
@@ -46,7 +50,7 @@ export class Experiencing extends Component {
       changePositionHandler: this.changePositionHandler,
       store: OptionStore,
     });
-    new BulletinBoard($bulletinBoard as HTMLDivElement);
+    new BulletinBoard($bulletinBoard as HTMLDivElement, { store: OptionStore });
   }
 
   onChangeDates(dates: string[]) {
@@ -54,5 +58,10 @@ export class Experiencing extends Component {
   }
   changePositionHandler(mapInfo: mapInfo) {
     OptionStore.dispatch('MOVE_MAP', { mapInfo });
+  }
+  setEvent(): void {
+    this.addEvent('click', `.${styles.back}`, () => {
+      console.log('a');
+    });
   }
 }
