@@ -1,6 +1,9 @@
 package com.tdd.backend.mail.service;
 
-import org.springframework.mail.SimpleMailMessage;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -29,17 +32,21 @@ public class MailService {
 		EmailMessage testerEmailMessage = generateEmailMessage(postInfo, postInfo.getUserId(), testerId,
 			UserType.TESTER);
 
-		sendSimpleMail(ownerEmailMessage);
-		sendSimpleMail(testerEmailMessage);
+		senMimeMail(ownerEmailMessage);
+		senMimeMail(testerEmailMessage);
 		log.info("Sent simple email!");
 	}
 
-	private void sendSimpleMail(EmailMessage emailMessage) {
-		SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-		simpleMailMessage.setTo(emailMessage.getTo());
-		simpleMailMessage.setSubject(emailMessage.getSubject());
-		simpleMailMessage.setText(emailMessage.getMessage());
-		javaMailSender.send(simpleMailMessage);
+	private void senMimeMail(EmailMessage emailMessage) {
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		try {
+			mimeMessage.setText(emailMessage.getMessage(), "utf-8", "html");
+			mimeMessage.addRecipients(Message.RecipientType.TO, emailMessage.getTo());
+			mimeMessage.setSubject(emailMessage.getSubject());
+			javaMailSender.send(mimeMessage);
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public EmailMessage generateEmailMessage(PostInfo postInfo, Long anotherId, Long receiverId, UserType userType) {
