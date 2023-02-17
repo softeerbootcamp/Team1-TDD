@@ -84,7 +84,6 @@ export class MyPage extends Component {
     const sharingList = this.state.res.data.sharing as ISharing[];
     const user = this.state.res.data.user as IUser;
 
-    console.log(this.state.res.data);
     this.setUserInfo(user);
     drivingList?.forEach((element: IDriving) => {
       expCardWrapper!.innerHTML += this.generateDrivingCard(element);
@@ -102,7 +101,6 @@ export class MyPage extends Component {
     geocoder.geocode({ location: LatLng }, async (response, status) => {
       if (status === google.maps.GeocoderStatus.OK) {
         const address = response[0].formatted_address;
-        console.log(address);
         temp = address;
       }
     });
@@ -131,11 +129,7 @@ export class MyPage extends Component {
   generateDrivingCard(data: IDriving): string {
     const lat = +data.post.location.latitude;
     const lng = +data.post.location.longitude;
-    const loc = {
-      lat: lat,
-      lng: lng,
-    };
-    const location = this.reverseGeocode(loc);
+    const location = `https://www.google.co.kr/maps?&z=18.5&q=${lat},${lng}&ll=${lat},${lng}z`;
     const carName = data.post.carName.toLowerCase();
     const carImage = this.findCarImage(carName);
     const options = data.post.options;
@@ -155,7 +149,9 @@ export class MyPage extends Component {
       (ele) => ele.name
     )}</div>
         <div class="${styles['date']}">${date}</div>
-        <div class="${styles['location']}">${location}</div>
+        <div class="${styles['location']}">
+          <a href="${location}" target="_blank">위치</a>
+        </div>
       </div>
     </div>
     `;
@@ -167,11 +163,7 @@ export class MyPage extends Component {
     const options = data.post.options;
     const lat = +data.post.location.latitude;
     const lng = +data.post.location.longitude;
-    const loc = {
-      lat: lat,
-      lng: lng,
-    };
-    const location = this.reverseGeocode(loc);
+    const location = `https://www.google.co.kr/maps?&z=18.5&q=${lat},${lng}&ll=${lat},${lng}z`;
     return `
     <div class=${styles['card-wrapper']}>
       <div class=${styles['image-wrapper']}>
@@ -187,7 +179,9 @@ export class MyPage extends Component {
       (ele) => ele.name
     )}</div>
         
-        <div class="${styles['location']}">${location}</div>
+        <div class="${styles['location']}">
+          <a href="${location}" target="_blank">위치</a>
+        </div>
       </div>
     </div>
     `;
