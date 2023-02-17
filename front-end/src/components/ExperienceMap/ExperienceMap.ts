@@ -143,10 +143,10 @@ export class ExperienceMap extends Component {
   getMapInfo(): mapInfo {
     const { map } = this.state;
     const mapBounds = map.getBounds();
-    const lngHi = mapBounds.Ma.hi;
-    const lngLo = mapBounds.Ma.lo;
-    const latHi = mapBounds.Ya.hi;
-    const latLo = mapBounds.Ya.lo;
+    const lngHi = mapBounds.Ia.hi;
+    const lngLo = mapBounds.Ia.lo;
+    const latHi = mapBounds.Ua.hi;
+    const latLo = mapBounds.Ua.lo;
     return {
       centerLat: map.getCenter().lat(),
       centerLng: map.getCenter().lng(),
