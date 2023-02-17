@@ -1,7 +1,6 @@
 import Component from '@/core/Component';
 import styles from './ExperienceMap.module.scss';
 import { mapStyle } from '@/utils/mapStyle';
-import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import { loadscript } from '@/utils/googleAPI';
 import { qs } from '@/utils/querySelector';
 import { mapInfo } from './interface';
@@ -67,7 +66,7 @@ export class ExperienceMap extends Component {
       }, 500)
     );
 
-    this.refreshMap();
+    this.updateMarkers();
   }
 
   moveToMyLocation() {
@@ -78,6 +77,7 @@ export class ExperienceMap extends Component {
         ({ coords }) => {
           const { latitude, longitude } = coords;
           this.setMapPosition(latitude, longitude);
+
           this.hideSpinner();
         },
         () => {
@@ -98,6 +98,7 @@ export class ExperienceMap extends Component {
   moveMap() {
     this.state.map.panTo(this.state.userLocation);
   }
+
   updateMarkers() {
     this.showSpinner();
     const locations = this.props.store
@@ -112,22 +113,15 @@ export class ExperienceMap extends Component {
     this.createMarkers(locations);
     this.hideSpinner();
   }
+
   createMarkers(locations: google.maps.LatLng[]) {
-    const markers = locations.map(
+    this.state.markers = locations.map(
       (loc: google.maps.LatLng) =>
         new google.maps.Marker({
           position: loc,
           map: this.state.map,
         })
     );
-    this.state.markers = [...this.state.markers, ...markers];
-    const { map } = this.state;
-    new MarkerClusterer({ map, markers });
-  }
-
-  refreshMap() {
-    this.state.markers = [];
-    this.createMarkers([]);
   }
 
   handleDebounce(callback: Function, limit: number) {
@@ -161,8 +155,8 @@ export class ExperienceMap extends Component {
   setMapPosition(lat: number, lng: number, zoom: number | null = null) {
     const { map } = this.state;
     const newCenter = { lat, lng };
-    map.setCenter(newCenter);
-    zoom && map.setZoom(zoom);
+    map.panTo(newCenter, 1000, google.maps.Animation.BOUNCE);
+    zoom && map.setZoom(zoom, { animation: google.maps.Animation.BOUNCE });
   }
 
   clearMarkers() {
@@ -171,6 +165,7 @@ export class ExperienceMap extends Component {
     );
     this.state.markers = [];
   }
+
   setEvent(): void {
     this.addEvent(
       'click',
