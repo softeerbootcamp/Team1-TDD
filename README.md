@@ -4,53 +4,16 @@
 
 <p align=center>🚘사용자간 자동차 경험을 공유하는 웹 기반 C2C 시승 플랫폼 TDD입니다.(https://letstdd.site)</p>
 
-## 0. 목차
+현재의 시승서비스. 불편하다고 생각해보신 적 없으신가요? 전국에 몇개 없는 현대의 Driving Center. 그리고 주말 예약을 다 차버려서 예약도 할 수 없는 상황. 구매하고 싶은 모델은 확정했지만 옵션에 대한 경험을 하고 싶은 고민, 이러한 불편함들에서 TDD는 출발했습니다.
 
-- 사용자들이 다른 섹션으로 쉽게 이동할 수 있는 목차
-
-## 1. 동기
-
-### 왜 이 프로젝트를 기획했나요?
-
-현재의 시승서비스. 불편하다고 생각해보신 적 없으신가요? 전국에 몇개 없는 현대의 Driving Center. 그리고 주말 예약을 다 차버려서 예약도 할 수 없는 상황. 구매하고 싶은 모델은 확정했지만 옵션에 대한 경험을 하고 싶은 고민. 이러한 불편함들에서 TDD는 출발했습니다.
-
-### 이 프로젝트는 어떤 문제를 해결하나요?
+## 소개
+TDD 서비스는 차량 시승을 통해 사용자 간 차량에 대한 경험을 공유할 수 있도록 해주는 웹기반 C2C 플랫폼입니다.
 
 사용자들간의 시승을 공유함으로서 우리는 이 불편함들을 해결하고자 했습니다. 세부적인 고민 사항들을 혼자 가지고 있지 말고, 경험을 이용해보면서 시작해보세요.
 
-- 이 프로젝트를 통해 무엇을 배우셨나요?
-
-## 2. 프로젝트명
-
-Let’s TDD. Try, Drive, Delightly. 로고에 대한 설명을 하겠습니다. TDD에서 T와 D를 가지고 핸들을 추상화했습니다. 전체적인 모양은 공유 핀을 형상화하였습니다.
-
-![https://lh4.googleusercontent.com/smFIvxppZUwnT_AjbuLjZmy3bnD89sHRiHVkyOu0NuWwHCNFFXkQECHcXrAGmPn21z72VVS4nHbUMhTy_Zj62WTmVy7X5DOq0zUWwiqLCD4jVX5rvvGSn1Nnol3GCqdCtsetRE2RGySw4_ZXsvJjaRY](https://lh4.googleusercontent.com/smFIvxppZUwnT_AjbuLjZmy3bnD89sHRiHVkyOu0NuWwHCNFFXkQECHcXrAGmPn21z72VVS4nHbUMhTy_Zj62WTmVy7X5DOq0zUWwiqLCD4jVX5rvvGSn1Nnol3GCqdCtsetRE2RGySw4_ZXsvJjaRY)
-
-## 3. 프로젝트 설명
-
-[LetsTDD.site](https://letstdd.site)
-
-### 주요 기능 캡쳐
-
-
-
-### 기술 스택  
-### ✔️Frond-end
-<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=black"> <img src="https://img.shields.io/badge/SCSS-CC6699?style=for-the-badge&logo=SASS&logoColor=white"> <img src="https://img.shields.io/badge/.env-ECD53F?style=for-the-badge&logo=.env&logoColor=black">
-<img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"> <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white"> <img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white">
-
-### ✔️Back-end
-<img src="https://img.shields.io/badge/java 11-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/spring data jdbc-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white"> <img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white"> <img src="https://img.shields.io/badge/junit5-25A162?style=for-the-badge&logo=junit5&logoColor=white">
-
-### ✔️Deploy
-<img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"> <img src="https://img.shields.io/badge/amazonAWS-232F3E?style=for-the-badge&logo=amazonAWS&logoColor=white"> <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white"> <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/githubactions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white"> <img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white">
-### 이 애플리케이션이 하는 일
-
 자동차 시승을 해보고 싶은 유저와 자동차를 대여해주고 이득을 취하고 싶은 유저를 매칭해주는 플랫폼입니다. 차를 구매하기 전 다양한 차를 직접 체험해 보고싶은 사용자, 실제 사용자의 실사용 후기를 듣고싶은 사용자를 매칭해줍니다.
 
-### 어떤 플랫폼인가요?
 
-이 프로젝트는 사용자간 차량을 시승할 수 있도록 해주는 웹기반 C2C 플랫폼입니다.
 
 ### 누가 이용하나요?
 
@@ -68,6 +31,26 @@ Let’s TDD. Try, Drive, Delightly. 로고에 대한 설명을 하겠습니다. 
 
 지금은 "차"라는 도메인, "시승"이라는 서비스에 한정되어 있지만 이를 확장시켜 모든 물건에 대해 사용자들끼리 체험할 수 있도록 매칭시켜주는 플랫폼으로 발전할 수 있습니다.
 
+
+![tdd](https://user-images.githubusercontent.com/60373714/219529450-d7e2e556-dc80-4a29-8782-46723678bac7.png)
+
+
+Let’s TDD. Try, Drive, Delightly. TDD에서 T와 D를 가지고 핸들을 추상화했습니다. 전체적인 모양은 공유 핀을 형상화하였습니다.
+
+
+## 주요 기능 캡쳐
+(시연 영상)
+
+## 🛠 기술 스택  
+### ✔️ Frond-end
+<img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white"> <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=black"> <img src="https://img.shields.io/badge/SCSS-CC6699?style=for-the-badge&logo=SASS&logoColor=white"> <img src="https://img.shields.io/badge/prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white"> <img src="https://img.shields.io/badge/.env-ECD53F?style=for-the-badge&logo=.env&logoColor=black">
+<img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/googlemaps-4285F4?style=for-the-badge&logo=googlemaps&logoColor=white"> <img src="https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"> <img src="https://img.shields.io/badge/eslint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"> <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white"> 
+### ✔️ Back-end
+<img src="https://img.shields.io/badge/java 11-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/spring data jdbc-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/junit5-25A162?style=for-the-badge&logo=junit5&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white"> 
+
+### ✔️ Deploy
+<img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"> <img src="https://img.shields.io/badge/amazonAWS-232F3E?style=for-the-badge&logo=amazonAWS&logoColor=white"> <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white"> <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white"> <img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/githubactions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white"> 
+
 ### 사용한 기술과 이유
 
 - Typescript: Typescript는 Object의 타입을 명시할 수 있습니다. 그래서 자바스크립트를 실제로 사용하기 전에 있을만한 타입 에러들을 미리잡기 위해 사용합니다. 또 개발도구에게 개발자가 의도한 변수나 함수등의 목적을 더욱 명확하게 전달 가능하고 전달된 정보를 기반으로 코드 자동완성이나 잘못된 변수/함수 사용에 대한 에러 알림 같은 풍부한 피드백을 받을 수 있게 되므로 순수 자바스크립트에 비해 생상성 향상을 꾀할 수 있었습니다.
@@ -79,9 +62,9 @@ Let’s TDD. Try, Drive, Delightly. 로고에 대한 설명을 하겠습니다. 
 
 - CORS
 - Cookie
-- Geolocation
+- Geolocation, Reverse Geocoder
 - 컴포넌트 방식 new 키워드와 subscribe
-- SCSS module hashing Collision: 자주 사용하는 Component에서
+- SCSS module hashing Collision
 - 나중에 추가하고 싶은 기능
 
 ## 4. 프로젝트 설치 및 실행 방법
@@ -108,7 +91,7 @@ java -jar ./build/libs/back-end-0.0.1-SNAPSHOT.jar
 - 프로젝트 실행 예시 화면의 스크린샷
 - 프로젝트에서 사용된 구조나 디자인 원칙을 추가할 수 있습니다.
 
-# 팀원
+# 🤝 팀원
 
 ## FE
 |```이민재```|```이제영```|
@@ -120,18 +103,6 @@ java -jar ./build/libs/back-end-0.0.1-SNAPSHOT.jar
 |:-:|:-:|:-:|
 |<img src="https://avatars.githubusercontent.com/u/80745404?v=4" width=130>|<img src="https://avatars.githubusercontent.com/u/59179386?v=4" width=130>|<img src="https://avatars.githubusercontent.com/u/60373714?v=4" width=130>|
 |[@River-Mt](https://github.com/River_Mt)|[@jieonkim23](https://github.com/jieonkim23)| [@psm9718](https://github.com/psm9718) |
-
-
-# Stacks  
-### ✔️Frond-end
-<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=black"> <img src="https://img.shields.io/badge/SCSS-CC6699?style=for-the-badge&logo=SASS&logoColor=white"> <img src="https://img.shields.io/badge/.env-ECD53F?style=for-the-badge&logo=.env&logoColor=black">
-<img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"> <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white"> <img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white">
-
-### ✔️Back-end
-<img src="https://img.shields.io/badge/java 11-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/spring data jdbc-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white"> <img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white"> <img src="https://img.shields.io/badge/junit5-25A162?style=for-the-badge&logo=junit5&logoColor=white">
-
-### ✔️Deploy
-<img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"> <img src="https://img.shields.io/badge/amazonAWS-232F3E?style=for-the-badge&logo=amazonAWS&logoColor=white"> <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white"> <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/githubactions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white"> <img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white">
 
 # 프로젝트에 기여하는 방법
 - 다른 개발자들이 프로젝트에 어떻게 기여할 수 있는지에 대한 가이드라인
