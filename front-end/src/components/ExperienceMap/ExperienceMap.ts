@@ -76,8 +76,7 @@ export class ExperienceMap extends Component {
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
           const { latitude, longitude } = coords;
-          this.setMapPosition(latitude, longitude);
-
+          this.setMapPosition(latitude, longitude, 17);
           this.hideSpinner();
         },
         () => {
