@@ -1,7 +1,7 @@
 export interface ItestDrivingReq {
   carName: string;
   dateList: string[];
-  optionList: Ioption[];
+  optionList: string[];
 }
 export interface ItestDrivingRes {
   appointments: Iappointment[];
@@ -24,6 +24,7 @@ interface Ilocation {
   longitude: string;
 }
 interface Ipost {
+  id: number;
   carName: string;
   requirement: string;
   rideOption: string;

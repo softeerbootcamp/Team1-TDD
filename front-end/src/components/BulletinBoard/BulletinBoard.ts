@@ -1,37 +1,46 @@
 import Component from '@/core/Component';
 import styles from './BulletinBoard.module.scss';
+import { ItestDrivingRes } from '@/store/OptionStore/interface';
 interface list {
-  car: string;
-  desc: string;
-  options: string[];
+  title: string;
+  options: string;
+  dates: string;
+  carName: string;
+  postId: number;
 }
-const data: list = {
-  car: 'sonata',
-  desc: '아니한 그들에게 그들의 가장 없으면 군영과 모래뿐일 피다. 같이 모래뿐일 별과 내는 귀는 것이다.',
-  options: [],
-};
+
 export class BulletinBoard extends Component {
+  setup(): void {
+    this.props.store.subscribe(this.render.bind(this), this.constructor.name);
+  }
   template(): string {
-    return `
-      ${this.listTemplate(data)}
-    `;
+    const filteredPost = this.props.store.getState().filteredPost;
+    const filteredData = filteredPost.map((ele: ItestDrivingRes) => {
+      const title = ele.post.requirement;
+      const options = ele.options.map(({ name }) => name).join(' / ');
+      const dates = ele.appointments.map(({ date }) => date).join(' / ');
+      const postId = ele.post.id;
+      const carName = ele.post.carName;
+      return { title, options, dates, postId, carName };
+    });
+    return filteredData.map((data: any) => this.listTemplate(data)).join('');
   }
   listTemplate(data: list) {
-    const { car, desc, options } = data;
+    const { title, options, dates, carName, postId } = data;
     return `
-    <div class="${styles.wrapper}">
+    <a data-link href="/mypage/${postId}" class="${styles.wrapper}">
       <div class="${styles.left}">
-        <div class="${styles.title}">${car}</div>
-        <div class="${styles.contents}">${desc}</div>
-        <div class="${styles.info}">${options.join(' / ')}</div>
+        <div class="${styles.title}">${title || '제목 없음'}</div>
+        <div class="${styles.contents}">${options}</div>
+        <div class="${styles.info}">${dates}</div>
       </div>
       <div class="${styles.right}">
         <div class="${styles.circle}">
-          0
-          <div class="${styles['circle-text']}">답변</div>
+          ${carName}
+          <div class="${styles['circle-text']}">${carName}</div>
         </div>
       </div>
-    </div>
+    </a>
     `;
   }
 }

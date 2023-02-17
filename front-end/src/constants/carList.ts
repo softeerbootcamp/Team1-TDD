@@ -1,19 +1,24 @@
 export interface ICar {
   fileName: string;
   title: string;
+  name?: string;
 }
+
 export const carList: ICar[] = [
   {
     fileName: '001_ionic6.png',
     title: '아이오닉6',
+    name: 'IONIC6',
   },
   {
     fileName: '002_ionic5.png',
     title: '아이오닉5',
+    name: 'IONIC5',
   },
   {
     fileName: '003_nexo.png',
     title: '넥쏘',
+    name: 'NEXO',
   },
   {
     fileName: '004_porter2_elec.png',
@@ -30,6 +35,7 @@ export const carList: ICar[] = [
   {
     fileName: '008_avanteN.png',
     title: '아반떼 N',
+    name: 'AVANTE',
   },
   {
     fileName: '009_avanteN_Line.png',
@@ -42,6 +48,7 @@ export const carList: ICar[] = [
   {
     fileName: '011_tucsonN.png',
     title: '투싼 N',
+    name: 'TUCSON',
   },
   {
     fileName: '012_tucsonN_Hybrid.png',
@@ -50,6 +57,7 @@ export const carList: ICar[] = [
   {
     fileName: '013_grandeur.png',
     title: '그랜저',
+    name: 'THE_ALL_NEW_GRANDEUR',
   },
   {
     fileName: '014_grandeur_Hybrid.png',
@@ -66,6 +74,7 @@ export const carList: ICar[] = [
   {
     fileName: '017_sonata.png',
     title: '쏘나타',
+    name: 'SONATA',
   },
   {
     fileName: '018_sonata_Hybrid.png',
@@ -74,6 +83,7 @@ export const carList: ICar[] = [
   {
     fileName: '019_kona.png',
     title: '코나',
+    name: 'THE_ALL_NEW_KONA',
   },
   {
     fileName: '020_kona_Hybrid.png',

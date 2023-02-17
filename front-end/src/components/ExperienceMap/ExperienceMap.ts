@@ -8,20 +8,20 @@ import { mapInfo } from './interface';
 
 export class ExperienceMap extends Component {
   setup() {
+    const location = this.props.store.getState().mapInfo;
+    const initLocation = { lat: location?.centerLat, lng: location?.centerLng };
+    const initZoom = location?.zoom;
+
     this.state.markers = [];
-    this.state.userLocation = {};
+    this.state.userLocation = location
+      ? initLocation
+      : {
+          lat: 37.5326,
+          lng: 127.024612,
+        };
+    this.state.zoom = initZoom || 15;
     this.state.map = null;
-    if (this.props.hasOwnProperty('ends')) {
-      this.state.userLocation = {
-        lat: (this.props.ends.latHi + this.props.ends.latLo) / 2,
-        lng: (this.props.ends.lngHi + this.props.ends.lngLo) / 2,
-      };
-    } else {
-      this.state.userLocation = {
-        lat: 37.56,
-        lng: 127.0,
-      };
-    }
+
     this.props.store.subscribe(
       this.updateMarkers.bind(this),
       this.constructor.name
@@ -52,7 +52,7 @@ export class ExperienceMap extends Component {
 
   initMap() {
     const map = new google.maps.Map(qs('#googleMap')!, {
-      zoom: 15,
+      zoom: this.state.zoom,
       center: this.state.userLocation as google.maps.LatLng,
       styles: mapStyle() as object[],
     });
@@ -71,19 +71,18 @@ export class ExperienceMap extends Component {
   }
 
   moveToMyLocation() {
-    const loader = qs(`.${styles.loader}`, this.target);
-    loader?.classList.remove(styles.hidden);
+    this.showSpinner();
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
           const { latitude, longitude } = coords;
           this.setMapPosition(latitude, longitude);
-          loader?.classList.add(styles.hidden);
+          this.hideSpinner();
         },
         () => {
           console.log('moving map has failed');
-          loader?.classList.add(styles.hidden);
+          this.hideSpinner();
         },
         {
           enableHighAccuracy: false,
@@ -100,11 +99,21 @@ export class ExperienceMap extends Component {
     this.state.map.panTo(this.state.userLocation);
   }
   updateMarkers() {
+    this.showSpinner();
+    const locations = this.props.store
+      .getState()
+      .filteredPost.map((ele: any) => {
+        return {
+          lat: +ele.location.latitude.trim(),
+          lng: +ele.location.longitude.trim(),
+        };
+      });
     this.clearMarkers();
-    this.createMarkers();
+    this.createMarkers(locations);
+    this.hideSpinner();
   }
-  createMarkers() {
-    const markers = this.props.locations.map(
+  createMarkers(locations: google.maps.LatLng[]) {
+    const markers = locations.map(
       (loc: google.maps.LatLng) =>
         new google.maps.Marker({
           position: loc,
@@ -118,7 +127,7 @@ export class ExperienceMap extends Component {
 
   refreshMap() {
     this.state.markers = [];
-    this.createMarkers();
+    this.createMarkers([]);
   }
 
   handleDebounce(callback: Function, limit: number) {
@@ -134,10 +143,10 @@ export class ExperienceMap extends Component {
   getMapInfo(): mapInfo {
     const { map } = this.state;
     const mapBounds = map.getBounds();
-    const lngHi = mapBounds.Ma.hi;
-    const lngLo = mapBounds.Ma.lo;
-    const latHi = mapBounds.Ya.hi;
-    const latLo = mapBounds.Ya.lo;
+    const lngHi = mapBounds.Ia.hi;
+    const lngLo = mapBounds.Ia.lo;
+    const latHi = mapBounds.Ua.hi;
+    const latLo = mapBounds.Ua.lo;
     return {
       centerLat: map.getCenter().lat(),
       centerLng: map.getCenter().lng(),
@@ -168,5 +177,14 @@ export class ExperienceMap extends Component {
       `.${styles['find-my-position']}`,
       this.moveToMyLocation.bind(this)
     );
+  }
+
+  showSpinner() {
+    const loader = qs(`.${styles.loader}`, this.target);
+    loader?.classList.remove(styles.hidden);
+  }
+  hideSpinner() {
+    const loader = qs(`.${styles.loader}`, this.target);
+    loader?.classList.add(styles.hidden);
   }
 }

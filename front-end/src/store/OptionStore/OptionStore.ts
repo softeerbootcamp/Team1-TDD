@@ -1,6 +1,10 @@
+import { axiosInstance } from '@/apis';
 import { mapInfo } from '@/components/ExperienceMap/interface';
 import { carList } from '@/constants/carList';
 import { Store } from '@/core/Store.js';
+import { getQueryStringParameter } from '@/utils/urlParser';
+import { totalDataHandler } from './DataHandler';
+import { ItestDrivingRes } from './interface';
 export interface IOptionState {
   carModel: string;
   rideTogether: boolean;
@@ -8,48 +12,80 @@ export interface IOptionState {
   openState: boolean[];
   dates: string[];
   mapInfo: mapInfo;
+  optionList: any;
+  filteredPost: ItestDrivingRes[];
 }
 interface IOption {
   name: string;
   category: string;
-  open: boolean;
 }
 interface DynamicObject {
   [property: string]: any;
 }
+const carModel = getQueryStringParameter('car')?.toLocaleUpperCase();
+const options = getQueryStringParameter('options');
+const dates = getQueryStringParameter('dates');
+const location = getQueryStringParameter('location');
 const initState = {
-  carModel: carList[0].title,
+  carModel: carModel || carList[0].name,
   rideTogether: false,
-  options: [],
+  options: options ? JSON.parse(options) : [],
   openState: [],
-  dates: [],
-  mapInfo: null,
+  dates: dates ? JSON.parse(dates) : [],
+  mapInfo: location ? JSON.parse(location) : null,
+  optionList: [],
+  filteredPost: [],
 };
 
-const reducer = (
+const reducer = async (
   state: IOptionState,
   actionKey: string,
   payload: DynamicObject = {}
 ) => {
   switch (actionKey) {
-    case 'OPTION_INIT':
-      return initState;
+    case 'INIT':
+      return { ...state, carModel: payload.carModel };
+    case 'INIT_CAR':
+      const response = await axiosInstance.get(`/options/${payload.name}`);
+      return { ...state, optionList: response.data };
 
     case 'UPDATE_ACTIVE_CAR_OPTION':
-      return { ...state, options: payload.options };
+      const newOptionState = { ...state, options: payload.options };
+      return await totalDataHandler(newOptionState);
 
     case 'SELECT_CAR_MODEL':
-      return { ...state, carModel: payload.name };
+      const res = await axiosInstance.get(`/options/${payload.name}`);
+      const optionList = res.data;
+      const result = [];
+      for (const item of state.options) {
+        const name = item.name;
+        for (const obj of optionList) {
+          for (const option of obj.options) {
+            if (option.name === name) {
+              result.push({ category: obj.category, name });
+            }
+          }
+        }
+      }
+      const updatedOptionState: IOptionState = {
+        ...state,
+        carModel: payload.name,
+        optionList,
+        options: result,
+      };
+      return await totalDataHandler(updatedOptionState);
 
     case 'UPDATE_OPEN_STATE':
       return { ...state, openState: payload.openState };
 
     case 'CHANGE_DATES':
-      return { ...state, dates: payload.dates };
+      const newDateState = { ...state, dates: payload.dates };
+      return await totalDataHandler(newDateState);
 
     case 'MOVE_MAP':
       const { mapInfo } = payload;
-      return { ...state, mapInfo };
+      const newMapState = { ...state, mapInfo };
+      return await totalDataHandler(newMapState);
 
     default:
       return { ...state };

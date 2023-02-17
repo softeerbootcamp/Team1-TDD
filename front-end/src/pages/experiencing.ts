@@ -8,8 +8,8 @@ import { qs } from '@/utils/querySelector';
 import styles from '@/styles/experiencing.module.scss';
 import { OptionStore } from '@/store/OptionStore/OptionStore';
 import { mapInfo } from '@/components/ExperienceMap/interface';
-import { seoulLocations } from '@/components/ExperienceMap/dummyData';
 import { BulletinBoard } from '@/components/BulletinBoard/BulletinBoard';
+import { CopyLinkBtn } from '@/components/CopyLinkBtn/CopyLinkBtn';
 
 export class Experiencing extends Component {
   template(): string {
@@ -20,6 +20,7 @@ export class Experiencing extends Component {
       <div id="ex-calendar"></div>
     </div>
     <div id="ex-map"></div>
+    <div id="copy-link-btn"></div>
     <div id="bulletin-board"><div>
     `;
   }
@@ -29,8 +30,11 @@ export class Experiencing extends Component {
     const $calendar = qs('#ex-calendar', this.target);
     const $map = qs('#ex-map', this.target);
     const $bulletinBoard = qs('#bulletin-board', this.target);
+    const $copyLinkBtn = qs('#copy-link-btn', this.target);
+    const list = carList.filter((ele) => !!ele.name);
+
     new ImageSlider($imageSlider as HTMLDivElement, {
-      list: carList,
+      list,
       store: OptionStore,
     });
     new OptionForm($optionSelector as HTMLDivElement, {
@@ -43,10 +47,10 @@ export class Experiencing extends Component {
     });
     new ExperienceMap($map as HTMLDivElement, {
       changePositionHandler: this.changePositionHandler,
-      locations: seoulLocations, //TODO:OptionStore.locations로 바꿔야됨
       store: OptionStore,
     });
-    new BulletinBoard($bulletinBoard as HTMLDivElement);
+    new CopyLinkBtn($copyLinkBtn as HTMLDivElement);
+    new BulletinBoard($bulletinBoard as HTMLDivElement, { store: OptionStore });
   }
 
   onChangeDates(dates: string[]) {

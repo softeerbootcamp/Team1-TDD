@@ -42,15 +42,19 @@ export class Calendar extends Component {
     });
   }
   getDateString(target: HTMLTableCellElement) {
-    return `${this.state.calendarDay.getFullYear()}/${(
-      '0' + this.state.calendarDay.getMonth()
-    ).slice(-2)}/${('0' + target.innerText).slice(-2)}`;
+    const date = this.state.calendarDay;
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(target.innerText).padStart(2, '0');
+    return `${year}/${month}/${day}`;
   }
-  markDates() {
-    const yearMonth = `${this.state.calendarDay.getFullYear()}/${(
-      '0' + this.state.calendarDay.getMonth()
-    ).slice(-2)}`;
 
+  markDates() {
+    const date = this.state.calendarDay;
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+
+    const yearMonth = `${year}/${month}`;
     const trimedDates: string[] = this.state.dates
       .filter((ele: string) => ele.includes(yearMonth))
       .map((day: string) => day.slice(-2));
