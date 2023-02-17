@@ -22,7 +22,7 @@ export class DetailPage extends Component {
     this.mounted();
   }
 
-  async setState(newState: object) {
+  setState(newState: object) {
     this.state = { ...this.state, ...newState };
   }
 
