@@ -30,7 +30,6 @@ export class ExperienceMap extends Component {
   template(): string {
     return `
     <div class=${styles.container}>
-      <div class="${styles.desc}">시승해보고 싶은 싶은 위치를 골라주세요!</div>
       <button class="${styles['find-my-position']} ${styles.jelly}">내 위치를 찾아줘..!</button>
       <span class="${styles.loader} ${styles.hidden}"></span>
     </div>
@@ -54,6 +53,7 @@ export class ExperienceMap extends Component {
       zoom: this.state.zoom,
       center: this.state.userLocation as google.maps.LatLng,
       styles: mapStyle() as object[],
+      disableDefaultUI: true,
     });
     this.state.map = map;
     this.moveMap();

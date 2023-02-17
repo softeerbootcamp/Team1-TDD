@@ -25,20 +25,15 @@ export class BulletinBoard extends Component {
     });
     return filteredData.map((data: any) => this.listTemplate(data)).join('');
   }
+
   listTemplate(data: list) {
-    const { title, options, dates, carName, postId } = data;
+    const { options, dates, carName, postId } = data;
     return `
-    <a data-link href="/mypage/${postId}" class="${styles.wrapper}">
+    <a data-link href="/details/${postId}" class="${styles.wrapper}">
       <div class="${styles.left}">
-        <div class="${styles.title}">${title || '제목 없음'}</div>
+        <div class="${styles.title}">${carName || '제목 없음'}</div>
         <div class="${styles.contents}">${options}</div>
         <div class="${styles.info}">${dates}</div>
-      </div>
-      <div class="${styles.right}">
-        <div class="${styles.circle}">
-          ${carName}
-          <div class="${styles['circle-text']}">${carName}</div>
-        </div>
       </div>
     </a>
     `;

@@ -16,7 +16,8 @@ interface IOptions {
 
 export class DetailPage extends Component {
   async render() {
-    const res = await getPosts(4);
+    const postId = location.pathname.split('/').at(-1)!;
+    const res = await getPosts(+postId);
     this.setState({ res: res.data });
     this.target.innerHTML = this.template();
     this.mounted();

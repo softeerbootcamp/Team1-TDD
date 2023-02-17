@@ -3,7 +3,7 @@
   color: black;
   margin: auto;
   cursor: pointer;
-  padding: 20px;
+  padding: 10px;
   border-bottom: 1px solid #dee2e6;
   display: flex;
   max-width: 1000px;
@@ -14,14 +14,9 @@
     transition: 0.3s;
   }
   .left {
-    width: 85%;
+    width: 100%;
   }
-  .right {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 15%;
-  }
+
   .title {
     font-weight: bold;
   }
