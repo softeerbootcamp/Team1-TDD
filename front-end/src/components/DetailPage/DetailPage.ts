@@ -1,62 +1,94 @@
-import Component from "@/core/Component";
-import styles from "./DetailPage.module.scss";
+import { getPosts } from '@/apis/detailPage';
+import { carList } from '@/constants/carList';
+import Component from '@/core/Component';
+import styles from './DetailPage.module.scss';
 
-const dummy_options = [
-  "N / N Line",
-  "가솔린",
-  "주차 거리 경고-전방",
-  "프리미엄 타이어",
-  "앞좌석 열선시트",
-  "서라운드 뷰 모니터",
-  "버튼시동 스마트키 시스템",
-];
+interface IAppointment {
+  date: string;
+  id: number;
+  status: string;
+}
+
+interface IOptions {
+  name: string;
+  category: string;
+}
 
 export class DetailPage extends Component {
-  setup(): void {
-    this.state.data = [];
+  async render() {
+    const res = await getPosts(4);
+    this.setState({ res: res.data });
+    this.target.innerHTML = this.template();
+    this.mounted();
   }
+
+  async setState(newState: object) {
+    this.state = { ...this.state, ...newState };
+  }
+
   template(): string {
+    const { appointments, location, options, post } = this.state.res;
+    console.log(appointments);
     return `
-      <div class="${styles["container"]}">
-        <div class="${styles["infos"]}">
-          <div class="${styles["image-wrapper"]}">
-            <img class="${styles["image"]}" src="${
+      <div class="${styles['container']}">
+        <div class="${styles['infos']}">
+          <div class="${styles['image-wrapper']}">
+            <img class="${styles['image']}" src="${
       process.env.VITE_IMAGE_URL
-    }/008_avanteN.png" />
+    }/${this.findCarImage(post.carName)}" />
           </div>
-          <div class="${styles["text-wrapper"]}">
-            <div class="${styles["car-name"]}">
-              <div class="${styles["left"]}">차종</div>
-              <div class="${styles["right"]}">Avante</div>
+          <div class="${styles['text-wrapper']}">
+            <div class="${styles['car-name']}">
+              <div class="${styles['left']}">차종</div>
+              <div class="${styles['right']}">${post.carName}</div>
             </div>
-            <div class="${styles["options"]}">
-              <div class="${styles["left"]}">옵션</div>
-              <div class="${styles["right"]}">${dummy_options
-      .map((ele) => this.optionCreator(ele))
-      .join("")}
+            <div class="${styles['options']}">
+              <div class="${styles['left']}">옵션</div>
+              <div class="${styles['right']}">${options
+      .map((ele: IOptions) => this.optionCreator(ele.name))
+      .join('')}
             </div>
           </div>
-          <div class="${styles["date"]}">
-            <div class="${styles["left"]}">시승날짜</div>
-            <div class="${styles["right"]}">2023-02-24</div>
+          <div class="${styles['date']}">
+            <div class="${styles['left']}">시승날짜</div>
+            <div class="${styles['right']}">2023-02-24</div>
           </div>
-          <div class="${styles["location"]}">
-            <div class="${styles["left"]}">시승위치</div>
-            <div class="${styles["right"]}">코드스쿼드</div>
+          <div class="${styles['location']}">
+            <div class="${styles['left']}">시승위치</div>
+            <div class="${styles['right']}">
+              <a href="https://www.google.co.kr/maps?&z=18.5&q=${
+                location.latitude
+              },${location.longitude}&ll=${location.latitude},${
+      location.longitude
+    }z" target="_blank">위치</a>
+            </div>
+          </div>
+          <div class="${styles['appointments']}">
+            <div class="${styles['left']}">예약현황</div>
+            <div class="${styles['right']}">${appointments
+      .map((ele: IAppointment) => ele.date)
+      .join(', ')}</div>
           </div>
         </div>
         </div>
-        <div class="${styles["button-wrapper"]}">
-          <div class="${styles["confirm"]}">확인</div>
-          <div class="${styles["cancel"]}">취소</div>
+        <div class="${styles['button-wrapper']}">
+          <div class="${styles['confirm']}">확인</div>
+          <div class="${styles['cancel']}">취소</div>
         </div>
       </div>
     `;
   }
 
+  findCarImage(carName: string) {
+    for (const car of carList) {
+      if (car.fileName.includes(carName.toLowerCase())) return car.fileName;
+    }
+    return 'error';
+  }
+
   optionCreator(option: string): string {
     const literal = `
-      <div class="${styles["opt"]}">${option}</div>
+      <div class="${styles['opt']}">${option}</div>
     `;
     return literal;
   }
