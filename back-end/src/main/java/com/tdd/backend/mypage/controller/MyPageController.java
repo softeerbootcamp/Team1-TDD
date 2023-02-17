@@ -20,7 +20,7 @@ public class MyPageController {
 	private final MyPageService myPageService;
 
 	@GetMapping("/mypage")
-	@Operation(summary = "해당 Post의 예약현황(날짜) 요청", description = "postId에 해당하는 포스트가 가진 Appointment 리스트로 응답해야 함.")
+	@Operation(summary = "마이페이지 정보 요청", description = "해당 유저의 정보와 시승, 공유 내용을 모두 응답해야함.")
 	public ResponseEntity<MyPageResponse> getAppointments(@LoginUser UserToken userToken) {
 		// 응답 :  appointment 리스트
 		MyPageResponse myPageInfo = myPageService.getMyPageInfo(userToken.getId());
