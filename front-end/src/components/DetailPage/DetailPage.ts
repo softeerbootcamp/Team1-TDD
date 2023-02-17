@@ -28,7 +28,6 @@ export class DetailPage extends Component {
 
   template(): string {
     const { appointments, location, options, post } = this.state.res;
-    console.log(appointments);
     return `
       <div class="${styles['container']}">
         <div class="${styles['infos']}">
