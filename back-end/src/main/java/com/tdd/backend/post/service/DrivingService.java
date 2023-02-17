@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.tdd.backend.car.data.OptionDto;
+import com.tdd.backend.car.repository.CarRepository;
 import com.tdd.backend.mypage.exception.PostNotFoundException;
 import com.tdd.backend.post.data.AppointmentDto;
 import com.tdd.backend.post.data.DrivingDto;
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class DrivingService {
+	private final CarRepository carRepository;
 
 	private final PostRepository postRepository;
 
@@ -41,12 +43,14 @@ public class DrivingService {
 		List<AppointmentDto> appointmentDtos = appointments.stream()
 			.map(Appointment::toDto)
 			.collect(Collectors.toList());
-
+		String imageUrl = carRepository.findImageUrlByName(post.getCarName())
+			.orElse("");
 		return DrivingResponse.builder()
 			.post(post.toPostDto())
 			.options(optionDtos)
 			.appointments(appointmentDtos)
 			.location(location.toDto())
+			.imageUrl(imageUrl)
 			.build();
 	}
 
