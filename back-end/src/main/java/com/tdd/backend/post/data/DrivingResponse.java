@@ -13,13 +13,14 @@ public class DrivingResponse {
 	private final LocationDto location;
 	private final List<OptionDto> options;
 	private final List<AppointmentDto> appointments;
-
+	private final String imageUrl;
 	@Builder
 	private DrivingResponse(PostDto post, LocationDto location, List<OptionDto> options,
-		List<AppointmentDto> appointments) {
+		List<AppointmentDto> appointments, String imageUrl) {
 		this.post = post;
 		this.location = location;
 		this.options = options;
 		this.appointments = appointments;
+		this.imageUrl = imageUrl;
 	}
 }

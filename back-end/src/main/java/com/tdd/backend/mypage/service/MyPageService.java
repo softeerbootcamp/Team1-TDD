@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.tdd.backend.car.data.OptionDto;
+import com.tdd.backend.car.repository.CarRepository;
 import com.tdd.backend.mypage.data.DefaultInfo;
 import com.tdd.backend.mypage.data.DrivingInfo;
 import com.tdd.backend.mypage.data.MyPageResponse;
@@ -30,12 +31,12 @@ import lombok.extern.slf4j.Slf4j;
 public class MyPageService {
 	private final PostRepository postRepository;
 	private final UserRepository userRepository;
+	private final CarRepository carRepository;
 
 	public MyPageResponse getMyPageInfo(Long userId) {
 		List<DrivingInfo> drivingInfoList = getDrivingInfoList(userId);
 		List<SharingInfo> sharingInfoList = getSharingInfoList(userId);
 		UserInfo userInfo = getUserInfo(userId, drivingInfoList, sharingInfoList);
-
 		return MyPageResponse.builder()
 			.user(userInfo)
 			.sharing(sharingInfoList)
@@ -53,7 +54,10 @@ public class MyPageService {
 		List<SharingInfo> sharingInfoList = new ArrayList<>();
 		List<DefaultInfo> defaultInfoList = postRepository.findPostByUserId(userId)
 			.stream()
-			.map(post -> post.toDefaultInfo(getOptionListByPostId(post.getId()), getLocation(post.getId())))
+			.map(post ->
+				post.toDefaultInfo(getOptionListByPostId(post.getId()),
+					getLocation(post.getId()),
+					getImageUrl(post.getCarName())))
 			.collect(Collectors.toList());
 		log.info(String.valueOf(defaultInfoList.size()));
 
@@ -65,6 +69,11 @@ public class MyPageService {
 		return sharingInfoList;
 	}
 
+	private String getImageUrl(String carName) {
+		return carRepository.findImageUrlByName(carName)
+			.orElse("");
+	}
+
 	private List<DrivingInfo> getDrivingInfoList(Long userId) {
 		List<DrivingInfo> drivingInfoList = new ArrayList<>();
 		List<Long> postIdList = postRepository.findPostIdByTesterId(userId);
@@ -74,7 +83,10 @@ public class MyPageService {
 			List<OptionDto> optionDtoList = getOptionListByPostId(postId);
 
 			DefaultInfo defaultInfo = postRepository.findById(postId)
-				.map(post -> post.toDefaultInfo(optionDtoList, getLocation(postId)))
+				.map(post ->
+					post.toDefaultInfo(optionDtoList,
+						getLocation(postId),
+						getImageUrl(post.getCarName())))
 				.orElse(DefaultInfo.builder().build());
 
 			String date = postRepository.findDateByPostIdAndUserId(postId, userId)
