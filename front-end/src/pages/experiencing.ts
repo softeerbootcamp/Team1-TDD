@@ -17,17 +17,25 @@ export class Experiencing extends Component {
     <div class="${styles.container}">
       <div class="${styles.left}">
         <div class="${styles.buttons}">
-          <button>차종</button>
-          <button>옵션</button>
-          <button>날짜</button>
+          <div class="${styles.dropdown}">
+            <button class="${styles.dropbtn}">차종</button>
+            <div id="ex-imageSlider" class="${styles['dropdown-content']}"></div>
+          </div>
+          <div class="${styles.dropdown}">
+            <button class="${styles.dropbtn}">옵션</button>
+            <div id="ex-optionSelector" class="${styles['dropdown-content']}"></div>
+          </div>
+          <div class="${styles.dropdown}">
+            <button class="${styles.dropbtn}">날짜</button>
+            <div id="ex-calendar" class="${styles['dropdown-content']}"></div>
+          </div>
         </div>
-        <div id="bulletin-board" class="${styles.board}"></div>
+        <div class="${styles['board-cover']}">
+          <div id="bulletin-board" class="${styles.board}"></div>
+        </div>
       </div>
       <div id="ex-map" class="${styles.map}"></div>
     </div>
-    <div id="ex-imageSlider"></div>
-    <div id="ex-optionSelector"></div>
-    <div id="ex-calendar"></div>
     <div id="copy-link-btn"></div>
     `;
   }
