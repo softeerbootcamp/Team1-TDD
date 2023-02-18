@@ -36,12 +36,11 @@ public class MailService {
 		EmailMessage testerEmailMessage = generateEmailMessage(postInfo, postInfo.getUserId(), testerId,
 			UserType.TESTER);
 
-		senMimeMail(ownerEmailMessage);
-		senMimeMail(testerEmailMessage);
-		log.info("Sent simple email!");
+		sendMimeMail(ownerEmailMessage);
+		sendMimeMail(testerEmailMessage);
 	}
 
-	private void senMimeMail(EmailMessage emailMessage) {
+	private void sendMimeMail(EmailMessage emailMessage) {
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		try {
 			mimeMessage.setText(emailMessage.getMessage(), "utf-8", "html");
@@ -53,13 +52,13 @@ public class MailService {
 		}
 	}
 
-	public EmailMessage generateEmailMessage(PostInfo postInfo, Long anotherId, Long receiverId, UserType userType) {
-		String toEmail = userRepository.findEmailById(receiverId)
+	public EmailMessage generateEmailMessage(PostInfo postInfo, Long FromId, Long toId, UserType userType) {
+		String toEmail = userRepository.findEmailById(toId)
 			.orElseThrow(EmailNotFoundException::new);
-		User another = userRepository.findById(anotherId)
+		User another = userRepository.findById(FromId)
 			.orElseThrow(UserNotFoundException::new);
 
-		return EmailMessage.builder()
+		EmailMessage emailMessage = EmailMessage.builder()
 			.to(toEmail)
 			.subject(userType.getSubject())
 			.carName(postInfo.getCarName())
@@ -70,5 +69,8 @@ public class MailService {
 			.userType(userType)
 			.phoneNumber(another.getPhoneNumber())
 			.build();
+
+		log.info("> email : {} -> {}", FromId, toId);
+		return emailMessage;
 	}
 }
