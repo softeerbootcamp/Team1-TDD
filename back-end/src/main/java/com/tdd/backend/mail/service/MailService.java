@@ -57,7 +57,7 @@ public class MailService {
 	public EmailMessage generateEmailMessage(PostInfo postInfo, Long FromId, Long toId, UserType userType) {
 		String toEmail = userRepository.findEmailById(toId)
 			.orElseThrow(EmailNotFoundException::new);
-		User another = userRepository.findById(FromId)
+		User fromUser = userRepository.findById(FromId)
 			.orElseThrow(UserNotFoundException::new);
 
 		EmailMessage emailMessage = EmailMessage.builder()
@@ -66,13 +66,13 @@ public class MailService {
 			.carName(postInfo.getCarName())
 			.date(postInfo.getDate())
 			.requirement(postInfo.getRequirement())
-			.email(another.getEmail())
-			.name(another.getUserName())
+			.email(fromUser.getEmail())
+			.name(fromUser.getUserName())
 			.userType(userType)
-			.phoneNumber(another.getPhoneNumber())
+			.phoneNumber(fromUser.getPhoneNumber())
 			.build();
 
-		log.info("> email : {} -> {}", FromId, toId);
+		log.info("> email : {} -> {}", fromUser.getEmail(), toEmail);
 		return emailMessage;
 	}
 }
