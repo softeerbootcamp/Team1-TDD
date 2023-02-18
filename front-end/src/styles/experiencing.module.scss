@@ -44,10 +44,13 @@
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.4);
-  box-shadow: 0 14px 28px rgb(0 0 0 / 25%), 0 10px 10px rgb(0 0 0 / 22%);
-  backdrop-filter: blur(3px);
   z-index: 100;
+}
+
+.backdrop {
+  box-shadow: 0 14px 28px rgb(0 0 0 / 25%), 0 10px 10px rgb(0 0 0 / 22%);
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(3px);
 }
 
 .dropdown-content a {

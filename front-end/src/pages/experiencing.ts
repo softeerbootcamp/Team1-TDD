@@ -19,7 +19,7 @@ export class Experiencing extends Component {
         <div class="${styles.buttons}">
           <div class="${styles.dropdown}">
             <button class="${styles.dropbtn}">차종</button>
-            <div id="ex-imageSlider" class="${styles['dropdown-content']}"></div>
+            <div id="ex-imageSlider" class="${styles['dropdown-content']} ${styles.backdrop}"></div>
           </div>
           <div class="${styles.dropdown}">
             <button class="${styles.dropbtn}">옵션</button>
