@@ -3,9 +3,12 @@ package com.tdd.backend.post.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Service;
 
 import com.tdd.backend.car.data.OptionDto;
+import com.tdd.backend.mail.service.MailService;
 import com.tdd.backend.mypage.exception.PostNotFoundException;
 import com.tdd.backend.post.data.AppointmentDto;
 import com.tdd.backend.post.data.DrivingDto;
@@ -17,14 +20,17 @@ import com.tdd.backend.post.model.Option;
 import com.tdd.backend.post.model.Post;
 import com.tdd.backend.post.repository.PostRepository;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class DrivingService {
+public class DrivingService implements ApplicationEventPublisherAware {
 
+	private ApplicationEventPublisher eventPublisher;
+	private final MailService mailService;
 	private final PostRepository postRepository;
 
 	public DrivingResponse getAllDataByPostId(Long postId) {
@@ -79,5 +85,25 @@ public class DrivingService {
 
 	public void approveAppointment(Long appointmentId, Long testerId) {
 		postRepository.updateTesterIdStatusAccept(appointmentId, testerId);
+		mailService.send(appointmentId, testerId);
+
+		eventPublisher.publishEvent(new AppointmentAcceptEvent(appointmentId, testerId));
+	}
+
+	@Override
+	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+		this.eventPublisher = applicationEventPublisher;
+	}
+
+	@Getter
+	public static class AppointmentAcceptEvent {
+
+		private final Long appointmentId;
+		private final Long testerId;
+
+		private AppointmentAcceptEvent(Long appointmentId, Long testerId) {
+			this.appointmentId = appointmentId;
+			this.testerId = testerId;
+		}
 	}
 }
