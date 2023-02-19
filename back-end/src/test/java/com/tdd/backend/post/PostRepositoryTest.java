@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,13 @@ public class PostRepositoryTest {
 	PostRepository postRepository;
 	@Autowired
 	private MyCarRepository myCarRepository;
+
+	@BeforeEach
+	void setup() {
+		userRepository.deleteAll();
+		postRepository.deleteAll();
+		myCarRepository.deleteAll();
+	}
 
 	@Test
 	@DisplayName("모든 인자가 NULL이 아닐 때 쿼리 정상작동 테스트")
