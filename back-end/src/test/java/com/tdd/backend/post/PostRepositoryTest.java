@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tdd.backend.car.model.Category;
+import com.tdd.backend.mypage.MyCarRepository;
+import com.tdd.backend.mypage.model.MyCar;
 import com.tdd.backend.post.model.Appointment;
 import com.tdd.backend.post.model.AppointmentStatus;
 import com.tdd.backend.post.model.Location;
@@ -36,6 +38,8 @@ public class PostRepositoryTest {
 
 	@Autowired
 	PostRepository postRepository;
+	@Autowired
+	private MyCarRepository myCarRepository;
 
 	@Test
 	@DisplayName("모든 인자가 NULL이 아닐 때 쿼리 정상작동 테스트")
@@ -91,6 +95,9 @@ public class PostRepositoryTest {
 		optionSet.add(new Option("현대 스마트 센스 III", Category.CAR_OPTION));
 		optionSet.add(new Option("플래티넘 III", Category.CAR_OPTION));
 
+		MyCar myCar = new MyCar(user.getId(), 7L, optionSet);
+		myCarRepository.save(myCar);
+
 		Location location = new Location("20.12", "30.4432");
 
 		Set<Appointment> appointmentSet = new HashSet<>();
@@ -98,15 +105,7 @@ public class PostRepositoryTest {
 		appointmentSet.add(new Appointment(LocalDate.parse("2022-01-03"), AppointmentStatus.PENDING));
 		appointmentSet.add(new Appointment(LocalDate.parse("2022-01-05"), AppointmentStatus.PENDING));
 
-		Post post = new Post(
-			user.getId(),
-			RideOption.RIDE_ALONE,
-			"SANTAFE",
-			"hello",
-			optionSet,
-			location,
-			appointmentSet
-		);
+		Post post = new Post( RideOption.RIDE_ALONE, "hello", location, appointmentSet, myCar.getId());
 
 		postRepository.save(post);
 
@@ -125,17 +124,12 @@ public class PostRepositoryTest {
 		appointmentSet.add(new Appointment(LocalDate.parse("2022-01-02"), AppointmentStatus.PENDING));
 		appointmentSet.add(new Appointment(LocalDate.parse("2022-01-06"), AppointmentStatus.PENDING));
 
-		Post post1 = new Post(
-			user2.getId(),
-			RideOption.RIDE_ALONE,
-			"SANTAFE",
-			"hello world",
-			optionSet,
-			location,
-			appointmentSet
-		);
+		MyCar myCar2 = new MyCar(user1.getId(), 7L, optionSet);
+		myCarRepository.save(myCar2);
 
-		postRepository.save(post1);
+
+		Post post2 = new Post( RideOption.RIDE_ALONE, "hi", location, appointmentSet, myCar2.getId());
+		postRepository.save(post2);
 
 		optionSet = new HashSet<>();
 		optionSet.add(new Option("가솔린 2.5", Category.ENGINE));
@@ -147,6 +141,9 @@ public class PostRepositoryTest {
 		optionSet.add(new Option("빌트인 캠(보조배터리 포함)", Category.CAR_OPTION));
 		optionSet.add(new Option("파킹 어시스트 I", Category.CAR_OPTION));
 
+		MyCar myCar3 = new MyCar(user2.getId(), 7L, optionSet);
+		myCarRepository.save(myCar3);
+
 		location = new Location("2234.12", "307.4432");
 
 		appointmentSet = new HashSet<>();
@@ -155,20 +152,11 @@ public class PostRepositoryTest {
 		appointmentSet.add(new Appointment(LocalDate.parse("2022-01-03"), AppointmentStatus.PENDING));
 		appointmentSet.add(new Appointment(LocalDate.parse("2022-01-04"), AppointmentStatus.PENDING));
 
-		Post post2 = new Post(
-			tester.getId(),
-			RideOption.RIDE_ALONE,
-			"SANTAFE",
-			"hello world",
-			optionSet,
-			location,
-			appointmentSet
-		);
-
-		postRepository.save(post2);
+		Post post3 = new Post( RideOption.RIDE_ALONE, "hi", location, appointmentSet, myCar3.getId());
+		postRepository.save(post3);
 
 		//when
-		String carName = "SANTAFE";
+		Long carId = 7L;
 		List<String> options = List.of("가솔린 2.5", "2WD", "헤드업 디스플레이", "빌트인 캠(보조배터리 포함)");
 		List<String> dates = List.of("2022-01-02", "2022-01-03", "2022-01-04");
 
@@ -176,19 +164,19 @@ public class PostRepositoryTest {
 		SoftAssertions softAssertions = new SoftAssertions();
 
 		softAssertions.assertThat(
-			postRepository.findPostIdsByOptionsAndDatesAndCarName(options, dates, carName, options.size())
+			postRepository.findPostIdsByOptionsAndDatesAndCarId(options, dates, carId, options.size())
 		).isEqualTo(List.of(2L, 3L));
 
 		softAssertions.assertThat(
-			postRepository.findPostIdsByOptionsAndCarName(options, carName, options.size())
+			postRepository.findPostIdsByOptionsAndCarId(options, carId, options.size())
 		).isEqualTo(List.of(2L, 3L));
 
 		softAssertions.assertThat(
-			postRepository.findPostIdsByDatesAndCarName(dates, carName)
+			postRepository.findPostIdsByDatesAndCarId(dates, carId)
 		).isEqualTo(List.of(1L, 2L, 3L));
 
 		softAssertions.assertThat(
-			postRepository.findPostIdsByCarName(carName)
+			postRepository.findPostIdsByCarId(carId)
 		).isEqualTo(List.of(1L, 2L, 3L));
 
 		softAssertions.assertAll();
