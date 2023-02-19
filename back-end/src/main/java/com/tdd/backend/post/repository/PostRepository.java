@@ -20,8 +20,8 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 	@Query("SELECT latitude, longitude FROM locations WHERE post_id = :id")
 	Optional<Location> findLocationByPostId(@Param("id") Long id);
 
-	@Query("SELECT name, category FROM options WHERE  post_id = :id")
-	List<Option> findOptionByPostId(@Param("id") Long id);
+	@Query("SELECT o.name, o.category FROM options o WHERE o.mycar_id = :myCarID")
+	List<Option> findOptionsByMyCarId(@Param("myCarID") Long myCarId);
 
 	@Query("SELECT id, date, status FROM appointments WHERE post_id = :id")
 	List<Appointment> findAppointmentsByPostId(@Param("id") Long id);
@@ -30,69 +30,89 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 	@Query("UPDATE appointments SET status = 'ACCEPT', tester_id = :testerid WHERE id = :id")
 	void updateTesterIdStatusAccept(@Param("id") Long id, @Param("testerid") Long testerId);
 
-	@Query("SELECT id, ride_option, car_name, user_id, requirement FROM  posts WHERE user_id = :id")
-	List<Post> findPostByUserId(@Param("id") Long id);
+	@Query("SELECT DISTINCT post_id FROM appointments WHERE tester_id = :testerId")
+	List<Long> findPostIdByTesterId(@Param("testerId") Long testerId);
 
-	@Query("SELECT post_id FROM appointments WHERE tester_id = :userId")
-	List<Long> findPostIdByTesterId(@Param("userId") Long userId);
+	@Query("SELECT DISTINCT p.id FROM posts p "
+		+ "JOIN appointments a ON p.id = a.post_id "
+		+ "JOIN mycars m ON p.mycar_id = m.id "
+		+ "JOIN users u ON m.user_id = u.id "
+		+ "WHERE u.id = :userId "
+	)
+	List<Long> findPostIdsByUserId(
+		@Param("userId") Long userId
+	);
 
 	@Query("SELECT date FROM appointments WHERE post_id = :postId and tester_id = :userId")
 	Optional<String> findDateByPostIdAndUserId(@Param("postId") Long postId, @Param("userId") Long userId);
 
-	@Query("SELECT p.car_name, p.requirement, p.user_id, a.date FROM posts p "
-		+ "JOIN appointments a on p.id = a.post_id "
-		+ "WHERE a.id = :id")
-	Optional<PostInfo> findPostInfoByAppointmentId(@Param("id") Long id);
+	@Query("SELECT c.car_name, p.requirement, u.id as user_id "
+		+ "FROM appointments a "
+		+ "JOIN posts p ON a.post_id = p.id "
+		+ "JOIN mycars m ON p.mycar_id = m.id "
+		+ "JOIN cars c ON m.car_id = c.id "
+		+ "JOIN users u ON m.user_id = u.id "
+		+ "WHERE a.id = :appointmentId"
+	)
+	Optional<PostInfo> findPostInfoByAppointmentId(@Param("appointmentId") Long appointmentId);
 
 	@Query("SELECT p.id FROM posts p "
-		+ "JOIN options o ON p.id = o.post_id "
-		+ "JOIN appointments a on p.id = a.post_id "
+		+ "JOIN car_options co ON p.mycar_id = co.car_id "
+		+ "JOIN options o ON co.entire_option_id = o.id "
+		+ "JOIN mycars m ON p.mycar_id = m.id "
+		+ "JOIN cars c ON m.car_id = c.id "
+		+ "JOIN appointments a ON p.id = a.post_id "
 		+ "WHERE o.name IN (:options) "
+		+ "AND c.id = :carId "
 		+ "AND a.date IN (:dates) "
-		+ "AND p.car_name = :carName "
-		+ "AND a.status = 'PENDING' "
+		+ "AND a.status = 'PENDING'"
 		+ "GROUP BY p.id HAVING COUNT(DISTINCT o.name) = :count"
 	)
-	List<Long> findPostIdsByOptionsAndDatesAndCarName(
+	List<Long> findPostIdsByOptionsAndDatesAndCarId(
 		@Param("options") List<String> options,
 		@Param("dates") List<String> dates,
-		@Param("carName") String carName,
+		@Param("carId") Long carId,
 		@Param("count") int count
 	);
 
 	@Query("SELECT p.id FROM posts p "
-		+ "JOIN options o ON p.id = o.post_id "
-		+ "JOIN appointments a on p.id = a.post_id "
+		+ "JOIN car_options co ON p.mycar_id = co.car_id "
+		+ "JOIN options o ON co.entire_option_id = o.id "
+		+ "JOIN mycars m ON p.mycar_id = m.id "
+		+ "JOIN cars c ON m.car_id = c.id "
+		+ "JOIN appointments a ON p.id = a.post_id "
 		+ "WHERE o.name IN (:options) "
-		+ "AND p.car_name = :carName "
-		+ "AND a.status = 'PENDING' "
+		+ "AND c.id = :carId "
+		+ "AND a.status = 'PENDING'"
 		+ "GROUP BY p.id HAVING COUNT(DISTINCT o.name) = :count"
 	)
-	List<Long> findPostIdsByOptionsAndCarName(
+	List<Long> findPostIdsByOptionsAndCarId(
 		@Param("options") List<String> options,
-		@Param("carName") String carName,
+		@Param("carId") Long carId,
 		@Param("count") int count
 	);
 
 	@Query("SELECT p.id FROM posts p "
 		+ "JOIN appointments a on p.id = a.post_id "
+		+ "JOIN mycars m on p.mycar_id = m.id "
 		+ "WHERE a.date IN (:dates) "
-		+ "AND p.car_name = :carName "
+		+ "AND m.car_id = :carId "
 		+ "AND a.status = 'PENDING' "
 		+ "GROUP BY p.id"
 	)
-	List<Long> findPostIdsByDatesAndCarName(
+	List<Long> findPostIdsByDatesAndCarId(
 		@Param("dates") List<String> dates,
-		@Param("carName") String carName
+		@Param("carId") Long carId
 	);
 
 	@Query("SELECT p.id FROM posts p "
 		+ "JOIN appointments a on p.id = a.post_id "
-		+ "WHERE p.car_name = :carName "
+		+ "JOIN mycars m on p.mycar_id = m.id "
+		+ "WHERE m.car_id = :carId "
 		+ "AND a.status = 'PENDING' "
 		+ "GROUP BY p.id"
 	)
-	List<Long> findPostIdsByCarName(
-		@Param("carName") String carName
+	List<Long> findPostIdsByCarId(
+		@Param("carId") Long carId
 	);
 }
