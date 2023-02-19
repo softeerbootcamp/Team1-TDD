@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.tdd.backend.mypage.data.MyCarResponse;
 import com.tdd.backend.mypage.model.MyCar;
 import com.tdd.backend.post.model.Option;
 
@@ -29,4 +30,12 @@ public interface MyCarRepository extends CrudRepository<MyCar, Long> {
 		@Param("userId") Long userId,
 		@Param("carId") Long carId
 	);
+
+	@Query("SELECT DISTINCT c.car_name, m.id "
+		+ "FROM mycars m "
+		+ "JOIN cars c ON m.car_id = c.id "
+		+ "JOIN users u ON m.user_id = u.id "
+		+ "WHERE u.id = :userId"
+	)
+	List<MyCarResponse> getCarInfoByUserId(@Param("userId") Long userId);
 }
