@@ -4,6 +4,7 @@ import { mapStyle } from '@/utils/mapStyle';
 import { loadscript } from '@/utils/googleAPI';
 import { qs } from '@/utils/querySelector';
 import { mapInfo } from './interface';
+import { markerController } from '@/store/MarkerController';
 
 export class ExperienceMap extends Component {
   setup() {
@@ -25,6 +26,7 @@ export class ExperienceMap extends Component {
       this.updateMarkers.bind(this),
       this.constructor.name
     );
+    markerController.setListener(this.setMapPosition.bind(this));
   }
 
   template(): string {
@@ -103,22 +105,36 @@ export class ExperienceMap extends Component {
     const locations = this.props.store
       .getState()
       .filteredPost.map((ele: any) => {
-        return {
-          lat: +ele.location.latitude.trim(),
-          lng: +ele.location.longitude.trim(),
-        };
+        return [
+          {
+            lat: +ele.location.latitude.trim(),
+            lng: +ele.location.longitude.trim(),
+          },
+          ele.post.id,
+        ];
       });
     this.clearMarkers();
     this.createMarkers(locations);
     this.hideSpinner();
+
+    this.state.markers.forEach((marker: google.maps.Marker) => {
+      const infowindow = new google.maps.InfoWindow({
+        content: `<a data-link href="/details/${marker.getTitle()}">상세 글 보기</a>`,
+      });
+      google.maps.event.addListener(marker, 'click', () => {
+        const { map } = this.state;
+        infowindow.open(map, marker);
+      });
+    });
   }
 
   createMarkers(locations: google.maps.LatLng[]) {
     this.state.markers = locations.map(
-      (loc: google.maps.LatLng) =>
+      (loc: any) =>
         new google.maps.Marker({
-          position: loc,
+          position: loc[0],
           map: this.state.map,
+          title: '' + loc[1],
         })
     );
   }
@@ -153,9 +169,12 @@ export class ExperienceMap extends Component {
 
   setMapPosition(lat: number, lng: number, zoom: number | null = null) {
     const { map } = this.state;
+    const zoomNow = map.getZoom();
     const newCenter = { lat, lng };
     map.panTo(newCenter, 1000, google.maps.Animation.BOUNCE);
     zoom && map.setZoom(zoom, { animation: google.maps.Animation.BOUNCE });
+    zoom ||
+      map.setZoom(zoomNow + 2, { animation: google.maps.Animation.BOUNCE });
   }
 
   clearMarkers() {
