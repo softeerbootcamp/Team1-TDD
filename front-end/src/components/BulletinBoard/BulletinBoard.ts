@@ -25,6 +25,7 @@ export class BulletinBoard extends Component {
       const carName = ele.post.carName;
       return { title, options, dates, postId, carName, location: ele.location };
     });
+    if (filteredData.length === 0) return '<h4>검색 결과가 없습니다.</h4>';
     return filteredData.map((data: any) => this.listTemplate(data)).join('');
   }
 
