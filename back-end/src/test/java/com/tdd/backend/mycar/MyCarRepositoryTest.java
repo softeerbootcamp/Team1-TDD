@@ -1,4 +1,4 @@
-package com.tdd.backend;
+package com.tdd.backend.mycar;
 
 import static org.assertj.core.api.Assertions.*;
 
