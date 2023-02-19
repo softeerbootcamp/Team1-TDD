@@ -57,8 +57,7 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 	Optional<PostInfo> findPostInfoByAppointmentId(@Param("appointmentId") Long appointmentId);
 
 	@Query("SELECT p.id FROM posts p "
-		+ "JOIN car_options co ON p.mycar_id = co.car_id "
-		+ "JOIN options o ON co.entire_option_id = o.id "
+		+ "JOIN options o ON p.mycar_id = o.mycar_id "
 		+ "JOIN mycars m ON p.mycar_id = m.id "
 		+ "JOIN cars c ON m.car_id = c.id "
 		+ "JOIN appointments a ON p.id = a.post_id "
@@ -77,7 +76,7 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 
 	@Query("SELECT p.id FROM posts p "
 		+ "JOIN car_options co ON p.mycar_id = co.car_id "
-		+ "JOIN options o ON co.entire_option_id = o.id "
+		+ "JOIN options o ON p.mycar_id = o.mycar_id "
 		+ "JOIN mycars m ON p.mycar_id = m.id "
 		+ "JOIN cars c ON m.car_id = c.id "
 		+ "JOIN appointments a ON p.id = a.post_id "
