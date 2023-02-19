@@ -20,4 +20,12 @@ public interface CarRepository extends CrudRepository<Car, Long> {
 
 	@Query("SELECT c.car_image_url FROM cars c WHERE c.car_name = :name")
 	Optional<String> findImageUrlByName(@Param("name") String name);
+
+	@Query("SELECT c.car_name "
+		+ "FROM cars c "
+		+ "JOIN mycars m ON c.id = m.car_id "
+		+ "JOIN posts p ON m.id = p.mycar_id "
+		+ "WHERE p.id = :postId"
+	)
+	Optional<String> findCarNameByPostId(@Param("postId") Long postId);
 }
