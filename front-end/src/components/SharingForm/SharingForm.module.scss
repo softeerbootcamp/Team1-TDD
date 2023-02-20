@@ -34,10 +34,6 @@ $pink: #ee9cb4;
 
 // Functions
 
-@function pxtoem($target, $context) {
-  @return ($target/$context)+0em;
-}
-
 //
 
 div,
@@ -79,7 +75,7 @@ h1 {
   display: inline-block;
   font-weight: 100;
   font-size: pxtoem(45, 16);
-  border-bottom: 1px solid hsla(100%, 100%, 100%, 0.3);
+  border-bottom: 1px solid rgba(100%, 100%, 100%, 0.3);
   margin: 0 0 0.1em 0;
   padding: 0 0 0.4em 0;
 }
@@ -112,7 +108,7 @@ form {
     padding: 0;
     list-style: none;
     li {
-      margin: 0 0 0.25em 0;
+      margin: 1rem 0 0.25em 0;
       clear: both;
       display: inline-block;
       width: 100%;
@@ -197,4 +193,7 @@ form {
   li small {
     display: none;
   }
+}
+.calendar {
+  margin: 40px auto;
 }

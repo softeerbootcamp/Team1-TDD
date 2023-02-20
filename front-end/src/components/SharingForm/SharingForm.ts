@@ -1,7 +1,12 @@
 import Component from '@/core/Component';
+import { qs } from '@/utils/querySelector';
+import { Calendar } from '../Calendar/Calendar';
 import styles from './SharingForm.module.scss';
 
 export class SharingForm extends Component {
+  setup(): void {
+    this.state.dates = [];
+  }
   template(): string {
     return `
     <div class="${styles.container}">
@@ -24,29 +29,25 @@ export class SharingForm extends Component {
                 </select>
               </p>
             </li>
+
+
             <li>
-              <p class="${styles.left}">
-                <label for="first_name">first name</label>
-                <input type="text" name="first_name" placeholder="John" />
+              <p>
+                <label for="dates"
+                  >날짜 고르기 <span class="${styles.req}">*</span></label
+                >
               </p>
-              <p class="${styles['pull-right']}">
-                <label for="last_name">last name</label>
-                <input type="text" name="last_name" placeholder="Smith" />
-              </p>
+              <div id="calendar" class="${styles.calendar}"></div>
             </li>
 
             <li>
               <p>
-                <label for="email"
-                  >email <span class="${styles.req}">*</span></label
+                <label for="location"
+                  >위치 고르기 <span class="${styles.req}">*</span></label
                 >
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="john.smith@gmail.com"
-                />
               </p>
             </li>
+
             <li><div class="${styles.divider}"></div></li>
             <li>
               <label for="comments">comments</label>
@@ -67,5 +68,12 @@ export class SharingForm extends Component {
     </div>
 
     `;
+  }
+  mounted(): void {
+    const $calendar = qs('#calendar', this.target);
+    new Calendar($calendar as HTMLDivElement, {
+      dates: this.state.dates,
+      onChangeDates: () => {},
+    });
   }
 }
