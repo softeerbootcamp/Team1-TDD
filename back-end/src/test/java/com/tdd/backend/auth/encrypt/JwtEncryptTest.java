@@ -16,7 +16,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
-//todo: util 테스트에 맞게 mock bean 주입받아 사용하는 방법 (무조건 SpringBootTest x)
 @SpringBootTest
 public class JwtEncryptTest {
 
