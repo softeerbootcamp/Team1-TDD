@@ -9,7 +9,7 @@ export class SharingForm extends Component {
   setup(): void {
     this.state.dates = [];
     this.state.location = null;
-    this.state.myCars = null;
+    this.state.myCars = [];
     sendGetMyCarRequest().then((res) => {
       this.setState({ myCars: res.data });
     });
