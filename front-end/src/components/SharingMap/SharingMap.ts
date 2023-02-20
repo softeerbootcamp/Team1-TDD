@@ -1,8 +1,8 @@
-import Component from "@/core/Component";
-import styles from "./SharingMap.module.scss";
-import { mapStyle } from "@/utils/mapStyle";
-import { loadscript } from "@/utils/googleAPI";
-import { qs } from "@/utils/querySelector";
+import Component from '@/core/Component';
+import styles from './SharingMap.module.scss';
+import { mapStyle } from '@/utils/mapStyle';
+import { loadscript } from '@/utils/googleAPI';
+import { qs } from '@/utils/querySelector';
 
 export class SharingMap extends Component {
   async setup() {
@@ -25,8 +25,7 @@ export class SharingMap extends Component {
 
   template(): string {
     return `
-    <div class="${styles["desc"]}">공유하고 싶은 위치를 골라주세요!</div>
-    <div id="googleMap" class="${styles["googleMap"]}"></div>`;
+    <div id="googleMap" class="${styles['googleMap']}"></div>`;
   }
 
   mounted(): void {
@@ -41,7 +40,7 @@ export class SharingMap extends Component {
   }
 
   initMap() {
-    const map = new google.maps.Map(qs("#googleMap")!, {
+    const map = new google.maps.Map(qs('#googleMap')!, {
       zoom: 15,
       center: this.state.userLocation as google.maps.LatLng,
       styles: mapStyle() as object[],
@@ -49,7 +48,7 @@ export class SharingMap extends Component {
     this.state.map = map;
     this.moveMap();
     const geocoder = new google.maps.Geocoder();
-    map.addListener("click", (mapsMouseEvent) => {
+    map.addListener('click', (mapsMouseEvent) => {
       this.placeMarker(mapsMouseEvent.latLng, geocoder);
     });
   }
@@ -74,7 +73,7 @@ export class SharingMap extends Component {
     marker.setAnimation(google.maps.Animation.BOUNCE);
     this.state.markers.push(marker);
     this.state.map.panTo(position);
-    let content = "";
+    let content = '';
     geocoder.geocode({ location: position }, (response) => {
       content = response[0].formatted_address;
       const infoWindow = new google.maps.InfoWindow({
@@ -83,7 +82,7 @@ export class SharingMap extends Component {
       infoWindow.open(this.state.map, marker);
       this.state.infoWindows.push(infoWindow);
     });
-    marker.addListener("dblclick", function () {
+    marker.addListener('dblclick', function () {
       marker.setMap(null);
     });
   }
