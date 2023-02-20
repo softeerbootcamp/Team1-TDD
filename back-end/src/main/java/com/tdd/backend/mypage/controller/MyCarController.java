@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class MyCarController {
 	private final MyCarService myCarService;
 
-	@PostMapping("/mycar")
+	@PostMapping("/mycars")
 	@Operation(summary = "내 차 등록하기", description = "유저의 차종, 옵션들을 저장해야 함")
 	public ResponseEntity<Void> saveMyCar(
 		@LoginUser UserToken userToken,
@@ -34,7 +34,7 @@ public class MyCarController {
 		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping("/mycar")
+	@GetMapping("/mycars")
 	@Operation(summary = "내 차 불러오기", description = "유저의 차량이름과 myCarId를 반환함")
 	public ResponseEntity<List<MyCarResponse>> loadMyCar(@LoginUser UserToken userToken) {
 		return ResponseEntity.ok(myCarService.getMyCarList(userToken.getId()));
