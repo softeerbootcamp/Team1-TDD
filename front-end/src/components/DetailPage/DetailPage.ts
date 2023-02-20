@@ -1,5 +1,4 @@
 import { getPosts } from '@/apis/detailPage';
-import { carList } from '@/constants/carList';
 import Component from '@/core/Component';
 import styles from './DetailPage.module.scss';
 
@@ -27,15 +26,22 @@ export class DetailPage extends Component {
     this.state = { ...this.state, ...newState };
   }
 
+  setEvent(): void {
+    this.addEvent('click', `.${styles['confirm']}`, (_) => {
+      window.location.href = '/mypage';
+    });
+    this.addEvent('click', `.${styles['cancel']}`, (_) => {
+      window.location.href = '/';
+    });
+  }
+
   template(): string {
-    const { appointments, location, options, post } = this.state.res;
+    const { appointments, imageUrl, location, options, post } = this.state.res;
     return `
       <div class="${styles['container']}">
         <div class="${styles['infos']}">
           <div class="${styles['image-wrapper']}">
-            <img class="${styles['image']}" src="${
-      process.env.VITE_IMAGE_URL
-    }/${this.findCarImage(post.carName)}" />
+            <img class="${styles['image']}" src="${imageUrl}" />
           </div>
           <div class="${styles['text-wrapper']}">
             <div class="${styles['car-name']}">
@@ -77,13 +83,6 @@ export class DetailPage extends Component {
         </div>
       </div>
     `;
-  }
-
-  findCarImage(carName: string) {
-    for (const car of carList) {
-      if (car.fileName.includes(carName.toLowerCase())) return car.fileName;
-    }
-    return 'error';
   }
 
   optionCreator(option: string): string {
