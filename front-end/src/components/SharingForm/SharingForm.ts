@@ -1,6 +1,7 @@
 import Component from '@/core/Component';
 import { qs } from '@/utils/querySelector';
 import { Calendar } from '../Calendar/Calendar';
+import { SharingMap } from '../SharingMap/SharingMap';
 import styles from './SharingForm.module.scss';
 
 export class SharingForm extends Component {
@@ -18,7 +19,7 @@ export class SharingForm extends Component {
         <form action="#">
           <ul>
             <li>
-              <p class="${styles.left}">
+              <p>
                 <label for="carModel"
                 >내 차 고르기 <span class="${styles.req}">*</span></label
                 >
@@ -36,8 +37,8 @@ export class SharingForm extends Component {
                 <label for="dates"
                   >날짜 고르기 <span class="${styles.req}">*</span></label
                 >
+                <div id="calendar" class="${styles.calendar}"></div>
               </p>
-              <div id="calendar" class="${styles.calendar}"></div>
             </li>
 
             <li>
@@ -45,6 +46,9 @@ export class SharingForm extends Component {
                 <label for="location"
                   >위치 고르기 <span class="${styles.req}">*</span></label
                 >
+                <button id="map-button"> open map</button>
+                <div id="sharing-overlay" class="${styles.hidden} ${styles.overlay}"></div>
+                <div id="sharing-map" class="${styles.map} ${styles.hidden}"></div>
               </p>
             </li>
 
@@ -71,9 +75,32 @@ export class SharingForm extends Component {
   }
   mounted(): void {
     const $calendar = qs('#calendar', this.target);
+    const $map = qs('#sharing-map', this.target);
     new Calendar($calendar as HTMLDivElement, {
       dates: this.state.dates,
       onChangeDates: () => {},
     });
+    new SharingMap($map as HTMLDivElement);
+  }
+  setEvent(): void {
+    this.addEvent('click', '#map-button', this.openMap.bind(this));
+    this.addEvent('click', '#sharing-overlay', ({ target }: Event) => {
+      if (!(target instanceof HTMLDivElement)) return;
+      if (target.closest(`.${styles.map}`)) return;
+      this.closeMap();
+    });
+  }
+  openMap(e: Event) {
+    e.preventDefault();
+    const $overlay = qs('#sharing-overlay', this.target);
+    const $map = qs('#sharing-map', this.target);
+    $overlay?.classList.toggle(styles.hidden);
+    $map?.classList.toggle(styles.hidden);
+  }
+  closeMap() {
+    const $overlay = qs('#sharing-overlay', this.target);
+    const $map = qs('#sharing-map', this.target);
+    $overlay?.classList.toggle(styles.hidden);
+    $map?.classList.toggle(styles.hidden);
   }
 }

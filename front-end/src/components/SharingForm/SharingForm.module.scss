@@ -197,3 +197,27 @@ form {
 .calendar {
   margin: 40px auto;
 }
+.overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  transition: all 0.5s ease-in-out;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+}
+.map {
+  position: fixed;
+  width: 70vw;
+  height: 60vh;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.2 ease;
+  z-index: 100;
+}
+.hidden {
+  display: none;
+}
