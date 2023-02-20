@@ -1,15 +1,14 @@
+import { SharingForm } from '@/components/SharingForm/SharingForm';
 import Component from '@/core/Component';
-import { AuthStore } from '@/store/AuthStore';
+import { qs } from '@/utils/querySelector';
 
 export class Sharing extends Component {
-  setup(): void {
-    const isLogin = AuthStore.getState().isLogin;
-    if (!isLogin) {
-      alert('로그인 후 이용하세요!');
-      location.replace('/');
-    }
-  }
+  setup(): void {}
   template(): string {
-    return `<div>Sharing page</div>`;
+    return `<div id="sharing-form"></div>`;
+  }
+  mounted(): void {
+    const $sharingForm = qs('#sharing-form', this.target);
+    new SharingForm($sharingForm as HTMLDivElement);
   }
 }
