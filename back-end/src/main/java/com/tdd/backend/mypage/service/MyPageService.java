@@ -95,7 +95,8 @@ public class MyPageService {
 	}
 
 	private DefaultInfo getDefaultInfo(Long postId, List<OptionDto> optionDtoList) {
-		String carName = carRepository.findCarNameByPostId(postId).orElseThrow(RuntimeException::new);
+		String carName = carRepository.findCarNameByPostId(postId)
+			.orElseThrow(IllegalArgumentException::new);
 		return postRepository.findById(postId)
 			.map(post -> post.toDefaultInfo(
 				optionDtoList,
@@ -112,7 +113,8 @@ public class MyPageService {
 	}
 
 	private List<OptionDto> getOptionListByUserId(Long userId) {
-		Long carId = myCarRepository.findCarIdByUserId(userId).orElseThrow(RuntimeException::new);
+		Long carId = myCarRepository.findCarIdByUserId(userId)
+			.orElseThrow(IllegalArgumentException::new);
 		return myCarRepository.findOptionsByUserIdAndCarId(userId, carId)
 			.stream()
 			.map(Option::toDto)
