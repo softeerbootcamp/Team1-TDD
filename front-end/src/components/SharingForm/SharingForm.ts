@@ -68,7 +68,7 @@ export class SharingForm extends Component {
             <li><div class="${styles.divider}"></div></li>
             <li>
               <label for="comments">comments</label>
-              <textarea cols="46" rows="3" name="comments"></textarea>
+              <textarea cols="46" rows="3" name="comments" id="sharing-requirement"></textarea>
             </li>
 
             <li>
@@ -114,9 +114,27 @@ export class SharingForm extends Component {
     this.addEvent('submit', '#sharing-form', (e) => {
       e.preventDefault();
       const $select = qs('#select-car', this.target) as HTMLSelectElement;
+      const $requirement = qs(
+        '#sharing-requirement',
+        this.target
+      ) as HTMLTextAreaElement;
+
       const myCarId = $select.value;
-      console.log(myCarId, this.state.dates, this.state.location);
+      const dates = this.state.dates;
+      const location = this.state.location;
+      const requirement = $requirement.value;
+      if (!this.canSendRequest({ myCarId, dates, location })) {
+        alert('필수 항목을 선택해주세요!');
+        return;
+      }
+      console.log(requirement);
     });
+  }
+
+  canSendRequest(reqBody: { myCarId: string; dates: string[]; location: any }) {
+    const { myCarId, dates, location } = reqBody;
+    if (!myCarId || dates.length === 0 || !location) return false;
+    return true;
   }
 
   openMap(e: Event) {
