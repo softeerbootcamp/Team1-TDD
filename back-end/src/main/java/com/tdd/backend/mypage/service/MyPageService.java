@@ -64,7 +64,7 @@ public class MyPageService {
 
 	private List<DefaultInfo> getDefaultInfoList(Long userId) {
 		return getPostIdListByUserId(userId).stream()
-			.map(postId -> getDefaultInfo(postId, getOptionDtoList(userId)))
+			.map(postId -> getDefaultInfo(postId, getOptionListByUserId(userId)))
 			.collect(Collectors.toList());
 	}
 
@@ -73,10 +73,12 @@ public class MyPageService {
 	}
 
 	private List<DrivingInfo> getDrivingInfoList(Long userId) {
-		return getPostIdListByTesterId(userId).stream().map(postId -> DrivingInfo.builder()
-			.post(getDefaultInfo(postId, getOptionDtoList(userId)))
-			.date(getDate(userId, postId))
-			.build()).collect(Collectors.toList());
+		return getPostIdListByTesterId(userId).stream()
+			.map(postId -> DrivingInfo.builder()
+				.post(getDefaultInfo(postId, getOptionListByUserId(userId)))
+				.date(getDate(userId, postId))
+				.build())
+			.collect(Collectors.toList());
 	}
 
 	private List<Long> getPostIdListByTesterId(Long userId) {
@@ -89,10 +91,6 @@ public class MyPageService {
 
 	private String getDate(Long userId, Long postId) {
 		return postRepository.findDateByPostIdAndUserId(postId, userId).orElse("");
-	}
-
-	private List<OptionDto> getOptionDtoList(Long userId) {
-		return getOptionListByUserId(userId);
 	}
 
 	private DefaultInfo getDefaultInfo(Long postId, List<OptionDto> optionDtoList) {
