@@ -96,11 +96,14 @@ export class SharingForm extends Component {
     const $map = qs('#sharing-map', this.target);
     $overlay?.classList.toggle(styles.hidden);
     $map?.classList.toggle(styles.hidden);
+    document.body.classList.add('block-scroll');
   }
+
   closeMap() {
     const $overlay = qs('#sharing-overlay', this.target);
     const $map = qs('#sharing-map', this.target);
     $overlay?.classList.toggle(styles.hidden);
     $map?.classList.toggle(styles.hidden);
+    document.body.classList.add('block-scroll');
   }
 }
