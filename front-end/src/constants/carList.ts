@@ -97,4 +97,16 @@ export const carList: ICar[] = [
     fileName: '022_porter.png',
     title: '포터',
   },
+  {
+    fileName: 'tuscan.png',
+    title: '투싼',
+  },
+  {
+    fileName: 'palisade.png',
+    title: '팰리세이드',
+  },
+  {
+    fileName: 'santafe.png',
+    title: '싼타페',
+  },
 ];
