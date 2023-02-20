@@ -3,6 +3,7 @@ import styles from './SharingMap.module.scss';
 import { mapStyle } from '@/utils/mapStyle';
 import { loadscript } from '@/utils/googleAPI';
 import { qs } from '@/utils/querySelector';
+import { initAutocomplete } from '@/utils/autoCompletor';
 
 export class SharingMap extends Component {
   async setup() {
@@ -25,7 +26,14 @@ export class SharingMap extends Component {
 
   template(): string {
     return `
-    <div id="googleMap" class="${styles['googleMap']}"></div>`;
+    <div id="googleMap" class="${styles['googleMap']}"></div>
+    <input
+      id="pac-input"
+      class="controls ${styles.search}"
+      type="text"
+      placeholder="Search Box"
+    />
+    `;
   }
 
   mounted(): void {
@@ -34,7 +42,7 @@ export class SharingMap extends Component {
 
   async init() {
     await loadscript(
-      `https://maps.googleapis.com/maps/api/js?key=${process.env.VITE_API_KEY}&callback=initMap`,
+      `https://maps.googleapis.com/maps/api/js?key=${process.env.VITE_API_KEY}&callback=initMap&libraries=places`,
       this.initMap.bind(this)
     );
   }
@@ -45,6 +53,7 @@ export class SharingMap extends Component {
       center: this.state.userLocation as google.maps.LatLng,
       styles: mapStyle() as object[],
     });
+
     this.state.map = map;
     this.moveMap();
     const geocoder = new google.maps.Geocoder();
@@ -54,6 +63,8 @@ export class SharingMap extends Component {
       const longitude = mapsMouseEvent.latLng.lng();
       this.props.onClickMap({ latitude, longitude });
     });
+
+    initAutocomplete(map);
   }
 
   moveMap() {
@@ -87,6 +98,12 @@ export class SharingMap extends Component {
     });
     marker.addListener('dblclick', function () {
       marker.setMap(null);
+    });
+  }
+  setEvent(): void {
+    this.addEvent('keydown', '#pac-input', (e: any) => {
+      const { key } = e;
+      if (key === 'Enter') e.preventDefault();
     });
   }
 }
