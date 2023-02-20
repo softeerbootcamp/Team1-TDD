@@ -1,6 +1,6 @@
 import styles from './MyPage.module.scss';
 
-export function literal() {
+export function literal(carNums: number) {
   return `
       <div class="${styles['main-wrapper']}">
         <div class="${styles['user-box-wrapper']}">
@@ -28,6 +28,10 @@ export function literal() {
               <div class="${styles['share']} ${styles['left']}">공유횟수</div>
               <div class="${styles['user-share']} ${styles['right']}">2</div>
             </div>
+            <div class="${styles['cars-wrapper']} ${styles['flex']}">
+              <div class="${styles['cars']} ${styles['left']}">등록한 차</div>
+              <div class="${styles['user-cars']} ${styles['right']}">${carNums}개</div>
+            </div>
           </div>
          </div>
         <div class="${styles['box-wrapper']} ${styles['wrap']}">
@@ -39,11 +43,10 @@ export function literal() {
           </div>
           <div class="${styles['recent-exp']} ${styles['recent-box']}">
             <div class="${styles['box-header']}">공유하기 목록</div>
-            <div class="${styles['cards-wrapper']}" id="share-card">
-            
-            </div>
+            <div class="${styles['cards-wrapper']}" id="share-card">  
           </div>
         </div>
       </div>
+    </div>
   `;
 }

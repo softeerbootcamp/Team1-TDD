@@ -1,4 +1,4 @@
-import { getUserInfo } from '@/apis/mypage';
+import { getUserInfo, getMyCar } from '@/apis/mypage';
 import Component from '@/core/Component';
 import { qs } from '@/utils/querySelector';
 import { literal } from './template';
@@ -62,10 +62,16 @@ export class MyPage extends Component {
         this.setState({ res });
       })
       .catch((err) => console.log(err));
+    getMyCar().then((res) => {
+      console.log(res);
+      this.state.myCars = res.data;
+      console.log(this.state);
+    });
   }
 
   template(): string {
-    return literal();
+    const len = this.state.myCars.length;
+    return literal(len);
   }
 
   setEvent(): void {
