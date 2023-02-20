@@ -1,4 +1,4 @@
-package com.tdd.backend.mypage;
+package com.tdd.backend.mypage.repository;
 
 import java.util.List;
 import java.util.Optional;

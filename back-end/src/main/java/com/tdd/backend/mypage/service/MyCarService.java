@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 import com.tdd.backend.car.exception.CarNotFoundException;
 import com.tdd.backend.car.repository.CarRepository;
-import com.tdd.backend.mypage.MyCarRepository;
 import com.tdd.backend.mypage.data.MyCarCreate;
 import com.tdd.backend.mypage.data.MyCarDto;
 import com.tdd.backend.mypage.data.MyCarResponse;
+import com.tdd.backend.mypage.repository.MyCarRepository;
 
 import lombok.RequiredArgsConstructor;
 

@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.tdd.backend.car.data.OptionDto;
 import com.tdd.backend.car.repository.CarRepository;
-import com.tdd.backend.mypage.MyCarRepository;
 import com.tdd.backend.mypage.data.DefaultInfo;
 import com.tdd.backend.mypage.data.DrivingInfo;
 import com.tdd.backend.mypage.data.MyPageResponse;
 import com.tdd.backend.mypage.data.SharingInfo;
 import com.tdd.backend.mypage.data.UserInfo;
+import com.tdd.backend.mypage.repository.MyCarRepository;
 import com.tdd.backend.post.data.AppointmentDto;
 import com.tdd.backend.post.data.LocationDto;
 import com.tdd.backend.post.model.Appointment;

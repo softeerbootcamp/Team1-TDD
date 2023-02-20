@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tdd.backend.car.data.OptionDto;
-import com.tdd.backend.mypage.MyCarRepository;
+import com.tdd.backend.mypage.repository.MyCarRepository;
 import com.tdd.backend.mypage.data.MyCarDto;
 import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.repository.UserRepository;

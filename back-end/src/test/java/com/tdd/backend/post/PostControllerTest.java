@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tdd.backend.auth.jwt.JwtProvider;
 import com.tdd.backend.car.data.OptionDto;
-import com.tdd.backend.mypage.MyCarRepository;
+import com.tdd.backend.mypage.repository.MyCarRepository;
 import com.tdd.backend.mypage.data.MyCarDto;
 import com.tdd.backend.mypage.exception.PostNotFoundException;
 import com.tdd.backend.mypage.model.MyCar;
