@@ -26,7 +26,7 @@ public interface MyCarRepository extends CrudRepository<MyCar, Long> {
 		@Param("myCarId") Long myCarId
 	);
 
-	@Query("SELECT DISTINCT c.car_name, m.id "
+	@Query("SELECT DISTINCT c.car_name, m.id as mycar_id "
 		+ "FROM mycars m "
 		+ "JOIN cars c ON m.car_id = c.id "
 		+ "JOIN users u ON m.user_id = u.id "
