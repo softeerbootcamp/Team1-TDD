@@ -3,7 +3,6 @@ import Component from '@/core/Component';
 import { qs } from '@/utils/querySelector';
 import { literal } from './template';
 import styles from './MyPage.module.scss';
-import { loadscript } from '@/utils/googleAPI';
 
 interface IAppointment {
   date: string;
