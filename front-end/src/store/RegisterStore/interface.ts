@@ -5,6 +5,7 @@ export interface IRegisterCarRes {
 
 export interface IRegisterCarReq {
   carName: string;
+  dateList: string[];
   optionList: string[];
 }
 
