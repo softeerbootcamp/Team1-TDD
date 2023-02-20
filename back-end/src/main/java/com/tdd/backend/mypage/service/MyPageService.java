@@ -56,9 +56,10 @@ public class MyPageService {
 	}
 
 	private List<SharingInfo> getSharingInfoList(Long userId) {
-		return getDefaultInfoList(userId).stream().map(defaultInfo -> SharingInfo.builder()
-			.post(defaultInfo)
-			.appointments(getAppointmentListByPostId(defaultInfo.getId()))
+		return getDefaultInfoList(userId).stream()
+			.map(defaultInfo -> SharingInfo.builder()
+				.post(defaultInfo)
+				.appointments(getAppointmentListByPostId(defaultInfo.getId()))
 			.build()).collect(Collectors.toList());
 	}
 
@@ -94,7 +95,7 @@ public class MyPageService {
 	}
 
 	private DefaultInfo getDefaultInfo(Long postId, List<OptionDto> optionDtoList) {
-		String carName = carRepository.findCarNameByPostId(postId).orElseThrow();
+		String carName = carRepository.findCarNameByPostId(postId).orElseThrow(RuntimeException::new);
 		return postRepository.findById(postId)
 			.map(post -> post.toDefaultInfo(
 				optionDtoList,
@@ -111,7 +112,7 @@ public class MyPageService {
 	}
 
 	private List<OptionDto> getOptionListByUserId(Long userId) {
-		Long carId = myCarRepository.findCarIdByUserId(userId).orElseThrow();
+		Long carId = myCarRepository.findCarIdByUserId(userId).orElseThrow(RuntimeException::new);
 		return myCarRepository.findOptionsByUserIdAndCarId(userId, carId)
 			.stream()
 			.map(Option::toDto)
