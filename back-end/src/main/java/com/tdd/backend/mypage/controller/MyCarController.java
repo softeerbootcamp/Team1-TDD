@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class MyCarController {
 	private final MyCarService myCarService;
 
-	@PostMapping("/mycar/registration")
+	@PostMapping("/mycar")
 	@Operation(summary = "내 차 등록하기", description = "유저의 차종, 옵션들을 저장해야 함")
 	public ResponseEntity<Void> saveMyCar(
 		@LoginUser UserToken userToken,
