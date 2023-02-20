@@ -17,7 +17,11 @@ export class RegisterCar extends Component {
       ).filter(
         (option: HTMLButtonElement) => option.dataset.state === 'active'
       );
-      const selectedOptions = options.map((ele) => ele.innerText);
+
+      const selectedOptions = options.map((ele) => ({
+        name: ele.innerText,
+        category: ele.parentElement?.previousElementSibling?.innerHTML,
+      }));
       this.register(selectedOptions);
       window.location.href = '/mypage';
     });
@@ -51,12 +55,37 @@ export class RegisterCar extends Component {
     });
   }
 
-  register(selectedOptions: string[]) {
+  findImage(slideWrapper: Element[]) {
+    for (const i of slideWrapper) {
+      const temp = i as HTMLImageElement;
+      if (temp.style.left === '0px') {
+        return temp.src;
+      }
+    }
+    console.log('not found');
+    return null;
+  }
+
+  parseCarName(carUrl: string[]) {
+    const carFileName = carUrl[carUrl.length - 1].split('.');
+    const fileName = carFileName[0];
+    if (fileName === 'palisade') return 'palisade';
+    if (fileName === 'santafe') return 'santafe';
+    if (fileName === 'tuscan') return 'tucson';
+    return fileName.substring(4);
+  }
+
+  register(selectedOptions: object[]) {
+    const accessToken = localStorage.getItem('accessToken');
+    const img = Array.from(qsa('img', this.target));
+    const carUrl = this.findImage(img)!.split('/');
+    const carName = this.parseCarName(carUrl);
     const body = {
-      carName: qs(`.${styles['title']}`, this.target),
+      carName,
       optionDtoList: selectedOptions,
     };
-    //api가 나오면 바로 연동
-    axiosInstance.post('/mycar', body);
+    axiosInstance
+      .post('/mycar', body, { headers: { Authorization: accessToken } })
+      .catch((err) => console.log(err));
   }
 }
