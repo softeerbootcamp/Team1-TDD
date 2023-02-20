@@ -29,7 +29,6 @@ public class OptionService {
 			List<OptionDto> optionDtoList = new ArrayList<>();
 
 			for (Option carOption : carOptionList) {
-				log.info("category : " + carOption.getCategoryName());
 				if (isCategoryEquals(category, carOption.getCategoryName())) {
 					OptionDto optionDto = OptionDto.builder()
 						.name(carOption.getOptionName())
@@ -43,7 +42,6 @@ public class OptionService {
 					.category(category.getName())
 					.options(optionDtoList).build());
 			}
-
 		}
 
 		return response;
