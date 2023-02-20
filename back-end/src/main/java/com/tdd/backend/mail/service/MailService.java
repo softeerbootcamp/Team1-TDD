@@ -5,6 +5,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.tdd.backend.mail.data.EmailMessage;
@@ -28,6 +29,7 @@ public class MailService {
 	private final PostRepository postRepository;
 	private final UserRepository userRepository;
 
+	@Async("mailExecutor")
 	public void send(Long appointmentId, Long testerId) {
 		PostInfo postInfo = postRepository.findPostInfoByAppointmentId(appointmentId)
 			.orElseThrow(PostNotFoundException::new);
@@ -36,12 +38,11 @@ public class MailService {
 		EmailMessage testerEmailMessage = generateEmailMessage(postInfo, postInfo.getUserId(), testerId,
 			UserType.TESTER);
 
-		senMimeMail(ownerEmailMessage);
-		senMimeMail(testerEmailMessage);
-		log.info("Sent simple email!");
+		sendMimeMail(ownerEmailMessage);
+		sendMimeMail(testerEmailMessage);
 	}
 
-	private void senMimeMail(EmailMessage emailMessage) {
+	private void sendMimeMail(EmailMessage emailMessage) {
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		try {
 			mimeMessage.setText(emailMessage.getMessage(), "utf-8", "html");
@@ -53,22 +54,25 @@ public class MailService {
 		}
 	}
 
-	public EmailMessage generateEmailMessage(PostInfo postInfo, Long anotherId, Long receiverId, UserType userType) {
-		String toEmail = userRepository.findEmailById(receiverId)
+	public EmailMessage generateEmailMessage(PostInfo postInfo, Long FromId, Long toId, UserType userType) {
+		String toEmail = userRepository.findEmailById(toId)
 			.orElseThrow(EmailNotFoundException::new);
-		User another = userRepository.findById(anotherId)
+		User fromUser = userRepository.findById(FromId)
 			.orElseThrow(UserNotFoundException::new);
 
-		return EmailMessage.builder()
+		EmailMessage emailMessage = EmailMessage.builder()
 			.to(toEmail)
 			.subject(userType.getSubject())
 			.carName(postInfo.getCarName())
 			.date(postInfo.getDate())
 			.requirement(postInfo.getRequirement())
-			.email(another.getEmail())
-			.name(another.getUserName())
+			.email(fromUser.getEmail())
+			.name(fromUser.getUserName())
 			.userType(userType)
-			.phoneNumber(another.getPhoneNumber())
+			.phoneNumber(fromUser.getPhoneNumber())
 			.build();
+
+		log.info("> email : {} -> {}", fromUser.getEmail(), toEmail);
+		return emailMessage;
 	}
 }
