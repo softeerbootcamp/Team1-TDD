@@ -93,13 +93,17 @@ export class SharingForm extends Component {
       dates: this.state.dates,
       onChangeDates: this.onChangeDates.bind(this),
     });
-    new SharingMap($map as HTMLDivElement);
+    new SharingMap($map as HTMLDivElement, {
+      onClickMap: this.onClickMap.bind(this),
+    });
   }
 
   onChangeDates(dates: string[]) {
     this.state.dates = [...dates];
   }
-
+  onClickMap(latLng: any) {
+    this.state.location = { ...latLng };
+  }
   setEvent(): void {
     this.addEvent('click', '#map-button', this.openMap.bind(this));
     this.addEvent('click', '#sharing-overlay', ({ target }: Event) => {
@@ -111,7 +115,7 @@ export class SharingForm extends Component {
       e.preventDefault();
       const $select = qs('#select-car', this.target) as HTMLSelectElement;
       const myCarId = $select.value;
-      console.log(myCarId, this.state.dates);
+      console.log(myCarId, this.state.dates, this.state.location);
     });
   }
 

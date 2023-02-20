@@ -50,6 +50,9 @@ export class SharingMap extends Component {
     const geocoder = new google.maps.Geocoder();
     map.addListener('click', (mapsMouseEvent) => {
       this.placeMarker(mapsMouseEvent.latLng, geocoder);
+      const latitude = mapsMouseEvent.latLng.lat();
+      const longitude = mapsMouseEvent.latLng.lng();
+      this.props.onClickMap({ latitude, longitude });
     });
   }
 
