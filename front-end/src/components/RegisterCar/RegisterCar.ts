@@ -85,7 +85,7 @@ export class RegisterCar extends Component {
       optionDtoList: selectedOptions,
     };
     axiosInstance
-      .post('/mycar', body, { headers: { Authorization: accessToken } })
+      .post('/mycars', body, { headers: { Authorization: accessToken } })
       .catch((err) => console.log(err));
   }
 }
