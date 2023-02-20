@@ -1,35 +1,18 @@
 ### 공유하기
 POST {{domain-address}}/sharing
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicm9sZSI6IkFUSyIsImlhdCI6MTY3NjUzMTU3NywiZXhwIjoxNjc2NTMzMzc3fQ.nNFWOu6uIeNHyiCXTOKwlJabelnouS0gAujDrKlL_0Q
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicm9sZSI6IkFUSyIsImlhdCI6MTY3NjgyMDI3OSwiZXhwIjoxNjc2ODIyMDc5fQ.oAu0sByCpFTjklo-eU4iltSF1pNFCC2foNR83tobwGI
 
 {
-  "post": {
-    "carName": "Santafe-",
-    "rideOption": "RIDE_WITH",
-    "requirement": "lotte v3"
-  },
-  "location": {
-    "latitude": "37.5326",
-    "longitude": "127.024612"
-  },
-  "options": [
-    {
-      "name": "d",
-      "category": "옵션"
-    },
-    {
-      "name": "e",
-      "category": "엔진"
-    },
-    {
-      "name": "f",
-      "category": "엔진"
-    }
-  ],
   "dates": [
     "2022-10-01",
-    "2022-10-03",
-    "2022-10-04"
-  ]
+    "2022-10-03"
+  ],
+  "location": {
+    "latitude": "37.5326",
+    "longitude": "127.02422"
+  },
+  "myCarId": 1,
+  "requirement": "hello hello",
+  "rideOption": "RIDE_ALONE"
 }

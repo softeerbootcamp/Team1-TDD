@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tdd.backend.car.data.CarDto;
 import com.tdd.backend.car.model.Car;
@@ -17,6 +18,7 @@ import com.tdd.backend.car.repository.CarRepository;
 import com.tdd.backend.car.service.CarService;
 
 @ExtendWith(MockitoExtension.class)
+@Transactional
 public class OptionServiceTest {
 
 	@Mock

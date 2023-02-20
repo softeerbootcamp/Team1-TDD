@@ -1,6 +1,7 @@
 package com.tdd.backend.post.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import com.tdd.backend.car.data.OptionDto;
@@ -11,6 +12,8 @@ public class Option {
 
 	private final String name;
 	private final Category category;
+	@Column("mycar_id")
+	private Long mycarId;
 	@Id
 	private Long id;
 

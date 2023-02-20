@@ -1,6 +1,5 @@
 package com.tdd.backend.mypage.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.tdd.backend.car.data.OptionDto;
 import com.tdd.backend.car.repository.CarRepository;
+import com.tdd.backend.mypage.MyCarRepository;
 import com.tdd.backend.mypage.data.DefaultInfo;
 import com.tdd.backend.mypage.data.DrivingInfo;
 import com.tdd.backend.mypage.data.MyPageResponse;
@@ -32,6 +32,7 @@ public class MyPageService {
 	private final PostRepository postRepository;
 	private final UserRepository userRepository;
 	private final CarRepository carRepository;
+	private final MyCarRepository myCarRepository;
 
 	public MyPageResponse getMyPageInfo(Long userId) {
 		List<DrivingInfo> drivingInfoList = getDrivingInfoList(userId);
@@ -44,61 +45,64 @@ public class MyPageService {
 			.build();
 	}
 
-	private UserInfo getUserInfo(Long userId, List<DrivingInfo> drivingInfoList, List<SharingInfo> sharingInfoList) {
+	private UserInfo getUserInfo(
+		Long userId,
+		List<DrivingInfo> drivingInfoList,
+		List<SharingInfo> sharingInfoList
+	) {
 		return userRepository.findById(userId)
 			.orElseThrow(UserNotFoundException::new)
 			.toUserInfo(sharingInfoList.size(), drivingInfoList.size());
 	}
 
 	private List<SharingInfo> getSharingInfoList(Long userId) {
-		List<SharingInfo> sharingInfoList = new ArrayList<>();
-		List<DefaultInfo> defaultInfoList = postRepository.findPostByUserId(userId)
-			.stream()
-			.map(post ->
-				post.toDefaultInfo(getOptionListByPostId(post.getId()),
-					getLocation(post.getId()),
-					getImageUrl(post.getCarName())))
+		return getDefaultInfoList(userId).stream()
+			.map(defaultInfo -> SharingInfo.builder()
+				.post(defaultInfo)
+				.appointments(getAppointmentListByPostId(defaultInfo.getId()))
+			.build()).collect(Collectors.toList());
+	}
+
+	private List<DefaultInfo> getDefaultInfoList(Long userId) {
+		return getPostIdListByUserId(userId).stream()
+			.map(postId -> getDefaultInfo(postId, getOptionListByUserId(userId)))
 			.collect(Collectors.toList());
-		log.info(String.valueOf(defaultInfoList.size()));
-
-		defaultInfoList.forEach(defaultInfo -> sharingInfoList.add(SharingInfo.builder()
-			.post(defaultInfo)
-			.appointments(getAppointmentListByPostId(defaultInfo.getId()))
-			.build()));
-
-		return sharingInfoList;
 	}
 
 	private String getImageUrl(String carName) {
-		return carRepository.findImageUrlByName(carName)
-			.orElse("");
+		return carRepository.findImageUrlByName(carName).orElse("");
 	}
 
 	private List<DrivingInfo> getDrivingInfoList(Long userId) {
-		List<DrivingInfo> drivingInfoList = new ArrayList<>();
-		List<Long> postIdList = postRepository.findPostIdByTesterId(userId);
-		log.info(String.valueOf(postIdList));
+		return getPostIdListByTesterId(userId).stream()
+			.map(postId -> DrivingInfo.builder()
+				.post(getDefaultInfo(postId, getOptionListByUserId(userId)))
+				.date(getDate(userId, postId))
+				.build())
+			.collect(Collectors.toList());
+	}
 
-		for (Long postId : postIdList) {
-			List<OptionDto> optionDtoList = getOptionListByPostId(postId);
+	private List<Long> getPostIdListByTesterId(Long userId) {
+		return postRepository.findPostIdByTesterId(userId);
+	}
 
-			DefaultInfo defaultInfo = postRepository.findById(postId)
-				.map(post ->
-					post.toDefaultInfo(optionDtoList,
-						getLocation(postId),
-						getImageUrl(post.getCarName())))
-				.orElse(DefaultInfo.builder().build());
+	private List<Long> getPostIdListByUserId(Long userId) {
+		return postRepository.findPostIdsByUserId(userId);
+	}
 
-			String date = postRepository.findDateByPostIdAndUserId(postId, userId)
-				.orElse("");
+	private String getDate(Long userId, Long postId) {
+		return postRepository.findDateByPostIdAndUserId(postId, userId).orElse("");
+	}
 
-			drivingInfoList.add(DrivingInfo.builder()
-				.post(defaultInfo)
-				.date(date)
-				.build());
-		}
-
-		return drivingInfoList;
+	private DefaultInfo getDefaultInfo(Long postId, List<OptionDto> optionDtoList) {
+		String carName = carRepository.findCarNameByPostId(postId).orElseThrow(RuntimeException::new);
+		return postRepository.findById(postId)
+			.map(post -> post.toDefaultInfo(
+				optionDtoList,
+				carName,
+				getLocation(postId),
+				getImageUrl(carName)))
+			.orElse(DefaultInfo.builder().build());
 	}
 
 	private LocationDto getLocation(Long postId) {
@@ -107,8 +111,9 @@ public class MyPageService {
 			.orElse(LocationDto.builder().build());
 	}
 
-	private List<OptionDto> getOptionListByPostId(Long id) {
-		return postRepository.findOptionByPostId(id)
+	private List<OptionDto> getOptionListByUserId(Long userId) {
+		Long carId = myCarRepository.findCarIdByUserId(userId).orElseThrow(RuntimeException::new);
+		return myCarRepository.findOptionsByUserIdAndCarId(userId, carId)
 			.stream()
 			.map(Option::toDto)
 			.collect(Collectors.toList());

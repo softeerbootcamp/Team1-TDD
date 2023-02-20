@@ -16,49 +16,43 @@ import com.tdd.backend.post.data.PostDto;
 
 import lombok.Getter;
 
-@Table("posts")
 @Getter
+@Table("posts")
 public class Post {
-
-	private final Long userId;
 	private final RideOption rideOption;
-	private final String carName;
 	private final String requirement;
-	@MappedCollection(idColumn = "post_id")
-	private final Set<Option> optionSet = new HashSet<>();
+
 	@MappedCollection(idColumn = "post_id")
 	private final Set<Appointment> appointmentSet = new HashSet<>();
 	@Column("post_id")
 	private final Location location;
+	private final Long mycarId;
 	@Id
 	private Long id;
 
-	public Post(Long userId, RideOption rideOption, String carName, String requirement,
-		Set<Option> optionSet, Location location, Set<Appointment> appointmentSet) {
-		this.userId = userId;
+	public Post(
+		RideOption rideOption,
+		String requirement,
+		Location location,
+		Set<Appointment> appointmentSet,
+		Long mycarId
+	) {
 		this.rideOption = rideOption;
-		this.carName = carName;
 		this.requirement = requirement;
 		this.location = location;
-
-		for (Option option : optionSet) {
-			this.addOption(option);
-		}
+		this.mycarId = mycarId;
 
 		for (Appointment appointment : appointmentSet) {
 			this.addAppointment(appointment);
 		}
-	}
 
-	public void addOption(Option option) {
-		optionSet.add(option);
 	}
 
 	public void addAppointment(Appointment appointment) {
 		appointmentSet.add(appointment);
 	}
 
-	public PostDto toPostDto() {
+	public PostDto toPostDto(String carName) {
 		return PostDto.builder()
 			.id(id)
 			.carName(carName)
@@ -67,7 +61,7 @@ public class Post {
 			.build();
 	}
 
-	public DefaultInfo toDefaultInfo(List<OptionDto> options, LocationDto location, String imageUrl) {
+	public DefaultInfo toDefaultInfo(List<OptionDto> options, String carName, LocationDto location, String imageUrl) {
 		return DefaultInfo.builder()
 			.id(id)
 			.carName(carName)
