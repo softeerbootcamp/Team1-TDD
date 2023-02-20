@@ -26,11 +26,10 @@ public interface MyCarRepository extends CrudRepository<MyCar, Long> {
 		@Param("myCarId") Long myCarId
 	);
 
-	@Query("SELECT DISTINCT c.car_name, m.id "
-		+ "FROM mycars m "
+	@Query("SELECT c.car_name, m.id as mycar_id "
+		+ "FROM users u "
+		+ "JOIN mycars m ON u.id = m.user_id "
 		+ "JOIN cars c ON m.car_id = c.id "
-		+ "JOIN users u ON m.user_id = u.id "
-		+ "WHERE u.id = :userId"
-	)
+		+ "WHERE u.id = :userId")
 	List<MyCarResponse> getCarInfoByUserId(@Param("userId") Long userId);
 }
