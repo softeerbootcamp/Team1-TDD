@@ -13,7 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tdd.backend.car.repository.CarRepository;
-import com.tdd.backend.mypage.MyCarRepository;
+import com.tdd.backend.mypage.repository.MyCarRepository;
 import com.tdd.backend.mypage.data.MyCarResponse;
 import com.tdd.backend.mypage.service.MyCarService;
 

@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.tdd.backend.car.data.OptionDto;
 import com.tdd.backend.car.repository.CarRepository;
-import com.tdd.backend.mypage.MyCarRepository;
 import com.tdd.backend.mypage.data.DefaultInfo;
 import com.tdd.backend.mypage.data.DrivingInfo;
 import com.tdd.backend.mypage.data.MyPageResponse;
 import com.tdd.backend.mypage.data.SharingInfo;
 import com.tdd.backend.mypage.data.UserInfo;
+import com.tdd.backend.mypage.repository.MyCarRepository;
 import com.tdd.backend.post.data.AppointmentDto;
 import com.tdd.backend.post.data.LocationDto;
 import com.tdd.backend.post.model.Appointment;
@@ -95,7 +95,8 @@ public class MyPageService {
 	}
 
 	private DefaultInfo getDefaultInfo(Long postId, List<OptionDto> optionDtoList) {
-		String carName = carRepository.findCarNameByPostId(postId).orElseThrow(RuntimeException::new);
+		String carName = carRepository.findCarNameByPostId(postId)
+			.orElseThrow(IllegalArgumentException::new);
 		return postRepository.findById(postId)
 			.map(post -> post.toDefaultInfo(
 				optionDtoList,
@@ -112,7 +113,8 @@ public class MyPageService {
 	}
 
 	private List<OptionDto> getOptionListByUserId(Long userId) {
-		Long carId = myCarRepository.findCarIdByUserId(userId).orElseThrow(RuntimeException::new);
+		Long carId = myCarRepository.findCarIdByUserId(userId)
+			.orElseThrow(IllegalArgumentException::new);
 		return myCarRepository.findOptionsByUserIdAndCarId(userId, carId)
 			.stream()
 			.map(Option::toDto)

@@ -11,6 +11,7 @@ import com.tdd.backend.car.model.Car;
 import com.tdd.backend.car.repository.CarRepository;
 import com.tdd.backend.mail.service.MailService;
 import com.tdd.backend.mypage.exception.PostNotFoundException;
+import com.tdd.backend.mypage.repository.MyCarRepository;
 import com.tdd.backend.post.data.AppointmentDto;
 import com.tdd.backend.post.data.DrivingDto;
 import com.tdd.backend.post.data.DrivingResponse;

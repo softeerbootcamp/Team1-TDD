@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tdd.backend.car.model.Category;
-import com.tdd.backend.mypage.MyCarRepository;
+import com.tdd.backend.mypage.repository.MyCarRepository;
 import com.tdd.backend.mypage.model.MyCar;
 import com.tdd.backend.post.model.Appointment;
 import com.tdd.backend.post.model.AppointmentStatus;
