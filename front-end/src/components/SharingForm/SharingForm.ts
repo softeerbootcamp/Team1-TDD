@@ -1,4 +1,4 @@
-import { sendGetMyCarRequest } from '@/apis/sharing';
+import { sendGetMyCarRequest, sendSharingRequest } from '@/apis/sharing';
 import Component from '@/core/Component';
 import { qs } from '@/utils/querySelector';
 import { Calendar } from '../Calendar/Calendar';
@@ -121,13 +121,29 @@ export class SharingForm extends Component {
 
       const myCarId = $select.value;
       const dates = this.state.dates;
+      const formattedDates = dates.map((date: string) =>
+        date.replaceAll('/', '-')
+      );
       const location = this.state.location;
       const requirement = $requirement.value;
+      const reqBody = {
+        myCarId,
+        dates: formattedDates,
+        location,
+        requirement,
+        rideOption: 'RIDE_WITH',
+      };
       if (!this.canSendRequest({ myCarId, dates, location })) {
         alert('필수 항목을 선택해주세요!');
         return;
       }
-      console.log(requirement);
+      sendSharingRequest(reqBody)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     });
   }
 
