@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tdd.backend.auth.encrypt.EncryptHelper;
 import com.tdd.backend.auth.jwt.JwtProvider;
-import com.tdd.backend.user.controller.UserController;
 import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.data.UserCreate;
 import com.tdd.backend.user.data.UserLogin;
@@ -41,10 +40,10 @@ class UserControllerTest {
 
 	@Autowired
 	MockMvc mockMvc;
+
 	@Autowired
 	ObjectMapper objectMapper;
-	@Autowired
-	UserController userController;
+
 	@Autowired
 	UserRepository userRepository;
 

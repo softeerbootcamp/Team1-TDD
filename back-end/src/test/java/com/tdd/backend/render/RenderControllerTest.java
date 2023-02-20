@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tdd.backend.car.controller.RenderController;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -24,9 +23,6 @@ class RenderControllerTest {
 
 	@Autowired
 	ObjectMapper objectMapper;
-
-	@Autowired
-	RenderController renderController;
 
 	@Test
 	@DisplayName("특정 차량의 이름의 주어졌을 때 그 차에 대한 옵션들을 반환")

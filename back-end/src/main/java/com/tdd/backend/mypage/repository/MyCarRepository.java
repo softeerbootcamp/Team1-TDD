@@ -14,21 +14,16 @@ import com.tdd.backend.post.model.Option;
 
 @Repository
 public interface MyCarRepository extends CrudRepository<MyCar, Long> {
-	@Query("SELECT car_id FROM mycars WHERE user_id = :userId")
-	Optional<Long> findCarIdByUserId(@Param("userId") Long userId);
 
 	@Query("SELECT car_id FROM mycars WHERE id = :id")
 	Optional<Long> findCarIdById(@Param("id") Long id);
 
 	@Query("SELECT o.name, o.category "
-		+ "FROM mycars mc "
-		+ "JOIN options o ON o.mycar_id = mc.id "
-		+ "WHERE mc.user_id =:userId "
-		+ "AND mc.car_id = :carId"
+		+ "FROM options o "
+		+ "WHERE o.mycar_id = :myCarId"
 	)
-	List<Option> findOptionsByUserIdAndCarId(
-		@Param("userId") Long userId,
-		@Param("carId") Long carId
+	List<Option> findOptionsByMyCarId(
+		@Param("myCarId") Long myCarId
 	);
 
 	@Query("SELECT DISTINCT c.car_name, m.id "
