@@ -55,7 +55,7 @@ Let’s TDD. Try, Drive, Delightly. TDD에서 T와 D를 가지고 핸들을 추�
 - SCSS: CSS는 HTML 태그를 꾸미거나 효과를 넣어 주는 등 디자인 요소를 추가할 때 사용하는 전처리 과정입니다. 프로젝트 규모가 커지면 CSS는 불가피하게 가독성이 떨어지는 등 유지보수의 어려움을 주는 요소가 됩니다. 코드의 재활용성을 올리고, 가독성을 올리는 등 CSS에서 보이던 단점을 보완하고, 개발의 효율을 올리기 위해 SCSS를 사용했습니다. 대표적인 장점으로는 변수 사용 가능, nesting(중첩) 가능, mixin, import, export 사용 가능, 흐름 제어 가능의 편리한 기능들이 있습니다.
 - Axios:  response timeout (fetch에는 없는 기능) 처리 방법이 존재합니다. Promise 기반으로 만들어졌기 때문에 데이터 다루기 편리합니다. 또한크로스 브라우징 최적화로 브라우저 호환성(구형 브라우저 지원)이 뛰어나기에 채택했습니다.
 - Google Maps API: 초기 렌더링 시 빠르다는 장점이 있습니다. 평균 렌더링 시간이 38.6ms로 지도에서 검색 기능을 지원하지 않기 때문에 속도 면에서 여타 다른 지도 API에 비해 장점이 있습니다. Google Maps API는 해외의 지도까지 지원해주기 때문에 서비스의 확장성까지 고려했고, 국내에서 제공해주는 지도에 비해 세계적으로 사용하는 지도이기 때문에 관련 Reference가 많아 이를 사용했습니다.
-
+- JWT: [JWT기반 사용자 인증 및 권한 유지](https://github.com/softeerbootcamp/Team1-TDD/wiki/JWT%EA%B8%B0%EB%B0%98-%EC%82%AC%EC%9A%A9%EC%9E%90-%EC%9D%B8%EC%A6%9D-%EB%B0%8F-%EA%B6%8C%ED%95%9C-%EC%9C%A0%EC%A7%80)
 ### 당면했던 문제
 
 - CORS
