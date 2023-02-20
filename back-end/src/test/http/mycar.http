@@ -12,3 +12,7 @@ Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29t
     }
   ]
 }
+
+### mycar 조회
+GET {{domain-address}}/mycars
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIiwicm9sZSI6IkFUSyIsImlhdCI6MTY3NjgyMDI3OSwiZXhwIjoxNjc2ODIyMDc5fQ.oAu0sByCpFTjklo-eU4iltSF1pNFCC2foNR83tobwGI
