@@ -62,18 +62,16 @@ export class MyPage extends Component {
         this.setState({ res });
       })
       .catch((err) => console.log(err));
-    this.init();
   }
 
   template(): string {
     return literal();
   }
 
-  init() {
-    loadscript(
-      `https://maps.googleapis.com/maps/api/js?key=${process.env.VITE_API_KEY}&callback=initMap`,
-      function doNothing() {}
-    );
+  setEvent(): void {
+    this.addEvent('click', `.${styles['register']}`, () => {
+      window.location.href = `/addCar`;
+    });
   }
 
   mounted(): void {
@@ -91,20 +89,6 @@ export class MyPage extends Component {
     sharingList.forEach((element: ISharing) => {
       shareCardWrapper!.innerHTML += this.generateSharingCard(element);
     });
-  }
-
-  reverseGeocode(latlng: object) {
-    const LatLng = latlng as google.maps.LatLng;
-
-    const geocoder = new google.maps.Geocoder();
-    let temp: string = '';
-    geocoder.geocode({ location: LatLng }, async (response, status) => {
-      if (status === google.maps.GeocoderStatus.OK) {
-        const address = response[0].formatted_address;
-        temp = address;
-      }
-    });
-    return temp;
   }
 
   setUserInfo(user: IUser) {
