@@ -52,6 +52,7 @@ export class SharingMap extends Component {
       zoom: 15,
       center: this.state.userLocation as google.maps.LatLng,
       styles: mapStyle() as object[],
+      gestureHandling: 'greedy',
     });
 
     this.state.map = map;
@@ -104,6 +105,10 @@ export class SharingMap extends Component {
     this.addEvent('keydown', '#pac-input', (e: any) => {
       const { key } = e;
       if (key === 'Enter') e.preventDefault();
+    });
+    this.addEvent('keydown', '#googleMap', (e: any) => {
+      const { key } = e;
+      if (key === 'Escape') this.props.onPressEsc();
     });
   }
 }

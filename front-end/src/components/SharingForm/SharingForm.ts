@@ -95,6 +95,7 @@ export class SharingForm extends Component {
     });
     new SharingMap($map as HTMLDivElement, {
       onClickMap: this.onClickMap.bind(this),
+      onPressEsc: this.closeMap.bind(this),
     });
   }
 
@@ -106,6 +107,10 @@ export class SharingForm extends Component {
   }
   setEvent(): void {
     this.addEvent('click', '#map-button', this.openMap.bind(this));
+    this.addEvent('keydown', '#map-button', (e: any) => {
+      const { key } = e;
+      if (key === 'Escape') this.closeMap();
+    });
     this.addEvent('click', '#sharing-overlay', ({ target }: Event) => {
       if (!(target instanceof HTMLDivElement)) return;
       if (target.closest(`.${styles.map}`)) return;
