@@ -5,10 +5,21 @@ import { RegisterStore } from '@/store/RegisterStore/RegisterStore';
 import { qs, qsa } from '@/utils/querySelector';
 import { ImageSlider } from '../ImageSlider/ImageSlider';
 import { OptionForm } from '../OptionForm/OptionForm';
+import { routeGaurd } from '@/apis/login';
 import styles from './RegisterCar.module.scss';
 
 export class RegisterCar extends Component {
-  setup(): void {}
+  setup(): void {
+    this.state.login = false;
+    routeGaurd(
+      () => {
+        this.setState({ login: true });
+      },
+      () => {
+        location.replace('/');
+      }
+    );
+  }
 
   setEvent(): void {
     this.addEvent('click', `.${styles['confirm']}`, (_) => {

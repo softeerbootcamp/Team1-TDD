@@ -3,6 +3,7 @@ import Component from '@/core/Component';
 import { qs } from '@/utils/querySelector';
 import { literal } from './template';
 import styles from './MyPage.module.scss';
+import { routeGaurd } from '@/apis/login';
 
 interface IAppointment {
   date: string;
@@ -57,6 +58,16 @@ interface IUser {
 
 export class MyPage extends Component {
   setup() {
+    this.state.login = false;
+    routeGaurd(
+      () => {
+        this.setState({ login: true });
+      },
+      () => {
+        location.replace('/');
+      }
+    );
+
     getUserInfo()
       .then((res) => {
         this.setState({ res });
