@@ -3,13 +3,16 @@ package com.tdd.backend.post.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotNull;
+
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Service;
 
 import com.tdd.backend.car.data.OptionDto;
 import com.tdd.backend.car.exception.CarNotFoundException;
 import com.tdd.backend.car.model.Car;
 import com.tdd.backend.car.repository.CarRepository;
-import com.tdd.backend.mail.service.MailService;
 import com.tdd.backend.mypage.exception.PostNotFoundException;
 import com.tdd.backend.mypage.repository.MyCarRepository;
 import com.tdd.backend.post.data.AppointmentDto;
@@ -22,14 +25,16 @@ import com.tdd.backend.post.model.Option;
 import com.tdd.backend.post.model.Post;
 import com.tdd.backend.post.repository.PostRepository;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class DrivingService {
-	private final MailService mailService;
+public class DrivingService implements ApplicationEventPublisherAware {
+	private ApplicationEventPublisher eventPublisher;
+
 	private final CarRepository carRepository;
 	private final PostRepository postRepository;
 	private final MyCarRepository myCarRepository;
@@ -96,6 +101,23 @@ public class DrivingService {
 
 	public void approveAppointment(Long appointmentId, Long testerId) {
 		postRepository.updateTesterIdStatusAccept(appointmentId, testerId);
-		mailService.send(appointmentId, testerId);
+		eventPublisher.publishEvent(new AppointmentMailEvent(appointmentId, testerId));
+	}
+
+	@Override
+	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+		this.eventPublisher = applicationEventPublisher;
+	}
+
+	@Getter
+	public static class AppointmentMailEvent {
+
+		private final Long appointmentId;
+		private final Long testerId;
+
+		public AppointmentMailEvent(@NotNull Long appointmentId, @NotNull Long testerId) {
+			this.appointmentId = appointmentId;
+			this.testerId = testerId;
+		}
 	}
 }
