@@ -14,8 +14,6 @@ import com.tdd.backend.post.model.Option;
 
 @Repository
 public interface MyCarRepository extends CrudRepository<MyCar, Long> {
-	@Query("SELECT car_id FROM mycars WHERE user_id = :userId")
-	List<Long> findCarIdByUserId(@Param("userId") Long userId);
 
 	@Query("SELECT car_id FROM mycars WHERE id = :id")
 	Optional<Long> findCarIdById(@Param("id") Long id);
