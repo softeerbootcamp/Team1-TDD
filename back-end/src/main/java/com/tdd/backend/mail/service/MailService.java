@@ -5,7 +5,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.tdd.backend.mail.data.EmailMessage;
@@ -29,7 +28,6 @@ public class MailService {
 	private final PostRepository postRepository;
 	private final UserRepository userRepository;
 
-	@Async("mailExecutor")
 	public void send(Long appointmentId, Long testerId) {
 		PostInfo postInfo = postRepository.findPostInfoByAppointmentId(appointmentId)
 			.orElseThrow(PostNotFoundException::new);
