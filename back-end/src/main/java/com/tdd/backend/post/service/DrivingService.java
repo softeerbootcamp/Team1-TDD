@@ -9,7 +9,7 @@ import com.tdd.backend.car.data.OptionDto;
 import com.tdd.backend.car.exception.CarNotFoundException;
 import com.tdd.backend.car.model.Car;
 import com.tdd.backend.car.repository.CarRepository;
-import com.tdd.backend.mypage.MyCarRepository;
+import com.tdd.backend.mail.service.MailService;
 import com.tdd.backend.mypage.exception.PostNotFoundException;
 import com.tdd.backend.post.data.AppointmentDto;
 import com.tdd.backend.post.data.DrivingDto;
@@ -28,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class DrivingService {
+	private final MailService mailService;
 	private final CarRepository carRepository;
 	private final PostRepository postRepository;
 	private final MyCarRepository myCarRepository;
@@ -94,5 +95,6 @@ public class DrivingService {
 
 	public void approveAppointment(Long appointmentId, Long testerId) {
 		postRepository.updateTesterIdStatusAccept(appointmentId, testerId);
+		mailService.send(appointmentId, testerId);
 	}
 }

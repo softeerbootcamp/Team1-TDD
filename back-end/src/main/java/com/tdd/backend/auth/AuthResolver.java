@@ -48,8 +48,10 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
 			}
 
 			Long idFromJwt = jwtProvider.getUserIdFromJwt(jws);
+			String emailFromJwt = jwtProvider.getEmailFromJwt(jws);
 			return UserToken.builder()
 				.id(idFromJwt)
+				.email(emailFromJwt)
 				.build();
 
 		}
