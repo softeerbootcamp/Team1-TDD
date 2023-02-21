@@ -62,6 +62,7 @@ export class ExperienceMap extends Component {
       zoom: this.state.zoom,
       center: this.state.userLocation as google.maps.LatLng,
       styles: mapStyle() as object[],
+      minZoom: 12,
       disableDefaultUI: true,
     });
     this.state.map = map;
