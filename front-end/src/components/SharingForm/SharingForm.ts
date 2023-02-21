@@ -143,8 +143,9 @@ export class SharingForm extends Component {
         return;
       }
       sendSharingRequest(reqBody)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
+          alert('등록되었습니다!');
+          window.location.replace('/mypage');
         })
         .catch((err) => {
           console.log(err);
