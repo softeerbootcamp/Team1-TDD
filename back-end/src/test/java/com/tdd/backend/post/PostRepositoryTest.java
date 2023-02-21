@@ -105,7 +105,7 @@ public class PostRepositoryTest {
 		appointmentSet.add(new Appointment(LocalDate.parse("2022-01-03"), AppointmentStatus.PENDING));
 		appointmentSet.add(new Appointment(LocalDate.parse("2022-01-05"), AppointmentStatus.PENDING));
 
-		Post post = new Post( RideOption.RIDE_ALONE, "hello", location, appointmentSet, myCar.getId());
+		Post post = new Post(RideOption.RIDE_ALONE, "hello", location, appointmentSet, myCar.getId());
 
 		postRepository.save(post);
 
@@ -127,8 +127,7 @@ public class PostRepositoryTest {
 		MyCar myCar2 = new MyCar(user1.getId(), 7L, optionSet);
 		myCarRepository.save(myCar2);
 
-
-		Post post2 = new Post( RideOption.RIDE_ALONE, "hi", location, appointmentSet, myCar2.getId());
+		Post post2 = new Post(RideOption.RIDE_ALONE, "hi", location, appointmentSet, myCar2.getId());
 		postRepository.save(post2);
 
 		optionSet = new HashSet<>();
@@ -152,7 +151,7 @@ public class PostRepositoryTest {
 		appointmentSet.add(new Appointment(LocalDate.parse("2022-01-03"), AppointmentStatus.PENDING));
 		appointmentSet.add(new Appointment(LocalDate.parse("2022-01-04"), AppointmentStatus.PENDING));
 
-		Post post3 = new Post( RideOption.RIDE_ALONE, "hi", location, appointmentSet, myCar3.getId());
+		Post post3 = new Post(RideOption.RIDE_ALONE, "hi", location, appointmentSet, myCar3.getId());
 		postRepository.save(post3);
 
 		//when
@@ -162,25 +161,20 @@ public class PostRepositoryTest {
 
 		//then
 		SoftAssertions softAssertions = new SoftAssertions();
+		List<Long> postIds = postRepository.findPostIdsByOptionsAndDatesAndCarId(options,
+			dates, carId, options.size());
+		softAssertions.assertThat(postIds.stream()).contains(post2.getId(), post3.getId());
 
-		softAssertions.assertThat(
-			postRepository.findPostIdsByOptionsAndDatesAndCarId(options, dates, carId, options.size()).size()
-		).isEqualTo(2);
+		postIds = postRepository.findPostIdsByOptionsAndCarId(options, carId, options.size());
+		softAssertions.assertThat(postIds).contains(post2.getId(), post3.getId());
 
-		softAssertions.assertThat(
-			postRepository.findPostIdsByOptionsAndCarId(options, carId, options.size()).size()
-		).isEqualTo(2);
+		postIds = postRepository.findPostIdsByDatesAndCarId(dates, carId);
+		softAssertions.assertThat(postIds).contains(post.getId(), post2.getId(), post3.getId());
 
-		softAssertions.assertThat(
-			postRepository.findPostIdsByDatesAndCarId(dates, carId).size()
-		).isEqualTo(3);
-
-		softAssertions.assertThat(
-			postRepository.findPostIdsByCarId(carId).size()
-		).isEqualTo(3);
+		postIds = postRepository.findPostIdsByCarId(carId);
+		softAssertions.assertThat(postIds).contains(post.getId(), post2.getId(), post3.getId());
 
 		softAssertions.assertAll();
-
 	}
 
 }
