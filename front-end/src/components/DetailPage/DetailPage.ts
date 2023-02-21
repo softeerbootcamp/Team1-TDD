@@ -1,4 +1,5 @@
 import { getPosts } from '@/apis/detailPage';
+import { routeGaurd } from '@/apis/login';
 import Component from '@/core/Component';
 import styles from './DetailPage.module.scss';
 
@@ -14,6 +15,17 @@ interface IOptions {
 }
 
 export class DetailPage extends Component {
+  setup(): void {
+    this.state.login = false;
+    routeGaurd(
+      () => {
+        this.setState({ login: true });
+      },
+      () => {
+        location.replace('/');
+      }
+    );
+  }
   async render() {
     const postId = location.pathname.split('/').at(-1)!;
     const res = await getPosts(+postId);

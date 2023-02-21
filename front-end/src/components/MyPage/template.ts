@@ -1,16 +1,12 @@
 import styles from './MyPage.module.scss';
 
-export function literal() {
+export function literal(carNums: number) {
   return `
       <div class="${styles['main-wrapper']}">
         <div class="${styles['user-box-wrapper']}">
           <div class="${styles['user-info']}">
-            <div class="${styles['img-wrapper']}">
-              <img
-                src="https://w.namu.la/s/a4b8b7fa3ce77cae5845587199d433b974efbb6496ecdff536dcbf610041aa12723c48baf1160579bb4ce1ccefaa76d5e4040ac7bf2331a44e5dfadb8f0f5148f2fbe1c3a5d329ae5e392103eb6243eb7f7b5f1865da795bda0c7a491de0e469"
-                alt="aa"
-                style="width: 200px; height: 200px"
-              />
+            <div class="${styles['register-wrapper']}">
+              <div class="${styles['register']}">My Car 등록</div>
             </div>
             <div class="${styles['name-wrapper']} ${styles['flex']}">
               <div class="${styles['name']} ${styles['left']}">이름</div>
@@ -32,6 +28,10 @@ export function literal() {
               <div class="${styles['share']} ${styles['left']}">공유횟수</div>
               <div class="${styles['user-share']} ${styles['right']}">2</div>
             </div>
+            <div class="${styles['cars-wrapper']} ${styles['flex']}">
+              <div class="${styles['cars']} ${styles['left']}">등록한 차</div>
+              <div class="${styles['user-cars']} ${styles['right']}">${carNums}개</div>
+            </div>
           </div>
          </div>
         <div class="${styles['box-wrapper']} ${styles['wrap']}">
@@ -43,11 +43,10 @@ export function literal() {
           </div>
           <div class="${styles['recent-exp']} ${styles['recent-box']}">
             <div class="${styles['box-header']}">공유하기 목록</div>
-            <div class="${styles['cards-wrapper']}" id="share-card">
-            
-            </div>
+            <div class="${styles['cards-wrapper']}" id="share-card">  
           </div>
         </div>
       </div>
+    </div>
   `;
 }

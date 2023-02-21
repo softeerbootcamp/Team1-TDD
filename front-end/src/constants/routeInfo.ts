@@ -4,7 +4,9 @@ import { Sharing } from '@/pages/sharing';
 import { AboutUs } from '@/pages/aboutus';
 import { NotFound } from '@/pages/notfound';
 import { MyPage } from '@/components/MyPage/MyPage';
+import { RegisterCar } from '@/components/RegisterCar/RegisterCar';
 import { DetailPage } from '@/components/DetailPage/DetailPage';
+
 interface IRoute {
   path: RegExp;
   element: Function;
@@ -16,6 +18,7 @@ export const routes: IRoute[] = [
   { path: /^\/sharing$/, element: Sharing },
   { path: /^\/experiencing$/, element: Experiencing },
   //test용
+  { path: /^\/addCar$/, element: RegisterCar },
   { path: /^\/mypage$/, element: MyPage },
   { path: /^\/details\/[\w]+$/, element: DetailPage },
   { path: /^\/post\/[\w]+$/, element: NotFound },

@@ -28,7 +28,9 @@ export const sendAuthTestRequest = async () => {
 export const checkEmailValidationRequest = async (email: string) => {
   return axiosInstance.get(`/users/validation/${email}`);
 };
-
+export const routeGaurd = (resolve: Function, reject: Function) => {
+  HandleAuthAPICall(sendAuthTestRequest, resolve, reject);
+};
 export const HandleAuthAPICall = async (
   api: Function,
   resolve: Function,
