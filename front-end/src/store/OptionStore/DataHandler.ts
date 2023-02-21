@@ -1,4 +1,5 @@
 import { axiosInstance } from '@/apis';
+import { finishLoading, startLoading } from '@/utils/loadingSpinner';
 import { ItestDrivingReq, ItestDrivingRes } from './interface';
 import { IOptionState } from './OptionStore';
 
@@ -20,8 +21,9 @@ export async function totalDataHandler(state: IOptionState) {
     quadOne,
     quadThree,
   };
-
+  startLoading();
   const response = await axiosInstance.post('/test-driving/posts', reqBody);
+  finishLoading();
   const filteredPost: ItestDrivingRes = response.data;
   return { ...state, filteredPost };
 }
