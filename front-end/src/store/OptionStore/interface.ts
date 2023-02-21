@@ -19,7 +19,7 @@ interface Iappointment {
   id: number;
   status: string;
 }
-interface Ilocation {
+export interface Ilocation {
   latitude: string;
   longitude: string;
 }
