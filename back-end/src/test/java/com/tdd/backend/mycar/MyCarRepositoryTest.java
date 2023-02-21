@@ -1,11 +1,10 @@
 package com.tdd.backend.mycar;
 
-import static org.assertj.core.api.Assertions.*;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tdd.backend.car.data.OptionDto;
-import com.tdd.backend.mypage.repository.MyCarRepository;
 import com.tdd.backend.mypage.data.MyCarDto;
+import com.tdd.backend.mypage.data.MyCarResponse;
+import com.tdd.backend.mypage.repository.MyCarRepository;
 import com.tdd.backend.user.data.User;
 import com.tdd.backend.user.repository.UserRepository;
 
@@ -53,6 +53,7 @@ public class MyCarRepositoryTest {
 			.build();
 
 		myCarRepository.save(myCarDto.toEntity());
-		assertThat(myCarRepository.count()).isEqualTo(1);
+		List<MyCarResponse> carInfoList = myCarRepository.getCarInfoByUserId(user.getId());
+		Assertions.assertThat(carInfoList.size()).isEqualTo(1);
 	}
 }

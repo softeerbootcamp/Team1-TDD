@@ -21,10 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tdd.backend.auth.jwt.JwtProvider;
 import com.tdd.backend.car.data.OptionDto;
-import com.tdd.backend.mypage.repository.MyCarRepository;
 import com.tdd.backend.mypage.data.MyCarDto;
-import com.tdd.backend.mypage.exception.PostNotFoundException;
 import com.tdd.backend.mypage.model.MyCar;
+import com.tdd.backend.mypage.repository.MyCarRepository;
 import com.tdd.backend.post.data.LocationDto;
 import com.tdd.backend.post.data.SharingDto;
 import com.tdd.backend.post.model.Post;
@@ -102,8 +101,9 @@ public class PostControllerTest {
 			.andExpect(status().isFound())
 			.andDo(print());
 		SoftAssertions soft = new SoftAssertions();
-		Post post = postRepository.findById(1L).orElseThrow(PostNotFoundException::new);
-		soft.assertThat(post.getId()).isEqualTo(user.getId());
+		List<Post> postByUserId = postRepository.findPostByUserId(user.getId());
+		soft.assertThat(postByUserId.size()).isEqualTo(1);
+		soft.assertThat(postByUserId.get(0).getRequirement()).isEqualTo("hello");
 		soft.assertAll();
 	}
 }
