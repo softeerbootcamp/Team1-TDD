@@ -1,7 +1,7 @@
 @font-face {
-  font-family: "ROK";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.1/ROKABold.woff")
-    format("woff");
+  font-family: 'ROK';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.1/ROKABold.woff')
+    format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -14,6 +14,12 @@
 .desc {
   width: 100%;
   font-size: 50px;
-  font-family: "ROK";
+  font-family: 'ROK';
   padding-left: 30px;
+}
+.search {
+  width: 500px;
+  height: 40px;
+  font-size: 1.5rem;
+  font-weight: 300;
 }
