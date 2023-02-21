@@ -13,9 +13,11 @@ public class DrivingDto {
 	private final String carName;
 	private final List<String> dateList;
 	private final List<String> optionList;
-	private final LocationDto quadThree;
-	private final LocationDto quadOne;
 
+	@NotBlank(message = "바운더리 설정은 필수입니다!")
+	private final LocationDto quadThree;
+	@NotBlank(message = "바운더리 설정은 필수입니다!")
+	private final LocationDto quadOne;
 
 	@Builder
 	private DrivingDto(String carName, List<String> optionList, List<String> dateList,
