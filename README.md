@@ -39,6 +39,58 @@ Let’s TDD. Try, Drive, Delightly. TDD에서 T와 D를 가지고 핸들을 추�
 ## 주요 기능 캡쳐
 (시연 영상)
 
+
+## Database ERD
+
+![image](https://user-images.githubusercontent.com/59179386/219434168-ee5f00ce-b38f-40db-b190-3a3016ed12dc.png)
+
+## 프로젝트 특징
+
+### Github Action과 Docker로 구성한 CI/CD
+
+dev 브랜치에 merge되는 혹은 push되는 모든 내용은 빌드/테스트를 자동으로 수행하여 클라우드 서버(aws ec2)에 배포되고 있습니다.
+
+Docker를 이용해 이미지 단위로 Github Action을 통해 배포 파이프라인을 구성했으며 클라우드 서버에서 컨테이너를 띄우는 것으로 배포했습니다.
+
+→ [Github action 보러가기](https://github.com/softeerbootcamp/Team1-TDD/tree/dev/.github/workflows)
+
+### Swagger와 함께한 프론트와의 협업
+
+API 문서 자동화 도구인 Swagger를 이용하여 프론트엔드 개발자 분들과 협업했습니다. 
+
+다음과 같이 코드기반 API Docs 자동생성을 통해 프론트엔드 개발자분들이 일일이 json을 면대면 혹은 코드로 확인해 볼 필요없이 협업할 수 있었습니다.
+
+→ [swagger API Docs 보러가기](http://letstdd.site:8080/swagger-ui/index.html)
+
+![image](https://user-images.githubusercontent.com/59179386/219435036-d79ad6c3-1b9e-47f6-9488-7133d3da8c31.png)
+
+### Code convention과 함께하는 협업
+
+코딩 컨벤션을 준수하면 가독성이 좋아지고 성능에 영향을 주거나 오류를 발생시키는 잠재적인 위험 요소를 줄여줘 유지보수 비용을 줄일 수 있습니다.
+
+IntelliJ의 Code style Formatter를 이용하여 코드 컨벤션을 준수할 수 있도록 강제했고 IntelliJ의 Plugin 중 하나인 Check style 정적 코드 분석 도구를 이용하여 지정된 규칙에 어긋나는 경우 commit 시 경고를 통해 코드 컨벤션을 준수했습니다.
+
+![image](https://user-images.githubusercontent.com/59179386/219434976-db364650-ad04-4643-82c3-1c1e49a3b697.png)
+
+### 코드 리뷰와 함께하는 개발
+
+코드 리뷰없이는 개발 브랜치인 dev 에 merge 할 수 없도록 강제했습니다. 
+
+코드 리뷰를 통해 코드의 품질을 개선하고 다른 팀원들이 개발한 로직을 이해하고 협업할 수 있습니다.
+
+→ [코드리뷰 보러가기](https://github.com/softeerbootcamp/Team1-TDD/pulls?q=is%3Apr+is%3Aclosed+label%3A%F0%9F%A6%A6back-end)
+
+### HTTPS `SSL`
+
+SSL 인증서는 클라이언트와 서버간의 통신을 제3자가 보증해주는 전자화된 문서입니다.
+
+SSL프로토콜을 이용하여 서버와 클라이언트 사이의 모든데이터를 암호화 했습니다.
+ 
+![image](https://user-images.githubusercontent.com/59179386/219434882-f944db5d-1f68-4e26-9c61-d9504929811c.png)
+
+## ⚙️ 배포 아키텍쳐
+![image](https://user-images.githubusercontent.com/59179386/219247646-fdb88bc6-32cc-45ed-a4d3-4ddf2cc2df74.png)
+
 ## 🛠 기술 스택  
 ### ✔️ Frond-end
 <img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white"> <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=black"> <img src="https://img.shields.io/badge/SCSS-CC6699?style=for-the-badge&logo=SASS&logoColor=white"> <img src="https://img.shields.io/badge/prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white"> <img src="https://img.shields.io/badge/.env-ECD53F?style=for-the-badge&logo=.env&logoColor=black">
@@ -55,7 +107,7 @@ Let’s TDD. Try, Drive, Delightly. TDD에서 T와 D를 가지고 핸들을 추�
 - SCSS: CSS는 HTML 태그를 꾸미거나 효과를 넣어 주는 등 디자인 요소를 추가할 때 사용하는 전처리 과정입니다. 프로젝트 규모가 커지면 CSS는 불가피하게 가독성이 떨어지는 등 유지보수의 어려움을 주는 요소가 됩니다. 코드의 재활용성을 올리고, 가독성을 올리는 등 CSS에서 보이던 단점을 보완하고, 개발의 효율을 올리기 위해 SCSS를 사용했습니다. 대표적인 장점으로는 변수 사용 가능, nesting(중첩) 가능, mixin, import, export 사용 가능, 흐름 제어 가능의 편리한 기능들이 있습니다.
 - Axios:  response timeout (fetch에는 없는 기능) 처리 방법이 존재합니다. Promise 기반으로 만들어졌기 때문에 데이터 다루기 편리합니다. 또한크로스 브라우징 최적화로 브라우저 호환성(구형 브라우저 지원)이 뛰어나기에 채택했습니다.
 - Google Maps API: 초기 렌더링 시 빠르다는 장점이 있습니다. 평균 렌더링 시간이 38.6ms로 지도에서 검색 기능을 지원하지 않기 때문에 속도 면에서 여타 다른 지도 API에 비해 장점이 있습니다. Google Maps API는 해외의 지도까지 지원해주기 때문에 서비스의 확장성까지 고려했고, 국내에서 제공해주는 지도에 비해 세계적으로 사용하는 지도이기 때문에 관련 Reference가 많아 이를 사용했습니다.
-- JWT: [JWT기반 사용자 인증 및 권한 유지](https://github.com/softeerbootcamp/Team1-TDD/wiki/JWT%EA%B8%B0%EB%B0%98-%EC%82%AC%EC%9A%A9%EC%9E%90-%EC%9D%B8%EC%A6%9D-%EB%B0%8F-%EA%B6%8C%ED%95%9C-%EC%9C%A0%EC%A7%80)
+- JWT: 사용자의 로그인 인증 및 권한 유지 기술로 JWT토큰 방식을 선택하였습니다. [JWT기반 사용자 인증 및 권한 유지](https://github.com/softeerbootcamp/Team1-TDD/wiki/JWT%EA%B8%B0%EB%B0%98-%EC%82%AC%EC%9A%A9%EC%9E%90-%EC%9D%B8%EC%A6%9D-%EB%B0%8F-%EA%B6%8C%ED%95%9C-%EC%9C%A0%EC%A7%80)
 ### 당면했던 문제
 
 - CORS
@@ -81,7 +133,6 @@ cd ./backend
 ./gradlew bootJar
 java -jar ./build/libs/back-end-0.0.1-SNAPSHOT.jar 
 ```
-![image](https://user-images.githubusercontent.com/59179386/219247646-fdb88bc6-32cc-45ed-a4d3-4ddf2cc2df74.png)
 ## 5. 프로젝트 사용 방법
 
 - 사용자/기여자들이 프로젝트를 이용할 수 있는 방법과 예시
