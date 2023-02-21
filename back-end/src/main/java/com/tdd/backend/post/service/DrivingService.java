@@ -76,17 +76,27 @@ public class DrivingService implements ApplicationEventPublisherAware {
 	public List<DrivingResponse> getDrivingResponseList(DrivingDto drivingDto) {
 		List<String> options = drivingDto.getOptionList();
 		List<String> dates = drivingDto.getDateList();
+
+		String start_long = drivingDto.getQuadThree().getLongitude();
+		String start_lat = drivingDto.getQuadThree().getLatitude();
+		String end_long = drivingDto.getQuadOne().getLongitude();
+		String end_lat = drivingDto.getQuadOne().getLatitude();
+
 		Long carId = carRepository.findIdByCarName(drivingDto.getCarName()).orElseThrow(CarNotFoundException::new);
 		List<Long> postIds;
 
 		if (!options.isEmpty() && !dates.isEmpty()) {
-			postIds = postRepository.findPostIdsByOptionsAndDatesAndCarId(options, dates, carId, options.size());
+			postIds = postRepository.findPostIdsByOptionsAndDatesAndCarId(options, dates, carId, options.size(),
+				start_long, start_lat, end_long, end_lat);
 		} else if (!options.isEmpty()) {
-			postIds = postRepository.findPostIdsByOptionsAndCarId(options, carId, options.size());
+			postIds = postRepository.findPostIdsByOptionsAndCarId(options, carId, options.size(),
+				start_long, start_lat, end_long, end_lat);
 		} else if (!dates.isEmpty()) {
-			postIds = postRepository.findPostIdsByDatesAndCarId(dates, carId);
+			postIds = postRepository.findPostIdsByDatesAndCarId(dates, carId,
+				start_long, start_lat, end_long, end_lat);
 		} else {
-			postIds = postRepository.findPostIdsByCarId(carId);
+			postIds = postRepository.findPostIdsByCarId(carId,
+				start_long, start_lat, end_long, end_lat);
 		}
 
 		return getDrivingResponses(postIds);
