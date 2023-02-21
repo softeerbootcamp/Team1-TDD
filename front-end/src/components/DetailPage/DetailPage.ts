@@ -40,7 +40,8 @@ export class DetailPage extends Component {
 
   setEvent(): void {
     this.addEvent('click', `.${styles['confirm']}`, (_) => {
-      window.location.href = '/mypage';
+      console.log(this.state);
+      //window.location.href = '/mypage';
     });
     this.addEvent('click', `.${styles['cancel']}`, (_) => {
       window.location.href = '/';
@@ -67,10 +68,7 @@ export class DetailPage extends Component {
       .join('')}
             </div>
           </div>
-          <div class="${styles['date']}">
-            <div class="${styles['left']}">시승날짜</div>
-            <div class="${styles['right']}">2023-02-24</div>
-          </div>
+
           <div class="${styles['location']}">
             <div class="${styles['left']}">시승위치</div>
             <div class="${styles['right']}">
@@ -82,10 +80,10 @@ export class DetailPage extends Component {
             </div>
           </div>
           <div class="${styles['appointments']}">
-            <div class="${styles['left']}">예약현황</div>
-            <div class="${styles['right']}">${appointments
-      .map((ele: IAppointment) => ele.date)
-      .join(', ')}</div>
+            <div class="${styles['left']}">가능날짜</div>
+            <div class="${styles['right']}">${this.createDatesButton(
+      appointments
+    )}</div>
           </div>
         </div>
         </div>
@@ -102,5 +100,16 @@ export class DetailPage extends Component {
       <div class="${styles['opt']}">${option}</div>
     `;
     return literal;
+  }
+
+  createDatesButton(appointments: IAppointment[]) {
+    const wrapper = `
+    <select name="dates" class="${styles['dates']}">
+      ${appointments.map(
+        (ele) => `<option value="${ele.date}">${ele.date}</option>`
+      )}
+    </select>`;
+
+    return wrapper;
   }
 }
