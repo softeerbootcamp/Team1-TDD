@@ -161,9 +161,8 @@ public class PostRepositoryTest {
 
 		//then
 		SoftAssertions softAssertions = new SoftAssertions();
-		List<Long> postIds = postRepository.findPostIdsByOptionsAndDatesAndCarId(options,
-			dates, carId, options.size());
-		softAssertions.assertThat(postIds.stream()).contains(post2.getId(), post3.getId());
+		List<Long> postIds = postRepository.findPostIdsByOptionsAndDatesAndCarId(options, dates, carId, options.size());
+		softAssertions.assertThat(postIds).contains(post2.getId(), post3.getId());
 
 		postIds = postRepository.findPostIdsByOptionsAndCarId(options, carId, options.size());
 		softAssertions.assertThat(postIds).contains(post2.getId(), post3.getId());
