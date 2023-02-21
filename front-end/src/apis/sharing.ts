@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 import { sharing } from '@/components/SharingForm/interface';
-=======
->>>>>>> 4a1ee4e4841462295f90b97aa609857821152723
 import { axiosInstance } from '.';
 
 export const sendGetMyCarRequest = async () => {
@@ -10,7 +7,6 @@ export const sendGetMyCarRequest = async () => {
     headers: { Authorization: accessToken },
   });
 };
-<<<<<<< HEAD
 
 export const sendSharingRequest = async (reqBody: sharing) => {
   const accessToken = localStorage.getItem('accessToken');
@@ -18,5 +14,3 @@ export const sendSharingRequest = async (reqBody: sharing) => {
     headers: { Authorization: accessToken },
   });
 };
-=======
->>>>>>> 4a1ee4e4841462295f90b97aa609857821152723

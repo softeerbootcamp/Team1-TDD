@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { sendGetMyCarRequest, sendSharingRequest } from '@/apis/sharing';
-=======
-import { sendGetMyCarRequest } from '@/apis/sharing';
->>>>>>> 4a1ee4e4841462295f90b97aa609857821152723
 import Component from '@/core/Component';
 import { qs } from '@/utils/querySelector';
 import { Calendar } from '../Calendar/Calendar';
@@ -13,11 +9,7 @@ export class SharingForm extends Component {
   setup(): void {
     this.state.dates = [];
     this.state.location = null;
-<<<<<<< HEAD
     this.state.myCars = [];
-=======
-    this.state.myCars = null;
->>>>>>> 4a1ee4e4841462295f90b97aa609857821152723
     sendGetMyCarRequest().then((res) => {
       this.setState({ myCars: res.data });
     });
@@ -76,11 +68,7 @@ export class SharingForm extends Component {
             <li><div class="${styles.divider}"></div></li>
             <li>
               <label for="comments">comments</label>
-<<<<<<< HEAD
               <textarea cols="46" rows="3" name="comments" id="sharing-requirement"></textarea>
-=======
-              <textarea cols="46" rows="3" name="comments"></textarea>
->>>>>>> 4a1ee4e4841462295f90b97aa609857821152723
             </li>
 
             <li>
@@ -103,7 +91,6 @@ export class SharingForm extends Component {
     const $map = qs('#sharing-map', this.target);
     new Calendar($calendar as HTMLDivElement, {
       dates: this.state.dates,
-<<<<<<< HEAD
       onChangeDates: this.onChangeDates.bind(this),
     });
     new SharingMap($map as HTMLDivElement, {
@@ -124,14 +111,6 @@ export class SharingForm extends Component {
       const { key } = e;
       if (key === 'Escape') this.closeMap();
     });
-=======
-      onChangeDates: () => {},
-    });
-    new SharingMap($map as HTMLDivElement);
-  }
-  setEvent(): void {
-    this.addEvent('click', '#map-button', this.openMap.bind(this));
->>>>>>> 4a1ee4e4841462295f90b97aa609857821152723
     this.addEvent('click', '#sharing-overlay', ({ target }: Event) => {
       if (!(target instanceof HTMLDivElement)) return;
       if (target.closest(`.${styles.map}`)) return;
@@ -140,7 +119,6 @@ export class SharingForm extends Component {
     this.addEvent('submit', '#sharing-form', (e) => {
       e.preventDefault();
       const $select = qs('#select-car', this.target) as HTMLSelectElement;
-<<<<<<< HEAD
       const $requirement = qs(
         '#sharing-requirement',
         this.target
@@ -181,13 +159,6 @@ export class SharingForm extends Component {
     return true;
   }
 
-=======
-      const myCarId = $select.value;
-      console.log(myCarId);
-    });
-  }
-
->>>>>>> 4a1ee4e4841462295f90b97aa609857821152723
   openMap(e: Event) {
     e.preventDefault();
     const $overlay = qs('#sharing-overlay', this.target);

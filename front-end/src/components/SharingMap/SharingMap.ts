@@ -3,10 +3,7 @@ import styles from './SharingMap.module.scss';
 import { mapStyle } from '@/utils/mapStyle';
 import { loadscript } from '@/utils/googleAPI';
 import { qs } from '@/utils/querySelector';
-<<<<<<< HEAD
 import { initAutocomplete } from '@/utils/autoCompletor';
-=======
->>>>>>> 4a1ee4e4841462295f90b97aa609857821152723
 
 export class SharingMap extends Component {
   async setup() {
@@ -29,7 +26,6 @@ export class SharingMap extends Component {
 
   template(): string {
     return `
-<<<<<<< HEAD
     <div id="googleMap" class="${styles['googleMap']}"></div>
     <input
       id="pac-input"
@@ -38,9 +34,6 @@ export class SharingMap extends Component {
       placeholder="Search Box"
     />
     `;
-=======
-    <div id="googleMap" class="${styles['googleMap']}"></div>`;
->>>>>>> 4a1ee4e4841462295f90b97aa609857821152723
   }
 
   mounted(): void {
