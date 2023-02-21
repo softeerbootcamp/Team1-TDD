@@ -112,7 +112,7 @@ class UserControllerTest {
 	void signup_duplicate_email() throws Exception {
 		//given
 		User user = User.builder()
-			.email("test@test.com")
+			.email("helloworld@test.com")
 			.userName("tester")
 			.userPassword("pwd")
 			.phoneNumber("101010")
@@ -134,7 +134,7 @@ class UserControllerTest {
 	void login() throws Exception {
 		//given
 		userRepository.save(User.builder()
-			.email("test@test.com")
+			.email("hellww@test.com")
 			.userPassword(encryptHelper.encrypt("pwd"))
 			.userName("tester")
 			.phoneNumber("010101")
@@ -164,7 +164,7 @@ class UserControllerTest {
 	void login_failed() throws Exception {
 		//when
 		UserLogin userLogin = UserLogin.builder()
-			.email("test@test.com")
+			.email("woighdkf@test.com")
 			.userPassword("pwd")
 			.build();
 
@@ -182,7 +182,7 @@ class UserControllerTest {
 	void login_jwt() throws Exception {
 		//when
 		User user = User.builder()
-			.email("test@test.com")
+			.email("lkdjfk@test.com")
 			.userPassword(encryptHelper.encrypt("pwd"))
 			.userName("tester")
 			.phoneNumber("010101")
