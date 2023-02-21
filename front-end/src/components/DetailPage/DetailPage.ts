@@ -40,14 +40,14 @@ export class DetailPage extends Component {
   }
 
   setEvent(): void {
-    this.addEvent('click', `.${styles['confirm']}`, (_) => {
-      const temp = this.findAppointmentId(this.state.res.appointments);
-      patchAppoinment(temp[0].id)
+    this.addEvent('click', `.${styles['confirm']}`, () => {
+      const temp = this.findAppointmentId(this.state.res.appointments)[0];
+      patchAppoinment(temp.id)
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
       window.location.href = '/mypage';
     });
-    this.addEvent('click', `.${styles['cancel']}`, (_) => {
+    this.addEvent('click', `.${styles['cancel']}`, () => {
       window.location.href = '/';
     });
     this.addEvent('change', `#dates`, () => {
@@ -116,7 +116,7 @@ export class DetailPage extends Component {
   }
 
   findAppointmentId(appointments: IAppointment[]) {
-    return appointments.filter((ele) => ele.date === this.state.selectedDate);
+    return appointments.filter(({ date }) => date === this.state.selectedDate);
   }
 
   createDatesButton(appointments: IAppointment[]) {
