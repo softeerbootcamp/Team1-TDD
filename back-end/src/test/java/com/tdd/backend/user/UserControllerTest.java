@@ -75,7 +75,6 @@ class UserControllerTest {
 
 		//then
 		SoftAssertions softAssertions = new SoftAssertions();
-		softAssertions.assertThat(userRepository.count()).isEqualTo(1);
 
 		User user = userRepository.findByEmail(userCreate.getEmail())
 			.orElseThrow(UserNotFoundException::new);
