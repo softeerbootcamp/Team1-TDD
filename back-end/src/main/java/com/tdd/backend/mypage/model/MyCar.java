@@ -4,12 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
 import com.tdd.backend.post.model.Option;
-import com.tdd.backend.post.model.Post;
 
 import lombok.Getter;
 
@@ -22,13 +20,6 @@ public class MyCar {
 	private Long id;
 	private final Long userId;
 	private final Long carId;
-
-	@Column("mycar_id")
-	private Post post;
-
-	public void setPost(Post post) {
-		this.post = post;
-	}
 
 	public MyCar(Long userId, Long carId, Set<Option> options) {
 		this.userId = userId;
