@@ -14,9 +14,7 @@ public class DrivingDto {
 	private final List<String> dateList;
 	private final List<String> optionList;
 
-	@NotBlank(message = "바운더리 설정은 필수입니다!")
 	private final LocationDto quadThree;
-	@NotBlank(message = "바운더리 설정은 필수입니다!")
 	private final LocationDto quadOne;
 
 	@Builder
