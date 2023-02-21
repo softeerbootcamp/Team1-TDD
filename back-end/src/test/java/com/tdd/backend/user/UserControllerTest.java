@@ -144,7 +144,7 @@ class UserControllerTest {
 
 		//when
 		UserLogin userLogin = UserLogin.builder()
-			.email("test@test.com")
+			.email("hellww@test.com")
 			.userPassword("pwd")
 			.build();
 		String loginRequestBody = objectMapper.writeValueAsString(userLogin);
