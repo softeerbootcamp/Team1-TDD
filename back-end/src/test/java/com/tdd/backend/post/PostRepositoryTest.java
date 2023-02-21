@@ -174,25 +174,25 @@ public class PostRepositoryTest {
 		SoftAssertions softAssertions = new SoftAssertions();
 
 		softAssertions.assertThat(
-			postRepository.findPostIdsByOptionsAndDatesAndCarId(options, dates, carId, options.size(),
+			postRepository.findPostIdsByOptionsAndDatesAndCarIdAndLocation(options, dates, carId, options.size(),
 				quadThree.getLongitude(), quadThree.getLatitude(), quadOne.getLongitude(), quadOne.getLatitude()
 			).size()
 		).isEqualTo(2);
 
 		softAssertions.assertThat(
-			postRepository.findPostIdsByOptionsAndCarId(options, carId, options.size(),
+			postRepository.findPostIdsByOptionsAndCarIdAndLocation(options, carId, options.size(),
 				quadThree.getLongitude(), quadThree.getLatitude(), quadOne.getLongitude(), quadOne.getLatitude()
 			).size()
 		).isEqualTo(2);
 
 		softAssertions.assertThat(
-			postRepository.findPostIdsByDatesAndCarId(dates, carId,
+			postRepository.findPostIdsByDatesAndCarIdLocation(dates, carId,
 				quadThree.getLongitude(), quadThree.getLatitude(), quadOne.getLongitude(), quadOne.getLatitude()
 			).size()
 		).isEqualTo(3);
 
 		softAssertions.assertThat(
-			postRepository.findPostIdsByCarId(carId,
+			postRepository.findPostIdsByCarIdLocation(carId,
 				quadThree.getLongitude(), quadThree.getLatitude(), quadOne.getLongitude(), quadOne.getLatitude()
 			).size()
 		).isEqualTo(3);

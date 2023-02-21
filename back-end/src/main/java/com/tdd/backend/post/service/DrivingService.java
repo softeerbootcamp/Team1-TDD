@@ -77,26 +77,26 @@ public class DrivingService implements ApplicationEventPublisherAware {
 		List<String> options = drivingDto.getOptionList();
 		List<String> dates = drivingDto.getDateList();
 
-		String start_long = drivingDto.getQuadThree().getLongitude();
-		String start_lat = drivingDto.getQuadThree().getLatitude();
-		String end_long = drivingDto.getQuadOne().getLongitude();
-		String end_lat = drivingDto.getQuadOne().getLatitude();
+		String startLong = drivingDto.getQuadThree().getLongitude();
+		String startLat = drivingDto.getQuadThree().getLatitude();
+		String endLong = drivingDto.getQuadOne().getLongitude();
+		String endLat = drivingDto.getQuadOne().getLatitude();
 
 		Long carId = carRepository.findIdByCarName(drivingDto.getCarName()).orElseThrow(CarNotFoundException::new);
 		List<Long> postIds;
 
 		if (!options.isEmpty() && !dates.isEmpty()) {
-			postIds = postRepository.findPostIdsByOptionsAndDatesAndCarId(options, dates, carId, options.size(),
-				start_long, start_lat, end_long, end_lat);
+			postIds = postRepository.findPostIdsByOptionsAndDatesAndCarIdAndLocation(
+				options, dates, carId, options.size(), startLong, startLat, endLong, endLat);
 		} else if (!options.isEmpty()) {
-			postIds = postRepository.findPostIdsByOptionsAndCarId(options, carId, options.size(),
-				start_long, start_lat, end_long, end_lat);
+			postIds = postRepository.findPostIdsByOptionsAndCarIdAndLocation(options, carId, options.size(),
+				startLong, startLat, endLong, endLat);
 		} else if (!dates.isEmpty()) {
-			postIds = postRepository.findPostIdsByDatesAndCarId(dates, carId,
-				start_long, start_lat, end_long, end_lat);
+			postIds = postRepository.findPostIdsByDatesAndCarIdLocation(dates, carId,
+				startLong, startLat, endLong, endLat);
 		} else {
-			postIds = postRepository.findPostIdsByCarId(carId,
-				start_long, start_lat, end_long, end_lat);
+			postIds = postRepository.findPostIdsByCarIdLocation(carId,
+				startLong, startLat, endLong, endLat);
 		}
 
 		return getDrivingResponses(postIds);
