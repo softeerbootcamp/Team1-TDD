@@ -1,6 +1,7 @@
-import { getPosts } from '@/apis/detailPage';
+import { getPosts, patchAppoinment } from '@/apis/detailPage';
 import { routeGaurd } from '@/apis/login';
 import Component from '@/core/Component';
+import { qs } from '@/utils/querySelector';
 import styles from './DetailPage.module.scss';
 
 interface IAppointment {
@@ -40,11 +41,18 @@ export class DetailPage extends Component {
 
   setEvent(): void {
     this.addEvent('click', `.${styles['confirm']}`, (_) => {
-      console.log(this.state);
-      //window.location.href = '/mypage';
+      const temp = this.findAppointmentId(this.state.res.appointments);
+      patchAppoinment(temp[0].id)
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+      window.location.href = '/mypage';
     });
     this.addEvent('click', `.${styles['cancel']}`, (_) => {
       window.location.href = '/';
+    });
+    this.addEvent('change', `#dates`, () => {
+      const dates = qs('#dates') as HTMLSelectElement;
+      this.state.selectedDate = dates.options[dates.selectedIndex].value;
     });
   }
 
@@ -95,6 +103,11 @@ export class DetailPage extends Component {
     `;
   }
 
+  mounted(): void {
+    const dates = qs('#dates') as HTMLSelectElement;
+    this.state.selectedDate = dates.options[dates.selectedIndex].value;
+  }
+
   optionCreator(option: string): string {
     const literal = `
       <div class="${styles['opt']}">${option}</div>
@@ -102,12 +115,20 @@ export class DetailPage extends Component {
     return literal;
   }
 
+  findAppointmentId(appointments: IAppointment[]) {
+    return appointments.filter((ele) => ele.date === this.state.selectedDate);
+  }
+
   createDatesButton(appointments: IAppointment[]) {
     const wrapper = `
-    <select name="dates" class="${styles['dates']}">
-      ${appointments.map(
-        (ele) => `<option value="${ele.date}">${ele.date}</option>`
-      )}
+    <select id="dates" class="${styles['dates']}">
+      ${appointments
+        .map((ele, idx) =>
+          idx === 0
+            ? `<option value="${ele.date}" selected>${ele.date}</option>`
+            : `<option value="${ele.date}">${ele.date}</option>`
+        )
+        .join('')}
     </select>`;
 
     return wrapper;
