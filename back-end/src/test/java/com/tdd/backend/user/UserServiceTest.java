@@ -72,7 +72,7 @@ class UserServiceTest {
 		userService.login(userLogin);
 
 		//then
-		User findUser = userRepository.findByEmail("test@test.com").orElseThrow(UserNotFoundException::new);
+		User findUser = userRepository.findByEmail("howareyou@test.com").orElseThrow(UserNotFoundException::new);
 		assertThat(findUser.getId()).isEqualTo(user.getId());
 	}
 
