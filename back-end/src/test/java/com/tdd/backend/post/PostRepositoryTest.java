@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,14 +99,14 @@ public class PostRepositoryTest {
 		MyCar myCar = new MyCar(user.getId(), 7L, optionSet);
 		myCarRepository.save(myCar);
 
-		Location location = new Location("20.12", "30.4432");
+		Location location = new Location("2234.107", "304.493");
 
 		Set<Appointment> appointmentSet = new HashSet<>();
 		appointmentSet.add(new Appointment(LocalDate.parse("2022-01-02"), AppointmentStatus.PENDING));
 		appointmentSet.add(new Appointment(LocalDate.parse("2022-01-03"), AppointmentStatus.PENDING));
 		appointmentSet.add(new Appointment(LocalDate.parse("2022-01-05"), AppointmentStatus.PENDING));
 
-		Post post = new Post(RideOption.RIDE_ALONE, "hello", location, appointmentSet, myCar.getId());
+		Post post = new Post( RideOption.RIDE_ALONE, "hello", location, appointmentSet, myCar.getId());
 
 		postRepository.save(post);
 
@@ -118,7 +119,7 @@ public class PostRepositoryTest {
 		optionSet.add(new Option("현대 스마트 센스 III", Category.CAR_OPTION));
 		optionSet.add(new Option("빌트인 캠(보조배터리 포함)", Category.CAR_OPTION));
 
-		location = new Location("20234.12", "30467.4432");
+		location = new Location("2234.10", "304.443");
 
 		appointmentSet = new HashSet<>();
 		appointmentSet.add(new Appointment(LocalDate.parse("2022-01-02"), AppointmentStatus.PENDING));
@@ -127,7 +128,8 @@ public class PostRepositoryTest {
 		MyCar myCar2 = new MyCar(user1.getId(), 7L, optionSet);
 		myCarRepository.save(myCar2);
 
-		Post post2 = new Post(RideOption.RIDE_ALONE, "hi", location, appointmentSet, myCar2.getId());
+
+		Post post2 = new Post( RideOption.RIDE_ALONE, "hi", location, appointmentSet, myCar2.getId());
 		postRepository.save(post2);
 
 		optionSet = new HashSet<>();
