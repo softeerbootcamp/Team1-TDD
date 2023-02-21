@@ -47,7 +47,7 @@ class UserServiceTest {
 		userService.save(userCreate);
 
 		//then
-		assertThat(userRepository.count()).isEqualTo(1);
+		assertThat(userRepository.findByEmail("tdd@naver.com").get().getUserName()).isEqualTo("tdd");
 	}
 
 	@Test
