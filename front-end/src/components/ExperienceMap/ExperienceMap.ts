@@ -5,6 +5,7 @@ import { loadscript } from '@/utils/googleAPI';
 import { qs } from '@/utils/querySelector';
 import { mapInfo } from './interface';
 import { markerController } from '@/store/MarkerController';
+import { initAutocomplete } from '@/utils/autoCompletor';
 
 export class ExperienceMap extends Component {
   setup() {
@@ -35,6 +36,12 @@ export class ExperienceMap extends Component {
       <button class="${styles['find-my-position']} ${styles.jelly}">내 위치를 찾아줘..!</button>
       <span class="${styles.loader} ${styles.hidden}"></span>
     </div>
+    <input
+      id="pac-input"
+      class="controls ${styles.search}"
+      type="text"
+      placeholder="Search Box"
+    />
     <div id="googleMap" class="${styles.googleMap}"></div>
     `;
   }
@@ -45,7 +52,7 @@ export class ExperienceMap extends Component {
 
   init() {
     loadscript(
-      `https://maps.googleapis.com/maps/api/js?key=${process.env.VITE_API_KEY}&callback=initMap`,
+      `https://maps.googleapis.com/maps/api/js?key=${process.env.VITE_API_KEY}&callback=initMap&libraries=places`,
       this.initMap.bind(this)
     );
   }
@@ -69,6 +76,7 @@ export class ExperienceMap extends Component {
     );
 
     this.updateMarkers();
+    initAutocomplete(map);
   }
 
   moveToMyLocation() {
