@@ -8,12 +8,12 @@
 
 .main-wrapper {
   font-family: 'temp';
-  width: 70%;
+  width: 75%;
   height: 700px;
   margin: 10px auto 0 auto;
   display: flex;
   .user-box-wrapper {
-    width: 25%;
+    width: 30%;
     height: 103%;
     display: flex;
     justify-content: flex-start;
@@ -26,12 +26,25 @@
       display: flex;
       justify-content: space-evenly;
       flex-direction: column;
-      .img-wrapper {
+      width: 100%;
+      .register-wrapper {
         display: flex;
         justify-content: center;
         align-items: center;
-        img {
-          margin: 0 auto;
+        width: 100%;
+        .register {
+          cursor: pointer;
+          width: 100px;
+          height: 50px;
+          color: black;
+          border: 1px solid black;
+          text-align: center;
+          font-size: 15px;
+          line-height: 50px;
+          &:hover {
+            background-color: black;
+            color: white;
+          }
         }
       }
       .name-wrapper {
@@ -159,5 +172,5 @@
 }
 
 .right {
-  width: 120px;
+  width: 180px;
 }

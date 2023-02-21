@@ -1,0 +1,23 @@
+.button-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  .confirm,
+  .cancel {
+    font-size: 30px;
+    border: 1px solid black;
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    &:hover {
+      background-color: black;
+      color: white;
+    }
+  }
+  .confirm {
+    margin-right: 20px;
+  }
+}

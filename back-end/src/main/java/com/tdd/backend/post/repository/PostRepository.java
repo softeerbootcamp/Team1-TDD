@@ -30,16 +30,18 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 	@Query("UPDATE appointments SET status = 'ACCEPT', tester_id = :testerid WHERE id = :id")
 	void updateTesterIdStatusAccept(@Param("id") Long id, @Param("testerid") Long testerId);
 
-	@Query("SELECT DISTINCT post_id FROM appointments WHERE tester_id = :testerId")
-	List<Long> findPostIdByTesterId(@Param("testerId") Long testerId);
+	@Query("SELECT DISTINCT p.id, p.ride_option, p.requirement, p.mycar_id FROM appointments a "
+		+ "JOIN posts p on p.id = a.post_id "
+		+ "WHERE a.tester_id = :testerId")
+	List<Post> findPostByTesterId(@Param("testerId") Long testerId);
 
-	@Query("SELECT DISTINCT p.id FROM posts p "
+	@Query("SELECT DISTINCT p.id, p.ride_option, p.mycar_id, p.requirement FROM posts p "
 		+ "JOIN appointments a ON p.id = a.post_id "
 		+ "JOIN mycars m ON p.mycar_id = m.id "
 		+ "JOIN users u ON m.user_id = u.id "
 		+ "WHERE u.id = :userId "
 	)
-	List<Long> findPostIdsByUserId(
+	List<Post> findPostByUserId(
 		@Param("userId") Long userId
 	);
 
