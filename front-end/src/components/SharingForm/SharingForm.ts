@@ -1,4 +1,4 @@
-import { sendGetMyCarRequest } from '@/apis/sharing';
+import { sendGetMyCarRequest, sendSharingRequest } from '@/apis/sharing';
 import Component from '@/core/Component';
 import { qs } from '@/utils/querySelector';
 import { Calendar } from '../Calendar/Calendar';
@@ -9,7 +9,7 @@ export class SharingForm extends Component {
   setup(): void {
     this.state.dates = [];
     this.state.location = null;
-    this.state.myCars = null;
+    this.state.myCars = [];
     sendGetMyCarRequest().then((res) => {
       this.setState({ myCars: res.data });
     });
@@ -68,7 +68,7 @@ export class SharingForm extends Component {
             <li><div class="${styles.divider}"></div></li>
             <li>
               <label for="comments">comments</label>
-              <textarea cols="46" rows="3" name="comments"></textarea>
+              <textarea cols="46" rows="3" name="comments" id="sharing-requirement"></textarea>
             </li>
 
             <li>
@@ -91,12 +91,26 @@ export class SharingForm extends Component {
     const $map = qs('#sharing-map', this.target);
     new Calendar($calendar as HTMLDivElement, {
       dates: this.state.dates,
-      onChangeDates: () => {},
+      onChangeDates: this.onChangeDates.bind(this),
     });
-    new SharingMap($map as HTMLDivElement);
+    new SharingMap($map as HTMLDivElement, {
+      onClickMap: this.onClickMap.bind(this),
+      onPressEsc: this.closeMap.bind(this),
+    });
+  }
+
+  onChangeDates(dates: string[]) {
+    this.state.dates = [...dates];
+  }
+  onClickMap(latLng: any) {
+    this.state.location = { ...latLng };
   }
   setEvent(): void {
     this.addEvent('click', '#map-button', this.openMap.bind(this));
+    this.addEvent('keydown', '#map-button', (e: any) => {
+      const { key } = e;
+      if (key === 'Escape') this.closeMap();
+    });
     this.addEvent('click', '#sharing-overlay', ({ target }: Event) => {
       if (!(target instanceof HTMLDivElement)) return;
       if (target.closest(`.${styles.map}`)) return;
@@ -105,9 +119,44 @@ export class SharingForm extends Component {
     this.addEvent('submit', '#sharing-form', (e) => {
       e.preventDefault();
       const $select = qs('#select-car', this.target) as HTMLSelectElement;
+      const $requirement = qs(
+        '#sharing-requirement',
+        this.target
+      ) as HTMLTextAreaElement;
+
       const myCarId = $select.value;
-      console.log(myCarId);
+      const dates = this.state.dates;
+      const formattedDates = dates.map((date: string) =>
+        date.replaceAll('/', '-')
+      );
+      const location = this.state.location;
+      const requirement = $requirement.value;
+      const reqBody = {
+        myCarId,
+        dates: formattedDates,
+        location,
+        requirement,
+        rideOption: 'RIDE_WITH',
+      };
+      if (!this.canSendRequest({ myCarId, dates, location })) {
+        alert('필수 항목을 선택해주세요!');
+        return;
+      }
+      sendSharingRequest(reqBody)
+        .then(() => {
+          alert('등록되었습니다!');
+          window.location.replace('/mypage');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     });
+  }
+
+  canSendRequest(reqBody: { myCarId: string; dates: string[]; location: any }) {
+    const { myCarId, dates, location } = reqBody;
+    if (!myCarId || dates.length === 0 || !location) return false;
+    return true;
   }
 
   openMap(e: Event) {
