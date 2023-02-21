@@ -2,6 +2,8 @@ export interface ItestDrivingReq {
   carName: string;
   dateList: string[];
   optionList: string[];
+  quadOne: Ilocation;
+  quadThree: Ilocation;
 }
 export interface ItestDrivingRes {
   appointments: Iappointment[];
