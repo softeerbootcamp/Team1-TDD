@@ -55,7 +55,7 @@ class UserServiceTest {
 	void login() throws Exception {
 		//given
 		User user = User.builder()
-			.email("test@test.com")
+			.email("howareyou@test.com")
 			.userPassword(encryptHelper.encrypt("pwd"))
 			.userName("tester")
 			.phoneNumber("01010")
@@ -65,7 +65,7 @@ class UserServiceTest {
 
 		//when
 		UserLogin userLogin = UserLogin.builder()
-			.email("test@test.com")
+			.email("howareyou@test.com")
 			.userPassword("pwd")
 			.build();
 
