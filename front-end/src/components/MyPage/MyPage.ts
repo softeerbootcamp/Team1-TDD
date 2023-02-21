@@ -68,15 +68,11 @@ export class MyPage extends Component {
       }
     );
 
-    getUserInfo()
-      .then((res) => {
-        this.setState({ res });
-      })
-      .catch((err) => console.log(err));
+    getUserInfo().then((res) => {
+      this.setState({ res });
+    });
     getMyCar().then((res) => {
-      console.log(res);
       this.state.myCars = res.data;
-      console.log(this.state);
     });
   }
 
