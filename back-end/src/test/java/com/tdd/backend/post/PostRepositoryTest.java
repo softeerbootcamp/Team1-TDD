@@ -176,29 +176,28 @@ public class PostRepositoryTest {
 		softAssertions.assertThat(
 			postRepository.findPostIdsByOptionsAndDatesAndCarIdAndLocation(options, dates, carId, options.size(),
 				quadThree.getLongitude(), quadThree.getLatitude(), quadOne.getLongitude(), quadOne.getLatitude()
-			).size()
-		).isEqualTo(2);
+			)
+		).contains(post2.getId(), post3.getId());
 
 		softAssertions.assertThat(
 			postRepository.findPostIdsByOptionsAndCarIdAndLocation(options, carId, options.size(),
 				quadThree.getLongitude(), quadThree.getLatitude(), quadOne.getLongitude(), quadOne.getLatitude()
-			).size()
-		).isEqualTo(2);
+			)
+		).contains(post2.getId(), post3.getId());
 
 		softAssertions.assertThat(
 			postRepository.findPostIdsByDatesAndCarIdLocation(dates, carId,
 				quadThree.getLongitude(), quadThree.getLatitude(), quadOne.getLongitude(), quadOne.getLatitude()
-			).size()
-		).isEqualTo(3);
+			)
+		).contains(post.getId(), post2.getId(), post3.getId());
 
 		softAssertions.assertThat(
 			postRepository.findPostIdsByCarIdLocation(carId,
 				quadThree.getLongitude(), quadThree.getLatitude(), quadOne.getLongitude(), quadOne.getLatitude()
-			).size()
-		).isEqualTo(3);
+			)
+		).contains(post.getId(), post2.getId(), post3.getId());
 
 		softAssertions.assertAll();
-
 	}
 
 }
