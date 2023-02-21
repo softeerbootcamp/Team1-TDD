@@ -36,14 +36,14 @@ public class MyCarServiceTest {
 		Long myCarId1 = 1L;
 		MyCarResponse myCarResponse1 = MyCarResponse.builder()
 			.carName(carName1)
-			.myCarId(myCarId1)
+			.mycarId(myCarId1)
 			.build();
 
 		String carName2 = "PALASADE";
 		Long myCarId2 = 2L;
 		MyCarResponse myCarResponse2 = MyCarResponse.builder()
 			.carName(carName2)
-			.myCarId(myCarId2)
+			.mycarId(myCarId2)
 			.build();
 
 		List<MyCarResponse> myCarList = List.of(myCarResponse1, myCarResponse2);
@@ -58,9 +58,9 @@ public class MyCarServiceTest {
 
 		softAssertions.assertThat(actualMyCarList).hasSize(2);
 		softAssertions.assertThat(actualMyCarList.get(0).getCarName()).isEqualTo("SANTAFE");
-		softAssertions.assertThat(actualMyCarList.get(0).getMyCarId()).isEqualTo(myCarResponse1.getMyCarId());
+		softAssertions.assertThat(actualMyCarList.get(0).getMycarId()).isEqualTo(myCarResponse1.getMycarId());
 		softAssertions.assertThat(actualMyCarList.get(1).getCarName()).isEqualTo("PALASADE");
-		softAssertions.assertThat(actualMyCarList.get(1).getMyCarId()).isEqualTo(myCarResponse2.getMyCarId());
+		softAssertions.assertThat(actualMyCarList.get(1).getMycarId()).isEqualTo(myCarResponse2.getMycarId());
 
 		softAssertions.assertAll();
 	}

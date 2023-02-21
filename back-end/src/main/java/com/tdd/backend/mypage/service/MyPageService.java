@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.tdd.backend.car.data.OptionDto;
+import com.tdd.backend.car.model.Car;
 import com.tdd.backend.car.repository.CarRepository;
 import com.tdd.backend.mypage.data.DefaultInfo;
 import com.tdd.backend.mypage.data.DrivingInfo;
@@ -18,6 +19,7 @@ import com.tdd.backend.post.data.LocationDto;
 import com.tdd.backend.post.model.Appointment;
 import com.tdd.backend.post.model.Location;
 import com.tdd.backend.post.model.Option;
+import com.tdd.backend.post.model.Post;
 import com.tdd.backend.post.repository.PostRepository;
 import com.tdd.backend.user.exception.UserNotFoundException;
 import com.tdd.backend.user.repository.UserRepository;
@@ -64,46 +66,32 @@ public class MyPageService {
 	}
 
 	private List<DefaultInfo> getDefaultInfoList(Long userId) {
-		return getPostIdListByUserId(userId).stream()
-			.map(postId -> getDefaultInfo(postId, getOptionListByUserId(userId)))
+		return postRepository.findPostByUserId(userId).stream()
+			.map(post -> getDefaultInfo(post, getOptionListByMyCarId(post.getMycarId())))
 			.collect(Collectors.toList());
 	}
 
-	private String getImageUrl(String carName) {
-		return carRepository.findImageUrlByName(carName).orElse("");
-	}
-
 	private List<DrivingInfo> getDrivingInfoList(Long userId) {
-		return getPostIdListByTesterId(userId).stream()
-			.map(postId -> DrivingInfo.builder()
-				.post(getDefaultInfo(postId, getOptionListByUserId(userId)))
-				.date(getDate(userId, postId))
+		return getPostListByTesterId(userId).stream()
+			.map(post -> DrivingInfo.builder()
+				.post(getDefaultInfo(post, getOptionListByMyCarId(post.getId())))
+				.date(getDate(userId, post.getId()))
 				.build())
 			.collect(Collectors.toList());
 	}
 
-	private List<Long> getPostIdListByTesterId(Long userId) {
-		return postRepository.findPostIdByTesterId(userId);
+	private DefaultInfo getDefaultInfo(Post post, List<OptionDto> optionDtoList) {
+		Car car = carRepository.findCarByPostId(post.getId())
+			.orElseThrow(IllegalArgumentException::new);
+		return post.toDefaultInfo(optionDtoList, car.getCarName(), getLocation(post.getId()), car.getCarImageUrl());
 	}
 
-	private List<Long> getPostIdListByUserId(Long userId) {
-		return postRepository.findPostIdsByUserId(userId);
+	private List<Post> getPostListByTesterId(Long userId) {
+		return postRepository.findPostByTesterId(userId);
 	}
 
 	private String getDate(Long userId, Long postId) {
 		return postRepository.findDateByPostIdAndUserId(postId, userId).orElse("");
-	}
-
-	private DefaultInfo getDefaultInfo(Long postId, List<OptionDto> optionDtoList) {
-		String carName = carRepository.findCarNameByPostId(postId)
-			.orElseThrow(IllegalArgumentException::new);
-		return postRepository.findById(postId)
-			.map(post -> post.toDefaultInfo(
-				optionDtoList,
-				carName,
-				getLocation(postId),
-				getImageUrl(carName)))
-			.orElse(DefaultInfo.builder().build());
 	}
 
 	private LocationDto getLocation(Long postId) {
@@ -112,10 +100,8 @@ public class MyPageService {
 			.orElse(LocationDto.builder().build());
 	}
 
-	private List<OptionDto> getOptionListByUserId(Long userId) {
-		Long carId = myCarRepository.findCarIdByUserId(userId)
-			.orElseThrow(IllegalArgumentException::new);
-		return myCarRepository.findOptionsByUserIdAndCarId(userId, carId)
+	private List<OptionDto> getOptionListByMyCarId(Long myCarId) {
+		return myCarRepository.findOptionsByMyCarId(myCarId)
 			.stream()
 			.map(Option::toDto)
 			.collect(Collectors.toList());

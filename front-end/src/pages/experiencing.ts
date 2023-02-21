@@ -14,14 +14,29 @@ import { CopyLinkBtn } from '@/components/CopyLinkBtn/CopyLinkBtn';
 export class Experiencing extends Component {
   template(): string {
     return `
-    <div id="ex-imageSlider"></div>
-    <div class="${styles['option-calendar-container']}">
-      <div id="ex-optionSelector"></div>
-      <div id="ex-calendar"></div>
+    <div class="${styles.container}">
+      <div class="${styles.left}">
+        <div class="${styles.buttons}">
+          <div class="${styles.dropdown}">
+            <button class="${styles.dropbtn}">차종</button>
+            <div id="ex-imageSlider" class="${styles['dropdown-content']} ${styles.backdrop}"></div>
+          </div>
+          <div class="${styles.dropdown}">
+            <button class="${styles.dropbtn}">옵션</button>
+            <div id="ex-optionSelector" class="${styles['dropdown-content']}"></div>
+          </div>
+          <div class="${styles.dropdown}">
+            <button class="${styles.dropbtn}">날짜</button>
+            <div id="ex-calendar" class="${styles['dropdown-content']}"></div>
+          </div>
+        </div>
+        <div class="${styles['board-cover']}">
+          <div id="bulletin-board" class="${styles.board}"></div>
+        </div>
+      </div>
+      <div id="ex-map" class="${styles.map}"></div>
     </div>
-    <div id="ex-map"></div>
     <div id="copy-link-btn"></div>
-    <div id="bulletin-board"><div>
     `;
   }
   mounted(): void {

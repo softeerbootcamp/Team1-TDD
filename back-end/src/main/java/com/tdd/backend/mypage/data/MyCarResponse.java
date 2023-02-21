@@ -6,11 +6,11 @@ import lombok.Getter;
 @Getter
 public class MyCarResponse {
 	private final String carName;
-	private final Long myCarId;
+	private final Long mycarId;
 
 	@Builder
-	private MyCarResponse(String carName, Long myCarId) {
+	private MyCarResponse(String carName, Long mycarId) {
 		this.carName = carName;
-		this.myCarId = myCarId;
+		this.mycarId = mycarId;
 	}
 }

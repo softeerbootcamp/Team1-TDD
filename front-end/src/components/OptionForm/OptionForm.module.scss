@@ -1,13 +1,12 @@
 .form-container {
   margin: 0 auto;
   padding: 10px 24px;
-  max-width: 900px;
-  width: 100%;
+  width: 900px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   font: normal 16px/26px system-ui, Roboto, Arial, sans-serif;
-  background: #fefefe;
-  color: #2a3744;
+  background: #4a4a4a;
+  color: white;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: none;
@@ -20,15 +19,11 @@
 .container__title {
   font-weight: 700;
   font-size: 16px;
-  background-color: #fff;
+  background-color: #4a4a4a;
   z-index: 2;
   position: relative;
-  color: #8fa6b3;
+  color: lightgray;
   cursor: pointer;
-  &:hover {
-    font-size: 20px;
-  }
-  transition: font-size 0.3s;
 }
 
 .filter-container {
@@ -57,7 +52,7 @@
   cursor: pointer;
   display: inline-block;
   padding: 1px 8px;
-  color: #717171;
+  color: #fff;
   border: 1px solid #9b9b9b;
   border-radius: 25px;
   font-size: 14px;

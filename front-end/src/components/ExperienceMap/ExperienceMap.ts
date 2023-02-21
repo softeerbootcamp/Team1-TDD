@@ -1,10 +1,10 @@
 import Component from '@/core/Component';
 import styles from './ExperienceMap.module.scss';
 import { mapStyle } from '@/utils/mapStyle';
-import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import { loadscript } from '@/utils/googleAPI';
 import { qs } from '@/utils/querySelector';
 import { mapInfo } from './interface';
+import { markerController } from '@/store/MarkerController';
 
 export class ExperienceMap extends Component {
   setup() {
@@ -26,12 +26,12 @@ export class ExperienceMap extends Component {
       this.updateMarkers.bind(this),
       this.constructor.name
     );
+    markerController.setListener(this.setMapPosition.bind(this));
   }
 
   template(): string {
     return `
     <div class=${styles.container}>
-      <div class="${styles.desc}">시승해보고 싶은 싶은 위치를 골라주세요!</div>
       <button class="${styles['find-my-position']} ${styles.jelly}">내 위치를 찾아줘..!</button>
       <span class="${styles.loader} ${styles.hidden}"></span>
     </div>
@@ -55,6 +55,7 @@ export class ExperienceMap extends Component {
       zoom: this.state.zoom,
       center: this.state.userLocation as google.maps.LatLng,
       styles: mapStyle() as object[],
+      disableDefaultUI: true,
     });
     this.state.map = map;
     this.moveMap();
@@ -67,7 +68,7 @@ export class ExperienceMap extends Component {
       }, 500)
     );
 
-    this.refreshMap();
+    this.updateMarkers();
   }
 
   moveToMyLocation() {
@@ -77,7 +78,7 @@ export class ExperienceMap extends Component {
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
           const { latitude, longitude } = coords;
-          this.setMapPosition(latitude, longitude);
+          this.setMapPosition(latitude, longitude, 17);
           this.hideSpinner();
         },
         () => {
@@ -98,36 +99,44 @@ export class ExperienceMap extends Component {
   moveMap() {
     this.state.map.panTo(this.state.userLocation);
   }
+
   updateMarkers() {
     this.showSpinner();
     const locations = this.props.store
       .getState()
       .filteredPost.map((ele: any) => {
-        return {
-          lat: +ele.location.latitude.trim(),
-          lng: +ele.location.longitude.trim(),
-        };
+        return [
+          {
+            lat: +ele.location.latitude.trim(),
+            lng: +ele.location.longitude.trim(),
+          },
+          ele.post.id,
+        ];
       });
     this.clearMarkers();
     this.createMarkers(locations);
     this.hideSpinner();
-  }
-  createMarkers(locations: google.maps.LatLng[]) {
-    const markers = locations.map(
-      (loc: google.maps.LatLng) =>
-        new google.maps.Marker({
-          position: loc,
-          map: this.state.map,
-        })
-    );
-    this.state.markers = [...this.state.markers, ...markers];
-    const { map } = this.state;
-    new MarkerClusterer({ map, markers });
+
+    this.state.markers.forEach((marker: google.maps.Marker) => {
+      const infowindow = new google.maps.InfoWindow({
+        content: `<a data-link href="/details/${marker.getTitle()}">상세 글 보기</a>`,
+      });
+      google.maps.event.addListener(marker, 'click', () => {
+        const { map } = this.state;
+        infowindow.open(map, marker);
+      });
+    });
   }
 
-  refreshMap() {
-    this.state.markers = [];
-    this.createMarkers([]);
+  createMarkers(locations: google.maps.LatLng[]) {
+    this.state.markers = locations.map(
+      (loc: any) =>
+        new google.maps.Marker({
+          position: loc[0],
+          map: this.state.map,
+          title: '' + loc[1],
+        })
+    );
   }
 
   handleDebounce(callback: Function, limit: number) {
@@ -160,9 +169,12 @@ export class ExperienceMap extends Component {
 
   setMapPosition(lat: number, lng: number, zoom: number | null = null) {
     const { map } = this.state;
+    const zoomNow = map.getZoom();
     const newCenter = { lat, lng };
-    map.setCenter(newCenter);
-    zoom && map.setZoom(zoom);
+    map.panTo(newCenter, 1000, google.maps.Animation.BOUNCE);
+    zoom && map.setZoom(zoom, { animation: google.maps.Animation.BOUNCE });
+    zoom ||
+      map.setZoom(zoomNow + 2, { animation: google.maps.Animation.BOUNCE });
   }
 
   clearMarkers() {
@@ -171,6 +183,7 @@ export class ExperienceMap extends Component {
     );
     this.state.markers = [];
   }
+
   setEvent(): void {
     this.addEvent(
       'click',

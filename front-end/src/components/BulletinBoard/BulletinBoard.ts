@@ -1,12 +1,14 @@
 import Component from '@/core/Component';
 import styles from './BulletinBoard.module.scss';
 import { ItestDrivingRes } from '@/store/OptionStore/interface';
+import { markerController } from '@/store/MarkerController';
 interface list {
   title: string;
   options: string;
   dates: string;
   carName: string;
   postId: number;
+  location: any;
 }
 
 export class BulletinBoard extends Component {
@@ -21,26 +23,32 @@ export class BulletinBoard extends Component {
       const dates = ele.appointments.map(({ date }) => date).join(' / ');
       const postId = ele.post.id;
       const carName = ele.post.carName;
-      return { title, options, dates, postId, carName };
+      return { title, options, dates, postId, carName, location: ele.location };
     });
+    if (filteredData.length === 0) return '<h4>검색 결과가 없습니다.</h4>';
     return filteredData.map((data: any) => this.listTemplate(data)).join('');
   }
+
   listTemplate(data: list) {
-    const { title, options, dates, carName, postId } = data;
+    const { options, dates, carName, location } = data;
     return `
-    <a data-link href="/mypage/${postId}" class="${styles.wrapper}">
+    <div data-location=${JSON.stringify(location)} class="${
+      styles.wrapper
+    } id="bulletinList">
       <div class="${styles.left}">
-        <div class="${styles.title}">${title || '제목 없음'}</div>
+        <div class="${styles.title}">${carName || '제목 없음'}</div>
         <div class="${styles.contents}">${options}</div>
         <div class="${styles.info}">${dates}</div>
       </div>
-      <div class="${styles.right}">
-        <div class="${styles.circle}">
-          ${carName}
-          <div class="${styles['circle-text']}">${carName}</div>
-        </div>
-      </div>
-    </a>
+    </div>
     `;
+  }
+  setEvent(): void {
+    this.addEvent('click', `.${styles.wrapper}`, (e) => {
+      if (!(e.target instanceof Element)) return;
+      const $wrapper = e.target.closest(`.${styles.wrapper}`) as HTMLDivElement;
+      const location = JSON.parse($wrapper.dataset.location as string);
+      markerController.excuteListener(location);
+    });
   }
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -45,7 +46,6 @@ public class PostControllerTest {
 	@Autowired
 	PostRepository postRepository;
 
-
 	@Autowired
 	JwtProvider jwtProvider;
 
@@ -53,7 +53,8 @@ public class PostControllerTest {
 	MockMvc mockMvc;
 
 	@Test
-	void sharingTest() throws Exception {
+	@DisplayName("공유하기")
+	void share() throws Exception {
 
 		User user = User.builder()
 			.email("hado@naver.com")

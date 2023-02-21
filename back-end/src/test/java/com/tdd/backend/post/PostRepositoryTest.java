@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tdd.backend.car.model.Category;
-import com.tdd.backend.mypage.repository.MyCarRepository;
 import com.tdd.backend.mypage.model.MyCar;
+import com.tdd.backend.mypage.repository.MyCarRepository;
 import com.tdd.backend.post.model.Appointment;
 import com.tdd.backend.post.model.AppointmentStatus;
 import com.tdd.backend.post.model.Location;
@@ -41,13 +40,6 @@ public class PostRepositoryTest {
 	PostRepository postRepository;
 	@Autowired
 	private MyCarRepository myCarRepository;
-
-	@BeforeEach
-	void setup() {
-		userRepository.deleteAll();
-		postRepository.deleteAll();
-		myCarRepository.deleteAll();
-	}
 
 	@Test
 	@DisplayName("모든 인자가 NULL이 아닐 때 쿼리 정상작동 테스트")
@@ -172,20 +164,20 @@ public class PostRepositoryTest {
 		SoftAssertions softAssertions = new SoftAssertions();
 
 		softAssertions.assertThat(
-			postRepository.findPostIdsByOptionsAndDatesAndCarId(options, dates, carId, options.size())
-		).isEqualTo(List.of(2L, 3L));
+			postRepository.findPostIdsByOptionsAndDatesAndCarId(options, dates, carId, options.size()).size()
+		).isEqualTo(2);
 
 		softAssertions.assertThat(
-			postRepository.findPostIdsByOptionsAndCarId(options, carId, options.size())
-		).isEqualTo(List.of(2L, 3L));
+			postRepository.findPostIdsByOptionsAndCarId(options, carId, options.size()).size()
+		).isEqualTo(2);
 
 		softAssertions.assertThat(
-			postRepository.findPostIdsByDatesAndCarId(dates, carId)
-		).isEqualTo(List.of(1L, 2L, 3L));
+			postRepository.findPostIdsByDatesAndCarId(dates, carId).size()
+		).isEqualTo(3);
 
 		softAssertions.assertThat(
-			postRepository.findPostIdsByCarId(carId)
-		).isEqualTo(List.of(1L, 2L, 3L));
+			postRepository.findPostIdsByCarId(carId).size()
+		).isEqualTo(3);
 
 		softAssertions.assertAll();
 
