@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.tdd.backend.auth.LoginUser;
@@ -40,7 +39,7 @@ public class DrivingController {
 			.body(drivingResponse);
 	}
 
-	@PostMapping("/test-driving/posts")
+	@GetMapping("/test-driving/posts")
 	@Operation(summary = "시승가능한 차량 공유에 대한 모든 정보 요청", description = "차종과 가능한 날짜 리스트, 선택한 옵션 리스트를 요청 받으면 해당하는 Post의 관련 모든 정보를 응답함.")
 	public ResponseEntity<List<DrivingResponse>> sendSharingDataByOptions(@RequestBody @Valid DrivingDto drivingDto) {
 		List<DrivingResponse> drivingResponseList = drivingService.getDrivingResponseList(drivingDto);
