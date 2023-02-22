@@ -107,6 +107,7 @@ public class DrivingService implements ApplicationEventPublisherAware {
 	private List<DrivingResponse> getDrivingResponses(List<Long> postIdList) {
 		return postIdList.stream()
 			.map(this::getAllDataByPostId)
+			.filter(drivingResponse -> !drivingResponse.getAppointments().isEmpty())
 			.collect(Collectors.toList());
 	}
 
