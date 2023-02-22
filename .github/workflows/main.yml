@@ -72,7 +72,11 @@ jobs:
           key: ${{ secrets.KEY }}
           port: 22
           script: |
-            docker run -d -p 8080:8080 eoniedev/tdd-app-server
-            docker run -d -p 8080:8080 eoniedev/tdd-app-front
+            docker rm -f server
+            docker rmi eoniedev/tdd-app-server:latest
+            docker rm -f front
+            docker rmi eoniedev/tdd-app-front:latest
+            docker run --name server -d -p 8080:8080 eoniedev/tdd-app-server:latest
+            docker run --name front -d -p 8080:8080 eoniedev/tdd-app-front:latest
 
 #            ./docker.sh ${{ secrets.DOCKER_REPO }}
