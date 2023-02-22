@@ -27,8 +27,8 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 	List<Appointment> findAppointmentsByPostId(@Param("id") Long id);
 
 	@Modifying
-	@Query("UPDATE appointments SET status = 'ACCEPT', tester_id = :testerid WHERE id = :id")
-	void updateTesterIdStatusAccept(@Param("id") Long id, @Param("testerid") Long testerId);
+	@Query("UPDATE appointments SET status = 'ACCEPT', tester_id = :testerid WHERE id = :id AND status = 'PENDING'")
+	int updateTesterIdStatusAccept(@Param("id") Long id, @Param("testerid") Long testerId);
 
 	@Query("SELECT DISTINCT p.id, p.ride_option, p.requirement, p.mycar_id FROM appointments a "
 		+ "JOIN posts p on p.id = a.post_id "
