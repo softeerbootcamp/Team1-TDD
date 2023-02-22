@@ -4,6 +4,8 @@ import { mapStyle } from '@/utils/mapStyle';
 import { loadscript } from '@/utils/googleAPI';
 import { qs } from '@/utils/querySelector';
 import { initAutocomplete } from '@/utils/autoCompletor';
+import { showNotification } from '@/utils/notification';
+import { finishLoading, startLoading } from '@/utils/loadingSpinner';
 
 export class SharingMap extends Component {
   async setup() {
@@ -26,6 +28,7 @@ export class SharingMap extends Component {
 
   template(): string {
     return `
+    <button id="find-my-location" class="${styles['find-my-location']}">내 위치 찾기</button>
     <input
       id="pac-input"
       class="controls ${styles.search}"
@@ -110,5 +113,43 @@ export class SharingMap extends Component {
       const { key } = e;
       if (key === 'Escape') this.props.onPressEsc();
     });
+    this.addEvent('click', '#find-my-location', (e) => {
+      e.preventDefault();
+      this.moveToMyLocation();
+    });
+  }
+
+  moveToMyLocation() {
+    startLoading();
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        ({ coords }) => {
+          const { latitude, longitude } = coords;
+          this.setMapPosition(latitude, longitude, 17);
+          finishLoading();
+        },
+        () => {
+          showNotification('moving map has failed');
+          finishLoading();
+        },
+        {
+          enableHighAccuracy: false,
+          timeout: 5000,
+          maximumAge: Infinity,
+        }
+      );
+    } else {
+      showNotification('Geolocation is not supported by this browser.');
+    }
+  }
+
+  setMapPosition(lat: number, lng: number, zoom: number | null = null) {
+    const { map } = this.state;
+    const zoomNow = map.getZoom();
+    const newCenter = { lat, lng };
+    map.panTo(newCenter, 1000, google.maps.Animation.BOUNCE);
+    zoom && map.setZoom(zoom, { animation: google.maps.Animation.BOUNCE });
+    zoom ||
+      map.setZoom(zoomNow + 2, { animation: google.maps.Animation.BOUNCE });
   }
 }

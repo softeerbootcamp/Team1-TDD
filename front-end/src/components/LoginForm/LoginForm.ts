@@ -171,9 +171,19 @@ export class LoginForm extends Component {
         this.addErrorClassToBlank([$email]);
         return;
       }
+      if (!this.isValidEmailFormat(userData.email)) {
+        showNotification('이메일 형식을 지켜주세요');
+        this.addErrorClass([$email]);
+        return;
+      }
     }
 
     this.sendSignUpRequest(userData, inputEls, $button);
+  }
+
+  isValidEmailFormat(email: string) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
   }
 
   sendSignUpRequest(
@@ -211,7 +221,6 @@ export class LoginForm extends Component {
         });
     }
   }
-
   onChangeEmail({ target }: Event) {
     const $button = qs('#sign-up-button', this.target) as HTMLButtonElement;
     if (!(target instanceof HTMLInputElement)) return;

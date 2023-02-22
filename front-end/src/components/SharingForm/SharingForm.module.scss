@@ -93,6 +93,7 @@ h3 {
   border-width: 0 0 0 0;
   border-bottom: 5px solid;
   text-transform: uppercase;
+  cursor: pointer;
   @include btn(darken($grey, 10%));
   @include lato-book;
   &.btn-submit {
@@ -220,4 +221,10 @@ form {
 }
 .hidden {
   display: none;
+}
+
+.map-button {
+  // background-color: #fff;
+  // border: 1px solid lighten($grey, 1%);
+  cursor: pointer;
 }

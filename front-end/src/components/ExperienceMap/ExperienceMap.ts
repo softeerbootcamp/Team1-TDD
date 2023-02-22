@@ -6,7 +6,15 @@ import { qs } from '@/utils/querySelector';
 import { mapInfo } from './interface';
 import { markerController } from '@/store/MarkerController';
 import { initAutocomplete } from '@/utils/autoCompletor';
+import { showNotification } from '@/utils/notification';
+import { CopyLinkBtn } from '../CopyLinkBtn/CopyLinkBtn';
 
+interface Ilocation {
+  lat: number;
+  lng: number;
+  id: number;
+  marker?: google.maps.Marker;
+}
 export class ExperienceMap extends Component {
   setup() {
     this.state.locations = [];
@@ -33,7 +41,8 @@ export class ExperienceMap extends Component {
   template(): string {
     return `
     <div class=${styles.container}>
-      <button class="${styles['find-my-position']} ${styles.jelly}">내 위치를 찾아줘..!</button>
+      <button class="${styles['find-my-position']} ${styles.jelly}">내 위치 찾기</button>
+      <div id="copy-link-btn"></div>
       <span class="${styles.loader} ${styles.hidden}"></span>
     </div>
     <input
@@ -48,6 +57,8 @@ export class ExperienceMap extends Component {
 
   mounted(): void {
     this.init();
+    const $copyLinkBtn = qs('#copy-link-btn', this.target);
+    new CopyLinkBtn($copyLinkBtn as HTMLDivElement);
   }
 
   init() {
@@ -91,7 +102,7 @@ export class ExperienceMap extends Component {
           this.hideSpinner();
         },
         () => {
-          console.log('moving map has failed');
+          showNotification('moving map has failed');
           this.hideSpinner();
         },
         {
@@ -101,7 +112,7 @@ export class ExperienceMap extends Component {
         }
       );
     } else {
-      console.log('Geolocation is not supported by this browser.');
+      showNotification('Geolocation is not supported by this browser.');
     }
   }
 
@@ -110,47 +121,45 @@ export class ExperienceMap extends Component {
   }
 
   updateMarkers() {
-    const previousLocations = this.state.locations;
-    const updatedLocations = this.props.store
-      .getState()
-      .filteredPost.map((ele: any) => {
-        return [
-          {
-            lat: +ele.location.latitude.trim(),
-            lng: +ele.location.longitude.trim(),
-          },
-          ele.post.id,
-        ];
+    const previousLocations: Ilocation[] = this.state.locations;
+    const updatedLocations: { lat: number; lng: number; id: number }[] =
+      this.props.store.getState().filteredPost.map((ele: any) => {
+        return {
+          lat: +ele.location.latitude.trim(),
+          lng: +ele.location.longitude.trim(),
+          id: ele.post.id,
+        };
       });
     const toBeAdded = updatedLocations.filter(
-      (elementB: any) =>
-        !previousLocations.some((elementA: any) => elementA.id === elementB[1])
+      (elementB) =>
+        !previousLocations.some((elementA) => elementA.id === elementB.id)
     );
+    const toBeDeleted = previousLocations.filter(
+      (elementB) =>
+        !updatedLocations.some((elementA) => elementA.id === elementB.id)
+    );
+    const toBeStay = previousLocations.filter((elementA) =>
+      updatedLocations.some((elementB) => elementA.id === elementB.id)
+    );
+    this.state.locations = [...toBeStay];
     this.addMarkers(toBeAdded);
+    this.deleteMarkers(toBeDeleted);
   }
 
-  createMarkers(locations: google.maps.LatLng[]) {
-    this.state.markers = locations.map(
-      (loc: any) =>
-        new google.maps.Marker({
-          position: loc[0],
+  addMarkers(locations: Ilocation[]) {
+    const newLocations = locations.map((loc: Ilocation) => {
+      return {
+        ...loc,
+        marker: new google.maps.Marker({
+          position: { lat: loc.lat, lng: loc.lng },
           map: this.state.map,
-          title: '' + loc[1],
-        })
-    );
-  }
-
-  addMarkers(locations: google.maps.LatLng[]) {
-    const newMarkers = locations.map(
-      (loc: any) =>
-        new google.maps.Marker({
-          position: loc[0],
-          map: this.state.map,
-          title: '' + loc[1],
-        })
-    );
-    this.state.markers = [...this.state.markers, newMarkers];
-    newMarkers.forEach((marker: google.maps.Marker) => {
+          title: loc.id.toString(),
+        }),
+      };
+    });
+    newLocations.forEach((location: Ilocation) => {
+      const { marker } = location;
+      if (!(marker instanceof google.maps.Marker)) return;
       const infowindow = new google.maps.InfoWindow({
         content: `<a data-link href="/details/${marker.getTitle()}">상세 글 보기</a>`,
       });
@@ -158,6 +167,14 @@ export class ExperienceMap extends Component {
         const { map } = this.state;
         infowindow.open(map, marker);
       });
+    });
+    this.state.locations = [...this.state.locations, ...newLocations];
+  }
+
+  deleteMarkers(locations: Ilocation[]) {
+    locations.forEach(({ marker }) => {
+      if (!marker) return;
+      marker.setMap(null);
     });
   }
 
@@ -197,13 +214,6 @@ export class ExperienceMap extends Component {
     zoom && map.setZoom(zoom, { animation: google.maps.Animation.BOUNCE });
     zoom ||
       map.setZoom(zoomNow + 2, { animation: google.maps.Animation.BOUNCE });
-  }
-
-  clearMarkers() {
-    this.state.markers.forEach((marker: google.maps.Marker) =>
-      marker.setMap(null)
-    );
-    this.state.markers = [];
   }
 
   setEvent(): void {

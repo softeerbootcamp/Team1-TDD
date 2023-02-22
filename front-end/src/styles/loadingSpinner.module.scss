@@ -2,7 +2,8 @@
   display: none;
 }
 .loader {
-  color: #ff3d00;
+  color: #3cb1e7;
+  // color: #ffa500;
   font-size: 25px;
   width: 1em;
   height: 1em;
@@ -14,6 +15,7 @@
   text-indent: -9999em;
   animation: mulShdSpin 1.3s infinite linear;
   transform: translateZ(0);
+  z-index: 1001;
 }
 
 @keyframes mulShdSpin {

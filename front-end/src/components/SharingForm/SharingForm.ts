@@ -20,8 +20,8 @@ export class SharingForm extends Component {
     return `
     <div class="${styles.container}">
       <div class="${styles.row} ${styles.header}">
-        <h1>CONTACT US &nbsp;</h1>
-        <h3>Fill out the form below to learn more!</h3>
+        <h1>Share Your Cars</h1>
+        <h3>Fill out the form below to share your cars!</h3>
       </div>
       <div class="${styles.row} ${styles.body}">
         <form action="submit" id="sharing-form">
@@ -57,7 +57,7 @@ export class SharingForm extends Component {
                 <label for="location"
                   >위치 고르기 <span class="${styles.req}">*</span></label
                 >
-                <button id="map-button"> open map</button>
+                <button id="map-button" class="${styles.btn}"> open map</button>
                 <div id="sharing-overlay" class="${styles.hidden} ${
       styles.overlay
     }"></div>
@@ -79,7 +79,6 @@ export class SharingForm extends Component {
                 type="submit"
                 value="Submit"
               />
-              <small>or press <strong>enter</strong></small>
             </li>
           </ul>
         </form>

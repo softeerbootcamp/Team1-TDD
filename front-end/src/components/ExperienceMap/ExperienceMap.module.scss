@@ -20,7 +20,18 @@
   display: flex;
 }
 .find-my-position {
-  margin: 10px;
+  text-decoration: none;
+  color: white;
+  padding: 10px 30px;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(114, 113, 113, 0.21);
+  border-bottom: 4px solid rgba(0, 0, 0, 0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+  color: black;
+  // background-color: #0095d9;
+  cursor: pointer;
 }
 
 .loader,
@@ -72,8 +83,6 @@
   &:hover {
     animation: jelly 0.5s;
   }
-  background-color: transparent;
-  border: 1px solid gray;
   cursor: pointer;
   border-radius: 0.5rem;
 }
