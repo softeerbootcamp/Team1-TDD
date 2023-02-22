@@ -42,7 +42,7 @@ Let’s TDD. Try, Drive, Delightly. TDD에서 T와 D를 가지고 핸들을 추�
 
 ## Database ERD
 
-![image](https://user-images.githubusercontent.com/59179386/219434168-ee5f00ce-b38f-40db-b190-3a3016ed12dc.png)
+<img width="987" alt="스크린샷 2023-02-22 오전 11 00 06" src="https://user-images.githubusercontent.com/60373714/220505413-3bda74ea-7746-4de3-8029-164572212827.png">
 
 ## 프로젝트 특징
 

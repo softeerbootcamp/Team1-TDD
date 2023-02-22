@@ -7,6 +7,8 @@ import { ImageSlider } from '../ImageSlider/ImageSlider';
 import { OptionForm } from '../OptionForm/OptionForm';
 import { routeGaurd } from '@/apis/login';
 import styles from './RegisterCar.module.scss';
+import { goto } from '@/utils/navigatator';
+import { showNotification } from '@/utils/notification';
 
 export class RegisterCar extends Component {
   setup(): void {
@@ -16,7 +18,7 @@ export class RegisterCar extends Component {
         this.setState({ login: true });
       },
       () => {
-        location.replace('/');
+        goto('/');
       }
     );
   }
@@ -34,10 +36,10 @@ export class RegisterCar extends Component {
         category: ele.parentElement?.previousElementSibling?.innerHTML,
       }));
       this.register(selectedOptions);
-      window.location.href = '/mypage';
     });
-    this.addEvent('click', `.${styles['cancel']}`, (_) => {
-      window.location.href = '/mypage';
+    this.addEvent('click', `.${styles['cancel']}`, () => {
+      showNotification('등록을 취소합니다.');
+      goto('/mypage');
     });
   }
 
@@ -73,7 +75,6 @@ export class RegisterCar extends Component {
         return temp.src;
       }
     }
-    console.log('not found');
     return null;
   }
 
@@ -97,6 +98,12 @@ export class RegisterCar extends Component {
     };
     axiosInstance
       .post('/mycars', body, { headers: { Authorization: accessToken } })
-      .catch((err) => console.log(err));
+      .then(() => {
+        showNotification(`${carName} 차량이 등록되었습니다.`);
+        goto('/mypage');
+      })
+      .catch(() => {
+        showNotification(`${carName}등록에 실패했습니다.`);
+      });
   }
 }

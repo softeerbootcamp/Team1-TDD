@@ -26,13 +26,23 @@ const carModel = getQueryStringParameter('car')?.toLocaleUpperCase();
 const options = getQueryStringParameter('options');
 const dates = getQueryStringParameter('dates');
 const location = getQueryStringParameter('location');
+const initMapInfo = {
+  centerLat: 37.54033806744333,
+  centerLng: 127.03921341756678,
+  zoom: 15,
+  latHi: 37.552247136775996,
+  latLo: 37.5284270956494,
+  lngHi: 127.0723011479745,
+  lngLo: 127.00612568715907,
+};
+
 const initState = {
   carModel: carModel || carList[0].name,
   rideTogether: false,
   options: options ? JSON.parse(options) : [],
   openState: [],
   dates: dates ? JSON.parse(dates) : [],
-  mapInfo: location ? JSON.parse(location) : null,
+  mapInfo: location ? JSON.parse(location) : initMapInfo,
   optionList: [],
   filteredPost: [],
 };

@@ -5,13 +5,14 @@ import { loadscript } from '@/utils/googleAPI';
 import { qs } from '@/utils/querySelector';
 import { mapInfo } from './interface';
 import { markerController } from '@/store/MarkerController';
+import { initAutocomplete } from '@/utils/autoCompletor';
 
 export class ExperienceMap extends Component {
   setup() {
+    this.state.locations = [];
     const location = this.props.store.getState().mapInfo;
     const initLocation = { lat: location?.centerLat, lng: location?.centerLng };
     const initZoom = location?.zoom;
-
     this.state.markers = [];
     this.state.userLocation = location
       ? initLocation
@@ -35,6 +36,12 @@ export class ExperienceMap extends Component {
       <button class="${styles['find-my-position']} ${styles.jelly}">내 위치를 찾아줘..!</button>
       <span class="${styles.loader} ${styles.hidden}"></span>
     </div>
+    <input
+      id="pac-input"
+      class="controls ${styles.search}"
+      type="text"
+      placeholder="Search Box"
+    />
     <div id="googleMap" class="${styles.googleMap}"></div>
     `;
   }
@@ -45,7 +52,7 @@ export class ExperienceMap extends Component {
 
   init() {
     loadscript(
-      `https://maps.googleapis.com/maps/api/js?key=${process.env.VITE_API_KEY}&callback=initMap`,
+      `https://maps.googleapis.com/maps/api/js?key=${process.env.VITE_API_KEY}&callback=initMap&libraries=places`,
       this.initMap.bind(this)
     );
   }
@@ -55,6 +62,7 @@ export class ExperienceMap extends Component {
       zoom: this.state.zoom,
       center: this.state.userLocation as google.maps.LatLng,
       styles: mapStyle() as object[],
+      minZoom: 12,
       disableDefaultUI: true,
     });
     this.state.map = map;
@@ -69,6 +77,7 @@ export class ExperienceMap extends Component {
     );
 
     this.updateMarkers();
+    initAutocomplete(map);
   }
 
   moveToMyLocation() {
@@ -101,8 +110,8 @@ export class ExperienceMap extends Component {
   }
 
   updateMarkers() {
-    this.showSpinner();
-    const locations = this.props.store
+    const previousLocations = this.state.locations;
+    const updatedLocations = this.props.store
       .getState()
       .filteredPost.map((ele: any) => {
         return [
@@ -113,19 +122,11 @@ export class ExperienceMap extends Component {
           ele.post.id,
         ];
       });
-    this.clearMarkers();
-    this.createMarkers(locations);
-    this.hideSpinner();
-
-    this.state.markers.forEach((marker: google.maps.Marker) => {
-      const infowindow = new google.maps.InfoWindow({
-        content: `<a data-link href="/details/${marker.getTitle()}">상세 글 보기</a>`,
-      });
-      google.maps.event.addListener(marker, 'click', () => {
-        const { map } = this.state;
-        infowindow.open(map, marker);
-      });
-    });
+    const toBeAdded = updatedLocations.filter(
+      (elementB: any) =>
+        !previousLocations.some((elementA: any) => elementA.id === elementB[1])
+    );
+    this.addMarkers(toBeAdded);
   }
 
   createMarkers(locations: google.maps.LatLng[]) {
@@ -137,6 +138,27 @@ export class ExperienceMap extends Component {
           title: '' + loc[1],
         })
     );
+  }
+
+  addMarkers(locations: google.maps.LatLng[]) {
+    const newMarkers = locations.map(
+      (loc: any) =>
+        new google.maps.Marker({
+          position: loc[0],
+          map: this.state.map,
+          title: '' + loc[1],
+        })
+    );
+    this.state.markers = [...this.state.markers, newMarkers];
+    newMarkers.forEach((marker: google.maps.Marker) => {
+      const infowindow = new google.maps.InfoWindow({
+        content: `<a data-link href="/details/${marker.getTitle()}">상세 글 보기</a>`,
+      });
+      google.maps.event.addListener(marker, 'click', () => {
+        const { map } = this.state;
+        infowindow.open(map, marker);
+      });
+    });
   }
 
   handleDebounce(callback: Function, limit: number) {

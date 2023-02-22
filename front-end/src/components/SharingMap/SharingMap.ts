@@ -26,13 +26,13 @@ export class SharingMap extends Component {
 
   template(): string {
     return `
-    <div id="googleMap" class="${styles['googleMap']}"></div>
     <input
       id="pac-input"
       class="controls ${styles.search}"
       type="text"
       placeholder="Search Box"
     />
+    <div id="googleMap" class="${styles['googleMap']}"></div>
     `;
   }
 
