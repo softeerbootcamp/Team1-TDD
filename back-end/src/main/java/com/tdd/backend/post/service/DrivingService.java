@@ -19,6 +19,7 @@ import com.tdd.backend.post.data.AppointmentDto;
 import com.tdd.backend.post.data.DrivingDto;
 import com.tdd.backend.post.data.DrivingResponse;
 import com.tdd.backend.post.data.LocationDto;
+import com.tdd.backend.post.exception.ApprovalFailException;
 import com.tdd.backend.post.exception.LocationNotFoundException;
 import com.tdd.backend.post.model.Appointment;
 import com.tdd.backend.post.model.Option;
@@ -110,7 +111,11 @@ public class DrivingService implements ApplicationEventPublisherAware {
 	}
 
 	public void approveAppointment(Long appointmentId, Long testerId) {
-		postRepository.updateTesterIdStatusAccept(appointmentId, testerId);
+		int success = postRepository.updateTesterIdStatusAccept(appointmentId, testerId);
+		log.info("Approval success count: " + success);
+		if (success == 0) {
+			throw new ApprovalFailException();
+		}
 		eventPublisher.publishEvent(new AppointmentMailEvent(appointmentId, testerId));
 	}
 

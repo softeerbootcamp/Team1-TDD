@@ -23,12 +23,15 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 	@Query("SELECT o.name, o.category FROM options o WHERE o.mycar_id = :myCarID")
 	List<Option> findOptionsByMyCarId(@Param("myCarID") Long myCarId);
 
-	@Query("SELECT id, date, status FROM appointments WHERE post_id = :id")
+	@Query("SELECT id, date, status FROM appointments "
+		+ "WHERE post_id = :id AND status = 'PENDING' AND date >=  CURDATE()")
 	List<Appointment> findAppointmentsByPostId(@Param("id") Long id);
 
 	@Modifying
-	@Query("UPDATE appointments SET status = 'ACCEPT', tester_id = :testerid WHERE id = :id")
-	void updateTesterIdStatusAccept(@Param("id") Long id, @Param("testerid") Long testerId);
+	@Query("UPDATE appointments "
+		+ "SET status = 'ACCEPT', tester_id = :testerid "
+		+ "WHERE id = :id AND status = 'PENDING'")
+	int updateTesterIdStatusAccept(@Param("id") Long id, @Param("testerid") Long testerId);
 
 	@Query("SELECT DISTINCT p.id, p.ride_option, p.requirement, p.mycar_id FROM appointments a "
 		+ "JOIN posts p on p.id = a.post_id "
@@ -48,7 +51,7 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 	@Query("SELECT date FROM appointments WHERE post_id = :postId and tester_id = :userId")
 	Optional<String> findDateByPostIdAndUserId(@Param("postId") Long postId, @Param("userId") Long userId);
 
-	@Query("SELECT c.car_name, p.requirement, u.id as user_id "
+	@Query("SELECT c.car_name, p.requirement, a.date, u.id as user_id "
 		+ "FROM appointments a "
 		+ "JOIN posts p ON a.post_id = p.id "
 		+ "JOIN mycars m ON p.mycar_id = m.id "
