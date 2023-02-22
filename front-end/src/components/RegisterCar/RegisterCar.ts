@@ -31,7 +31,7 @@ export class RegisterCar extends Component {
   }
 
   setEvent(): void {
-    this.addEvent('click', `.${styles['confirm']}`, (_) => {
+    this.addEvent('click', `.${styles['confirm']}`, () => {
       const options = Array.from(
         qsa(`[data-state]`, this.target) as NodeListOf<HTMLButtonElement>
       ).filter(
