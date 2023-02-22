@@ -1,5 +1,5 @@
+import { Home } from '@/components/Home/Home';
 import { routes } from '@/constants/routeInfo';
-import { NotFound } from '@/pages/notfound';
 
 export class Router {
   constructor(private $container: HTMLElement) {
@@ -28,7 +28,7 @@ export class Router {
   }
 
   private route() {
-    const TargetPage = this.findMatchedRoute()?.element || NotFound;
+    const TargetPage = this.findMatchedRoute()?.element || Home;
     new (TargetPage as any)(this.$container);
   }
 }

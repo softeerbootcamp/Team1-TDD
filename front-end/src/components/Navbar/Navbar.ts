@@ -65,7 +65,6 @@ export class Navbar extends Component {
   toggleDropDown({ target }: Event) {
     if (!(target instanceof SVGElement)) return;
     target.closest(`.${styles.dropdown}`)?.classList.toggle(styles.active);
-    console.log(document.activeElement);
   }
 
   closeDropDown(e: Event) {

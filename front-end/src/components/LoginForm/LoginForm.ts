@@ -5,6 +5,8 @@ import {
 } from '@/apis/login';
 import Component from '@/core/Component';
 import { AuthStore } from '@/store/AuthStore';
+import { closeLoginModal } from '@/utils/loginModal';
+import { showNotification } from '@/utils/notification';
 import { qs } from '@/utils/querySelector';
 import { LoadingHandler } from './LoadingHandler';
 import styles from './LoginForm.module.scss';
@@ -97,6 +99,7 @@ export class LoginForm extends Component {
     this.resetErrorClass(inputEls);
 
     if (!email || !password) {
+      showNotification('모든 항목을 입력해주세요.');
       this.addErrorClassToBlank(inputEls);
       return;
     }
@@ -113,7 +116,12 @@ export class LoginForm extends Component {
 
     sendLogInRequest(userData.email, userData.password)
       .then(this.loginSuccess)
-      .catch(() => {
+      .catch((err) => {
+        if (err.response.status === 401)
+          showNotification('아이디 또는 비밀번호가 틀렸습니다.');
+        else {
+          showNotification('네트워크 에러');
+        }
         this.resetErrorClass(inputEls);
         this.addErrorClass(inputEls);
         loadingHandler.finishRequest();
@@ -124,13 +132,15 @@ export class LoginForm extends Component {
     localStorage.setItem('accessToken', data.accessToken);
     localStorage.setItem('refreshToken', data.refreshToken);
     AuthStore.dispatch('LOGIN');
-    location.reload();
+    showNotification('환영합니다.');
+    closeLoginModal();
   }
 
   loginFail(inputEls: HTMLInputElement[], finishRequest: Function) {
     this.resetErrorClass(inputEls);
     this.addErrorClassToBlank(inputEls);
     finishRequest();
+    showNotification('로그인에 실패했습니다.');
   }
 
   onClickSignUp(e: Event) {
@@ -150,12 +160,14 @@ export class LoginForm extends Component {
     if (this.state.isEmailValid) {
       this.resetErrorClass(inputEls);
       if (!email || !phoneNumber || !userName || !userPassword) {
+        showNotification('모든 항목을 입력해주세요.');
         this.addErrorClassToBlank(inputEls);
         return;
       }
     } else {
       this.resetErrorClass([$email]);
       if (!email) {
+        showNotification('이메일을 입력해주세요.');
         this.addErrorClassToBlank([$email]);
         return;
       }
@@ -177,6 +189,7 @@ export class LoginForm extends Component {
           loadingHandler.finishRegister();
         })
         .catch(() => {
+          showNotification('네트워크 에러');
           this.resetErrorClass(inputEls);
           this.addErrorClassToBlank(inputEls);
           loadingHandler.finishRequest();
@@ -186,9 +199,11 @@ export class LoginForm extends Component {
         .then(() => {
           this.state.isEmailValid = true;
           this.state.validEmail = userData.email;
+          showNotification('사용가능한 이메일 입니다.');
           loadingHandler.finishCheckEmail();
         })
         .catch(() => {
+          showNotification('중복된 이메일 입니다.');
           const [$email] = inputEls;
           this.resetErrorClass(inputEls);
           this.addErrorClass([$email]);

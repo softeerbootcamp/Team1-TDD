@@ -1,6 +1,7 @@
 import { routeGaurd } from '@/apis/login';
 import { SharingForm } from '@/components/SharingForm/SharingForm';
 import Component from '@/core/Component';
+import { goto } from '@/utils/navigatator';
 import { qs } from '@/utils/querySelector';
 
 export class Sharing extends Component {
@@ -11,7 +12,7 @@ export class Sharing extends Component {
         this.setState({ isLogin: true });
       },
       () => {
-        location.replace('/');
+        goto('/');
       }
     );
   }
