@@ -3,6 +3,7 @@ package com.tdd.backend.post.data;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,9 @@ public class DrivingDto {
 	private final List<String> dateList;
 	private final List<String> optionList;
 
+	@NotNull(message = "boundary는 필수입니다!")
 	private final LocationDto quadThree;
+	@NotNull(message = "boundary는 필수입니다!")
 	private final LocationDto quadOne;
 
 	@Builder
