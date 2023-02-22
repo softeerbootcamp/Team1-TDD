@@ -2,7 +2,7 @@ name: Java CI with Gradle # workflow 이름
 
 on:
   push:
-    branches: ['refactor/#159-deploy-fix']
+    branches: ['dev']
 
 permissions:
   contents: read
