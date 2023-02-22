@@ -81,6 +81,6 @@ jobs:
             docker pull ${{ secrets.DOCKER_REPO }}-server:latest
             docker pull ${{ secrets.DOCKER_REPO }}-front:latest
             docker run --name server -d -p 8080:8080 ${{ secrets.DOCKER_REPO }}-server:latest
-            docker run --name front -d -p 8080:8080 ${{ secrets.DOCKER_REPO }}-front:latest
+            docker run --name front -d -p 80:80 ${{ secrets.DOCKER_REPO }}-front:latest
 
 #            ./docker.sh ${{ secrets.DOCKER_REPO }}
