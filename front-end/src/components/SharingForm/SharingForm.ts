@@ -20,8 +20,8 @@ export class SharingForm extends Component {
     return `
     <div class="${styles.container}">
       <div class="${styles.row} ${styles.header}">
-        <h1>CONTACT US &nbsp;</h1>
-        <h3>Fill out the form below to learn more!</h3>
+        <h1>Share Your Cars</h1>
+        <h3>Fill out the form below to share your cars!</h3>
       </div>
       <div class="${styles.row} ${styles.body}">
         <form action="submit" id="sharing-form">
