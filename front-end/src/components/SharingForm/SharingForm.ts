@@ -57,7 +57,7 @@ export class SharingForm extends Component {
                 <label for="location"
                   >위치 고르기 <span class="${styles.req}">*</span></label
                 >
-                <button id="map-button"> open map</button>
+                <button id="map-button" class="${styles.btn}"> open map</button>
                 <div id="sharing-overlay" class="${styles.hidden} ${
       styles.overlay
     }"></div>
@@ -79,7 +79,6 @@ export class SharingForm extends Component {
                 type="submit"
                 value="Submit"
               />
-              <small>or press <strong>enter</strong></small>
             </li>
           </ul>
         </form>
