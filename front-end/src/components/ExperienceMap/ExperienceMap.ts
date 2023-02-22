@@ -7,6 +7,7 @@ import { mapInfo } from './interface';
 import { markerController } from '@/store/MarkerController';
 import { initAutocomplete } from '@/utils/autoCompletor';
 import { showNotification } from '@/utils/notification';
+import { CopyLinkBtn } from '../CopyLinkBtn/CopyLinkBtn';
 
 interface Ilocation {
   lat: number;
@@ -41,6 +42,7 @@ export class ExperienceMap extends Component {
     return `
     <div class=${styles.container}>
       <button class="${styles['find-my-position']} ${styles.jelly}">내 위치 찾기</button>
+      <div id="copy-link-btn"></div>
       <span class="${styles.loader} ${styles.hidden}"></span>
     </div>
     <input
@@ -55,6 +57,8 @@ export class ExperienceMap extends Component {
 
   mounted(): void {
     this.init();
+    const $copyLinkBtn = qs('#copy-link-btn', this.target);
+    new CopyLinkBtn($copyLinkBtn as HTMLDivElement);
   }
 
   init() {

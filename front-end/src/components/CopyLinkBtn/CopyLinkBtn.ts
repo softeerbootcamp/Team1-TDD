@@ -1,5 +1,6 @@
 import Component from '@/core/Component';
 import { OptionStore } from '@/store/OptionStore/OptionStore';
+import { showNotification } from '@/utils/notification';
 import styles from './CopyLinkBtn.module.scss';
 export class CopyLinkBtn extends Component {
   template(): string {
@@ -34,7 +35,7 @@ export class CopyLinkBtn extends Component {
 
       document.body.removeChild(input);
 
-      alert('Link copied to clipboard');
+      showNotification('링크가 복사 되었습니다.');
     });
   }
 }

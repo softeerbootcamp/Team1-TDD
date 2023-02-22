@@ -9,7 +9,6 @@ import styles from '@/styles/experiencing.module.scss';
 import { OptionStore } from '@/store/OptionStore/OptionStore';
 import { mapInfo } from '@/components/ExperienceMap/interface';
 import { BulletinBoard } from '@/components/BulletinBoard/BulletinBoard';
-import { CopyLinkBtn } from '@/components/CopyLinkBtn/CopyLinkBtn';
 
 export class Experiencing extends Component {
   template(): string {
@@ -35,8 +34,7 @@ export class Experiencing extends Component {
         </div>
       </div>
       <div id="ex-map" class="${styles.map}"></div>
-    </div>
-    <div id="copy-link-btn"></div>
+      </div>
     `;
   }
   mounted(): void {
@@ -45,7 +43,6 @@ export class Experiencing extends Component {
     const $calendar = qs('#ex-calendar', this.target);
     const $map = qs('#ex-map', this.target);
     const $bulletinBoard = qs('#bulletin-board', this.target);
-    const $copyLinkBtn = qs('#copy-link-btn', this.target);
     const list = carList.filter((ele) => !!ele.name);
 
     new ImageSlider($imageSlider as HTMLDivElement, {
@@ -64,7 +61,6 @@ export class Experiencing extends Component {
       changePositionHandler: this.changePositionHandler,
       store: OptionStore,
     });
-    new CopyLinkBtn($copyLinkBtn as HTMLDivElement);
     new BulletinBoard($bulletinBoard as HTMLDivElement, { store: OptionStore });
   }
 
