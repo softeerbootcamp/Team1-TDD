@@ -98,26 +98,25 @@ export class RegisterCar extends Component {
     const accessToken = localStorage.getItem('accessToken');
     const img = Array.from(qsa('img', this.target));
     const carUrl = this.findImage(img)!.split('/');
-    const carName = this.parseCarName(carUrl);
+    const carUrlName = this.parseCarName(carUrl);
     const f = this.state.carList.filter((ele: ICar) =>
-      ele.fileName.includes(carName)
+      ele.fileName.includes(carUrlName)
     );
-    const lastName = f[0].name;
-    console.log(lastName);
+    const carName = f[0].name;
 
     const body = {
-      carName: lastName,
+      carName,
       optionDtoList: selectedOptions,
     };
     console.log(body);
     axiosInstance
       .post('/mycars', body, { headers: { Authorization: accessToken } })
       .then(() => {
-        showNotification(`${lastName} 차량이 등록되었습니다.`);
+        showNotification(`${carName} 차량이 등록되었습니다.`);
         goto('/mypage');
       })
       .catch(() => {
-        showNotification(`${lastName}등록에 실패했습니다.`);
+        showNotification(`${carName}등록에 실패했습니다.`);
       });
   }
 }
