@@ -6,6 +6,7 @@ import { qs } from '@/utils/querySelector';
 import { mapInfo } from './interface';
 import { markerController } from '@/store/MarkerController';
 import { initAutocomplete } from '@/utils/autoCompletor';
+import { showNotification } from '@/utils/notification';
 
 export class ExperienceMap extends Component {
   setup() {
@@ -91,7 +92,7 @@ export class ExperienceMap extends Component {
           this.hideSpinner();
         },
         () => {
-          console.log('moving map has failed');
+          showNotification('moving map has failed');
           this.hideSpinner();
         },
         {
@@ -101,7 +102,7 @@ export class ExperienceMap extends Component {
         }
       );
     } else {
-      console.log('Geolocation is not supported by this browser.');
+      showNotification('Geolocation is not supported by this browser.');
     }
   }
 
