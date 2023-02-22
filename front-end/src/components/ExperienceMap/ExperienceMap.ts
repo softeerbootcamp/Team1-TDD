@@ -9,10 +9,10 @@ import { initAutocomplete } from '@/utils/autoCompletor';
 
 export class ExperienceMap extends Component {
   setup() {
+    this.state.locations = [];
     const location = this.props.store.getState().mapInfo;
     const initLocation = { lat: location?.centerLat, lng: location?.centerLng };
     const initZoom = location?.zoom;
-
     this.state.markers = [];
     this.state.userLocation = location
       ? initLocation
@@ -110,8 +110,8 @@ export class ExperienceMap extends Component {
   }
 
   updateMarkers() {
-    this.showSpinner();
-    const locations = this.props.store
+    const previousLocations = this.state.locations;
+    const updatedLocations = this.props.store
       .getState()
       .filteredPost.map((ele: any) => {
         return [
@@ -122,19 +122,11 @@ export class ExperienceMap extends Component {
           ele.post.id,
         ];
       });
-    this.clearMarkers();
-    this.createMarkers(locations);
-    this.hideSpinner();
-
-    this.state.markers.forEach((marker: google.maps.Marker) => {
-      const infowindow = new google.maps.InfoWindow({
-        content: `<a data-link href="/details/${marker.getTitle()}">상세 글 보기</a>`,
-      });
-      google.maps.event.addListener(marker, 'click', () => {
-        const { map } = this.state;
-        infowindow.open(map, marker);
-      });
-    });
+    const toBeAdded = updatedLocations.filter(
+      (elementB: any) =>
+        !previousLocations.some((elementA: any) => elementA.id === elementB[1])
+    );
+    this.addMarkers(toBeAdded);
   }
 
   createMarkers(locations: google.maps.LatLng[]) {
@@ -146,6 +138,27 @@ export class ExperienceMap extends Component {
           title: '' + loc[1],
         })
     );
+  }
+
+  addMarkers(locations: google.maps.LatLng[]) {
+    const newMarkers = locations.map(
+      (loc: any) =>
+        new google.maps.Marker({
+          position: loc[0],
+          map: this.state.map,
+          title: '' + loc[1],
+        })
+    );
+    this.state.markers = [...this.state.markers, newMarkers];
+    newMarkers.forEach((marker: google.maps.Marker) => {
+      const infowindow = new google.maps.InfoWindow({
+        content: `<a data-link href="/details/${marker.getTitle()}">상세 글 보기</a>`,
+      });
+      google.maps.event.addListener(marker, 'click', () => {
+        const { map } = this.state;
+        infowindow.open(map, marker);
+      });
+    });
   }
 
   handleDebounce(callback: Function, limit: number) {
