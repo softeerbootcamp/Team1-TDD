@@ -23,7 +23,7 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 	@Query("SELECT o.name, o.category FROM options o WHERE o.mycar_id = :myCarID")
 	List<Option> findOptionsByMyCarId(@Param("myCarID") Long myCarId);
 
-	@Query("SELECT id, date, status FROM appointments WHERE post_id = :id")
+	@Query("SELECT id, date, status FROM appointments WHERE post_id = :id AND status = 'PENDING'")
 	List<Appointment> findAppointmentsByPostId(@Param("id") Long id);
 
 	@Modifying
