@@ -16,7 +16,13 @@ export class Navbar extends Component {
       <div class="${styles['progress-bar']}"></div>
     </div>
     <nav class="${styles.navbar}">
-      <a data-link href="/" class="${styles.logo}">T D D</a>
+      <div>
+        <a data-link href="/">
+          <img src="${process.env.VITE_IMAGE_URL}/MAIN_LOGO.png" width="30px"/>
+        </a>
+        <a data-link href="/" class="${styles.logo}">T D D</a>
+      </div>
+      
       <ul>
         <li><a data-link href="/aboutus">ABOUT US</a></li>
         ${isLogin ? '<li><a data-link href="/sharing">공유하기</a></li>' : ''}
