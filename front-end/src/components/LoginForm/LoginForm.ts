@@ -6,7 +6,6 @@ import {
 import Component from '@/core/Component';
 import { AuthStore } from '@/store/AuthStore';
 import { closeLoginModal } from '@/utils/loginModal';
-import { goto } from '@/utils/navigatator';
 import { showNotification } from '@/utils/notification';
 import { qs } from '@/utils/querySelector';
 import { LoadingHandler } from './LoadingHandler';
