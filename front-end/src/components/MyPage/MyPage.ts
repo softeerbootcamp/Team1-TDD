@@ -130,7 +130,7 @@ export class MyPage extends Component {
     <div class="${styles['card-wrapper']}">
       <div class=${styles['image-wrapper']}>
         <div class="${styles['helper']}"></div>
-        <img class="${styles['image']}" src="${carImage}" />
+        <img class="${styles['image']}" src="${carImage}" alt="..."/>
       </div>
       <div class="${styles['text-wrapper']}">
         <div class="${styles['helper']}"></div>
@@ -159,7 +159,7 @@ export class MyPage extends Component {
     <div class=${styles['card-wrapper']}>
       <div class=${styles['image-wrapper']}>
         <div class=${styles['helper']}></div>
-        <img class="${styles['image']}" src="${carImage}" />
+        <img class="${styles['image']}" src="${carImage}" alt="..."/>
       </div>
       <div class="${styles['text-wrapper']}">
         <div class="${styles['helper']}"></div>

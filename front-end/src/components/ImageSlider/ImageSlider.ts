@@ -32,7 +32,7 @@ export class ImageSlider extends Component {
           ${list
             .map(
               (car: ICar, idx: number) =>
-                `<img style="${position[idx]}" src="${process.env.VITE_IMAGE_URL}/${car.fileName}" />`
+                `<img style="${position[idx]}" src="${process.env.VITE_IMAGE_URL}/${car.fileName}" alt="..."/>`
             )
             .join('')}
         </div>
