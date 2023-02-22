@@ -2,7 +2,7 @@ name: Java CI with Gradle # workflow 이름
 
 on:
   push:
-    branches: ['dev']
+    branches: ['deploy/#231-front']
 
 permissions:
   contents: read
@@ -32,6 +32,19 @@ jobs:
         run: |
           cd ./back-end
           ./gradlew clean build
+          
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: make index.html
+        run: |
+          cd ./front-end
+          echo "${{ secrets.ENV }}" >> ./.env.local
+          npm install
+          npm run build
+          echo "${{ secrets.NGINX }}" >> ./nginx.conf
+
       ## 도커 로그인
       - name: Docker Hub login
         uses: docker/login-action@v2
@@ -47,8 +60,7 @@ jobs:
           docker push ${{ secrets.DOCKER_REPO }}-server:latest
       - name: web docker build and push
         run: |
-          cd ./front-end
-          echo "${{ secrets.ENV }}" >> ./.env.local
+          cd ./front-end   
           docker build -t ${{ secrets.DOCKER_REPO }}-front:latest .
           docker push ${{ secrets.DOCKER_REPO }}-front:latest
       ## 서버에 접속하여 도커 이미지를 pull 받고 실행하기
@@ -60,4 +72,7 @@ jobs:
           key: ${{ secrets.KEY }}
           port: 22
           script: |
-            ./docker.sh ${{ secrets.DOCKER_REPO }}
+            docker run -d -p 8080:8080 eoniedev/tdd-app-server
+            docker run -d -p 8080:8080 eoniedev/tdd-app-front
+
+#            ./docker.sh ${{ secrets.DOCKER_REPO }}
