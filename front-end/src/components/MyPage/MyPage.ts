@@ -5,6 +5,7 @@ import { literal } from './template';
 import styles from './MyPage.module.scss';
 import { routeGaurd } from '@/apis/login';
 import { goto } from '@/utils/navigatator';
+import { showNotification } from '@/utils/notification';
 
 interface IAppointment {
   date: string;
@@ -62,19 +63,15 @@ export class MyPage extends Component {
     this.state.login = false;
     routeGaurd(
       () => {
-        this.setState({ login: true });
+        Promise.all([getUserInfo(), getMyCar()]).then((res) => {
+          this.setState({ login: true, res: res[0], myCars: res[1].data });
+        });
       },
       () => {
+        showNotification('로그인 해주세요.');
         goto('/');
       }
     );
-
-    getUserInfo().then((res) => {
-      this.setState({ res });
-    });
-    getMyCar().then((res) => {
-      this.state.myCars = res.data;
-    });
   }
 
   template(): string {
