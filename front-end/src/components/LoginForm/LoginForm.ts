@@ -134,7 +134,6 @@ export class LoginForm extends Component {
     localStorage.setItem('refreshToken', data.refreshToken);
     AuthStore.dispatch('LOGIN');
     showNotification('환영합니다.');
-    goto('/');
     closeLoginModal();
   }
 
