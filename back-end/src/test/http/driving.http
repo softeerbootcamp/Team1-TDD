@@ -16,5 +16,13 @@ Content-Type: application/json
   "dateList": [
   ],
   "optionList": [
-  ]
+  ],
+  "quadThree" : {
+      "latitude" : "36.5",
+      "longitude" : "127.5"
+    },
+  "quadOne" : {
+      "latitude" : "36.8",
+      "longitude" : "128.3"
+    }
 }

@@ -21,6 +21,6 @@ public class LocationDto {
 	}
 
 	public Location toEntity() {
-		return new Location(longitude, latitude);
+		return new Location(latitude, longitude);
 	}
 }

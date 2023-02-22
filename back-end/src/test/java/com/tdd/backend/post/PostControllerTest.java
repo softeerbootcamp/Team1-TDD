@@ -98,7 +98,7 @@ public class PostControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(requestBody)
 				.header("Authorization", jwtProvider.generateAccessToken(user.getId(), user.getEmail())))
-			.andExpect(status().isFound())
+			.andExpect(status().isOk())
 			.andDo(print());
 		SoftAssertions soft = new SoftAssertions();
 		List<Post> postByUserId = postRepository.findPostByUserId(user.getId());

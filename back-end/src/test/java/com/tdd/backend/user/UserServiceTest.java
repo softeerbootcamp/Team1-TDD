@@ -47,7 +47,7 @@ class UserServiceTest {
 		userService.save(userCreate);
 
 		//then
-		assertThat(userRepository.count()).isEqualTo(1);
+		assertThat(userRepository.findByEmail("tdd@naver.com").get().getUserName()).isEqualTo("tdd");
 	}
 
 	@Test
@@ -55,7 +55,7 @@ class UserServiceTest {
 	void login() throws Exception {
 		//given
 		User user = User.builder()
-			.email("test@test.com")
+			.email("howareyou@test.com")
 			.userPassword(encryptHelper.encrypt("pwd"))
 			.userName("tester")
 			.phoneNumber("01010")
@@ -65,14 +65,14 @@ class UserServiceTest {
 
 		//when
 		UserLogin userLogin = UserLogin.builder()
-			.email("test@test.com")
+			.email("howareyou@test.com")
 			.userPassword("pwd")
 			.build();
 
 		userService.login(userLogin);
 
 		//then
-		User findUser = userRepository.findByEmail("test@test.com").orElseThrow(UserNotFoundException::new);
+		User findUser = userRepository.findByEmail("howareyou@test.com").orElseThrow(UserNotFoundException::new);
 		assertThat(findUser.getId()).isEqualTo(user.getId());
 	}
 

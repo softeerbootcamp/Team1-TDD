@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tdd.backend.car.model.Category;
 import com.tdd.backend.mypage.model.MyCar;
 import com.tdd.backend.mypage.repository.MyCarRepository;
+import com.tdd.backend.post.data.LocationDto;
 import com.tdd.backend.post.model.Appointment;
 import com.tdd.backend.post.model.AppointmentStatus;
 import com.tdd.backend.post.model.Location;
@@ -98,7 +99,7 @@ public class PostRepositoryTest {
 		MyCar myCar = new MyCar(user.getId(), 7L, optionSet);
 		myCarRepository.save(myCar);
 
-		Location location = new Location("20.12", "30.4432");
+		Location location = new Location("2234.107", "304.493");
 
 		Set<Appointment> appointmentSet = new HashSet<>();
 		appointmentSet.add(new Appointment(LocalDate.parse("2022-01-02"), AppointmentStatus.PENDING));
@@ -118,7 +119,7 @@ public class PostRepositoryTest {
 		optionSet.add(new Option("현대 스마트 센스 III", Category.CAR_OPTION));
 		optionSet.add(new Option("빌트인 캠(보조배터리 포함)", Category.CAR_OPTION));
 
-		location = new Location("20234.12", "30467.4432");
+		location = new Location("2234.10", "304.443");
 
 		appointmentSet = new HashSet<>();
 		appointmentSet.add(new Appointment(LocalDate.parse("2022-01-02"), AppointmentStatus.PENDING));
@@ -152,35 +153,51 @@ public class PostRepositoryTest {
 		appointmentSet.add(new Appointment(LocalDate.parse("2022-01-03"), AppointmentStatus.PENDING));
 		appointmentSet.add(new Appointment(LocalDate.parse("2022-01-04"), AppointmentStatus.PENDING));
 
-		Post post3 = new Post( RideOption.RIDE_ALONE, "hi", location, appointmentSet, myCar3.getId());
+		Post post3 = new Post(RideOption.RIDE_ALONE, "hi", location, appointmentSet, myCar3.getId());
 		postRepository.save(post3);
 
 		//when
 		Long carId = 7L;
 		List<String> options = List.of("가솔린 2.5", "2WD", "헤드업 디스플레이", "빌트인 캠(보조배터리 포함)");
 		List<String> dates = List.of("2022-01-02", "2022-01-03", "2022-01-04");
+		LocationDto quadThree = LocationDto.builder()
+			.latitude("2234")
+			.longitude("304")
+			.build();
+
+		LocationDto quadOne = LocationDto.builder()
+			.latitude("2236")
+			.longitude("309")
+			.build();
 
 		//then
 		SoftAssertions softAssertions = new SoftAssertions();
 
 		softAssertions.assertThat(
-			postRepository.findPostIdsByOptionsAndDatesAndCarId(options, dates, carId, options.size()).size()
-		).isEqualTo(2);
+			postRepository.findPostIdsByOptionsAndDatesAndCarIdAndLocation(options, dates, carId, options.size(),
+				quadThree.getLongitude(), quadThree.getLatitude(), quadOne.getLongitude(), quadOne.getLatitude()
+			)
+		).contains(post2.getId(), post3.getId());
 
 		softAssertions.assertThat(
-			postRepository.findPostIdsByOptionsAndCarId(options, carId, options.size()).size()
-		).isEqualTo(2);
+			postRepository.findPostIdsByOptionsAndCarIdAndLocation(options, carId, options.size(),
+				quadThree.getLongitude(), quadThree.getLatitude(), quadOne.getLongitude(), quadOne.getLatitude()
+			)
+		).contains(post2.getId(), post3.getId());
 
 		softAssertions.assertThat(
-			postRepository.findPostIdsByDatesAndCarId(dates, carId).size()
-		).isEqualTo(3);
+			postRepository.findPostIdsByDatesAndCarIdLocation(dates, carId,
+				quadThree.getLongitude(), quadThree.getLatitude(), quadOne.getLongitude(), quadOne.getLatitude()
+			)
+		).contains(post.getId(), post2.getId(), post3.getId());
 
 		softAssertions.assertThat(
-			postRepository.findPostIdsByCarId(carId).size()
-		).isEqualTo(3);
+			postRepository.findPostIdsByCarIdLocation(carId,
+				quadThree.getLongitude(), quadThree.getLatitude(), quadOne.getLongitude(), quadOne.getLatitude()
+			)
+		).contains(post.getId(), post2.getId(), post3.getId());
 
 		softAssertions.assertAll();
-
 	}
 
 }

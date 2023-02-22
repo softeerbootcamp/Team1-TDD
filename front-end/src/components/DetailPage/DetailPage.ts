@@ -1,7 +1,8 @@
-import { getPosts } from '@/apis/detailPage';
+import { getPosts, patchAppoinment } from '@/apis/detailPage';
 import { routeGaurd } from '@/apis/login';
 import Component from '@/core/Component';
 import { goto } from '@/utils/navigatator';
+import { qs } from '@/utils/querySelector';
 import styles from './DetailPage.module.scss';
 
 interface IAppointment {
@@ -41,11 +42,19 @@ export class DetailPage extends Component {
   }
 
   setEvent(): void {
-    this.addEvent('click', `.${styles['confirm']}`, (_) => {
-      goto('/mypage');
+    this.addEvent('click', `.${styles['confirm']}`, () => {
+      const temp = this.findAppointmentId(this.state.res.appointments)[0];
+      patchAppoinment(temp.id)
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+      window.location.href = '/mypage';
     });
-    this.addEvent('click', `.${styles['cancel']}`, (_) => {
-      goto('/');
+    this.addEvent('click', `.${styles['cancel']}`, () => {
+      window.location.href = '/';
+    });
+    this.addEvent('change', `#dates`, () => {
+      const dates = qs('#dates') as HTMLSelectElement;
+      this.state.selectedDate = dates.options[dates.selectedIndex].value;
     });
   }
 
@@ -69,10 +78,7 @@ export class DetailPage extends Component {
       .join('')}
             </div>
           </div>
-          <div class="${styles['date']}">
-            <div class="${styles['left']}">시승날짜</div>
-            <div class="${styles['right']}">2023-02-24</div>
-          </div>
+
           <div class="${styles['location']}">
             <div class="${styles['left']}">시승위치</div>
             <div class="${styles['right']}">
@@ -84,10 +90,10 @@ export class DetailPage extends Component {
             </div>
           </div>
           <div class="${styles['appointments']}">
-            <div class="${styles['left']}">예약현황</div>
-            <div class="${styles['right']}">${appointments
-      .map((ele: IAppointment) => ele.date)
-      .join(', ')}</div>
+            <div class="${styles['left']}">가능날짜</div>
+            <div class="${styles['right']}">${this.createDatesButton(
+      appointments
+    )}</div>
           </div>
         </div>
         </div>
@@ -99,10 +105,34 @@ export class DetailPage extends Component {
     `;
   }
 
+  mounted(): void {
+    const dates = qs('#dates') as HTMLSelectElement;
+    this.state.selectedDate = dates.options[dates.selectedIndex].value;
+  }
+
   optionCreator(option: string): string {
     const literal = `
       <div class="${styles['opt']}">${option}</div>
     `;
     return literal;
+  }
+
+  findAppointmentId(appointments: IAppointment[]) {
+    return appointments.filter(({ date }) => date === this.state.selectedDate);
+  }
+
+  createDatesButton(appointments: IAppointment[]) {
+    const wrapper = `
+    <select id="dates" class="${styles['dates']}">
+      ${appointments
+        .map((ele, idx) =>
+          idx === 0
+            ? `<option value="${ele.date}" selected>${ele.date}</option>`
+            : `<option value="${ele.date}">${ele.date}</option>`
+        )
+        .join('')}
+    </select>`;
+
+    return wrapper;
   }
 }

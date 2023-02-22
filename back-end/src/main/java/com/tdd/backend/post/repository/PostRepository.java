@@ -63,57 +63,84 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 		+ "JOIN mycars m ON p.mycar_id = m.id "
 		+ "JOIN cars c ON m.car_id = c.id "
 		+ "JOIN appointments a ON p.id = a.post_id "
+		+ "JOIN locations l ON p.id = l.post_id "
 		+ "WHERE o.name IN (:options) "
 		+ "AND c.id = :carId "
 		+ "AND a.date IN (:dates) "
+		+ "AND l.latitude BETWEEN :startLat AND :endLat "
+		+ "AND l.longitude BETWEEN :startLong AND :endLong "
 		+ "AND a.status = 'PENDING'"
 		+ "GROUP BY p.id HAVING COUNT(DISTINCT o.name) = :count"
 	)
-	List<Long> findPostIdsByOptionsAndDatesAndCarId(
+	List<Long> findPostIdsByOptionsAndDatesAndCarIdAndLocation(
 		@Param("options") List<String> options,
 		@Param("dates") List<String> dates,
 		@Param("carId") Long carId,
-		@Param("count") int count
+		@Param("count") int count,
+		@Param("startLong") String startLong,
+		@Param("startLat") String startLat,
+		@Param("endLong") String endLong,
+		@Param("endLat") String endLat
 	);
 
 	@Query("SELECT p.id FROM posts p "
-		+ "JOIN car_options co ON p.mycar_id = co.car_id "
 		+ "JOIN options o ON p.mycar_id = o.mycar_id "
 		+ "JOIN mycars m ON p.mycar_id = m.id "
 		+ "JOIN cars c ON m.car_id = c.id "
 		+ "JOIN appointments a ON p.id = a.post_id "
+		+ "JOIN locations l ON p.id = l.post_id "
 		+ "WHERE o.name IN (:options) "
 		+ "AND c.id = :carId "
+		+ "AND l.latitude BETWEEN :startLat AND :endLat "
+		+ "AND l.longitude BETWEEN :startLong AND :endLong "
 		+ "AND a.status = 'PENDING'"
 		+ "GROUP BY p.id HAVING COUNT(DISTINCT o.name) = :count"
 	)
-	List<Long> findPostIdsByOptionsAndCarId(
+	List<Long> findPostIdsByOptionsAndCarIdAndLocation(
 		@Param("options") List<String> options,
 		@Param("carId") Long carId,
-		@Param("count") int count
+		@Param("count") int count,
+		@Param("startLong") String startLong,
+		@Param("startLat") String startLat,
+		@Param("endLong") String endLong,
+		@Param("endLat") String endLat
 	);
 
 	@Query("SELECT p.id FROM posts p "
 		+ "JOIN appointments a on p.id = a.post_id "
 		+ "JOIN mycars m on p.mycar_id = m.id "
+		+ "JOIN locations l ON p.id = l.post_id "
 		+ "WHERE a.date IN (:dates) "
 		+ "AND m.car_id = :carId "
+		+ "AND l.latitude BETWEEN :startLat AND :endLat "
+		+ "AND l.longitude BETWEEN :startLong AND :endLong "
 		+ "AND a.status = 'PENDING' "
 		+ "GROUP BY p.id"
 	)
-	List<Long> findPostIdsByDatesAndCarId(
+	List<Long> findPostIdsByDatesAndCarIdLocation(
 		@Param("dates") List<String> dates,
-		@Param("carId") Long carId
+		@Param("carId") Long carId,
+		@Param("startLong") String startLong,
+		@Param("startLat") String startLat,
+		@Param("endLong") String endLong,
+		@Param("endLat") String endLat
 	);
 
 	@Query("SELECT p.id FROM posts p "
 		+ "JOIN appointments a on p.id = a.post_id "
 		+ "JOIN mycars m on p.mycar_id = m.id "
+		+ "JOIN locations l ON p.id = l.post_id "
 		+ "WHERE m.car_id = :carId "
+		+ "AND l.latitude BETWEEN :startLat AND :endLat "
+		+ "AND l.longitude BETWEEN :startLong AND :endLong "
 		+ "AND a.status = 'PENDING' "
 		+ "GROUP BY p.id"
 	)
-	List<Long> findPostIdsByCarId(
-		@Param("carId") Long carId
+	List<Long> findPostIdsByCarIdLocation(
+		@Param("carId") Long carId,
+		@Param("startLong") String startLong,
+		@Param("startLat") String startLat,
+		@Param("endLong") String endLong,
+		@Param("endLat") String endLat
 	);
 }
