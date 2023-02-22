@@ -18,7 +18,9 @@ export class Navbar extends Component {
     <nav class="${styles.navbar}">
       <div>
         <a data-link href="/">
-          <img src="${process.env.VITE_IMAGE_URL}/MAIN_LOGO.png" width="30px"/>
+          <img src="${
+            process.env.VITE_IMAGE_URL
+          }/MAIN_LOGO.png" width="30px" alt="tdd-logo"/>
         </a>
         <a data-link href="/" class="${styles.logo}">T D D</a>
       </div>
