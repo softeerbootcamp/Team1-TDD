@@ -10,9 +10,16 @@ import styles from './RegisterCar.module.scss';
 import { goto } from '@/utils/navigatator';
 import { showNotification } from '@/utils/notification';
 
+interface ICar {
+  fileName: string;
+  title: string;
+  name: string;
+}
+
 export class RegisterCar extends Component {
   setup(): void {
     this.state.login = false;
+    this.state.carList = carList.filter((ele) => !!ele.name);
     routeGaurd(
       () => {
         this.setState({ login: true });
@@ -92,18 +99,25 @@ export class RegisterCar extends Component {
     const img = Array.from(qsa('img', this.target));
     const carUrl = this.findImage(img)!.split('/');
     const carName = this.parseCarName(carUrl);
+    const f = this.state.carList.filter((ele: ICar) =>
+      ele.fileName.includes(carName)
+    );
+    const lastName = f[0].name;
+    console.log(lastName);
+
     const body = {
-      carName,
+      carName: lastName,
       optionDtoList: selectedOptions,
     };
+    console.log(body);
     axiosInstance
       .post('/mycars', body, { headers: { Authorization: accessToken } })
       .then(() => {
-        showNotification(`${carName} 차량이 등록되었습니다.`);
+        showNotification(`${lastName} 차량이 등록되었습니다.`);
         goto('/mypage');
       })
       .catch(() => {
-        showNotification(`${carName}등록에 실패했습니다.`);
+        showNotification(`${lastName}등록에 실패했습니다.`);
       });
   }
 }
