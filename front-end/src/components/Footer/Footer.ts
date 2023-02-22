@@ -44,7 +44,7 @@ export class Footer extends Component {
       </div>
 
       <div class="logo">
-          TDD LOGO
+        <img src="${process.env.VITE_IMAGE_URL}/MAIN_LOGO.png" style="width:35px"/>
       </div>
     </div>
   </div>
