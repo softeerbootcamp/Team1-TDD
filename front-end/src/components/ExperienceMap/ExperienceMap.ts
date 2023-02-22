@@ -34,7 +34,7 @@ export class ExperienceMap extends Component {
   template(): string {
     return `
     <div class=${styles.container}>
-      <button class="${styles['find-my-position']} ${styles.jelly}">내 위치를 찾아줘..!</button>
+      <button class="${styles['find-my-position']} ${styles.jelly}">내 위치 찾기</button>
       <span class="${styles.loader} ${styles.hidden}"></span>
     </div>
     <input
