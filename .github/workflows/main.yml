@@ -73,10 +73,12 @@ jobs:
           port: 22
           script: |
             docker rm -f server
-            docker rmi eoniedev/tdd-app-server:latest
+            docker rmi ${{ secrets.DOCKER_REPO }}-server:latest
             docker rm -f front
-            docker rmi eoniedev/tdd-app-front:latest
-            docker run --name server -d -p 8080:8080 eoniedev/tdd-app-server:latest
-            docker run --name front -d -p 8080:8080 eoniedev/tdd-app-front:latest
+            docker rmi ${{ secrets.DOCKER_REPO }}-front:latest
+            docker pull ${{ secrets.DOCKER_REPO }}-server:latest
+            docker pull ${{ secrets.DOCKER_REPO }}-front:latest
+            docker run --name server -d -p 8080:8080 ${{ secrets.DOCKER_REPO }}-server:latest
+            docker run --name front -d -p 8080:8080 ${{ secrets.DOCKER_REPO }}-front:latest
 
 #            ./docker.sh ${{ secrets.DOCKER_REPO }}
