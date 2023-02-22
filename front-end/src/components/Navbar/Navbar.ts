@@ -28,6 +28,7 @@ export class Navbar extends Component {
           ${userIcon}
             <div class="${styles.options}">
               <a data-link href="/mypage"><div>마이페이지</div></a>
+              <a data-link href="/addCar"><div>내차 등록</div></a>
               <div class="${styles['logout-button']}">Logout</div>
             </div>
           </div>
