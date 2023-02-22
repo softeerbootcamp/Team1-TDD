@@ -72,6 +72,8 @@ jobs:
           key: ${{ secrets.KEY }}
           port: 22
           script: |
+            docker stop server
+            docker stop front
             docker rm -f server
             docker rmi ${{ secrets.DOCKER_REPO }}-server:latest
             docker rm -f front
