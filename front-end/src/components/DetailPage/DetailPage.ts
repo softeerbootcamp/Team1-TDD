@@ -28,7 +28,8 @@ export class DetailPage extends Component {
         });
       },
       () => {
-        goto('/');
+        showNotification('로그인이 필요합니다.');
+        history.go(-1);
       }
     );
   }
