@@ -41,8 +41,7 @@ export const HandleAuthAPICall = async (
       resolve(res);
     })
     .catch(({ response }: any) => {
-      const { status } = response;
-      if (status === 302) {
+      if (response.status === 302) {
         sendReissueRequest()
           .then((res: any) => {
             setToken(res);

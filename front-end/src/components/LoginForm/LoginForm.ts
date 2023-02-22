@@ -199,6 +199,7 @@ export class LoginForm extends Component {
         .then(() => {
           this.state.isEmailValid = true;
           this.state.validEmail = userData.email;
+          showNotification('사용가능한 이메일 입니다.');
           loadingHandler.finishCheckEmail();
         })
         .catch(() => {
