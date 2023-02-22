@@ -104,9 +104,11 @@ export const carList: ICar[] = [
   {
     fileName: 'palisade.png',
     title: '팰리세이드',
+    name: 'PALASADE',
   },
   {
-    fileName: 'santafe.png',
+    fileName: 'sanfate.png',
     title: '싼타페',
+    name: 'SANTAFE',
   },
 ];
