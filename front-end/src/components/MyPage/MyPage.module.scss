@@ -12,6 +12,7 @@
   height: 700px;
   margin: 10px auto 0 auto;
   display: flex;
+  user-select: none;
   .user-box-wrapper {
     width: 30%;
     height: 103%;
@@ -114,9 +115,6 @@
         width: 100%;
         height: 280px;
         overflow-y: scroll;
-        &::-webkit-scrollbar {
-          display: none;
-        }
         .card-wrapper {
           width: 100%;
           height: 260px;

@@ -34,6 +34,7 @@ $font100: 100px;
 .main-wrapper {
   width: 100%;
   font-family: level;
+  user-select: none;
   .welcome-wrapper {
     width: 100%;
     height: 700px;
