@@ -10,9 +10,16 @@ import styles from './RegisterCar.module.scss';
 import { goto } from '@/utils/navigatator';
 import { showNotification } from '@/utils/notification';
 
+interface ICar {
+  fileName: string;
+  title: string;
+  name: string;
+}
+
 export class RegisterCar extends Component {
   setup(): void {
     this.state.login = false;
+    this.state.carList = carList.filter((ele) => !!ele.name);
     routeGaurd(
       () => {
         this.setState({ login: true });
@@ -91,11 +98,17 @@ export class RegisterCar extends Component {
     const accessToken = localStorage.getItem('accessToken');
     const img = Array.from(qsa('img', this.target));
     const carUrl = this.findImage(img)!.split('/');
-    const carName = this.parseCarName(carUrl);
+    const carUrlName = this.parseCarName(carUrl);
+    const f = this.state.carList.filter((ele: ICar) =>
+      ele.fileName.includes(carUrlName)
+    );
+    const carName = f[0].name;
+
     const body = {
       carName,
       optionDtoList: selectedOptions,
     };
+    console.log(body);
     axiosInstance
       .post('/mycars', body, { headers: { Authorization: accessToken } })
       .then(() => {

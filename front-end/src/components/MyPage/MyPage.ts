@@ -78,7 +78,7 @@ export class MyPage extends Component {
   }
 
   template(): string {
-    const len = this.state.myCars.length;
+    const len = this.state.myCars ? this.state.myCars.length : 0;
     return literal(len);
   }
 
@@ -91,6 +91,8 @@ export class MyPage extends Component {
   mounted(): void {
     const shareCardWrapper = qs(`#${'share-card'}`);
     const expCardWrapper = qs(`#${'exp-card'}`);
+
+    if (!this.state.res) return;
 
     const drivingList = this.state.res.data.driving as IDriving[];
     const sharingList = this.state.res.data.sharing as ISharing[];
