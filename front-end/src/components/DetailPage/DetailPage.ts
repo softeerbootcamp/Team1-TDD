@@ -2,6 +2,7 @@ import { getPosts, patchAppoinment } from '@/apis/detailPage';
 import { routeGaurd } from '@/apis/login';
 import Component from '@/core/Component';
 import { goto } from '@/utils/navigatator';
+import { showNotification } from '@/utils/notification';
 import { qs } from '@/utils/querySelector';
 import styles from './DetailPage.module.scss';
 
@@ -21,36 +22,31 @@ export class DetailPage extends Component {
     this.state.login = false;
     routeGaurd(
       () => {
-        this.setState({ login: true });
+        const postId = location.pathname.split('/').at(-1)!;
+        getPosts(+postId).then((res) => {
+          this.setState({ res: res.data, login: true });
+        });
       },
       () => {
-        console.log('reject');
         goto('/');
       }
     );
-  }
-  async render() {
-    const postId = location.pathname.split('/').at(-1)!;
-    const res = await getPosts(+postId);
-    this.setState({ res: res.data });
-    this.target.innerHTML = this.template();
-    this.mounted();
-  }
-
-  setState(newState: object) {
-    this.state = { ...this.state, ...newState };
   }
 
   setEvent(): void {
     this.addEvent('click', `.${styles['confirm']}`, () => {
       const temp = this.findAppointmentId(this.state.res.appointments)[0];
       patchAppoinment(temp.id)
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
-      window.location.href = '/mypage';
+        .then(() => {
+          goto('/mypage');
+          showNotification('신청 되었습니다.');
+        })
+        .catch(() => {
+          showNotification('신청에 실패했습니다.');
+        });
     });
     this.addEvent('click', `.${styles['cancel']}`, () => {
-      window.location.href = '/';
+      window.history.go(-1);
     });
     this.addEvent('change', `#dates`, () => {
       const dates = qs('#dates') as HTMLSelectElement;
@@ -59,6 +55,7 @@ export class DetailPage extends Component {
   }
 
   template(): string {
+    if (!this.state.login) return '';
     const { appointments, imageUrl, location, options, post } = this.state.res;
     return `
       <div class="${styles['container']}">
@@ -106,6 +103,7 @@ export class DetailPage extends Component {
   }
 
   mounted(): void {
+    if (!this.state.login) return;
     const dates = qs('#dates') as HTMLSelectElement;
     this.state.selectedDate = dates.options[dates.selectedIndex].value;
   }
