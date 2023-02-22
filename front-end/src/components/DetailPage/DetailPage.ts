@@ -62,7 +62,7 @@ export class DetailPage extends Component {
       <div class="${styles['container']}">
         <div class="${styles['infos']}">
           <div class="${styles['image-wrapper']}">
-            <img class="${styles['image']}" src="${imageUrl}" />
+            <img class="${styles['image']}" src="${imageUrl}" alt="..."/>
           </div>
           <div class="${styles['text-wrapper']}">
             <div class="${styles['car-name']}">
