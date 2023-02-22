@@ -4,6 +4,7 @@ import { qs } from '@/utils/querySelector';
 import { literal } from './template';
 import styles from './MyPage.module.scss';
 import { routeGaurd } from '@/apis/login';
+import { goto } from '@/utils/navigatator';
 
 interface IAppointment {
   date: string;
@@ -64,7 +65,7 @@ export class MyPage extends Component {
         this.setState({ login: true });
       },
       () => {
-        location.replace('/');
+        goto('/');
       }
     );
 
@@ -87,7 +88,7 @@ export class MyPage extends Component {
 
   setEvent(): void {
     this.addEvent('click', `.${styles['register']}`, () => {
-      window.location.href = `/addCar`;
+      goto('/addCar');
     });
   }
 

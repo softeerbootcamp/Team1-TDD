@@ -1,4 +1,5 @@
 import { Store } from '@/core/Store.js';
+import { goto } from '@/utils/navigatator';
 import axios from 'axios';
 interface IAuthState {
   isLogin: boolean;
@@ -12,7 +13,7 @@ const reducer = (state: IAuthState, actionKey: string) => {
     case 'LOGOUT':
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
-      location.replace('/');
+      goto('/');
       return { ...state, isLogin: false };
     case 'CHECK':
       const accessToken = localStorage.getItem('accessToken');

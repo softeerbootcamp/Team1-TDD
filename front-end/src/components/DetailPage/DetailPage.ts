@@ -1,6 +1,7 @@
 import { getPosts } from '@/apis/detailPage';
 import { routeGaurd } from '@/apis/login';
 import Component from '@/core/Component';
+import { goto } from '@/utils/navigatator';
 import styles from './DetailPage.module.scss';
 
 interface IAppointment {
@@ -22,7 +23,8 @@ export class DetailPage extends Component {
         this.setState({ login: true });
       },
       () => {
-        location.replace('/');
+        console.log('reject');
+        goto('/');
       }
     );
   }
@@ -40,10 +42,10 @@ export class DetailPage extends Component {
 
   setEvent(): void {
     this.addEvent('click', `.${styles['confirm']}`, (_) => {
-      window.location.href = '/mypage';
+      goto('/mypage');
     });
     this.addEvent('click', `.${styles['cancel']}`, (_) => {
-      window.location.href = '/';
+      goto('/');
     });
   }
 

@@ -1,5 +1,7 @@
 import { sendGetMyCarRequest, sendSharingRequest } from '@/apis/sharing';
 import Component from '@/core/Component';
+import { goto } from '@/utils/navigatator';
+import { showNotification } from '@/utils/notification';
 import { qs } from '@/utils/querySelector';
 import { Calendar } from '../Calendar/Calendar';
 import { SharingMap } from '../SharingMap/SharingMap';
@@ -139,13 +141,13 @@ export class SharingForm extends Component {
         rideOption: 'RIDE_WITH',
       };
       if (!this.canSendRequest({ myCarId, dates, location })) {
-        alert('필수 항목을 선택해주세요!');
+        showNotification('필수 항목을 선택해주세요!');
         return;
       }
       sendSharingRequest(reqBody)
         .then(() => {
-          alert('등록되었습니다!');
-          window.location.replace('/mypage');
+          showNotification('등록되었습니다!');
+          goto('/mypage');
         })
         .catch((err) => {
           console.log(err);
