@@ -88,8 +88,11 @@ SSL프로토콜을 이용하여 서버와 클라이언트 사이의 모든데이
  
 ![image](https://user-images.githubusercontent.com/59179386/219434882-f944db5d-1f68-4e26-9c61-d9504929811c.png)
 
-## ⚙️ 배포 아키텍쳐
-![image](https://user-images.githubusercontent.com/59179386/219247646-fdb88bc6-32cc-45ed-a4d3-4ddf2cc2df74.png)
+## ⚙️ 아키텍쳐
+
+![image](https://user-images.githubusercontent.com/59179386/220617467-3d1a7bc8-fbfb-47c8-ad16-79e9aec76b87.png)
+### 배포
+![image](https://user-images.githubusercontent.com/59179386/220617520-573f4e67-c002-4b23-8337-c78f46f804a5.png)
 
 ## 🛠 기술 스택  
 ### ✔️ Frond-end
