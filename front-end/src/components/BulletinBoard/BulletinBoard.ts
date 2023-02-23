@@ -30,13 +30,13 @@ export class BulletinBoard extends Component {
   }
 
   listTemplate(data: list) {
-    const { options, dates, carName, location } = data;
+    const { options, dates, carName, location, title } = data;
     return `
     <div data-location=${JSON.stringify(location)} class="${
       styles.wrapper
     } id="bulletinList">
       <div class="${styles.left}">
-        <div class="${styles.title}">${carName || '제목 없음'}</div>
+        <div class="${styles.title}">${title || carName || '제목 없음'}</div>
         <div class="${styles.contents}">${options}</div>
         <div class="${styles.info}">${dates}</div>
       </div>
