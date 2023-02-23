@@ -2,6 +2,24 @@ import styles from './Home.module.scss';
 export const homeTemplate = (): string => {
   return `
     <div class="${styles['main-wrapper']} ${styles['animation-group']}">
+      <div class="${styles['index-2']} ${styles['idxes']}" id="index">
+        <div class="${styles['empty-wrapper']}"></div>
+        <div class="${styles['second-top-wrapper']} ${styles['flex-box']}">
+          <div class="${styles['helper-first']}"></div>
+          <div class="${styles['second-first-text']}">
+            <span class="${styles.tossblue}">We make your </span><br />
+            <span class="${styles.darkblue}">Experiences </span><br />
+            <span class="${styles.tossblue}">special to others </span><br />
+          </div>
+        </div>
+        <div class="${styles['second-bottom-wrapper']} ${styles['flex-box']}">
+          <div class="${styles['helper-second']}"></div>
+          <div class="${styles['second-second-text']}">
+            <span class="${styles['tossblue']}">Through </span>
+            <span class="${styles.darkblue}">Sharing </span>
+          </div>
+        </div>
+      </div>
       <div class="${styles['index-1']} ${styles['idxes']}" id="index">
         <div class="${styles['flex-box']}">
           <div class="${styles['helper-first']}"></div>
@@ -21,24 +39,6 @@ export const homeTemplate = (): string => {
               <span class="${styles['third-title']}">Drive</span> <br />
               <span class="${styles['third-title']}">Delightly</span> 
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="${styles['index-2']} ${styles['idxes']}" id="index">
-        <div class="${styles['empty-wrapper']}"></div>
-        <div class="${styles['second-top-wrapper']} ${styles['flex-box']}">
-          <div class="${styles['helper-first']}"></div>
-          <div class="${styles['second-first-text']}">
-            <span class="${styles.tossblue}">We make your </span><br />
-            <span class="${styles.darkblue}">Experiences </span><br />
-            <span class="${styles.tossblue}">special to others </span><br />
-          </div>
-        </div>
-        <div class="${styles['second-bottom-wrapper']} ${styles['flex-box']}">
-          <div class="${styles['helper-second']}"></div>
-          <div class="${styles['second-second-text']}">
-            <span class="${styles['tossblue']}">Through </span>
-            <span class="${styles.darkblue}">Sharing </span>
           </div>
         </div>
       </div>
