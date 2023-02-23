@@ -21,7 +21,8 @@ export class CopyLinkBtn extends Component {
         : '';
       const dateUrl = dates.length ? `&dates=${JSON.stringify(dates)}` : '';
       const mapnUrl = mapInfo ? `&location=${JSON.stringify(mapInfo)}` : '';
-      const link = `${location.origin}/experiencing?${carUrl}${optionUrl}${dateUrl}${mapnUrl}`;
+      const params = encodeURI(`${carUrl}${optionUrl}${dateUrl}${mapnUrl}`);
+      const link = `${location.origin}/experiencing?${params}`;
 
       const input = document.createElement('input');
       input.style.position = 'fixed';
