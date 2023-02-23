@@ -36,7 +36,9 @@ export class BulletinBoard extends Component {
       styles.wrapper
     } id="bulletinList">
       <div class="${styles.left}">
-        <div class="${styles.title}">${title || carName || '제목 없음'}</div>
+        <div class="${styles.title} ${styles.ellipsis}">${
+      title || carName || '제목 없음'
+    }</div>
         <div class="${styles.contents}">${options}</div>
         <div class="${styles.info}">${dates}</div>
       </div>
